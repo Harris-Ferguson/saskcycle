@@ -1,4 +1,4 @@
-package DatabaseTest;
+package com.saskcycle.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -11,8 +11,8 @@ public class Account /*extends user*/{
 
     private String userName;
 
-    @Indexed(unique = true)
-    private int userID;
+    @Id
+    private String id;
 
     private String email;
 
@@ -25,9 +25,9 @@ public class Account /*extends user*/{
     /* --------- Methods -------------*/
 
 
-    public Account(String name, int id, String email, String password){
+    public Account(String name, String id, String email, String password){
         this.userName = name;
-        this.userID = id;
+        this.id = id;
         this.email = email;
         this.password = password;
         this.userRating = 0;
@@ -44,8 +44,8 @@ public class Account /*extends user*/{
         return email;
     }
 
-    public int getUserID() {
-        return userID;
+    public String getId() {
+        return id;
     }
 
     public String getPassword() {
@@ -62,8 +62,8 @@ public class Account /*extends user*/{
         this.email = email;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setPassword(String password) {

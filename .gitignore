@@ -32,5 +32,8 @@ build/
 ### VS Code ###
 .vscode/
 
+### Node Modules ###
+node_modules/
+
 ### OS Files ###
 .DS_Store

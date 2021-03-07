@@ -17,7 +17,6 @@ public class MainView extends VerticalLayout {
      */
     public MainView() {
 
-
         // Use custom CSS classes to apply styling. This is defined in shared-styles.css.
         //addClassName("centered-content");
 

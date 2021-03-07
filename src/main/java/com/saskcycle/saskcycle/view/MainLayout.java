@@ -34,10 +34,6 @@ public class MainLayout extends AppLayout {
         H1 logo = new H1("SaskCycle");
         logo.addClassName("logo");
 
-        // Create a log out button that is added to the nav-bar
-        Anchor logout = new Anchor("logout", "Log Out");
-        logout.addClassName("logout");
-
         // Creates a search bar located in the header
         searchBar = new TextField();
         searchBar.setPlaceholder("Search for anything");
@@ -46,7 +42,7 @@ public class MainLayout extends AppLayout {
         //Creates a hamburger menu that can store the account options
         DrawerToggle drawerToggle = new DrawerToggle();
         drawerToggle.addClassName("drawerToggle");
-        HorizontalLayout header = new HorizontalLayout(drawerToggle, logo, searchBar, logout);
+        HorizontalLayout header = new HorizontalLayout(drawerToggle, logo, searchBar);
 
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         header.setWidth("100%");
@@ -62,9 +58,10 @@ public class MainLayout extends AppLayout {
     private void createDrawer() {
         RouterLink accountLink = new RouterLink("Main", MainView.class);
         RouterLink postLink = new RouterLink("Posts", PostView.class);
+        RouterLink settingsLink = new RouterLink("Settings", SettingsView.class);
         accountLink.setHighlightCondition(HighlightConditions.sameLocation());
 
-        addToDrawer(new VerticalLayout(accountLink, postLink));
+        addToDrawer(new VerticalLayout(accountLink, postLink, settingsLink));
     }
 }
 

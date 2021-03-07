@@ -1,7 +1,5 @@
-package com.vaadin.tutorial.crm.security;
+package com.saskcycle.saskcycle.security;
 
-import com.saskcycle.saskcycle.security.CustomRequestCache;
-import com.saskcycle.saskcycle.security.SecurityUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -57,7 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     @Override
-    protected UserDetailsService userDetailsService() {
+    public UserDetailsService userDetailsService() {
         /*
         TODO:
         This defines the User Details Service to authenticate Logins. This is currently a single user

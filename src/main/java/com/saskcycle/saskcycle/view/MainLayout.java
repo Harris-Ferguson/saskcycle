@@ -3,6 +3,7 @@ package com.saskcycle.saskcycle.view;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -33,6 +34,10 @@ public class MainLayout extends AppLayout {
         H1 logo = new H1("SaskCycle");
         logo.addClassName("logo");
 
+        // Create a log out button that is added to the nav-bar
+        Anchor logout = new Anchor("logout", "Log Out");
+        logout.addClassName("logout");
+
         // Creates a search bar located in the header
         searchBar = new TextField();
         searchBar.setPlaceholder("Search for anything");
@@ -41,7 +46,7 @@ public class MainLayout extends AppLayout {
         //Creates a hamburger menu that can store the account options
         DrawerToggle drawerToggle = new DrawerToggle();
         drawerToggle.addClassName("drawerToggle");
-        HorizontalLayout header = new HorizontalLayout(drawerToggle, logo, searchBar);
+        HorizontalLayout header = new HorizontalLayout(drawerToggle, logo, searchBar, logout);
 
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         header.setWidth("100%");

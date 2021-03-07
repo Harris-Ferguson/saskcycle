@@ -8,7 +8,7 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route(value="/login", layout = MainLayout.class)
+@Route(value="login")
 @PageTitle("SaskCycle | Login")
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
@@ -22,7 +22,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         form.setAction("login");
 
-        add(new H1("Sask Cycle Login!"), form);
+        add(new H1("Sask Cycle Login"), form);
     }
 
     @Override

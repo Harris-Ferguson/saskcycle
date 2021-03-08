@@ -1,8 +1,11 @@
 package com.saskcycle.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.ArrayList;
 import java.util.Date;
 
+@Document(collection = "Posts")
 public class Post {
 
     /* --------- Attributes ------------ */

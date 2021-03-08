@@ -25,11 +25,13 @@ public interface UserDAOInterface {
 
     void deleteAccount(Account account);
 
-    ArrayList<Post> getPostList();
+    ArrayList<Post> getFeed();
 
     void removePost(Post post);
 
     Post addPost(Post post);
+
+
 
 
 

@@ -5,7 +5,9 @@ public class User {
     /* --------- Attributes ------------ */
 
     // public cookies cookies
+
     public Feed savedPosts;
+
     public Route route;
 
     /* ----------- Methods ------------- */
@@ -13,6 +15,7 @@ public class User {
 
     public User(){
         savedPosts = new Feed();
+        this.route = new Route();
     }
 
 

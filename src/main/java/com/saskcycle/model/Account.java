@@ -4,6 +4,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+
 @Document(collection = "User Accounts")
 public class Account extends User{
 
@@ -22,10 +24,9 @@ public class Account extends User{
 
     private double userRating;
 
-    //private Notification[] notifications;
+    private ArrayList<Notification> notifications;
 
     /* --------- Methods -------------*/
-
 
     public Account(String name, String id, String email, String password){
         this.userName = name;
@@ -33,6 +34,8 @@ public class Account extends User{
         this.email = email;
         this.password = password;
         this.userRating = 0;
+        this.notifications = new ArrayList<>();
+        this.wishlish = new Feed();
     }
 
     /* --------- Getters -------------*/

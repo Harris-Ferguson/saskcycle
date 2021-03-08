@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "User Accounts")
-public class Account /*extends user*/{
+public class Account extends User{
 
     /* --------- Attributes -------------*/
 
@@ -16,10 +16,12 @@ public class Account /*extends user*/{
 
     private String email;
 
-    //private Posts[] wishlish;
+    private Feed wishlish;
+
     private String password;
 
     private double userRating;
+
     //private Notification[] notifications;
 
     /* --------- Methods -------------*/

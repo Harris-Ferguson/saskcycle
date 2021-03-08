@@ -22,6 +22,8 @@ public class Account extends User {
 
     private Feed wishlish;
 
+    private Feed posts;
+
     private double userRating;
 
     private ArrayList<Notification> notifications;
@@ -39,10 +41,16 @@ public class Account extends User {
         this.userRating = 0;
         this.notifications = new ArrayList<>();
         this.wishlish = new Feed();
+        this.posts = new Feed();
+
     }
 
     /* --------- Getters -------------*/
 
+
+    public Feed getPosts() {
+        return posts;
+    }
 
     public double getUserRating() {
         return userRating;
@@ -54,6 +62,14 @@ public class Account extends User {
 
     public String getId() {
         return id;
+    }
+
+    public ArrayList<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public Feed getWishlish() {
+        return wishlish;
     }
 
 
@@ -71,3 +87,5 @@ public class Account extends User {
         this.userRating = userRating;
     }
 }
+
+

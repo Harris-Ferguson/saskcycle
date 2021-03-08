@@ -30,27 +30,35 @@ public class AccountDAO implements UserDAOInterface {
     }
 
 
+
+
     @Override
     public List<Account> AllAccounts() {
         return UAR.findAll();
     }
+
+
 
     @Override
     public Optional<Account> searchByID(String id) {
         return  UAR.findById(id);
     }
 
-    // TODO: implement search by name
+
+
     @Override
     public Account searchByName(String name) {
-        return null;
+        return UAR.findByName(name).get();
     }
 
-    // TODO: Implement search by Email
+
+
     @Override
     public Account searchByEmail(String email) {
         return null;
     }
+
+
 
     @Override
     public boolean checkPassword(String attempt, String email) {
@@ -59,34 +67,40 @@ public class AccountDAO implements UserDAOInterface {
         return attempt.equals(searchingAccount.getPassword());
     }
 
-    // TODO: Change to boolean?
+
+
     @Override
     public Account addAccount(Account account) {
         UAR.insert(account);
         return account;
     }
 
-    // TODO: Change to boolean?
+
+
     @Override
     public void deleteAccount(Account account) {
         UAR.delete(account);
     }
 
-    // TODO: IMPLEMENT
     @Override
-    public List<Post> getFeed() {
-        return null;
+    public Feed getPosts(Account account) {
+        return account.getPosts();
     }
 
-    // TODO: IMPLEMENT
     @Override
-    public void removePost(Post post) {
-
+    public Feed getWishlist(Account account) {
+        return account.getWishlish();
     }
 
-    // TODO: IMPLEMENT
     @Override
-    public Post addPost(Post post) {
-        return null;
+    public void removePost(Post post, Account account) {
+        account.getWishlish().remove(post);
+        UAR.save(account);
+    }
+
+    @Override
+    public void addPost(Post post, Account account) {
+        account.getWishlish().add(post);
+        UAR.save(account);
     }
 }

@@ -19,8 +19,8 @@ public class AccountController {
 
     @GetMapping("/glen")
     public void addAcount(){
-        Account glen = new Account("Glne","Hey","er","heyy");
-        UARepo.save(glen);
+//        Account glen = new Account("Glne","Hey","er","heyy");
+//        UARepo.save(glen);
     }
 
 }

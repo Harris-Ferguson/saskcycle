@@ -5,6 +5,7 @@ package com.saskcycle.DAO;
 
 
 import com.saskcycle.model.Account;
+import com.saskcycle.model.Feed;
 import com.saskcycle.model.Post;
 
 import java.util.List;
@@ -26,11 +27,13 @@ public interface UserDAOInterface {
 
     void deleteAccount(Account account);
 
-    List<Post> getFeed();
+    Feed getPosts(Account account);
 
-    void removePost(Post post);
+    Feed getWishlist(Account account);
 
-    Post addPost(Post post);
+    void removePost(Post post, Account account);
+
+    void addPost(Post post, Account account);
 
 
 

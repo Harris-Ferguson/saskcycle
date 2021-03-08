@@ -2,17 +2,13 @@ package com.saskcycle.model;
 
 import java.util.ArrayList;
 
-public class Feed {
+public class Feed extends ArrayList<Post>{
 
     /* --------- Attributes -------------*/
 
-    public ArrayList<Post> posts;
 
     /* --------- Methods -------------*/
 
 
-    public Feed(){
-        posts = new ArrayList<>();
-    }
 
 }

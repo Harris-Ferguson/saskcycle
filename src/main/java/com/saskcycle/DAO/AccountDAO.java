@@ -52,7 +52,6 @@ public class AccountDAO implements UserDAOInterface {
         return null;
     }
 
-    // This is pretty weak, can re-adjust later
     @Override
     public boolean checkPassword(String attempt, String email) {
         // search by email address

@@ -1,7 +1,7 @@
 package com.saskcycle.model;
 
-public class User {
-
+// Ex
+public class User /*extends that anon user class*/ {
     /* --------- Attributes ------------ */
 
     // public cookies cookies

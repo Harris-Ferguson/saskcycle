@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserAccountRepo extends MongoRepository<Account, String> {
     // This gives us all the default MongoDB actions!
+
 }

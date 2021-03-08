@@ -7,25 +7,26 @@ package com.saskcycle.DAO;
 import com.saskcycle.model.Account;
 import com.saskcycle.model.Post;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public interface UserDAOInterface {
 
-    ArrayList<Account> AllAccounts();
+    List<Account> AllAccounts();
 
-    Account searchByID(String id);
+    Optional<Account> searchByID(String id);
 
     Account searchByName(String name);
 
     Account searchByEmail(String email);
 
-    boolean checkPassword();
+    boolean checkPassword(String attempt, String email);
 
     Account addAccount(Account account);
 
     void deleteAccount(Account account);
 
-    ArrayList<Post> getFeed();
+    List<Post> getFeed();
 
     void removePost(Post post);
 

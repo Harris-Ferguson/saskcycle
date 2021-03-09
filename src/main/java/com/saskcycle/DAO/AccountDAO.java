@@ -7,11 +7,17 @@ https://medium.com/@ahmodadeola/creating-restful-apis-with-spring-boot-2-and-mon
 
 
 import com.saskcycle.model.*;
+import com.saskcycle.model.authorities.UserAuthority;
 import com.saskcycle.repo.UserAccountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +30,9 @@ public class AccountDAO implements UserDAOInterface {
     // This is the actual connection with the Account repo - the rest of the class will use this to implement methods.
     @Autowired
     private UserAccountRepo UAR;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
 
     /* ----------- Methods ------------- */
@@ -102,5 +111,22 @@ public class AccountDAO implements UserDAOInterface {
     public void addPost(Post post, Account account) {
         account.getWishlish().add(post);
         UAR.save(account);
+    }
+
+    @Override
+    public void register(String username, String email, String password) {
+        // this is janky but we're building a user details user then using its authorities to build an Account
+        // we could probably find another way to do this, OR abstract this to a method in Account
+        UserDetails newUser = User.withUsername(username).password(password).roles("USER").build();
+
+        Account account = new Account(
+                username,
+                encoder.encode(password),
+                newUser.getAuthorities(),
+                "1",
+                email,
+                "USER"
+                );
+        UAR.insert(account);
     }
 }

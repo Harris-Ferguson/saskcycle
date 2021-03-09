@@ -32,6 +32,37 @@ public class Account extends User {
 
     /* --------- Methods -------------*/
 
+    public Account(String username,
+                   String password,
+                   Collection<? extends GrantedAuthority> authorities,
+                   String id,
+                   String email,
+                   String role) {
+        super(username, password, authorities);
+        this.id = id;
+        this.email = email;
+        this.role = role;
+    }
+
+    public Account(String username,
+                   String password,
+                   Collection<? extends GrantedAuthority> authorities,
+                   String id,
+                   String email,
+                   String role,
+                   Feed wishlish,
+                   Feed posts,
+                   double userRating,
+                   ArrayList<Notification> notifications) {
+        super(username, password, authorities);
+        this.id = id;
+        this.email = email;
+        this.role = role;
+        this.wishlish = wishlish;
+        this.posts = posts;
+        this.userRating = userRating;
+        this.notifications = notifications;
+    }
 
     public Account(String username,
                    String password,

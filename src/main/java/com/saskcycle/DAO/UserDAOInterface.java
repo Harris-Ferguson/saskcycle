@@ -36,6 +36,8 @@ public interface UserDAOInterface {
 
     void addPost(Post post, Account account);
 
+    void register(String username, String email, String password);
+
 
 
 

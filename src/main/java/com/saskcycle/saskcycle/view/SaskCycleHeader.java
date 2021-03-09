@@ -3,6 +3,7 @@ package com.saskcycle.saskcycle.view;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -30,11 +31,14 @@ public class SaskCycleHeader extends HorizontalLayout {
         DrawerToggle drawerToggle = new DrawerToggle();
         drawerToggle.addClassName("drawerToggle");
 
+        NativeButton searchButton = new NativeButton("Search");
+        searchButton.addClickListener(e -> searchButton.getUI().ifPresent(ui -> ui.navigate("results")));
+
         setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         setWidth("100%");
 
         addClassName("header");
-        add(drawerToggle, logo, searchBar);
+        add(drawerToggle, logo, searchBar, searchButton);
 
 
     }

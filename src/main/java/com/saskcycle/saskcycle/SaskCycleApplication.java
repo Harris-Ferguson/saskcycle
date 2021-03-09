@@ -49,10 +49,9 @@ public class SaskCycleApplication implements CommandLineRunner {
 		authorities.add(auth);
 
 
-		Account newAccount = new Account("Harris add", "The Big Password",
-				authorities,"101", "FakeEmail@123.com");
+		Account newAccount = new Account("Harris Add", "Th Password",
+				authorities,"101", "FakeEadsmail@123.com");
 		UAR.insert(newAccount);
-//		System.out.println(UAR.toString());
 
 	}
 

@@ -48,7 +48,8 @@ public class AccountDAO implements UserDAOInterface {
 
     @Override
     public Account searchByName(String name) {
-        return UAR.findByName(name).get();
+        return null;
+//        return UAR.findByName(name).get();
     }
 
 

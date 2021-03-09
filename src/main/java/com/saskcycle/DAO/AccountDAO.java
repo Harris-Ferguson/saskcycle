@@ -9,10 +9,13 @@ https://medium.com/@ahmodadeola/creating-restful-apis-with-spring-boot-2-and-mon
 import com.saskcycle.model.*;
 import com.saskcycle.repo.UserAccountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class AccountDAO implements UserDAOInterface {
 
 
@@ -25,6 +28,7 @@ public class AccountDAO implements UserDAOInterface {
 
     /* ----------- Methods ------------- */
 
+    @Autowired
     public AccountDAO(UserAccountRepo repo){
         UAR = repo;
     }
@@ -48,18 +52,13 @@ public class AccountDAO implements UserDAOInterface {
 
     @Override
     public Account searchByName(String name) {
-        return null;
-//        return UAR.findByName(name).get();
+        return UAR.findByUsername(name);
     }
-
-
 
     @Override
     public Account searchByEmail(String email) {
         return null;
     }
-
-
 
     @Override
     public boolean checkPassword(String attempt, String email) {

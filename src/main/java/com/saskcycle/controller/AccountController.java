@@ -14,13 +14,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class AccountController {
 
-    @Autowired
-    UserAccountRepo UARepo;
-
-    @GetMapping("/glen")
-    public void addAcount(){
-//        Account glen = new Account("Glne","Hey","er","heyy");
-//        UARepo.save(glen);
-    }
-
 }

@@ -20,6 +20,8 @@ public class Account extends User {
 
     private String email;
 
+    private String role;
+
     private Feed wishlish;
 
     private Feed posts;
@@ -31,12 +33,21 @@ public class Account extends User {
     /* --------- Methods -------------*/
 
 
-    public Account(String username, String password, Collection<? extends GrantedAuthority> authorities, String id,
+    public Account(String username,
+                   String password,
+                   String role,
+                   boolean enabled,
+                   boolean accountNonExpired,
+                   boolean credentialsNonExpired,
+                   boolean accountNonLocked,
+                   Collection<? extends GrantedAuthority> authorities,
+                   String id,
                    String email){
 
         // Calls super to initialize other values
-        super(username, password, authorities);
+        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.id = id;
+        this.role = role;
         this.email = email;
         this.userRating = 0;
         this.notifications = new ArrayList<>();
@@ -45,7 +56,7 @@ public class Account extends User {
 
     }
 
-    /* --------- Getters -------------*/
+    /* --------- Getters and Setters -------------*/
 
 
     public Feed getPosts() {
@@ -54,6 +65,10 @@ public class Account extends User {
 
     public double getUserRating() {
         return userRating;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     public String getEmail() {
@@ -71,9 +86,6 @@ public class Account extends User {
     public Feed getWishlish() {
         return wishlish;
     }
-
-
-    /* --------- Setters -------------*/
 
     public void setEmail(String email) {
         this.email = email;

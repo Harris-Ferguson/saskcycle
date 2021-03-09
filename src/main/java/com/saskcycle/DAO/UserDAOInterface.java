@@ -7,6 +7,7 @@ package com.saskcycle.DAO;
 import com.saskcycle.model.Account;
 import com.saskcycle.model.Feed;
 import com.saskcycle.model.Post;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;

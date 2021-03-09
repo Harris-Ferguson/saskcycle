@@ -35,7 +35,6 @@ a[highlight] {
 }
 
 .searchBar {
- colour: white;
  background: white;
  width: 700px
 }
@@ -43,4 +42,10 @@ a[highlight] {
 .filter-view {
     font-size: 4em;
     margin: 1em 0;
+}
+
+.logout{
+    font-size: 1em;
+    margin: 1em 1em;
+    color: white;
 }

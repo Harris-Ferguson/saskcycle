@@ -11,7 +11,6 @@ import com.saskcycle.repo.UserAccountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.Optional;
 
 public class AccountDAO implements UserDAOInterface {
 
@@ -40,16 +39,16 @@ public class AccountDAO implements UserDAOInterface {
 
 
     @Override
-    public Optional<Account> searchByID(String id) {
-        return  UAR.findById(id);
-    }
+    public Account searchByID(String id) {
+        return  UAR.findById(id).get();
+    } /***** MIGHTA SCREWED STUFF UP *****/
 
 
 
     @Override
     public Account searchByName(String name) {
         return null;
-//        return UAR.findByName(name).get();
+//        return UAR.findByName(name);
     }
 
 
@@ -57,6 +56,7 @@ public class AccountDAO implements UserDAOInterface {
     @Override
     public Account searchByEmail(String email) {
         return null;
+//        return UAR.findByEmail(email);
     }
 
 

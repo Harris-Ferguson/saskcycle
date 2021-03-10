@@ -9,13 +9,12 @@ import com.saskcycle.model.Feed;
 import com.saskcycle.model.Post;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserDAOInterface {
 
     List<Account> AllAccounts();
 
-    Optional<Account> searchByID(String id);
+    Account searchByID(String id);
 
     Account searchByName(String name);
 

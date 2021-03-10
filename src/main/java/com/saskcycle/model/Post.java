@@ -1,5 +1,6 @@
 package com.saskcycle.model;
 
+import com.vaadin.flow.component.polymertemplate.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -14,7 +15,8 @@ public class Post {
 
     public String description;
 
-    public int IDnum;
+    @Id
+    public String id;
 
     //public Arraylist<pictures> photos;
 
@@ -28,6 +30,14 @@ public class Post {
 
     /* ----------- Methods ------------- */
 
+    public Post(String title, String description, String id, Account owner, String location, ArrayList<String> tags){
+        this.title = title;
+        this.description = description;
+        this.id = id;
+        this.owner = null;
+        this.location = location;
+        this.tags = tags;
+    }
 
 
 }

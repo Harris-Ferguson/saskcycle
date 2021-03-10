@@ -1,12 +1,13 @@
 package com.saskcycle.model;
 
+import org.springframework.data.annotation.Id;
+
 import java.util.ArrayList;
 
 public class Notification {
 
 
     /* --------- Attributes ------------ */
-
 
     public boolean readStatus;
 
@@ -19,10 +20,5 @@ public class Notification {
     // The link to the webpage containing the post related to the notification
     public String link;
 
-    
-
-
     /* ----------- Methods ------------- */
-
-
 }

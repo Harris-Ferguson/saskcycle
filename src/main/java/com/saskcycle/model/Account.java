@@ -2,7 +2,6 @@ package com.saskcycle.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -30,6 +29,8 @@ public class Account extends User {
     private double userRating;
 
     private ArrayList<Notification> notifications;
+
+    private UserNotificationSettings notificationSettings;
 
     /* --------- Methods -------------*/
 
@@ -78,7 +79,6 @@ public class Account extends User {
         this.notifications = new ArrayList<>();
         this.wishlish = new Feed();
         this.posts = new Feed();
-
     }
 
     /* --------- Getters and Setters -------------*/
@@ -122,6 +122,14 @@ public class Account extends User {
 
     public void setUserRating(double userRating) {
         this.userRating = userRating;
+    }
+
+    public UserNotificationSettings getNotificationSettings() {
+        return notificationSettings;
+    }
+
+    public void setNotificationSettings(UserNotificationSettings notificationSettings) {
+        this.notificationSettings = notificationSettings;
     }
 }
 

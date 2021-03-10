@@ -8,15 +8,19 @@ https://medium.com/@ahmodadeola/creating-restful-apis-with-spring-boot-2-and-mon
 
 import com.saskcycle.model.*;
 import com.saskcycle.repo.UserAccountRepo;
+import com.saskcycle.saskcycle.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AccountDAO implements UserDAOInterface {
@@ -67,21 +71,31 @@ public class AccountDAO implements UserDAOInterface {
     }
 
     @Override
+    public Account updateAccount(Account account) {
+        return UAR.save(account);
+    }
+
+    @Override
+    public Account updateSettings(boolean wantsEmail, boolean wantsText) {
+        UserNotificationSettings settings = new UserNotificationSettings(wantsEmail, wantsText);
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Account account = searchByName(user.getUsername());
+        account.setNotificationSettings(settings);
+        return updateAccount(account);
+    }
+
+    @Override
     public boolean checkPassword(String attempt, String email) {
         // search by email address
         Account searchingAccount = searchByEmail(email);
         return attempt.equals(searchingAccount.getPassword());
     }
 
-
-
     @Override
     public Account addAccount(Account account) {
         UAR.insert(account);
         return account;
     }
-
-
 
     @Override
     public void deleteAccount(Account account) {
@@ -128,6 +142,6 @@ public class AccountDAO implements UserDAOInterface {
                 0.0,
                 new ArrayList<Notification>()
                 );
-        UAR.insert(account);
+        addAccount(account);
     }
 }

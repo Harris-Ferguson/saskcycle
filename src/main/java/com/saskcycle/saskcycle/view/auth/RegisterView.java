@@ -1,4 +1,4 @@
-package com.saskcycle.saskcycle.view;
+package com.saskcycle.saskcycle.view.auth;
 
 import com.saskcycle.DAO.UserDAOInterface;
 import com.vaadin.flow.component.Component;

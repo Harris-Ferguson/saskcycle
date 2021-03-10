@@ -1,7 +1,7 @@
 package com.saskcycle.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -20,6 +20,8 @@ public class Account extends User {
 
     private String email;
 
+    private String role;
+
     private Feed wishlish;
 
     private Feed posts;
@@ -28,24 +30,58 @@ public class Account extends User {
 
     private ArrayList<Notification> notifications;
 
+    private UserNotificationSettings notificationSettings = new UserNotificationSettings(false,false);
+
     /* --------- Methods -------------*/
 
+    public Account(String username,
+                   String password,
+                   Collection<? extends GrantedAuthority> authorities,
+                   String id,
+                   String email,
+                   String role,
+                   Feed wishlish,
+                   Feed posts,
+                   double userRating,
+                   ArrayList<Notification> notifications) {
+        super(username, password, authorities);
+        this.id = id;
+        this.email = email;
+        this.role = role;
+        this.wishlish = wishlish;
+        this.posts = posts;
+        this.userRating = userRating;
+        this.notifications = notifications;
+    }
 
-    public Account(String username, String password, Collection<? extends GrantedAuthority> authorities, String id,
+    @PersistenceConstructor
+    /**
+    Constructor for Account which is Used by the UserAccountRepo interface to instance objects when it is adding
+     and removing from the Data Repository
+     */
+    public Account(String username,
+                   String password,
+                   String role,
+                   boolean enabled,
+                   boolean accountNonExpired,
+                   boolean credentialsNonExpired,
+                   boolean accountNonLocked,
+                   Collection<? extends GrantedAuthority> authorities,
+                   String id,
                    String email){
 
         // Calls super to initialize other values
-        super(username, password, authorities);
+        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.id = id;
+        this.role = role;
         this.email = email;
         this.userRating = 0;
         this.notifications = new ArrayList<>();
         this.wishlish = new Feed();
         this.posts = new Feed();
-
     }
 
-    /* --------- Getters -------------*/
+    /* --------- Getters and Setters -------------*/
 
 
     public Feed getPosts() {
@@ -54,6 +90,10 @@ public class Account extends User {
 
     public double getUserRating() {
         return userRating;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     public String getEmail() {
@@ -68,12 +108,9 @@ public class Account extends User {
         return notifications;
     }
 
-    public Feed getWishlish() {
+    public Feed getWishlist() {
         return wishlish;
     }
-
-
-    /* --------- Setters -------------*/
 
     public void setEmail(String email) {
         this.email = email;
@@ -85,6 +122,14 @@ public class Account extends User {
 
     public void setUserRating(double userRating) {
         this.userRating = userRating;
+    }
+
+    public UserNotificationSettings getNotificationSettings() {
+        return notificationSettings;
+    }
+
+    public void setNotificationSettings(UserNotificationSettings notificationSettings) {
+        this.notificationSettings = notificationSettings;
     }
 }
 

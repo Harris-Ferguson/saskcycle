@@ -8,10 +8,22 @@ https://medium.com/@ahmodadeola/creating-restful-apis-with-spring-boot-2-and-mon
 
 import com.saskcycle.model.*;
 import com.saskcycle.repo.UserAccountRepo;
+import com.saskcycle.saskcycle.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
+import java.util.*;
+
+
+@Service
 public class AccountDAO implements UserDAOInterface {
 
 
@@ -21,9 +33,13 @@ public class AccountDAO implements UserDAOInterface {
     @Autowired
     private UserAccountRepo UAR;
 
+    @Autowired
+    private PasswordEncoder encoder;
+
 
     /* ----------- Methods ------------- */
 
+    @Autowired
     public AccountDAO(UserAccountRepo repo){
         UAR = repo;
     }
@@ -47,11 +63,8 @@ public class AccountDAO implements UserDAOInterface {
 
     @Override
     public Account searchByName(String name) {
-        return null;
-//        return UAR.findByName(name);
+        return UAR.findByUsername(name);
     }
-
-
 
     @Override
     public Account searchByEmail(String email) {
@@ -59,7 +72,10 @@ public class AccountDAO implements UserDAOInterface {
 //        return UAR.findByEmail(email);
     }
 
-
+    @Override
+    public Account updateAccount(Account account) {
+        return UAR.save(account);
+    }
 
     @Override
     public boolean checkPassword(String attempt, String email) {
@@ -68,15 +84,11 @@ public class AccountDAO implements UserDAOInterface {
         return attempt.equals(searchingAccount.getPassword());
     }
 
-
-
     @Override
     public Account addAccount(Account account) {
         UAR.insert(account);
         return account;
     }
-
-
 
     @Override
     public void deleteAccount(Account account) {
@@ -90,18 +102,39 @@ public class AccountDAO implements UserDAOInterface {
 
     @Override
     public Feed getWishlist(Account account) {
-        return account.getWishlish();
+        return account.getWishlist();
     }
 
     @Override
     public void removePost(Post post, Account account) {
-        account.getWishlish().remove(post);
+        account.getWishlist().remove(post);
         UAR.save(account);
     }
 
     @Override
     public void addPost(Post post, Account account) {
-        account.getWishlish().add(post);
+        account.getWishlist().add(post);
         UAR.save(account);
+    }
+
+    @Override
+    public void register(String username, String email, String password) {
+        // this is janky but we're building a user details user then using its authorities to build an Account
+        // we could probably find another way to do this, OR abstract this to a method in Account
+        UserDetails newUser = User.withUsername(username).password(password).roles("USER").build();
+
+        Account account = new Account(
+                username,
+                encoder.encode(password),
+                newUser.getAuthorities(),
+                Long.toString(UAR.count()),
+                email,
+                "USER",
+                new Feed(),
+                new Feed(),
+                0.0,
+                new ArrayList<Notification>()
+                );
+        addAccount(account);
     }
 }

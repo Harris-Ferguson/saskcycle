@@ -1,43 +1,54 @@
 package com.saskcycle.saskcycle.view;
 
+import com.saskcycle.DAO.CurrentUserSettingsDAOInterface;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-
-import java.time.Duration;
-import java.util.Collections;
 
 @Route(value = "settings", layout = MainLayout.class)
 @PageTitle("SaskCycle | Settings")
 @Secured("ROLE_USER")
-public class SettingsView extends VerticalLayout {
+public class SettingsView extends Composite {
 
-    public SettingsView() {
+    private static final String emailString = "Email me";
+    private static final String textString = "Text me";
 
+    @Autowired
+    private CurrentUserSettingsDAOInterface currentAuthDAO;
+
+    @Override
+    protected Component initContent() {
         CheckboxGroup<String> postCheckbox = new CheckboxGroup<>();
-        postCheckbox.setLabel("For posts:");
-        postCheckbox.setItems("Email me", "Text me");
-        postCheckbox.setValue(Collections.singleton("Email me"));
+        postCheckbox.setItems(emailString, textString);
         postCheckbox.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
-        CheckboxGroup<String> eventCheckbox = new CheckboxGroup<>();
-        eventCheckbox.setLabel("For events:");
-        eventCheckbox.setItems("Email me", "Text me");
-        eventCheckbox.setValue(Collections.singleton("Email me"));
-        eventCheckbox.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
+        //set the boxes based on user settings
+        if(currentAuthDAO.getEmailSetting()){
+            postCheckbox.select(emailString);
+        }
+        if(currentAuthDAO.getTextSetting()){
+            postCheckbox.select(textString);
+        }
 
-        ComboBox<String> timeSelector = new ComboBox<>();
-        timeSelector.setLabel("Notify me about events");
-        timeSelector.setItems("7 days in advance", "2 days in advance", "24 hours in advance", "12 hours in advance",
-                "1 hour in advance");
+        return new VerticalLayout (new H1("Settings"),
+                postCheckbox,
+                new Button("Save", event -> changeSettings(postCheckbox))
+        );
+    }
 
-        add(new H1("Settings"), postCheckbox, eventCheckbox, timeSelector);
+    private void changeSettings(CheckboxGroup<String> settings) {
+        boolean wantsEmail = settings.isSelected(emailString);
+        boolean wantsText = settings.isSelected(textString);
+        currentAuthDAO.updateSettings(wantsEmail, wantsText);
+        Notification.show("Saved!");
     }
 }

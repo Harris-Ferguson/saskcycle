@@ -1,12 +1,9 @@
-package com.saskcycle.saskcycle.view;
+package com.saskcycle.saskcycle.view.auth;
 
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 
 @Route(value="login")
 @PageTitle("SaskCycle | Login")
@@ -26,7 +23,9 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         form.setAction("login");
 
-        add(new H1("Sask Cycle Login"), form);
+        add(new H1("Sask Cycle Login"),
+                form,
+                new RouterLink("Register", RegisterView.class));
     }
 
     @Override

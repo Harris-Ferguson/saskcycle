@@ -11,8 +11,11 @@ import java.util.Optional;
 public interface UserAccountRepo extends MongoRepository<Account, String> {
     // This gives us all the default MongoDB actions!
 
-//    Optional<Account> findByName(String name);
-//
-//    Optional<Account> findByEmail(String email);
+    Account findByName(String name);
+
+    Account findByEmail(String email);
+
+    Account findByEmailAndName(String name, String email);
+
 
 }

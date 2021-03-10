@@ -14,7 +14,7 @@ public class Post {
 
     public String description;
 
-    public int IDnum;
+    public int Id;
 
     //public Arraylist<pictures> photos;
 

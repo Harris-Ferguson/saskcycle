@@ -1,8 +1,9 @@
 package com.saskcycle.saskcycle.view;
 
+import com.saskcycle.saskcycle.security.SecurityUtils;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -12,7 +13,7 @@ import com.vaadin.flow.router.RouterLink;
 
 public class SaskCycleHeader extends HorizontalLayout {
 
-    /**
+    /**å
      * Builds the header component at the top of each page in SaskCycle app
      */
     public SaskCycleHeader() {
@@ -30,13 +31,14 @@ public class SaskCycleHeader extends HorizontalLayout {
         DrawerToggle drawerToggle = new DrawerToggle();
         drawerToggle.addClassName("drawerToggle");
 
+        //Create the signup / signin buttons
+        HorizontalLayout signinButtons = createSignInButtons();
+
         setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         setWidth("100%");
 
         addClassName("header");
-        add(drawerToggle, logo, searchBar);
-
-
+        add(drawerToggle, logo, searchBar, signinButtons);
     }
 
     /**
@@ -49,6 +51,29 @@ public class SaskCycleHeader extends HorizontalLayout {
         accountLink.setHighlightCondition(HighlightConditions.sameLocation());
 
         return new VerticalLayout(accountLink, postLink, settingsLink);
+    }
+
+    /**
+     * Creates a log in and register button
+     * @return HorizontalLayout containing two buttons
+     */
+    private HorizontalLayout createSignInButtons(){
+        Anchor loginButton = new Anchor();
+        Anchor signonButton = new Anchor("/register");
+        signonButton.setText("Sign Up");
+        loginButton.setClassName("header-button");
+        signonButton.setClassName("header-button");
+        if(SecurityUtils.isUserLoggedIn()){
+            loginButton.setHref("/logout");
+            loginButton.setText("Logout");
+            signonButton.setVisible(false);
+        }
+        else {
+            loginButton.setHref("/login");
+            loginButton.setText("Log In");
+            signonButton.setVisible(true);
+        }
+        return new HorizontalLayout(loginButton, signonButton);
     }
 
 

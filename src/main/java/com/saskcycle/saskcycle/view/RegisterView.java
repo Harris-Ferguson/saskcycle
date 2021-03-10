@@ -3,18 +3,19 @@ package com.saskcycle.saskcycle.view;
 import com.saskcycle.DAO.UserDAOInterface;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.aggregation.BooleanOperators;
 
 @Route("register")
+@PageTitle("Sask Cycle | Register")
 public class RegisterView extends Composite {
 
     @Autowired
@@ -53,6 +54,7 @@ public class RegisterView extends Composite {
         } else{
             userDao.register(username, email, password1);
             Notification.show("Registered!");
+            UI.getCurrent().navigate("/login");
         }
     }
 }

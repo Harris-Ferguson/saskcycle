@@ -6,6 +6,11 @@ import java.util.ArrayList;
 @Document(collection = "Businesses")
 public class Business extends  Post {
     //Methods
+
+    public Business(String title, String description, String id, String location, ArrayList<String> tags){
+        super( title, description, id, null, location, tags);
+    }
+
     public ArrayList<String> get_tags()
     {
         return this.tags;

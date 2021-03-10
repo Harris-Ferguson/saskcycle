@@ -47,15 +47,16 @@ public class AccountDAO implements UserDAOInterface {
 
     @Override
     public Account searchByName(String name) {
-
-        return UAR.findByName(name);
+        return null;
+//        return UAR.findByName(name);
     }
 
 
 
     @Override
     public Account searchByEmail(String email) {
-        return UAR.findByEmail(email);
+        return null;
+//        return UAR.findByEmail(email);
     }
 
 

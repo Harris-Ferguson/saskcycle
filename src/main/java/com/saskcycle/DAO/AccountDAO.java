@@ -7,18 +7,14 @@ https://medium.com/@ahmodadeola/creating-restful-apis-with-spring-boot-2-and-mon
 
 
 import com.saskcycle.model.*;
-import com.saskcycle.model.authorities.UserAuthority;
 import com.saskcycle.repo.UserAccountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,18 +95,18 @@ public class AccountDAO implements UserDAOInterface {
 
     @Override
     public Feed getWishlist(Account account) {
-        return account.getWishlish();
+        return account.getWishlist();
     }
 
     @Override
     public void removePost(Post post, Account account) {
-        account.getWishlish().remove(post);
+        account.getWishlist().remove(post);
         UAR.save(account);
     }
 
     @Override
     public void addPost(Post post, Account account) {
-        account.getWishlish().add(post);
+        account.getWishlist().add(post);
         UAR.save(account);
     }
 

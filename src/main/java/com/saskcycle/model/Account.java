@@ -108,7 +108,7 @@ public class Account extends User {
         return notifications;
     }
 
-    public Feed getWishlish() {
+    public Feed getWishlist() {
         return wishlish;
     }
 

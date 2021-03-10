@@ -17,10 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class AccountDAO implements UserDAOInterface {
@@ -73,15 +70,6 @@ public class AccountDAO implements UserDAOInterface {
     @Override
     public Account updateAccount(Account account) {
         return UAR.save(account);
-    }
-
-    @Override
-    public Account updateSettings(boolean wantsEmail, boolean wantsText) {
-        UserNotificationSettings settings = new UserNotificationSettings(wantsEmail, wantsText);
-        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Account account = searchByName(user.getUsername());
-        account.setNotificationSettings(settings);
-        return updateAccount(account);
     }
 
     @Override

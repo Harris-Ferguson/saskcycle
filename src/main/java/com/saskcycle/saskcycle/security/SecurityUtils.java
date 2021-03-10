@@ -1,5 +1,6 @@
 package com.saskcycle.saskcycle.security;
 
+import com.saskcycle.DAO.UserDAOInterface;
 import com.saskcycle.model.Account;
 import com.vaadin.flow.server.ServletHelper;
 import com.vaadin.flow.shared.ApplicationConstants;

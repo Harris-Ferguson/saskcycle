@@ -25,14 +25,6 @@ public interface UserDAOInterface {
 
     Account updateAccount(Account account);
 
-    /**
-     * Updates the notification settings for the current authenticated user
-     * @param wantsEmail does the user want email?
-     * @param wantsText does the user want texts?
-     * @return the updated account
-     */
-    Account updateSettings(boolean wantsEmail, boolean wantsText);
-
     boolean checkPassword(String attempt, String email);
 
     /**

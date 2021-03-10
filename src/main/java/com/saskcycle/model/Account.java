@@ -1,6 +1,7 @@
 package com.saskcycle.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,18 +38,6 @@ public class Account extends User {
                    Collection<? extends GrantedAuthority> authorities,
                    String id,
                    String email,
-                   String role) {
-        super(username, password, authorities);
-        this.id = id;
-        this.email = email;
-        this.role = role;
-    }
-
-    public Account(String username,
-                   String password,
-                   Collection<? extends GrantedAuthority> authorities,
-                   String id,
-                   String email,
                    String role,
                    Feed wishlish,
                    Feed posts,
@@ -64,6 +53,11 @@ public class Account extends User {
         this.notifications = notifications;
     }
 
+    @PersistenceConstructor
+    /**
+    Constructor for Account which is Used by the UserAccountRepo interface to instance objects when it is adding
+     and removing from the Data Repository
+     */
     public Account(String username,
                    String password,
                    String role,

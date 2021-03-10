@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -123,9 +124,13 @@ public class AccountDAO implements UserDAOInterface {
                 username,
                 encoder.encode(password),
                 newUser.getAuthorities(),
-                "1",
+                Long.toString(UAR.count()),
                 email,
-                "USER"
+                "USER",
+                new Feed(),
+                new Feed(),
+                0.0,
+                new ArrayList<Notification>()
                 );
         UAR.insert(account);
     }

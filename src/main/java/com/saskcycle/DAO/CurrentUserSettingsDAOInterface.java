@@ -21,6 +21,12 @@ public interface CurrentUserSettingsDAOInterface {
     public boolean getEmailSetting();
 
     /**
+     * Get the current users email
+     * @return email string
+     */
+    public String getEmail();
+
+    /**
      * Get the current users text setting
      * @return true / false if the user wants texts
      */

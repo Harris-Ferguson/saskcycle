@@ -28,6 +28,12 @@ public class CurrentUserSettingsDAO implements CurrentUserSettingsDAOInterface {
     }
 
     @Override
+    public String getEmail() {
+        Account account = getCurrentAccount();
+        return account.getEmail();
+    }
+
+    @Override
     public boolean getTextSetting() {
         Account account = getCurrentAccount();
         return account.getNotificationSettings().wantsText();

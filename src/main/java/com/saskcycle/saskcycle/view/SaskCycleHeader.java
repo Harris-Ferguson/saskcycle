@@ -43,7 +43,7 @@ public class SaskCycleHeader extends HorizontalLayout {
         setWidth("100%");
 
         addClassName("header");
-        add(drawerToggle, logo, searchBar, searchButton);
+        add(drawerToggle, logo, searchBar, searchButton, signinButtons);
 
     }
 

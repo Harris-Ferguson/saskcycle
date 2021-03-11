@@ -21,8 +21,8 @@ import org.springframework.beans.factory.annotation.*;
 @EntityScan("com.saskcycle.model")
 @EnableMongoRepositories(basePackageClasses = UserAccountRepo.class)
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
-public class SaskCycleApplication extends SpringBootServletInitializer /*implements CommandLineRunner */{
-
+public class SaskCycleApplication extends SpringBootServletInitializer /*implements CommandLineRunner*/ {
+//
 //	@Autowired
 //	private com.saskcycle.repo.PostsRepo PR;
 //
@@ -36,7 +36,7 @@ public class SaskCycleApplication extends SpringBootServletInitializer /*impleme
 	public static void main(String[] args) {
 		SpringApplication.run(SaskCycleApplication.class, args);
 	}
-
+//
 //
 //	@Override
 //	public void run(String... args) throws Exception {
@@ -52,7 +52,14 @@ public class SaskCycleApplication extends SpringBootServletInitializer /*impleme
 //		newList = SC.getAllPosts();
 //
 //		for(Post p : newList) System.out.println(p.description);
+//
+//
+//
 
+
+
+
+		// FOR ADDING POSTS TO DATABASE WITH HASTE
 //		ArrayList<String> tags = new ArrayList<>();
 //		tags.add("Toys (plastic)");
 //		tags.add("Toys (electric)");
@@ -61,9 +68,9 @@ public class SaskCycleApplication extends SpringBootServletInitializer /*impleme
 //		tags.add("Furniture");
 //		tags.add("Appliances");
 //		tags.add("Art");
-
-
-
+//
+//
+//
 //
 //		Business SuperStore = new Business("SuperStore", "A store", "1", "1.2KM", tags);
 //		Post p1 = new Post("Clothing available", "Get some", "1", null, "1.2KM", tags);
@@ -86,13 +93,13 @@ public class SaskCycleApplication extends SpringBootServletInitializer /*impleme
 //		BR.insert(SuperStore2);
 //		BR.insert(SuperStore3);
 //		BR.insert(SuperStore4);
-
+//
 //		System.out.println(BR.findAll());
 //
 //		System.out.println(PR.findAll());
 
-
-
+//
+//
 //	}
 //
 //	public int count(){

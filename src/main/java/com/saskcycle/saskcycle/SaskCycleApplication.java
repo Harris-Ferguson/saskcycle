@@ -21,32 +21,37 @@ import org.springframework.beans.factory.annotation.*;
 @EntityScan("com.saskcycle.model")
 @EnableMongoRepositories(basePackageClasses = UserAccountRepo.class)
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
-public class SaskCycleApplication extends SpringBootServletInitializer implements CommandLineRunner {
+public class SaskCycleApplication extends SpringBootServletInitializer /*implements CommandLineRunner */{
 
-	@Autowired
-	private com.saskcycle.repo.PostsRepo PR;
-
-	@Autowired
-	private SearchController SC;
-
-	@Autowired
-	private com.saskcycle.repo.BusinessesPostsRepo BR;
+//	@Autowired
+//	private com.saskcycle.repo.PostsRepo PR;
+//
+//	@Autowired
+//	private SearchController SC;
+//
+//	@Autowired
+//	private com.saskcycle.repo.BusinessesPostsRepo BR;
 
 
 	public static void main(String[] args) {
 		SpringApplication.run(SaskCycleApplication.class, args);
 	}
 
-
-	@Override
-	public void run(String... args) throws Exception {
-		System.out.println("hi");
-		System.out.println(count());
-		System.out.println(count2());
-
-		List<Post> newList = SC.getAllGivingAway();
-
-		for(Post p : newList) System.out.println(p.description);
+//
+//	@Override
+//	public void run(String... args) throws Exception {
+//		System.out.println("hi");
+//		System.out.println(count());
+//		System.out.println(count2());
+//
+//		List<Post> newList = SC.getAllListings();
+//
+//		for(Post p : newList) System.out.println(p.description);
+//		System.out.println(newList);
+//
+//		newList = SC.getAllPosts();
+//
+//		for(Post p : newList) System.out.println(p.description);
 
 //		ArrayList<String> tags = new ArrayList<>();
 //		tags.add("Toys (plastic)");
@@ -88,13 +93,13 @@ public class SaskCycleApplication extends SpringBootServletInitializer implement
 
 
 
-	}
-
-	public int count(){
-		return (int) PR.count();
-	}
-
-	public int count2(){
-		return (int) BR.count();
-	}
+//	}
+//
+//	public int count(){
+//		return (int) PR.count();
+//	}
+//
+//	public int count2(){
+//		return (int) BR.count();
+//	}
 }

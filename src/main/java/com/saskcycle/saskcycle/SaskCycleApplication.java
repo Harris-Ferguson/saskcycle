@@ -9,9 +9,10 @@ import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConf
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Collection;
 import com.saskcycle.model.*;
+import com.saskcycle.controller.*;
 import org.springframework.boot.CommandLineRunner;
 import java.util.Iterator;
 import org.springframework.beans.factory.annotation.*;
@@ -20,26 +21,33 @@ import org.springframework.beans.factory.annotation.*;
 @EntityScan("com.saskcycle.model")
 @EnableMongoRepositories(basePackageClasses = UserAccountRepo.class)
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
-public class SaskCycleApplication extends SpringBootServletInitializer /*implements CommandLineRunner*/ {
+public class SaskCycleApplication extends SpringBootServletInitializer implements CommandLineRunner {
 
-//	@Autowired
-//	private com.saskcycle.repo.PostsRepo PR;
-//
-//	@Autowired
-//	private com.saskcycle.repo.BusinessesPostsRepo BR;
+	@Autowired
+	private com.saskcycle.repo.PostsRepo PR;
+
+	@Autowired
+	private SearchController SC;
+
+	@Autowired
+	private com.saskcycle.repo.BusinessesPostsRepo BR;
 
 
 	public static void main(String[] args) {
 		SpringApplication.run(SaskCycleApplication.class, args);
 	}
 
-//
-//	@Override
-//	public void run(String... args) throws Exception {
-//		System.out.println("hi");
-//		System.out.println(count());
-//		System.out.println(count2());
-//
+
+	@Override
+	public void run(String... args) throws Exception {
+		System.out.println("hi");
+		System.out.println(count());
+		System.out.println(count2());
+
+		List<Post> newList = SC.getAllGivingAway();
+
+		for(Post p : newList) System.out.println(p.description);
+
 //		ArrayList<String> tags = new ArrayList<>();
 //		tags.add("Toys (plastic)");
 //		tags.add("Toys (electric)");
@@ -51,7 +59,7 @@ public class SaskCycleApplication extends SpringBootServletInitializer /*impleme
 
 
 
-
+//
 //		Business SuperStore = new Business("SuperStore", "A store", "1", "1.2KM", tags);
 //		Post p1 = new Post("Clothing available", "Get some", "1", null, "1.2KM", tags);
 //		tags.remove(0);
@@ -62,7 +70,7 @@ public class SaskCycleApplication extends SpringBootServletInitializer /*impleme
 //		tags.remove(0);
 //		Business SuperStore4 = new Business("SuperStorm", "A storm", "4", "1.4KM", tags);
 //		Post p4 = new Post("No plastic", "Get some no elect", "4", null, "1.3KM", tags);
-
+//
 //
 //		PR.insert(p1);
 //		PR.insert(p2);
@@ -75,25 +83,18 @@ public class SaskCycleApplication extends SpringBootServletInitializer /*impleme
 //		BR.insert(SuperStore4);
 
 //		System.out.println(BR.findAll());
-
+//
 //		System.out.println(PR.findAll());
 
 
 
+	}
 
-//		ArrayList<org.springframework.security.core.GrantedAuthority> authorities = new ArrayList<>();
-//
-//		com.saskcycle.model.authorities.AccountAuthority auth = new com.saskcycle.model.authorities.AccountAuthority();
-//
-//		authorities.add(auth);
+	public int count(){
+		return (int) PR.count();
+	}
 
-//	}
-//
-//	public int count(){
-//		return (int) PR.count();
-//	}
-//
-//	public int count2(){
-//		return (int) BR.count();
-//	}
+	public int count2(){
+		return (int) BR.count();
+	}
 }

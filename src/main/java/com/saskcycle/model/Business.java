@@ -4,7 +4,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
 
 @Document(collection = "Businesses")
-public class Business extends  Post {
+public class Business extends Post {
     //Methods
 
     public Business(String title, String description, String id, String location, ArrayList<String> tags){

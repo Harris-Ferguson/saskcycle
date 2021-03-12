@@ -39,11 +39,13 @@ public class CurrentUserSettingsDAO implements CurrentUserSettingsDAOInterface {
         return account.getNotificationSettings().wantsText();
     }
 
+
+
     /**
      * Gets the current user, I.E the user who is currently making a given request
      * @return the current user as an Account object
      */
-    private Account getCurrentAccount(){
+    public Account getCurrentAccount(){
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userDAO.searchByName(user.getUsername());
     }

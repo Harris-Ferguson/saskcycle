@@ -43,18 +43,32 @@ public class RegisterView extends Composite {
     }
 
     private void register(String username, String email, String password1, String password2){
+        if(credentialsAreValid(username, password1, password2)) {
+            try{
+                userDao.register(username, email, password1);
+                Notification.show("Registered!");
+                UI.getCurrent().navigate("login");
+            }
+            catch (IllegalArgumentException e){
+                Notification.show("Account already exists");
+                UI.getCurrent().navigate("login");
+            }
+        }
+    }
+
+    private boolean credentialsAreValid(String username, String password1, String password2){
         if(username.trim().isEmpty()){
             Notification.show("Enter a username");
+            return false;
         }
         else if(password1.trim().isEmpty()){
             Notification.show("Enter a password");
+            return false;
         }
         else if(!password1.equals(password2)){
             Notification.show("Passwords do not match");
-        } else{
-            userDao.register(username, email, password1);
-            Notification.show("Registered!");
-            UI.getCurrent().navigate("login");
+            return false;
         }
+        return true;
     }
 }

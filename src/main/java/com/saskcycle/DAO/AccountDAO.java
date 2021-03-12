@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.lang.IllegalArgumentException;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.*;
@@ -86,8 +87,7 @@ public class AccountDAO implements UserDAOInterface {
 
     @Override
     public Account addAccount(Account account) {
-        UAR.insert(account);
-        return account;
+        return UAR.insert(account);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class AccountDAO implements UserDAOInterface {
         /*
         Checks if an account exists in the database by comparing the emails
          */
-        return UAR.existsByEmail(account.getEmail());
+        return UAR.existsByEmail(account.getEmail()) || UAR.existsByUsername(account.getUsername());
     }
 
     @Override
@@ -144,8 +144,9 @@ public class AccountDAO implements UserDAOInterface {
                 new ArrayList<Notification>()
                 );
         // only add the account if it doesn't already exist
-        if (!accountExists(account)){
-            addAccount(account);
+        if(accountExists(account)){
+            throw new IllegalArgumentException("Account already exists");
         }
+        addAccount(account);
     }
 }

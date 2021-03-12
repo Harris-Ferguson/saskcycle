@@ -142,7 +142,7 @@ public class SearchController {
      */
     public  List<Business> getAllBusinessesByTag(String tag) {
 
-        return Baccess.getAllBusinessesByTag(tag);
+        return Baccess.getAllBusinessesByTags(tag);
     }
 
     /***

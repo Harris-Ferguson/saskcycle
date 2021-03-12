@@ -63,7 +63,7 @@ class SaskCycleApplicationTests {
 //		BR.insert(SuperStore3);
 //		BR.insert(SuperStore4);
 //
-		List<Business> businessList = SC.getAllBusinessesByKeyword("Metal");
+		List<Business> businessList = SC.getAllBusinessesByTag("Clothing");
 		for (Business b : businessList) {
 			System.out.println(b.toString());
 

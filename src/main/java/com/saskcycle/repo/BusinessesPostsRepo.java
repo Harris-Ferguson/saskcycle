@@ -17,7 +17,7 @@ public interface BusinessesPostsRepo extends MongoRepository<Business, String> {
      * @param tags predefined string respresenting a searchable tag
      * @return A list of business objects from DB that have the inputted tag
      */
-     List<Business> findAllByTag(String tags);
+     List<Business> findAllByTags(String tags);
 
      Business findByTitle(String title);
 

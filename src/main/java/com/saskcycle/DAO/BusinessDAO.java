@@ -77,8 +77,8 @@ public class BusinessDAO implements BusinessDAOInterface{
      * @return A list of business objects from DB that have the inputted tag
      */
 
-    public List<Business> getAllBusinessesByTag(String tag) {
-        return BR.findAllByTag(tag);
+    public List<Business> getAllBusinessesByTags(String tag) {
+        return BR.findAllByTags(tag);
     }
 
 

@@ -13,7 +13,7 @@ public interface BusinessDAOInterface {
 
     Business searchByID(String id);
 
-    List<Business> searchByKeyword(String keyword);
+    List<Business> getAllBusinessesByKeyword(String keyword);
 
     ArrayList<Business> searchByKeywordFiltered(String keyword, String tag);
 

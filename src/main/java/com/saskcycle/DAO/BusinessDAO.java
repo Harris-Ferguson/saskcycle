@@ -87,7 +87,7 @@ public class BusinessDAO implements BusinessDAOInterface{
      * @param keyword: A string the user wishes to search by
      * @return a list of posts containing the keyphrase specified by the searcher
      */
-    public List<Business> searchByKeyword(String keyword){
+    public List<Business> getAllBusinessesByKeyword(String keyword){
         List<Business> filteredBusinesses = new ArrayList<>();
         for (Business b : BR.findAll()){
             // Checks if case insensitive keyword is in title or description

@@ -141,12 +141,8 @@ public class SearchController {
      * @return a list of every post in the database containing that tag
      */
     public  List<Business> getAllBusinessesByTag(String tag) {
-        List<Business> postsByTag = new ArrayList<>();
-        List<Business> businessPosts = Baccess.AllPosts();
-        for (Business b : businessPosts) {
-            if (b.tags.contains(tag)) postsByTag.add(b);
-        }
-        return postsByTag;
+
+        return Baccess.getAllBusinessesByTag(tag);
     }
 
     /***
@@ -155,14 +151,8 @@ public class SearchController {
      * @return a list of posts containing the keyphrase specified by the searcher
      */
     public List<Business> getAllBusinessesByKeyword(String keyword){
-        List<Business> filteredBusinesses = new ArrayList<>();
-        for (Business b : Baccess.AllPosts()){
-            // Checks if case insensitive keyword is in title or description
-            if (b.title.toLowerCase().contains(keyword.toLowerCase()) ||
-                    b.description.toLowerCase().contains(keyword.toLowerCase()))
-                filteredBusinesses.add(b);
-        }
-        return filteredBusinesses;
+
+        return Baccess.getAllBusinessesByKeyword(keyword);
     }
 
 

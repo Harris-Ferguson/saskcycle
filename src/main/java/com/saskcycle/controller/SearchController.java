@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class SearchController {
@@ -133,6 +134,36 @@ public class SearchController {
         return filteredPosts;
     }
 
+
+    /***
+     * Gets all Business posts that contain a certain tag
+     * @param tag: a tag of a search item type
+     * @return a list of every post in the database containing that tag
+     */
+    public  List<Business> getAllBusinessesByTag(String tag) {
+        List<Business> postsByTag = new ArrayList<>();
+        List<Business> businessPosts = Baccess.AllPosts();
+        for (Business b : businessPosts) {
+            if (b.tags.contains(tag)) postsByTag.add(b);
+        }
+        return postsByTag;
+    }
+
+    /***
+     * Gets all Business posts containing a keyword in the description or title
+     * @param keyword: A string the user wishes to search by
+     * @return a list of posts containing the keyphrase specified by the searcher
+     */
+    public List<Business> getAllBusinessesByKeyword(String keyword){
+        List<Business> filteredBusinesses = new ArrayList<>();
+        for (Business b : Baccess.AllPosts()){
+            // Checks if case insensitive keyword is in title or description
+            if (b.title.toLowerCase().contains(keyword.toLowerCase()) ||
+                    b.description.toLowerCase().contains(keyword.toLowerCase()))
+                filteredBusinesses.add(b);
+        }
+        return filteredBusinesses;
+    }
 
 
 }

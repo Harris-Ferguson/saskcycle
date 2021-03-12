@@ -10,6 +10,8 @@ import com.saskcycle.model.*;
 import com.saskcycle.repo.UserAccountRepo;
 import com.saskcycle.saskcycle.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +20,9 @@ import org.springframework.stereotype.Service;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.*;
+
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.caseSensitive;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
 @Service
 public class AccountDAO implements UserDAOInterface {
@@ -113,6 +118,14 @@ public class AccountDAO implements UserDAOInterface {
     }
 
     @Override
+    public boolean accountExists(Account account) {
+        /*
+        Checks if an account exists in the database by comparing the emails
+         */
+        return UAR.existsByEmail(account.getEmail());
+    }
+
+    @Override
     public void register(String username, String email, String password) {
         // this is janky but we're building a user details user then using its authorities to build an Account
         // we could probably find another way to do this, OR abstract this to a method in Account
@@ -130,6 +143,9 @@ public class AccountDAO implements UserDAOInterface {
                 0.0,
                 new ArrayList<Notification>()
                 );
-        addAccount(account);
+        // only add the account if it doesn't already exist
+        if (!accountExists(account)){
+            addAccount(account);
+        }
     }
 }

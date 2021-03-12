@@ -44,6 +44,8 @@ public interface UserDAOInterface {
 
     void addPost(Post post, Account account);
 
+    boolean accountExists(Account account);
+
     /**
      * Adds a new user to the system based on username, email, and password
      * @param username username for the new user

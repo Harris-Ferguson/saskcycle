@@ -30,7 +30,7 @@ public class Account extends User {
 
     private ArrayList<Notification> notifications;
 
-    private UserNotificationSettings notificationSettings;
+    private UserNotificationSettings notificationSettings = new UserNotificationSettings(false,false);
 
     /* --------- Methods -------------*/
 

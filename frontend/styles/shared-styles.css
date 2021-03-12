@@ -49,3 +49,10 @@ a[highlight] {
     margin: 1em 1em;
     color: white;
 }
+
+.para {
+    width: 800px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

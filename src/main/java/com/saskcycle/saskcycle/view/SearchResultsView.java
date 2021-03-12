@@ -2,6 +2,8 @@ package com.saskcycle.saskcycle.view;
 
 import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.grid.Grid;
@@ -24,6 +26,8 @@ public class SearchResultsView  extends VerticalLayout {
 
     @Autowired
     private SearchController SC;
+
+    private List<Post> posts;
 
     @PostConstruct
     public void init(){
@@ -54,7 +58,7 @@ public class SearchResultsView  extends VerticalLayout {
         excludeGroup.setItems("Appliances", "Clothing", "Electronics", "Furniture");
         excludeGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
-        List<Post> posts = SC.getAllGivingAway();
+        posts = SC.getAllGivingAway();
 
         Scroller scroller = new Scroller();
         scroller.setHeight("200px");
@@ -70,10 +74,14 @@ public class SearchResultsView  extends VerticalLayout {
             VerticalLayout component = new VerticalLayout();
             component.add(new H3(posts.get(i).title));
             component.add(new H5(posts.get(i).location + " away"));
-            component.add(new H4(posts.get(i).description));
-            component.add(String.valueOf(posts.get(i).tags));
+            Paragraph desc = new Paragraph(posts.get(i).description);
+            desc.addClassName("para");
+            component.add(desc);
+            component.add(formatTags(i));
+
+
             content.add(component);
-            component.getStyle().set("border", "1px solid #9E9E9E");
+            component.getStyle().set("border", "1px solid #eeeeee");
         }
 
         //scroller.setContent(content);
@@ -88,10 +96,26 @@ public class SearchResultsView  extends VerticalLayout {
         resultsGroup.add(filterGroup, content);
 
 
-
-
-
-
         add(new H1("All listings"), resultsGroup);
     }
+
+    private HorizontalLayout formatTags(int index){
+
+        HorizontalLayout tagGroup = new HorizontalLayout();
+
+
+        for (int i = 0; i < posts.get(index).tags.size(); i++){
+
+            Button component = new Button(posts.get(index).tags.get(i));
+
+            tagGroup.add(component);
+            
+        }
+
+
+        return tagGroup;
+
+    }
+
+
 }

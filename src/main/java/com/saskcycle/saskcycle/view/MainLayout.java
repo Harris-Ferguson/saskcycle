@@ -1,5 +1,6 @@
 package com.saskcycle.saskcycle.view;
 
+import com.saskcycle.saskcycle.view.components.SaskCycleHeader;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.router.PageTitle;
 

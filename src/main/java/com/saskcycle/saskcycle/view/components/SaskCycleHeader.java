@@ -1,5 +1,8 @@
-package com.saskcycle.saskcycle.view;
+package com.saskcycle.saskcycle.view.components;
 
+import com.saskcycle.saskcycle.view.MainView;
+import com.saskcycle.saskcycle.view.PostView;
+import com.saskcycle.saskcycle.view.SettingsView;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;

@@ -54,10 +54,14 @@ public class SaskCycleApplication extends SpringBootServletInitializer implement
 //
 //		for(Post p : newList) System.out.println(p.description);
 
-		newList = SC.getAllListingsByTag("Art");
-		for(Post p : newList) System.out.println(p.tags);
+//		newList = SC.getAllListingsByTag("Art");
+//		for(Post p : newList) System.out.println(p.tags);
 
-		}
+
+		newList = SC.getAllPostsByKeyword("x");
+				for(Post p : newList) System.out.println(p.title);
+
+	}
 //
 
 

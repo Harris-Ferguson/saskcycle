@@ -71,13 +71,18 @@ public class BusinessDAO implements BusinessDAOInterface{
         BR.delete(business);
     }
 
+    /**
+     * Find all business that take in items based on inputted tag
+     * @param tag predefined string respresenting a searchable tag
+     * @return A list of business objects from DB that have the inputted tag
+     */
     @Override
     public List<Business> getAllBusinessesByTag(String tag) {
         return BR.findAllByTags(tag);
     }
 
 
-    public Business searchByName(String name) {
+    public Business findByTitle(String name) {
         return BR.findByTitle(name);
     }
 

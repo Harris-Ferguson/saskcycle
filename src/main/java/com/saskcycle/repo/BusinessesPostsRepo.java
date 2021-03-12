@@ -12,6 +12,15 @@ import java.util.List;
 @Repository
 public interface BusinessesPostsRepo extends MongoRepository<Business, String> {
 
+    /**
+     * Find all business that take in items based on inputted tag
+     * @param tags predefined string respresenting a searchable tag
+     * @return A list of business objects from DB that have the inputted tag
+     */
+    public List<Business> findAllByTags(String tags);
+
+    public Business findByTitle(String title);
+
 //    List<Post> findByTagRegex(String tag);
 //
 ////    List<Post> findAll(Sort date);

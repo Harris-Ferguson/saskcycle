@@ -36,24 +36,32 @@ public class SaskCycleApplication extends SpringBootServletInitializer /*impleme
 	public static void main(String[] args) {
 		SpringApplication.run(SaskCycleApplication.class, args);
 	}
-//
-//
+
+
 //	@Override
 //	public void run(String... args) throws Exception {
 //		System.out.println("hi");
-//		System.out.println(count());
-//		System.out.println(count2());
-//
+////		System.out.println(count());
+////		System.out.println(count2());
+//////
 //		List<Post> newList = SC.getAllListings();
-//
-//		for(Post p : newList) System.out.println(p.description);
+////
+//		newList.clear();
+//		for (Post p : newList) System.out.println(p.description);
 //		System.out.println(newList);
 //
 //		newList = SC.getAllPosts();
 //
 //		for(Post p : newList) System.out.println(p.description);
+
+//		newList = SC.getAllListingsByTag("Art");
+//		for(Post p : newList) System.out.println(p.tags);
+
+
+//		newList = SC.getAllPostsByKeyword("x");
+//				for(Post p : newList) System.out.println(p.title);
 //
-//
+//	}
 //
 
 

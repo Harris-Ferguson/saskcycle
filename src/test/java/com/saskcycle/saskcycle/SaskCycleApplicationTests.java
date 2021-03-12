@@ -20,18 +20,18 @@ class SaskCycleApplicationTests {
 
 		// FOR ADDING POSTS TO DATABASE WITH HASTE
 		ArrayList<String> tags = new ArrayList<>();
-		tags.add("Clothing");
-		tags.add("Cookware");
+		tags.add("Computers");
 		tags.add("Electronics");
-		tags.add("Cloths");
-		tags.add("Furniture");
+		tags.add("Decorations");
+		tags.add("Cookware");
+		tags.add("Clothing");
 		tags.add("Appliances");
 		tags.add("Art");
 //
 //
 //
 //
-		Business store = new Business("Susy's Second Hand Store", "Taking your gently used items!", "1", "1.2KM", tags);
+		Business store = new Business("Test Store", "I am not real I am a test", "6", "10.1KM", tags);
 //		Post p1 = new Post("Clothing available", "Get some", "1", null, "1.2KM", tags);
 //		tags.remove(0);
 //		Business SuperStore2 = new Business("SuperStore2", "A store2", "2", "1.4KM", tags);
@@ -53,7 +53,7 @@ class SaskCycleApplicationTests {
 //		BR.insert(SuperStore3);
 //		BR.insert(SuperStore4);
 //
-//		System.out.println(BR.findAll());
+		System.out.println(BR.count());
 //
 //		System.out.println(PR.findAll());
 	}

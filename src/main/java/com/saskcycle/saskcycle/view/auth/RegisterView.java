@@ -54,7 +54,7 @@ public class RegisterView extends Composite {
         } else{
             userDao.register(username, email, password1);
             Notification.show("Registered!");
-            UI.getCurrent().navigate("/login");
+            UI.getCurrent().navigate("");
         }
     }
 }

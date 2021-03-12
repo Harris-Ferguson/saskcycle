@@ -44,8 +44,9 @@ public class SearchResultsView  extends VerticalLayout {
 
         grid = new Grid<>();
         grid.setItems(posts);
+        grid.setHeight("1000px");
 
-        grid.addComponentColumn(PostComponent::new).setHeader(" ");
+        grid.addComponentColumn(PostComponent::new);
 
         HorizontalLayout resultsGroup = new HorizontalLayout();
         resultsGroup.setAlignItems(Alignment.START);
@@ -73,8 +74,15 @@ public class SearchResultsView  extends VerticalLayout {
         });
 
         Select<String> sortSelect = new Select<>();
-        sortSelect.setItems("Most recent", "Least recent", "Closest to me");
+        sortSelect.setItems("Alphabetically (A-Z)", "Closest to me");
         sortSelect.setLabel("Sort by");
+
+        sortSelect.addValueChangeListener(event -> {
+            posts.clear();
+            posts = SC.getSortedPosts(event.getValue());
+
+            grid.setItems(posts);
+        });
 
 
         CheckboxGroup<String> includeGroup = new CheckboxGroup<>();

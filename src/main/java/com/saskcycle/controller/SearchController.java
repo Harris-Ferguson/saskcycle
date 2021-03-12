@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -149,6 +150,19 @@ public class SearchController {
             }
         }
         return specPosts;
+    }
+
+    public List<Post> getSortedPosts(String value) {
+
+        List<Post> allPosts = getAllPosts();
+        if (value.equals("Alphabetically (A-Z)")) {
+                allPosts.sort(Comparator.comparing(a -> a.title));
+        }
+        if (value.equals("Closest to me")) {
+            allPosts.sort(Comparator.comparing(a -> a.location));
+        }
+
+        return allPosts;
     }
 }
 

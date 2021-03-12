@@ -21,13 +21,13 @@ import org.springframework.beans.factory.annotation.*;
 @EntityScan("com.saskcycle.model")
 @EnableMongoRepositories(basePackageClasses = UserAccountRepo.class)
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
-public class SaskCycleApplication extends SpringBootServletInitializer implements CommandLineRunner {
+public class SaskCycleApplication extends SpringBootServletInitializer /*implements CommandLineRunner*/ {
 //
 //	@Autowired
 //	private com.saskcycle.repo.PostsRepo PR;
 //
-	@Autowired
-	private SearchController SC;
+//	@Autowired
+//	private SearchController SC;
 //
 //	@Autowired
 //	private com.saskcycle.repo.BusinessesPostsRepo BR;
@@ -38,15 +38,15 @@ public class SaskCycleApplication extends SpringBootServletInitializer implement
 	}
 
 
-	@Override
-	public void run(String... args) throws Exception {
-		System.out.println("hi");
-//		System.out.println(count());
-//		System.out.println(count2());
+//	@Override
+//	public void run(String... args) throws Exception {
+//		System.out.println("hi");
+////		System.out.println(count());
+////		System.out.println(count2());
+//////
+//		List<Post> newList = SC.getAllListings();
 ////
-		List<Post> newList = SC.getAllListings();
-//
-		newList.clear();
+//		newList.clear();
 //		for (Post p : newList) System.out.println(p.description);
 //		System.out.println(newList);
 //
@@ -58,10 +58,10 @@ public class SaskCycleApplication extends SpringBootServletInitializer implement
 //		for(Post p : newList) System.out.println(p.tags);
 
 
-		newList = SC.getAllPostsByKeyword("x");
-				for(Post p : newList) System.out.println(p.title);
-
-	}
+//		newList = SC.getAllPostsByKeyword("x");
+//				for(Post p : newList) System.out.println(p.title);
+//
+//	}
 //
 
 

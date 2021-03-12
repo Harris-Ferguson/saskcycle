@@ -27,4 +27,8 @@ public class Business extends Post {
     {
         return this.location;
     }
+    public String toString()
+    {
+        return this.title +"\n"+this.description+"\n"+this.location+"\n";
+    }
 }

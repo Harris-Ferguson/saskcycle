@@ -72,6 +72,11 @@ public class PostsDAO implements PostsDAOInterface{
     public void deletePost(Post post) {
         PR.delete(post);
     }
+
+    public ArrayList<Post> getFilteredPosts() {
+
+        return null;
+    }
 }
 
 

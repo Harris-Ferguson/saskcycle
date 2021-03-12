@@ -35,10 +35,6 @@ public class BusinessDAO implements BusinessDAOInterface{
         return null;
     }
 
-    public ArrayList<Business> searchByKeyword(String keyword) {
-        return null;
-    }
-
     @Override
     public ArrayList<Business> searchByKeywordFiltered(String keyword, String tag) {
         return null;
@@ -75,14 +71,30 @@ public class BusinessDAO implements BusinessDAOInterface{
         BR.delete(business);
     }
 
-
+    @Override
+    public List<Business> getAllBusinessesByTag(String tag) {
+        return BR.findAllByTags(tag);
+    }
 
 
     public Business searchByName(String name) {
-        return null;
+        return BR.findByTitle(name);
     }
 
-    public List<Business> searchByTag(String tag) {
-        return null;
+
+    /***
+     * Gets all Business posts containing a keyword in the description or title
+     * @param keyword: A string the user wishes to search by
+     * @return a list of posts containing the keyphrase specified by the searcher
+     */
+    public List<Business> searchByKeyword(String keyword){
+        List<Business> filteredBusinesses = new ArrayList<>();
+        for (Business b : BR.findAll()){
+            // Checks if case insensitive keyword is in title or description
+            if (b.title.toLowerCase().contains(keyword.toLowerCase()) ||
+                    b.description.toLowerCase().contains(keyword.toLowerCase()))
+                filteredBusinesses.add(b);
+        }
+        return filteredBusinesses;
     }
 }

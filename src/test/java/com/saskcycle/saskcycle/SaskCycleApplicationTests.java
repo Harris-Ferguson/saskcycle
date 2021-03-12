@@ -1,5 +1,6 @@
 package com.saskcycle.saskcycle;
 
+import com.saskcycle.DAO.BusinessDAOInterface;
 import com.saskcycle.model.Business;
 import com.saskcycle.model.Post;
 import org.junit.jupiter.api.Assertions;
@@ -14,6 +15,9 @@ import java.util.List;
 class SaskCycleApplicationTests {
 	@Autowired
 	private com.saskcycle.repo.BusinessesPostsRepo BR;
+
+	@Autowired
+	private BusinessDAOInterface Baccess;
 
 
 	@Test
@@ -50,12 +54,12 @@ class SaskCycleApplicationTests {
 //		PR.insert(p3);
 //		PR.insert(p4);
 //
-		BR.insert(store);
+//		BR.insert(store);
 //		BR.insert(SuperStore2);
 //		BR.insert(SuperStore3);
 //		BR.insert(SuperStore4);
 //
-		List<Business> businessList = BR.findAll();
+		List<Business> businessList = Baccess.searchByKeyword("Metal");
 		for (Business b : businessList) {
 			System.out.println(b.toString());
 

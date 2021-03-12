@@ -10,35 +10,36 @@ import org.springframework.stereotype.Service;
 @Service
 public class CurrentUserSettingsDAO implements CurrentUserSettingsDAOInterface {
 
-    @Autowired
-    private UserDAOInterface userDAO;
+  @Autowired private UserDAOInterface userDAO;
 
-    @Override
-    public Account updateSettings(boolean wantsEmail, boolean wantsText) {
-        UserNotificationSettings settings = new UserNotificationSettings(wantsEmail, wantsText);
-        Account account = getCurrentAccount();
-        account.setNotificationSettings(settings);
-        return userDAO.updateAccount(account);
-    }
+  @Override
+  public Account updateSettings(boolean wantsEmail, boolean wantsText) {
+    UserNotificationSettings settings = new UserNotificationSettings(wantsEmail, wantsText);
+    Account account = getCurrentAccount();
+    account.setNotificationSettings(settings);
+    return userDAO.updateAccount(account);
+  }
 
-    @Override
-    public boolean getEmailSetting() {
-        Account account = getCurrentAccount();
-        return account.getNotificationSettings().wantsEmail();
-    }
+  @Override
+  public boolean getEmailSetting() {
+    Account account = getCurrentAccount();
+    return account.getNotificationSettings().wantsEmail();
+  }
 
-    @Override
-    public boolean getTextSetting() {
-        Account account = getCurrentAccount();
-        return account.getNotificationSettings().wantsText();
-    }
+  @Override
+  public boolean getTextSetting() {
+    Account account = getCurrentAccount();
+    return account.getNotificationSettings().wantsText();
+  }
 
-    /**
-     * Gets the current user, I.E the user who is currently making a given request
-     * @return the current user as an Account object
-     */
-    private Account getCurrentAccount(){
-        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userDAO.searchByName(user.getUsername());
-    }
+  /**
+   * Gets the current user, I.E the user who is currently making a given request
+   *
+   * @return the current user as an Account object
+   */
+  private Account getCurrentAccount() {
+    UserDetails user =
+        (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    return userDAO.searchByName(user.getUsername());
+  }
 }

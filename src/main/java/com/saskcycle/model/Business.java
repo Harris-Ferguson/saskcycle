@@ -7,8 +7,8 @@ import java.util.ArrayList;
 public class Business extends Post {
     //Methods
 
-    public Business(String title, String description, String id, String location, ArrayList<String> tags){
-        super( title, description, id, null, location, tags);
+    public Business(String title, String description, String id, String location, ArrayList<String> tags, boolean give){
+        super( title, description, id, null, location, tags, give);
     }
 
     public ArrayList<String> get_tags()

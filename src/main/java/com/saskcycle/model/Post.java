@@ -28,15 +28,18 @@ public class Post {
 
     public ArrayList<String> tags;
 
+    public boolean give;
+
     /* ----------- Methods ------------- */
 
-    public Post(String title, String description, String id, Account owner, String location, ArrayList<String> tags){
+    public Post(String title, String description, String id, Account owner, String location, ArrayList<String> tags, boolean give){
         this.title = title;
         this.description = description;
         this.id = id;
         this.owner = null;
         this.location = location;
         this.tags = tags;
+        this.give = give;
     }
 
 

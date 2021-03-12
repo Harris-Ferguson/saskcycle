@@ -1,21 +1,13 @@
 package com.saskcycle.controller;
 
-import com.saskcycle.DAO.BusinessDAO;
 import com.saskcycle.DAO.BusinessDAOInterface;
-import com.saskcycle.DAO.PostsDAO;
 import com.saskcycle.DAO.PostsDAOInterface;
 import com.saskcycle.model.Business;
 import com.saskcycle.model.Post;
-import com.saskcycle.repo.BusinessesPostsRepo;
-import com.saskcycle.repo.PostsRepo;
-import com.saskcycle.repo.UserAccountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -142,6 +134,21 @@ public class SearchController {
             if (!p.tags.contains(tag)) postsWithoutTag.add(p);
         }
         return postsWithoutTag;
+    }
+
+    public List<Post> getSpecifiedPosts(String value) {
+
+        List<Post> specPosts = new ArrayList<>();
+        List<Post> allPosts = getAllPosts();
+        for (Post p : allPosts) {
+            if (value.equals("Get") && !p.give) {
+                specPosts.add(p);
+            }
+            if (value.equals("Give") && p.give) {
+                specPosts.add(p);
+            }
+        }
+        return specPosts;
     }
 }
 

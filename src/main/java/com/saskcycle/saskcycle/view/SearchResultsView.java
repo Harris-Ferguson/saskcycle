@@ -27,6 +27,8 @@ public class SearchResultsView  extends VerticalLayout {
 
     Grid<Post> grid;
 
+    H2 label;
+
     String[] tagArr = new String[]{"Appliances", "Clothing", "Electronics", "Furniture"};
 
     //VerticalLayout content;
@@ -62,15 +64,18 @@ public class SearchResultsView  extends VerticalLayout {
         useSelect.setItems("Get", "Give");
         useSelect.setLabel("What do you want to do?");
 
+        useSelect.addValueChangeListener(event -> {
+            posts.clear();
+            posts = SC.getSpecifiedPosts(event.getValue());
+
+            grid.setItems(posts);
+
+        });
+
         Select<String> sortSelect = new Select<>();
         sortSelect.setItems("Most recent", "Least recent", "Closest to me");
         sortSelect.setLabel("Sort by");
 
-        CheckboxGroup<String> postChoice = new CheckboxGroup<>();
-        postChoice.setLabel("Show posts from");
-        postChoice.setItems("Users", "Organizations");
-        postChoice.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
-        postChoice.setValue(Collections.singleton("Users"));
 
         CheckboxGroup<String> includeGroup = new CheckboxGroup<>();
         includeGroup.setLabel("Show results for");
@@ -100,7 +105,12 @@ public class SearchResultsView  extends VerticalLayout {
             }
         });
 
-        filterGroup.add(useSelect, sortSelect, postChoice, includeGroup, excludeGroup);
+        CheckboxGroup<String> postChoice = new CheckboxGroup<>();
+        postChoice.setLabel("Hide posts from");
+        postChoice.setItems("Users", "Organizations");
+        postChoice.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
+
+        filterGroup.add(useSelect, sortSelect, includeGroup, excludeGroup, postChoice);
         return filterGroup;
     }
 

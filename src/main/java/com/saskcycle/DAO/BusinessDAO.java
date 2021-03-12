@@ -76,13 +76,13 @@ public class BusinessDAO implements BusinessDAOInterface{
      * @param tag predefined string respresenting a searchable tag
      * @return A list of business objects from DB that have the inputted tag
      */
-    @Override
+
     public List<Business> getAllBusinessesByTag(String tag) {
-        return BR.findAllByTags(tag);
+        return BR.findAllByTag(tag);
     }
 
 
-    public Business findByTitle(String name) {
+    public Business findBusinessByTitle(String name) {
         return BR.findByTitle(name);
     }
 

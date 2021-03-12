@@ -30,4 +30,5 @@ public interface BusinessDAOInterface {
     void deleteBusiness(Business business);
 
     List<Business> getAllBusinessesByTag(String tag);
+    Business findBusinessByTitle(String title);
 }

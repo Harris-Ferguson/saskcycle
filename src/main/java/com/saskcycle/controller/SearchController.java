@@ -155,6 +155,11 @@ public class SearchController {
         return Baccess.getAllBusinessesByKeyword(keyword);
     }
 
+    public Business findBusinessByTitle(String title)
+    {
+        return Baccess.findBusinessByTitle(title);
+    }
+
 
 }
 

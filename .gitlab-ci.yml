@@ -6,6 +6,7 @@ stages:
 build-job:
   stage: build
   script:
+    - export JAVA_HOME=/usr/java/jdk-11
     - ./mvnw clean package
   artifacts:
     paths:

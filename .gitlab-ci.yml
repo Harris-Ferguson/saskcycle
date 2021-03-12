@@ -6,15 +6,15 @@ stages:
 build-job:
   stage: build
   script:
-    - echo "Hello, $GITLAB_USER_LOGIN!"
+    - ./mvnw clean package
   artifacts:
     paths:
-      - build/
+      - target/saskcycle-0.0.1-SNAPSHOT.jar
 
 test-job1:
   stage: test
   script:
-    - echo "This job tests something"
+    - ./mvnw test
 
 deploy-prod:
   stage: deploy

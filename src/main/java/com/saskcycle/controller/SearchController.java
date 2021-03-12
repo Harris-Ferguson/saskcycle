@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -134,7 +135,14 @@ public class SearchController {
     }
 
 
-
+    public List<Post> ExcludeListingsByTag(String tag) {
+        List<Post> postsWithoutTag = new ArrayList<>();
+        List<Post> allPosts = getAllPosts();
+        for (Post p : allPosts) {
+            if (!p.tags.contains(tag)) postsWithoutTag.add(p);
+        }
+        return postsWithoutTag;
+    }
 }
 
 

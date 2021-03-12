@@ -44,6 +44,11 @@ public interface UserDAOInterface {
 
     void addPost(Post post, Account account);
 
+    /**
+     * Check if a given account exists
+     * @param account Account object
+     * @return true if the Account already exists, false if not
+     */
     boolean accountExists(Account account);
 
     /**

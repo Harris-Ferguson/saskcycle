@@ -119,9 +119,6 @@ public class AccountDAO implements UserDAOInterface {
 
     @Override
     public boolean accountExists(Account account) {
-        /*
-        Checks if an account exists in the database by comparing the emails
-         */
         return UAR.existsByEmail(account.getEmail()) || UAR.existsByUsername(account.getUsername());
     }
 
@@ -143,7 +140,6 @@ public class AccountDAO implements UserDAOInterface {
                 0.0,
                 new ArrayList<Notification>()
                 );
-        // only add the account if it doesn't already exist
         if(accountExists(account)){
             throw new IllegalArgumentException("Account already exists");
         }

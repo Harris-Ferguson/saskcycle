@@ -42,6 +42,13 @@ public class RegisterView extends Composite {
         );
     }
 
+    /**
+     * Passes a registration to the Account Service
+     * @param username username of the new account
+     * @param email email of a new account
+     * @param password1 password of the new account
+     * @param password2 confirm password field of the new account
+     */
     private void register(String username, String email, String password1, String password2){
         if(credentialsAreValid(username, password1, password2)) {
             try{
@@ -56,6 +63,13 @@ public class RegisterView extends Composite {
         }
     }
 
+    /**
+     * Check if the entered fields are valid
+     * @param username username field value
+     * @param password1 password field
+     * @param password2 confirm password field
+     * @return true / false if the credentials are valid
+     */
     private boolean credentialsAreValid(String username, String password1, String password2){
         if(username.trim().isEmpty()){
             Notification.show("Enter a username");

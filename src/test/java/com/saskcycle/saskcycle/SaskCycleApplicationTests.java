@@ -1,12 +1,14 @@
 package com.saskcycle.saskcycle;
 
 import com.saskcycle.model.Business;
+import com.saskcycle.model.Post;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 class SaskCycleApplicationTests {
@@ -53,9 +55,11 @@ class SaskCycleApplicationTests {
 //		BR.insert(SuperStore3);
 //		BR.insert(SuperStore4);
 //
-		System.out.println(BR.count());
-//
-//		System.out.println(PR.findAll());
+		List<Business> businessList = BR.findAll();
+		for (Business b : businessList) {
+			System.out.println(b.toString());
+
 	}
 
+}
 }

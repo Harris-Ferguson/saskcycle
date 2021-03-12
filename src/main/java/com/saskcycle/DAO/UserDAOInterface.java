@@ -25,8 +25,6 @@ public interface UserDAOInterface {
 
     Account updateAccount(Account account);
 
-    boolean checkPassword(String attempt, String email);
-
     /**
      * Inserts an account into the database
      * @param account Account object to insert into the database
@@ -57,5 +55,5 @@ public interface UserDAOInterface {
      * @param email email for the new user
      * @param password password for the new user
      */
-    void register(String username, String email, String password);
+    Account register(String username, String email, String password);
 }

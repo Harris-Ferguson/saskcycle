@@ -79,13 +79,6 @@ public class AccountDAO implements UserDAOInterface {
     }
 
     @Override
-    public boolean checkPassword(String attempt, String email) {
-        // search by email address
-        Account searchingAccount = searchByEmail(email);
-        return attempt.equals(searchingAccount.getPassword());
-    }
-
-    @Override
     public Account addAccount(Account account) {
         return UAR.insert(account);
     }
@@ -123,7 +116,7 @@ public class AccountDAO implements UserDAOInterface {
     }
 
     @Override
-    public void register(String username, String email, String password) {
+    public Account register(String username, String email, String password) {
         // this is janky but we're building a user details user then using its authorities to build an Account
         // we could probably find another way to do this, OR abstract this to a method in Account
         UserDetails newUser = User.withUsername(username).password(password).roles("USER").build();
@@ -143,6 +136,6 @@ public class AccountDAO implements UserDAOInterface {
         if(accountExists(account)){
             throw new IllegalArgumentException("Account already exists");
         }
-        addAccount(account);
+        return addAccount(account);
     }
 }

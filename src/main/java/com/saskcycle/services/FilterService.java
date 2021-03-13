@@ -99,7 +99,15 @@ public class FilterService implements Serializable {
 
             List<Post> anotherPosts = new ArrayList<>();
             for (Post p : newPosts) {
+//                for (Post a : anotherPosts) {
+//                    if (a.title.compareTo(p.title) == 0)
+//                    {
+//                        break;
+//                    }
+//                }
+//                anotherPosts.add(p);
                 if (!anotherPosts.contains(p)) {
+                    System.out.println(p.title);
                     anotherPosts.add(p);
                 }
 

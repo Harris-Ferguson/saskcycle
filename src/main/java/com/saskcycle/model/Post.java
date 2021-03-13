@@ -8,26 +8,24 @@ import java.util.Date;
 @Document(collection = "Posts")
 public class Post {
 
-    /* --------- Attributes ------------ */
+  /* --------- Attributes ------------ */
 
-    public String title;
+  public String title;
 
-    public String description;
+  public String description;
 
-    public int IDnum;
+  public int IDnum;
 
-    //public Arraylist<pictures> photos;
+  // public Arraylist<pictures> photos;
 
-    public Date datePosted;
+  public Date datePosted;
 
-    public Account owner;
+  public Account owner;
 
-    public String location;
+  public String location;
 
-    public ArrayList<String> tags;
+  public ArrayList<String> tags;
 
-    /* ----------- Methods ------------- */
-
-
+  /* ----------- Methods ------------- */
 
 }

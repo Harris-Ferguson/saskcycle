@@ -10,18 +10,16 @@ import com.vaadin.flow.router.Route;
 @PageTitle("SaskCycle")
 public class MainView extends VerticalLayout {
 
-    /**
-     * Construct a view to show an account
-     */
-    public MainView() {
+  /** Construct a view to show an account */
+  public MainView() {
 
-        // Use custom CSS classes to apply styling. This is defined in shared-styles.css.
-        //addClassName("centered-content");
+    // Use custom CSS classes to apply styling. This is defined in shared-styles.css.
+    // addClassName("centered-content");
 
-        NativeButton button = new NativeButton("Events");
+    NativeButton button = new NativeButton("Events");
 
-        button.addClickListener(e -> button.getUI().ifPresent(ui -> ui.navigate("events")));
+    button.addClickListener(e -> button.getUI().ifPresent(ui -> ui.navigate("events")));
 
-        add(new H1("SaskCycle"), button);
-    }
+    add(new H1("SaskCycle"), button);
+  }
 }

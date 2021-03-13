@@ -115,12 +115,30 @@ public class FilterService implements Serializable {
 
             return anotherPosts;
         }
-        else
+        else if (poster.equals("Organizations"))
         {
             List<Post> newPosts = new ArrayList<>();
 
             for (String t : value) {
                 newPosts.addAll(SC.getAllBusinessesByTag(t));
+            }
+
+            List<Post> anotherPosts = new ArrayList<>();
+            for (Post p : newPosts) {
+                if (!anotherPosts.contains(p)) {
+                    anotherPosts.add(p);
+                }
+
+            }
+
+            return anotherPosts;
+        }
+        else
+        {
+            List<Post> newPosts = new ArrayList<>();
+
+            for (String t : value) {
+                newPosts.addAll(SC.getAllListingsByTag(t));
             }
 
             List<Post> anotherPosts = new ArrayList<>();

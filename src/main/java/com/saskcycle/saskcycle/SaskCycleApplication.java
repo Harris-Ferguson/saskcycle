@@ -4,18 +4,10 @@ import com.saskcycle.repo.UserAccountRepo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import java.util.List;
-import java.util.Collection;
-import com.saskcycle.model.*;
-import com.saskcycle.controller.*;
-import org.springframework.boot.CommandLineRunner;
-import java.util.Iterator;
-import org.springframework.beans.factory.annotation.*;
 
 @ComponentScan(basePackages = {"com.saskcycle"})
 @EntityScan("com.saskcycle.model")
@@ -23,8 +15,7 @@ import org.springframework.beans.factory.annotation.*;
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
 public class SaskCycleApplication extends SpringBootServletInitializer {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SaskCycleApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(SaskCycleApplication.class, args);
+  }
 }

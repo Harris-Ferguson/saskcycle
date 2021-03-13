@@ -1,7 +1,6 @@
 package com.saskcycle.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -12,80 +11,76 @@ import java.util.Collection;
 @Document(collection = "User Accounts")
 public class Account extends User {
 
-    /* --------- Attributes -------------*/
+  /* --------- Attributes -------------*/
 
+  @Id private String id;
 
-    @Id
-    private String id;
+  private String email;
 
-    private String email;
+  private final Feed wishlish;
 
-    private Feed wishlish;
+  private final Feed posts;
 
-    private Feed posts;
+  private double userRating;
 
-    private double userRating;
+  private final ArrayList<Notification> notifications;
 
-    private ArrayList<Notification> notifications;
+  /* --------- Methods -------------*/
 
-    /* --------- Methods -------------*/
+  public Account(
+      String username,
+      String password,
+      Collection<? extends GrantedAuthority> authorities,
+      String id,
+      String email) {
 
+    // Calls super to initialize other values
+    super(username, password, authorities);
+    this.id = id;
+    this.email = email;
+    this.userRating = 0;
+    this.notifications = new ArrayList<>();
+    this.wishlish = new Feed();
+    this.posts = new Feed();
+  }
 
-    public Account(String username, String password, Collection<? extends GrantedAuthority> authorities, String id,
-                   String email){
+  /* --------- Getters -------------*/
 
-        // Calls super to initialize other values
-        super(username, password, authorities);
-        this.id = id;
-        this.email = email;
-        this.userRating = 0;
-        this.notifications = new ArrayList<>();
-        this.wishlish = new Feed();
-        this.posts = new Feed();
+  public Feed getPosts() {
+    return posts;
+  }
 
-    }
+  public double getUserRating() {
+    return userRating;
+  }
 
-    /* --------- Getters -------------*/
+  public void setUserRating(double userRating) {
+    this.userRating = userRating;
+  }
 
+  public String getEmail() {
+    return email;
+  }
 
-    public Feed getPosts() {
-        return posts;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public double getUserRating() {
-        return userRating;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  /* --------- Setters -------------*/
 
-    public String getId() {
-        return id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public ArrayList<Notification> getNotifications() {
-        return notifications;
-    }
+  public ArrayList<Notification> getNotifications() {
+    return notifications;
+  }
 
-    public Feed getWishlish() {
-        return wishlish;
-    }
-
-
-    /* --------- Setters -------------*/
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setUserRating(double userRating) {
-        this.userRating = userRating;
-    }
+  public Feed getWishlish() {
+    return wishlish;
+  }
 }
-
-

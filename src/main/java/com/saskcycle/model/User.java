@@ -2,21 +2,18 @@ package com.saskcycle.model;
 
 // Ex
 public class User /*extends that anon user class*/ {
-    /* --------- Attributes ------------ */
+  /* --------- Attributes ------------ */
 
-    // public cookies cookies
+  // public cookies cookies
 
-    public Feed savedPosts;
+  public Feed savedPosts;
 
-    public Route route;
+  public Route route;
 
-    /* ----------- Methods ------------- */
+  /* ----------- Methods ------------- */
 
-
-    public User(){
-        savedPosts = new Feed();
-        this.route = new Route();
-    }
-
-
+  public User() {
+    savedPosts = new Feed();
+    this.route = new Route();
+  }
 }

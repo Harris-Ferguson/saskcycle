@@ -9,44 +9,50 @@ import java.util.Date;
 @Document(collection = "Posts")
 public class Post {
 
-    /* --------- Attributes ------------ */
+  /* --------- Attributes ------------ */
 
-    public String title;
+  public String title;
 
-    public String description;
+  public String description;
 
-    @Id
-    public String id;
+  @Id public String id;
 
-    //public Arraylist<pictures> photos;
+  // public Arraylist<pictures> photos;
 
-    public Date datePosted;
+  public Date datePosted;
 
-    public Account owner;
+  public Account owner;
 
-    public String location;
+  public String location;
 
-    public ArrayList<String> tags;
+  public ArrayList<String> tags;
 
-    public boolean give;
+  public boolean give;
 
-    /* ----------- Methods ------------- */
+  /* ----------- Methods ------------- */
 
-    public Post(String title, String description, String id, Account owner, String location, ArrayList<String> tags, boolean give){
-        this.title = title;
-        this.description = description;
-        this.id = id;
-        this.owner = null;
-        this.location = location;
-        this.tags = tags;
-        this.give = give;
+  public Post(
+      String title,
+      String description,
+      String id,
+      Account owner,
+      String location,
+      ArrayList<String> tags,
+      boolean give) {
+    this.title = title;
+    this.description = description;
+    this.id = id;
+    this.owner = null;
+    this.location = location;
+    this.tags = tags;
+    this.give = give;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof Post)) {
+      return false;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(!(obj instanceof Post)){
-            return false;
-        }
-        return ((Post) obj).id.equals(this.id);
-    }
+    return (((Post) obj).id.equals(this.id)) && (((Post) obj).title.equals(this.title));
+  }
 }

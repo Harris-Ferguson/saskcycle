@@ -8,75 +8,71 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-
 
 @Service
-public class PostsDAO implements PostsDAOInterface{
+public class PostsDAO implements PostsDAOInterface {
 
-    /* --------- Attributes --------- */
+  /* --------- Attributes --------- */
 
-    @Autowired
-    private PostsRepo PR;
+  @Autowired private final PostsRepo PR;
 
-    /* ---------   Methods  ---------- */
-    public PostsDAO(PostsRepo PR){this.PR = PR;}
+  /* ---------   Methods  ---------- */
+  public PostsDAO(PostsRepo PR) {
+    this.PR = PR;
+  }
 
+  @Override
+  public List<Post> AllPosts() {
+    return PR.findAll();
+  }
 
-    @Override
-    public List<Post> AllPosts() {
-        return PR.findAll();
-    }
+  @Override
+  public Post searchByID(String id) {
+    return null;
+  }
 
-    @Override
-    public Post searchByID(String id) {
-        return null;
-    }
+  @Override
+  public ArrayList<Post> searchByKeyword(String keyword) {
+    return null;
+  }
 
-    @Override
-    public ArrayList<Post> searchByKeyword(String keyword) {
-        return null;
-    }
+  @Override
+  public ArrayList<Post> searchByKeywordFiltered(String keyword, String tag) {
+    return null;
+  }
 
-    @Override
-    public ArrayList<Post> searchByKeywordFiltered(String keyword, String tag) {
-        return null;
-    }
+  @Override
+  public ArrayList<Post> searchByLocation(String location) {
+    return null;
+  }
 
-    @Override
-    public ArrayList<Post> searchByLocation(String location) {
-        return null;
-    }
+  @Override
+  public ArrayList<Post> searchByLocationFiltered(String location) {
+    return null;
+  }
 
-    @Override
-    public ArrayList<Post> searchByLocationFiltered(String location) {
-        return null;
-    }
+  @Override
+  public ArrayList<Post> searchByRecentFiltered(Date date, String Tag) {
+    return null;
+  }
 
-    @Override
-    public ArrayList<Post> searchByRecentFiltered(Date date, String Tag) {
-        return null;
-    }
+  @Override
+  public ArrayList<Post> searchByRecent(Date date) {
+    return null;
+  }
 
-    @Override
-    public ArrayList<Post> searchByRecent(Date date) {
-        return null;
-    }
+  @Override
+  public Post addPost(Post post) {
+    return PR.insert(post);
+  }
 
-    @Override
-    public Post addPost(Post post) {
-        return PR.insert(post);
-    }
+  @Override
+  public void deletePost(Post post) {
+    PR.delete(post);
+  }
 
-    @Override
-    public void deletePost(Post post) {
-        PR.delete(post);
-    }
+  public ArrayList<Post> getFilteredPosts() {
 
-    public ArrayList<Post> getFilteredPosts() {
-
-        return null;
-    }
+    return null;
+  }
 }
-
-

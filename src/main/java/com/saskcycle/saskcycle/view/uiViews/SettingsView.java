@@ -17,25 +17,29 @@ import java.util.Collections;
 @Secured("ROLE_USER")
 public class SettingsView extends VerticalLayout {
 
-    public SettingsView() {
+  public SettingsView() {
 
-        CheckboxGroup<String> postCheckbox = new CheckboxGroup<>();
-        postCheckbox.setLabel("For posts:");
-        postCheckbox.setItems("Email me", "Text me");
-        postCheckbox.setValue(Collections.singleton("Email me"));
-        postCheckbox.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
+    CheckboxGroup<String> postCheckbox = new CheckboxGroup<>();
+    postCheckbox.setLabel("For posts:");
+    postCheckbox.setItems("Email me", "Text me");
+    postCheckbox.setValue(Collections.singleton("Email me"));
+    postCheckbox.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
-        CheckboxGroup<String> eventCheckbox = new CheckboxGroup<>();
-        eventCheckbox.setLabel("For events:");
-        eventCheckbox.setItems("Email me", "Text me");
-        eventCheckbox.setValue(Collections.singleton("Email me"));
-        eventCheckbox.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
+    CheckboxGroup<String> eventCheckbox = new CheckboxGroup<>();
+    eventCheckbox.setLabel("For events:");
+    eventCheckbox.setItems("Email me", "Text me");
+    eventCheckbox.setValue(Collections.singleton("Email me"));
+    eventCheckbox.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
-        ComboBox<String> timeSelector = new ComboBox<>();
-        timeSelector.setLabel("Notify me about events");
-        timeSelector.setItems("7 days in advance", "2 days in advance", "24 hours in advance", "12 hours in advance",
-                "1 hour in advance");
+    ComboBox<String> timeSelector = new ComboBox<>();
+    timeSelector.setLabel("Notify me about events");
+    timeSelector.setItems(
+        "7 days in advance",
+        "2 days in advance",
+        "24 hours in advance",
+        "12 hours in advance",
+        "1 hour in advance");
 
-        add(new H1("Settings"), postCheckbox, eventCheckbox, timeSelector);
-    }
+    add(new H1("Settings"), postCheckbox, eventCheckbox, timeSelector);
+  }
 }

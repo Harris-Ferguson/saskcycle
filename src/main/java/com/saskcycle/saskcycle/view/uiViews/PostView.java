@@ -10,9 +10,9 @@ import com.vaadin.flow.router.Route;
 @PageTitle("SaskCycle | Posts")
 public class PostView extends VerticalLayout {
 
-    public PostView() {
+  public PostView() {
 
-        //addClassName("filter-view");
-        add(new H1("Post View"));
-    }
+    // addClassName("filter-view");
+    add(new H1("Post View"));
+  }
 }

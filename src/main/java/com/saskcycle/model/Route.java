@@ -2,14 +2,14 @@ package com.saskcycle.model;
 
 public class Route {
 
-    /* --------- Attributes ------------ */
+  /* --------- Attributes ------------ */
 
-    // public node startNode;
+  // public node startNode;
 
-    // public node endNode;
+  // public node endNode;
 
-    public double estimatedTime;
+  public double estimatedTime;
 
-    /* ----------- Methods ------------- */
+  /* ----------- Methods ------------- */
 
 }

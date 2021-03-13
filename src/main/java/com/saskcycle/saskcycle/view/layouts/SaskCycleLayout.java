@@ -10,19 +10,17 @@ import com.vaadin.flow.router.RouterLink;
 
 public abstract class SaskCycleLayout extends AppLayout {
 
-    public SaskCycleLayout() {
-        createDrawer();
-    }
+  public SaskCycleLayout() {
+    createDrawer();
+  }
 
-    /**
-     * Constructs the drawer feature, denoted by the hamburger menu
-     */
-    private void createDrawer() {
-        RouterLink accountLink = new RouterLink("Main", MainView.class);
-        RouterLink postLink = new RouterLink("Posts", PostView.class);
-        RouterLink settingsLink = new RouterLink("Settings", SettingsView.class);
-        accountLink.setHighlightCondition(HighlightConditions.sameLocation());
+  /** Constructs the drawer feature, denoted by the hamburger menu */
+  private void createDrawer() {
+    RouterLink accountLink = new RouterLink("Main", MainView.class);
+    RouterLink postLink = new RouterLink("Posts", PostView.class);
+    RouterLink settingsLink = new RouterLink("Settings", SettingsView.class);
+    accountLink.setHighlightCondition(HighlightConditions.sameLocation());
 
-        addToDrawer(new VerticalLayout(accountLink, postLink, settingsLink));
-    }
+    addToDrawer(new VerticalLayout(accountLink, postLink, settingsLink));
+  }
 }

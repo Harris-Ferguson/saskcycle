@@ -1,4 +1,4 @@
-package com.saskcycle.saskcycle.view;
+package com.saskcycle.saskcycle.view.layouts;
 
 import com.saskcycle.saskcycle.view.components.SaskCycleHeader;
 

@@ -1,17 +1,15 @@
-package com.saskcycle.saskcycle.view;
+package com.saskcycle.saskcycle.view.uiViews;
 
+import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.security.access.annotation.Secured;
 
-import java.time.Duration;
 import java.util.Collections;
 
 @Route(value = "settings", layout = MainLayout.class)

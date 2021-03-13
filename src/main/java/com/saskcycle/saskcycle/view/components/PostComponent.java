@@ -14,10 +14,18 @@ import java.util.List;
 
 public class PostComponent extends Div {
 
+    /**
+     * Constructs the visual set up of the post data
+     * @param post
+     */
     public PostComponent(Post post){
         setPost(post);
     }
 
+    /**
+     * Formats the post's components into a readable and uniform display
+     * @param post the post to be formatted
+     */
     private void setPost(Post post) {
 
             H3 title = new H3(post.title);
@@ -32,6 +40,11 @@ public class PostComponent extends Div {
 
     }
 
+    /**
+     * Formats the post's tags into a visual representation
+     * @param post the post whose tags are to be formatted
+     * @return a horizontal layout of the tags which are displayed in boxes
+     */
     private HorizontalLayout formatTags(Post post){
 
         HorizontalLayout tagGroup = new HorizontalLayout();

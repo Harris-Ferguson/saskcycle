@@ -1,6 +1,7 @@
-package com.saskcycle.saskcycle.view;
+package com.saskcycle.saskcycle.view.layouts;
 
 import com.saskcycle.saskcycle.view.components.SaskCycleHeader;
+import com.saskcycle.saskcycle.view.layouts.SaskCycleLayout;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.router.PageTitle;
 
@@ -11,6 +12,9 @@ public class MainLayout extends SaskCycleLayout {
 
     SaskCycleHeader saskCycleHeader;
 
+    /**
+     * Sets up the layout of the main page
+     */
     public MainLayout() {
 
         super();
@@ -27,16 +31,5 @@ public class MainLayout extends SaskCycleLayout {
         addToNavbar(new SaskCycleHeader());
     }
 
-//    /**
-//     * Constructs the drawer feature, denoted by the hamburger menu
-//     */
-//    private void createDrawer() {
-//        RouterLink accountLink = new RouterLink("Main", MainView.class);
-//        RouterLink postLink = new RouterLink("Posts", PostView.class);
-//        RouterLink settingsLink = new RouterLink("Settings", SettingsView.class);
-//        accountLink.setHighlightCondition(HighlightConditions.sameLocation());
-//
-//        addToDrawer(new VerticalLayout(accountLink, postLink, settingsLink));
-//    }
 }
 

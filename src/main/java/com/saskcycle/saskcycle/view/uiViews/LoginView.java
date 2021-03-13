@@ -1,4 +1,4 @@
-package com.saskcycle.saskcycle.view;
+package com.saskcycle.saskcycle.view.uiViews;
 
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;

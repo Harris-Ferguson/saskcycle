@@ -129,6 +129,13 @@ public class SearchController {
     }
 
 
+    /**
+     * Removes all posts that are associated with specified tag(s)
+     * @param tag the tag(s) to be excluded
+     * @param posts the posts being filtered
+     * @postcond modifies the contents of posts
+     * @return list of posts not associated with the specified tag(s)
+     */
     public List<Post> ExcludeListingsByTag(String tag, List<Post> posts) {
         List<Post> postsWithoutTag = new ArrayList<>();
         //List<Post> allPosts = getAllPosts();
@@ -138,6 +145,12 @@ public class SearchController {
         return postsWithoutTag;
     }
 
+    /**
+     * Filters posts based on what action is associated with each post
+     * @param value give/get
+     * @param posts the posts being filtered
+     * @return list of posts that are associated with the specific action (give/get)
+     */
     public List<Post> getSpecifiedPosts(String value, List<Post> posts) {
 
         List<Post> specPosts = new ArrayList<>();
@@ -153,6 +166,12 @@ public class SearchController {
         return specPosts;
     }
 
+    /**
+     * Either sorts posts alphabetically or from closest to farthest away
+     * @param value the filter value
+     * @postcond modifies the order of posts
+     * @param posts the posts being filtered
+     */
     public void getSortedPosts(String value, List<Post> posts) {
 
         if (value.equals("Alphabetically (A-Z)")) {

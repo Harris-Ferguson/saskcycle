@@ -5,8 +5,7 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.NotFoundException;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
-import com.saskcycle.saskcycle.view.LoginView;
-import org.apache.juli.logging.Log;
+import com.saskcycle.saskcycle.view.uiViews.LoginView;
 import org.springframework.stereotype.Component;
 
 /**

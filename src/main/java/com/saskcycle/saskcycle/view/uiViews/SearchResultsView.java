@@ -1,8 +1,9 @@
-package com.saskcycle.saskcycle.view;
+package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.view.components.PostComponent;
+import com.saskcycle.saskcycle.view.layouts.SearchResultsLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
@@ -42,6 +43,9 @@ public class SearchResultsView  extends VerticalLayout {
     private CheckboxGroup<String> includeGroup;
     private CheckboxGroup<String> excludeGroup;
 
+    /**
+     * Constructs the view that displays the listings
+     */
     @PostConstruct
     public void init(){
 
@@ -64,6 +68,10 @@ public class SearchResultsView  extends VerticalLayout {
         add(heading, resultsGroup);
     }
 
+    /**
+     * Constructs the panel which contains all visual options for filtering posts
+     * @return vertical panel containing checkboxes and combo boxes
+     */
     private VerticalLayout FilterComponent() {
         VerticalLayout filterGroup = new VerticalLayout();
 
@@ -148,23 +156,37 @@ public class SearchResultsView  extends VerticalLayout {
         return filterGroup;
     }
 
+
+    /**
+     * Gets the either the give or get posts depending what's chosen by the user
+     * @param value "get" or "give"
+     * @postcond modifies the grid displaying the posts as well as the posts list
+     */
     private void sortByFunction(String value) {
-        //posts.clear();
+
         posts = SC.getSpecifiedPosts(value, posts);
 
         grid.setItems(posts);
     }
 
+    /**
+     * Sorts posts by the given specification
+     * @param value the characteristic by which the code is sorted
+     * @postcond modifies the grid displaying the posts as well as the posts list
+     */
     private void sortPosts(String value) {
 
-        //posts.clear();
         SC.getSortedPosts(value, posts);
 
         grid.setItems(posts);
     }
 
+    /**
+     * Hides the posts that are tagged with the specified tag(s)
+     * @param value tag values(s) associated with posts
+     * @postcond modifies the grid displaying the posts as well as the posts list
+     */
     private void excludePosts(Set<String> value) {
-        //posts.clear();
 
         for (String t : value) {
             posts = SC.ExcludeListingsByTag(t, posts);
@@ -173,16 +195,23 @@ public class SearchResultsView  extends VerticalLayout {
 
     }
 
+    /**
+     * Gets all posts in the database; removes any filtering/excluding/sorting
+     * @postcond modifies the grid displaying the posts as well as the posts list
+     */
     private void resetPosts() {
         posts.clear();
         posts = SC.getAllPosts();
         grid.setItems(posts);
     }
 
-
+    /**
+     * Shows all and only the posts that are associated with specified tag(s)
+     * @param value tag values(s) associated with posts
+     * @postcond modifies the grid displaying the posts as well as the posts list
+     */
     private void filterPosts(Set<String> value) {
 
-        //posts.clear();
         for (String t : value) {
             posts = SC.getAllListingsByTag(t, posts);
         }

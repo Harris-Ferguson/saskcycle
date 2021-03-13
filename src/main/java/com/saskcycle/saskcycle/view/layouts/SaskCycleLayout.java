@@ -1,5 +1,8 @@
-package com.saskcycle.saskcycle.view;
+package com.saskcycle.saskcycle.view.layouts;
 
+import com.saskcycle.saskcycle.view.uiViews.MainView;
+import com.saskcycle.saskcycle.view.uiViews.PostView;
+import com.saskcycle.saskcycle.view.uiViews.SettingsView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HighlightConditions;

@@ -35,6 +35,13 @@ public class SearchResultsView  extends VerticalLayout {
 
     private List<Post> posts;
 
+    private Select<String> sortSelect;
+    private Select<String> useSelect;
+    private Select<String> postChoice;
+
+    private CheckboxGroup<String> includeGroup;
+    private CheckboxGroup<String> excludeGroup;
+
     @PostConstruct
     public void init(){
 
@@ -62,25 +69,27 @@ public class SearchResultsView  extends VerticalLayout {
 
         filterGroup.setWidth("200px");
 
-        Select<String> useSelect = new Select<>();
-        useSelect.setItems("Get", "Give");
+        useSelect = new Select<>();
+        useSelect.setItems("Select", "Get", "Give");
         useSelect.setLabel("What do you want to do?");
+        useSelect.setValue("Select");
 
         useSelect.addValueChangeListener(event -> {
             sortByFunction(event.getValue());
 
         });
 
-        Select<String> sortSelect = new Select<>();
-        sortSelect.setItems("Alphabetically (A-Z)", "Closest to me");
+        sortSelect = new Select<>();
+        sortSelect.setItems("Select", "Alphabetically (A-Z)", "Closest to me");
         sortSelect.setLabel("Sort by");
+        sortSelect.setValue("Select");
 
         sortSelect.addValueChangeListener(event -> {
             sortPosts(event.getValue());
         });
 
 
-        CheckboxGroup<String> includeGroup = new CheckboxGroup<>();
+        includeGroup = new CheckboxGroup<>();
         includeGroup.setLabel("Show results for");
         includeGroup.setItems("Appliances", "Clothing", "Electronics", "Furniture");
         includeGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
@@ -99,7 +108,7 @@ public class SearchResultsView  extends VerticalLayout {
             }
         });
 
-        CheckboxGroup<String> excludeGroup = new CheckboxGroup<>();
+        excludeGroup = new CheckboxGroup<>();
         excludeGroup.setLabel("Hide results for");
         excludeGroup.setItems("Appliances", "Clothing", "Electronics", "Furniture");
         excludeGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
@@ -117,13 +126,21 @@ public class SearchResultsView  extends VerticalLayout {
             }
         });
 
-        Select<String> postChoice = new Select<>();
+        postChoice = new Select<>();
         postChoice.setLabel("Hide posts from");
-        postChoice.setItems("Users", "Organizations");
+        postChoice.setItems("Select", "Users", "Organizations");
+        postChoice.setValue("Select");
+
 
         Button resetButton = new Button("Reset filters");
         resetButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         resetButton.addClickListener(event -> {
+            includeGroup.clear();
+            excludeGroup.clear();
+            sortSelect.setValue("Select");
+            useSelect.setValue("Select");
+            postChoice.setValue("Select");
+
             resetPosts();
         });
 

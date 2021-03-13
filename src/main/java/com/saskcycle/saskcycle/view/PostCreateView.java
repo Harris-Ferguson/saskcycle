@@ -1,17 +1,12 @@
 package com.saskcycle.saskcycle.view;
 
-import com.saskcycle.DAO.AccountDAO;
 import com.saskcycle.DAO.CurrentUserSettingsDAOInterface;
 import com.saskcycle.DAO.PostsDAO;
 import com.saskcycle.DAO.PostsDAOInterface;
-import com.saskcycle.model.Account;
 import com.saskcycle.model.Post;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.charts.model.Global;
 import com.vaadin.flow.component.checkbox.Checkbox;
-import com.vaadin.flow.component.customfield.CustomField;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Label;
@@ -25,21 +20,14 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.binder.BinderValidationStatus;
-import com.vaadin.flow.data.binder.BindingValidationStatus;
-import com.vaadin.flow.data.validator.StringLengthValidator;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 @Route(value = "Create-Posts", layout = PostCreateLayout.class)
@@ -56,7 +44,13 @@ public class PostCreateView extends VerticalLayout {
     @Autowired
     private PostsDAO pr;
 
+
+
     public PostCreateView(){
+        AtomicBoolean give = new AtomicBoolean(true);
+
+        AtomicBoolean isPostPublic = new AtomicBoolean(true);
+
         Binder<Post> binder = new Binder<>();
 
         Label infoLabel = new Label();
@@ -68,7 +62,16 @@ public class PostCreateView extends VerticalLayout {
         //Post type select (give away, need)
         Select<String> postType = new Select<>();
         postType.setItems("giving away","looking for");
+        postType.setPlaceholder("giving away");
         postType.setLabel("Why are you posting?");
+        postType.addValueChangeListener(e -> {
+            if(e.getValue().trim() == "giving away"){
+                give.set(true);
+            }
+            else {
+                give.set(false);
+            }
+        });
 
         //Title Field
         TextField title = new TextField();
@@ -109,8 +112,30 @@ public class PostCreateView extends VerticalLayout {
         Select<String> privacy = new Select<>();
         privacy.setItems("Public","Accounts");
         privacy.setLabel("Post Privacy");
+        privacy.setPlaceholder("Public");
         privacy.setMaxWidth("150px");
-        VerticalLayout contactBox = new VerticalLayout(email(),phone());
+        privacy.addValueChangeListener(e -> {
+            if(e.getValue() == "Public"){
+                isPostPublic.set(true);
+            }
+            else {
+                isPostPublic.set(false);
+            }
+        });
+
+        Checkbox email = new Checkbox();
+        Div value = new Div();
+        value.setText("Email: ");
+        email.addValueChangeListener(event ->{
+            if( event.getValue()){
+                value.setText("Email: "+ currentAccount.getEmail());
+            }
+            else {
+                value.setText("Email: ");
+            }
+        });
+
+        VerticalLayout contactBox = new VerticalLayout(new HorizontalLayout(email,value),phone());
         HorizontalLayout contactPanel = new HorizontalLayout(privacy,contactBox);
         contactPanel.setAlignItems(Alignment.CENTER);
 
@@ -134,13 +159,13 @@ public class PostCreateView extends VerticalLayout {
         HorizontalLayout InfoPanel = new HorizontalLayout(LeftInfoPanel,RightInfoPanel);
 
         //Header of post creation
-        HorizontalLayout Header = new HorizontalLayout(new H1("Create Post"),postType);
+        HorizontalLayout Header = new HorizontalLayout(returnButton,new H1("Create Post"),postType);
         Header.setAlignItems(Alignment.CENTER);
 
         Button createPostButton = new Button("Create Post!",new Icon(VaadinIcon.THUMBS_UP));
         createPostButton.addClickListener(e -> {
             //if(binder.isValid()){
-                publishPost(title.getValue(),description.getValue(),location.getValue(), tagList);
+                publishPost(give.get(),title.getValue(),description.getValue(),location.getValue(), tagList,isPostPublic.get(), email.getValue());
             //}
             /*else {
                 BinderValidationStatus<Post> validate = binder.validate();
@@ -158,7 +183,7 @@ public class PostCreateView extends VerticalLayout {
     }
 
 
-    private void publishPost(String title, String description, String location, ArrayList<String> tags){
+    private void publishPost(boolean givePost,String title, String description, String location, ArrayList<String> tags,  boolean isPostPublic, boolean includeEmail){
 
         if(title.trim().isEmpty()){
             Notification.show("Enter a Title");
@@ -169,8 +194,17 @@ public class PostCreateView extends VerticalLayout {
         else if(location.trim().isEmpty()){
             Notification.show("Enter a Location");
         }
+        else if(tags.isEmpty()){
+            Notification.show("Please add some tags");
+        }
         else{
             Post newPost = new Post(title,description,String.valueOf(pr.AllPosts().size() + 1),currentAccount.getCurrentAccount(),location,tags);
+            newPost.datePosted = new Date();
+            newPost.give = givePost;
+            newPost.privacy = isPostPublic;
+            if(includeEmail){
+                newPost.contactEmail = currentAccount.getEmail();
+            }
             postRepo.addPost(newPost);
 
 

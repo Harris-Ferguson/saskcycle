@@ -10,6 +10,7 @@ import java.util.Date;
 public class Post {
 
     /* --------- Attributes ------------ */
+    public boolean give;
 
     public String title;
 
@@ -27,6 +28,10 @@ public class Post {
     public String location;
 
     public ArrayList<String> tags;
+
+    public boolean privacy;
+
+    public String contactEmail;
 
     /* ----------- Methods ------------- */
     public Post(String title, String description, String id, Account owner, String location, ArrayList<String> tags){

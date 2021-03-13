@@ -116,9 +116,12 @@ public class SearchResultsView  extends VerticalLayout {
         includeGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
         includeGroup.addValueChangeListener(event -> {
+            //includeGroup.setLabel(event.getValue().toString());
             if (event.getValue() == null || event.getValue().isEmpty()) {
                 heading.setText("All listings");
-                posts = filterService.resetPosts();
+                posts = filterService.checkOtherFilters(includeGroup.getValue(), excludeGroup.getValue(), useSelect.getValue(),
+                        sortSelect.getValue());
+                //heading.setText(String.valueOf(posts.size()));
                 grid.setItems(posts);
 
             }
@@ -141,7 +144,8 @@ public class SearchResultsView  extends VerticalLayout {
         excludeGroup.addValueChangeListener(event -> {
             if (event.getValue() == null || event.getValue().isEmpty()) {
                 heading.setText("All listings");
-                posts = filterService.resetPosts();
+                posts = filterService.checkOtherFilters(includeGroup.getValue(), excludeGroup.getValue(), useSelect.getValue(),
+                        sortSelect.getValue());
                 grid.setItems(posts);
 
             }

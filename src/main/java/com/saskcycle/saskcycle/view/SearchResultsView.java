@@ -1,18 +1,30 @@
 package com.saskcycle.saskcycle.view;
 
+import com.saskcycle.controller.SearchController;
+import com.saskcycle.model.Post;
+import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 
 @Route(value = "results", layout = SearchResultsLayout.class)
 @PageTitle("SaskCycle | Results")
 public class SearchResultsView  extends VerticalLayout {
+
+    @Autowired
+    SearchController searchController;
+
 
     public SearchResultsView() {
 
@@ -45,8 +57,6 @@ public class SearchResultsView  extends VerticalLayout {
         filterGroup.add(useSelect, sortSelect, postChoice, includeGroup, excludeGroup);
 
         HorizontalLayout resultsGroup = new HorizontalLayout();
-        resultsGroup.add(filterGroup);
-
 
 
         add(new H1("All listings"), resultsGroup);

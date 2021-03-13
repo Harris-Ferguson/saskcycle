@@ -13,7 +13,7 @@ public interface BusinessDAOInterface {
 
     Business searchByID(String id);
 
-    ArrayList<Business> searchByKeyword(String keyword);
+    List<Business> getAllBusinessesByKeyword(String keyword);
 
     ArrayList<Business> searchByKeywordFiltered(String keyword, String tag);
 
@@ -29,4 +29,6 @@ public interface BusinessDAOInterface {
 
     void deleteBusiness(Business business);
 
+    List<Business> getAllBusinessesByTags(String tag);
+    Business findBusinessByTitle(String title);
 }

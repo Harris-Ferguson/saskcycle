@@ -51,7 +51,7 @@ public class RegisterView extends Composite {
    * @param password2 confirm password field of the new account
    */
   private void register(String username, String email, String password1, String password2) {
-    if (credentialsAreValid(username, password1, password2)) {
+    if (credentialsAreValid(username, email, password1, password2)) {
       try {
         userDao.register(username, email, password1);
         Notification.show("Registered!");
@@ -71,9 +71,13 @@ public class RegisterView extends Composite {
    * @param password2 confirm password field
    * @return true / false if the credentials are valid
    */
-  private boolean credentialsAreValid(String username, String password1, String password2) {
+  private boolean credentialsAreValid(
+      String username, String email, String password1, String password2) {
     if (username.trim().isEmpty()) {
       Notification.show("Enter a username");
+      return false;
+    } else if (email.trim().isEmpty()) {
+      Notification.show("Enter an email");
       return false;
     } else if (password1.trim().isEmpty()) {
       Notification.show("Enter a password");

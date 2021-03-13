@@ -16,10 +16,14 @@ public class Post {
 
     public String description;
 
+
     @Id
     public String id;
 
-    //public Arraylist<pictures> photos;
+    public int IDnum;
+
+
+    // public Arraylist<pictures> photos;
 
     public Date datePosted;
 
@@ -42,7 +46,6 @@ public class Post {
         this.location = location;
         this.tags = tags;
     }
-
 
 
 

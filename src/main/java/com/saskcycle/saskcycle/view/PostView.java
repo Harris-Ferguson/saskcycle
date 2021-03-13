@@ -17,7 +17,7 @@ import com.vaadin.flow.router.Route;
 @PageTitle("SaskCycle | Post")
 public class PostView extends VerticalLayout {
 
-    public PostView() {
+  public PostView() {
 
         //addClassName("filter-view");
         Button createButton = new Button("Create Post",new Icon(VaadinIcon.PLUS));

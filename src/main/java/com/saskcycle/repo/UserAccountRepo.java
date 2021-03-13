@@ -12,5 +12,7 @@ import java.util.Optional;
 @Repository
 public interface UserAccountRepo extends MongoRepository<Account, String> {
     Account findByUsername(String username);
+    boolean existsByEmail(String email);
+    boolean existsByUsername(String username);
 }
 

@@ -19,6 +19,7 @@ public class PostsDAO implements PostsDAOInterface{
     private PostsRepo PR;
 
     /* ---------   Methods  ---------- */
+    @Autowired
     public PostsDAO(PostsRepo PR){this.PR = PR;}
 
 

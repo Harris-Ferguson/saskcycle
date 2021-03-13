@@ -29,7 +29,6 @@ public class Post {
     public ArrayList<String> tags;
 
     /* ----------- Methods ------------- */
-
     public Post(String title, String description, String id, Account owner, String location, ArrayList<String> tags){
         this.title = title;
         this.description = description;
@@ -38,6 +37,8 @@ public class Post {
         this.location = location;
         this.tags = tags;
     }
+
+
 
 
 }

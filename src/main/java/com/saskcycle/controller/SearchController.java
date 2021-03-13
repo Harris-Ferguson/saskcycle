@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class SearchController {
@@ -172,6 +173,45 @@ public class SearchController {
      * @param posts the posts being filtered
      */
     public void getSortedPosts(String value, List<Post> posts) {
+    /***
+     * Gets all Business posts that contain a certain tag
+     * @param tag: a tag of a search item type
+     * @return a list of every post in the database containing that tag
+     */
+    public  List<Business> getAllBusinessesByTag(String tag) {
+
+        return Baccess.getAllBusinessesByTags(tag);
+    }
+
+    /***
+     * Gets all Business posts containing a keyword in the description or title
+     * @param keyword: A string the user wishes to search by
+     * @return a list of posts containing the keyphrase specified by the searcher
+     */
+    public List<Business> getAllBusinessesByKeyword(String keyword){
+
+        return Baccess.getAllBusinessesByKeyword(keyword);
+    }
+
+    /**
+     * Find a single business object by its title
+     * This method will be primarily used for testing purposes
+     * @param title a possible string title of a business object found in the DB
+     * @return the business object with the given title if it exists, null otherwise(?)
+     */
+    public Business findBusinessByTitle(String title)
+    {
+        return Baccess.findBusinessByTitle(title);
+    }
+
+    /**
+     * Method to get all business posts from the database
+     * @return List of type business that cotains all buisness objects currently in DB
+     */
+    public List<Business> getAllBusinesses()
+    {
+        return Baccess.getAllBusinesses();
+    }
 
         if (value.equals("Alphabetically (A-Z)")) {
                 posts.sort(Comparator.comparing(a -> a.title));

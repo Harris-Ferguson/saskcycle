@@ -1,7 +1,7 @@
 package com.saskcycle.saskcycle.view.uiViews;
 
-import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
+import com.saskcycle.services.FilterService;
 import com.saskcycle.saskcycle.view.components.PostComponent;
 import com.saskcycle.saskcycle.view.layouts.SearchResultsLayout;
 import com.vaadin.flow.component.button.Button;
@@ -26,13 +26,11 @@ import java.util.*;
 public class SearchResultsView  extends VerticalLayout {
 
     @Autowired
-    private SearchController SC;
+    FilterService filterService;
 
-    Grid<Post> grid;
+    private Grid<Post> grid;
 
     private H1 heading;
-
-    String[] tagArr = new String[]{"Appliances", "Clothing", "Electronics", "Furniture"};
 
     private List<Post> posts;
 
@@ -47,18 +45,15 @@ public class SearchResultsView  extends VerticalLayout {
      * Constructs the view that displays the listings
      */
     @PostConstruct
-    public void init(){
+    public void SearchResultsView() {
 
         heading = new H1("All listings");
 
-        posts = SC.getAllPosts();
+        posts = filterService.getPosts();
 
         VerticalLayout filterGroup = FilterComponent();
 
-        grid = new Grid<>();
-        grid.setItems(posts);
-        grid.setHeight("1000px");
-        grid.addComponentColumn(PostComponent::new);
+        grid = initGrid();
 
         HorizontalLayout resultsGroup = new HorizontalLayout();
         resultsGroup.setAlignItems(Alignment.START);
@@ -69,8 +64,23 @@ public class SearchResultsView  extends VerticalLayout {
     }
 
     /**
+     * Initializes the setup of grid and populates with posts
+     * @return grid component
+     */
+    private Grid<Post> initGrid() {
+        Grid<Post> newGrid = new Grid<>();
+        newGrid.setItems(posts);
+        newGrid.setHeight("1000px");
+        newGrid.addComponentColumn(PostComponent::new);
+
+        return newGrid;
+
+    }
+
+    /**
      * Constructs the panel which contains all visual options for filtering posts
      * @return vertical panel containing checkboxes and combo boxes
+
      */
     private VerticalLayout FilterComponent() {
         VerticalLayout filterGroup = new VerticalLayout();
@@ -83,7 +93,8 @@ public class SearchResultsView  extends VerticalLayout {
         useSelect.setValue("Select");
 
         useSelect.addValueChangeListener(event -> {
-            sortByFunction(event.getValue());
+            posts = filterService.sortByFunction(event.getValue());
+            grid.setItems(posts);
 
         });
 
@@ -93,7 +104,9 @@ public class SearchResultsView  extends VerticalLayout {
         sortSelect.setValue("Select");
 
         sortSelect.addValueChangeListener(event -> {
-            sortPosts(event.getValue());
+            posts = filterService.sortPosts(event.getValue());
+            grid.setItems(posts);
+
         });
 
 
@@ -105,14 +118,18 @@ public class SearchResultsView  extends VerticalLayout {
         includeGroup.addValueChangeListener(event -> {
             if (event.getValue() == null || event.getValue().isEmpty()) {
                 heading.setText("All listings");
-                resetPosts();
+                posts = filterService.resetPosts();
+                grid.setItems(posts);
+
             }
             else {
                 StringBuilder strTags = new StringBuilder();
                 for (String s : event.getValue()) { strTags.append(s).append(", ");}
 
                 heading.setText("Show listings for " + strTags.substring(0, strTags.length()-2));
-                filterPosts(event.getValue());
+                posts = filterService.filterPosts(event.getValue());
+                grid.setItems(posts);
+
             }
         });
 
@@ -124,13 +141,17 @@ public class SearchResultsView  extends VerticalLayout {
         excludeGroup.addValueChangeListener(event -> {
             if (event.getValue() == null || event.getValue().isEmpty()) {
                 heading.setText("All listings");
-                resetPosts();
+                posts = filterService.resetPosts();
+                grid.setItems(posts);
+
             }
             else {
                 StringBuilder strTags = new StringBuilder();
                 for (String s : event.getValue()) { strTags.append(s).append(", ");}
                 heading.setText("Hide listings for " + strTags.substring(0, strTags.length()-2));
-                excludePosts(event.getValue());
+                posts = filterService.excludePosts(event.getValue());
+                grid.setItems(posts);
+
             }
         });
 
@@ -149,73 +170,12 @@ public class SearchResultsView  extends VerticalLayout {
             useSelect.setValue("Select");
             postChoice.setValue("Select");
 
-            resetPosts();
+            posts = filterService.resetPosts();
+            grid.setItems(posts);
+
         });
 
         filterGroup.add(useSelect, sortSelect, postChoice, includeGroup, excludeGroup, resetButton);
         return filterGroup;
     }
-
-
-    /**
-     * Gets the either the give or get posts depending what's chosen by the user
-     * @param value "get" or "give"
-     * @postcond modifies the grid displaying the posts as well as the posts list
-     */
-    private void sortByFunction(String value) {
-
-        posts = SC.getSpecifiedPosts(value, posts);
-
-        grid.setItems(posts);
-    }
-
-    /**
-     * Sorts posts by the given specification
-     * @param value the characteristic by which the code is sorted
-     * @postcond modifies the grid displaying the posts as well as the posts list
-     */
-    private void sortPosts(String value) {
-
-        SC.getSortedPosts(value, posts);
-
-        grid.setItems(posts);
-    }
-
-    /**
-     * Hides the posts that are tagged with the specified tag(s)
-     * @param value tag values(s) associated with posts
-     * @postcond modifies the grid displaying the posts as well as the posts list
-     */
-    private void excludePosts(Set<String> value) {
-
-        for (String t : value) {
-            posts = SC.ExcludeListingsByTag(t, posts);
-        }
-        grid.setItems(posts);
-
-    }
-
-    /**
-     * Gets all posts in the database; removes any filtering/excluding/sorting
-     * @postcond modifies the grid displaying the posts as well as the posts list
-     */
-    private void resetPosts() {
-        posts.clear();
-        posts = SC.getAllPosts();
-        grid.setItems(posts);
-    }
-
-    /**
-     * Shows all and only the posts that are associated with specified tag(s)
-     * @param value tag values(s) associated with posts
-     * @postcond modifies the grid displaying the posts as well as the posts list
-     */
-    private void filterPosts(Set<String> value) {
-
-        for (String t : value) {
-            posts = SC.getAllListingsByTag(t, posts);
-        }
-        grid.setItems(posts);
-    }
-
 }

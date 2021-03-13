@@ -42,5 +42,11 @@ public class Post {
         this.give = give;
     }
 
-
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Post)){
+            return false;
+        }
+        return ((Post) obj).id.equals(this.id);
+    }
 }

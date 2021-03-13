@@ -89,43 +89,31 @@ public class FilterService implements Serializable {
      * @return lit of posts that contain the relevant tag(s)
      */
     public List<Post> filterPosts(Set<String> value, String poster) {
+        List<Post> posts = new ArrayList<>();
         if (poster.equals("Users"))
         {
-            List<Post> newPosts = new ArrayList<>();
-
             for (String t : value) {
-                newPosts.addAll(SC.getAllPostsByTag(t));
+                posts.addAll(SC.getAllPostsByTag(t));
             }
 
-            List<Post> anotherPosts = new ArrayList<>();
-            for (Post p : newPosts) {
-                if (!anotherPosts.contains(p)) {
-                    anotherPosts.add(p);
-                }
-
-            }
-
-            return anotherPosts;
         }
         else
         {
-            List<Post> newPosts = new ArrayList<>();
-
             for (String t : value) {
-                newPosts.addAll(SC.getAllBusinessesByTag(t));
+                posts.addAll(SC.getAllBusinessesByTag(t));
             }
-
-            List<Post> anotherPosts = new ArrayList<>();
-            for (Post p : newPosts) {
-                if (!anotherPosts.contains(p)) {
-                    anotherPosts.add(p);
-                }
-
-            }
-
-            return anotherPosts;
         }
+        return removeDuplicates(posts);
+    }
 
+    private List<Post> removeDuplicates(List<Post> posts){
+        List<Post> noDuplicates = new ArrayList<>();
+        for (Post p : posts) {
+          if(!noDuplicates.contains(p)){
+              noDuplicates.add(p);
+          }
+        }
+        return noDuplicates;
     }
 
     /**

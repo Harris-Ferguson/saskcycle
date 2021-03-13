@@ -116,7 +116,7 @@ public class SearchResultsView  extends VerticalLayout {
         includeGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
         includeGroup.addValueChangeListener(event -> {
-            posts = filterService.checkOtherFilters(includeGroup.getValue(), excludeGroup.getValue(), useSelect.getValue(),
+            posts = filterService.checkOtherFilters(includeGroup.getValue(), excludeGroup.getValue(), useSelect.getValue(), useSelect.getValue(),
                     sortSelect.getValue());
             grid.setItems(posts);
 
@@ -138,7 +138,7 @@ public class SearchResultsView  extends VerticalLayout {
         excludeGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
         excludeGroup.addValueChangeListener(event -> {
-            posts = filterService.checkOtherFilters(includeGroup.getValue(), excludeGroup.getValue(), useSelect.getValue(),
+            posts = filterService.checkOtherFilters(includeGroup.getValue(), excludeGroup.getValue(), useSelect.getValue(), useSelect.getValue(),
                     sortSelect.getValue());
             grid.setItems(posts);
 
@@ -160,6 +160,15 @@ public class SearchResultsView  extends VerticalLayout {
         postChoice.setLabel("Hide posts from");
         postChoice.setItems("Select", "Users", "Organizations");
         postChoice.setValue("Select");
+
+        postChoice.addValueChangeListener(event -> {
+
+            posts = filterService.checkOtherFilters(includeGroup.getValue(), excludeGroup.getValue(), useSelect.getValue(),
+                    sortSelect.getValue(), postChoice.getValue());
+            grid.setItems(posts);
+
+
+        });
 
 
         Button resetButton = new Button("Reset filters");

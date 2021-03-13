@@ -173,6 +173,15 @@ public class SearchController {
      * @param posts the posts being filtered
      */
     public void getSortedPosts(String value, List<Post> posts) {
+
+        if (value.equals("Alphabetically (A-Z)")) {
+            posts.sort(Comparator.comparing(a -> a.title));
+        }
+        if (value.equals("Closest to me")) {
+            posts.sort(Comparator.comparing(a -> Float.parseFloat(a.location.substring(0, a.location.length()-2))));
+        }
+    }
+
     /***
      * Gets all Business posts that contain a certain tag
      * @param tag: a tag of a search item type
@@ -208,19 +217,12 @@ public class SearchController {
      * Method to get all business posts from the database
      * @return List of type business that cotains all buisness objects currently in DB
      */
-    public List<Business> getAllBusinesses()
+    public List<Post> getAllBusinesses()
     {
-        return Baccess.getAllBusinesses();
+        return new ArrayList<>(Baccess.getAllBusinesses());
     }
 
-        if (value.equals("Alphabetically (A-Z)")) {
-                posts.sort(Comparator.comparing(a -> a.title));
-        }
-        if (value.equals("Closest to me")) {
-            posts.sort(Comparator.comparing(a -> Float.parseFloat(a.location.substring(0, a.location.length()-2))));
-        }
 
-    }
 }
 
 

@@ -53,8 +53,8 @@ class SaskCycleApplicationTests {
 	@DisplayName("Search for All businesses in DB")
 	void getAllBusinesses()
 	{
-		List<Business> bL = SC.getAllBusinesses();
-		for (Business b : bL) {
+		List<Post> bL = SC.getAllBusinesses();
+		for (Post b : bL) {
 			System.out.println(b.toString());
 		}
 		Assertions.assertEquals(5,bL.size());
@@ -103,6 +103,7 @@ class SaskCycleApplicationTests {
 		Assertions.assertEquals(2,bL.size());
 
 	}
+
 
 
 

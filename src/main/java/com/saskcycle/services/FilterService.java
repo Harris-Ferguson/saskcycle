@@ -2,8 +2,6 @@ package com.saskcycle.services;
 
 import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
-import com.saskcycle.saskcycle.SaskCycleApplication;
-import org.springframework.boot.SpringApplication;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -21,7 +19,7 @@ public class FilterService implements Serializable {
     public FilterService(SearchController sc){
 
         this.SC = sc;
-        posts = SC.getAllPosts();
+        posts = SC.getAllListings();
     }
 
     /**
@@ -115,9 +113,15 @@ public class FilterService implements Serializable {
      * @param sortChoice sorting order of the posts
      * @return list of posts with appropriate filters applied
      */
-    public List<Post> checkOtherFilters(Set<String> includedTags, Set<String> excludedTags, String useChoice, String sortChoice) {
+    public List<Post> checkOtherFilters(Set<String> includedTags, Set<String> excludedTags, String poster,
+                                        String useChoice, String sortChoice) {
 
-        posts = SC.getAllPosts();
+        if (poster.equals("Users") || poster.equals("Organizations")) {
+            posts = showByPoster(poster);
+        }
+        else {
+            posts = SC.getAllPosts();
+        }
 
         if (!includedTags.isEmpty()) {
             posts = filterPosts(includedTags);
@@ -131,6 +135,19 @@ public class FilterService implements Serializable {
         if (sortChoice.equals("Alphabetically (A-Z)") || sortChoice.equals("Closest to me")) {
             posts = sortPosts(sortChoice);
         }
+        return posts;
+    }
+
+    public List<Post> showByPoster(String value) {
+
+        posts.clear();
+        if (value.equals("Users")) {
+            posts = SC.getAllPosts();
+        }
+        else if (value.equals("Organizations")){
+           posts = SC.getAllBusinesses();
+        }
+
         return posts;
     }
 }

@@ -2,7 +2,6 @@ package com.saskcycle.DAO;
 
 import com.saskcycle.model.Business;
 
-import com.saskcycle.model.Post;
 import com.saskcycle.repo.BusinessesPostsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -68,13 +68,12 @@ public class SearchController {
     /***
      * Gets all Listings that contain a certain tag
      * @param tag : a tag of a search item type
-     * @param posts
      * @return a list of every post in the database containing that tag
      */
-    public  List<Post> getAllListingsByTag(String tag, List<Post> posts) {
+    public  List<Post> getAllListingsByTag(String tag) {
         List<Post> postsByTag = new ArrayList<>();
-        //List<Post> allPosts = getAllListings();
-        for (Post p : posts) {
+        List<Post> allPosts = getAllListings();
+        for (Post p : allPosts) {
             if (p.tags.contains(tag)) postsByTag.add(p);
         }
         return postsByTag;

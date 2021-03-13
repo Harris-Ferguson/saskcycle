@@ -2,9 +2,12 @@ package com.saskcycle.services;
 
 import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
+import com.saskcycle.saskcycle.SaskCycleApplication;
+import org.springframework.boot.SpringApplication;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -87,11 +90,21 @@ public class FilterService implements Serializable {
      */
     public List<Post> filterPosts(Set<String> value) {
 
+        List<Post> newPosts = new ArrayList<>();
+
         for (String t : value) {
-            posts = SC.getAllListingsByTag(t, posts);
+            newPosts.addAll(SC.getAllPostsByTag(t));
         }
 
-        return posts;
+        List<Post> anotherPosts = new ArrayList<>();
+        for (Post p : newPosts) {
+            if (!anotherPosts.contains(p)) {
+                anotherPosts.add(p);
+            }
+
+        }
+
+        return anotherPosts;
     }
 
     /**

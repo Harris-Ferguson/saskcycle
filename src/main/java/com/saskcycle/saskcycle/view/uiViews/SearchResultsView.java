@@ -116,29 +116,19 @@ public class SearchResultsView  extends VerticalLayout {
         includeGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
         includeGroup.addValueChangeListener(event -> {
-            //includeGroup.setLabel(event.getValue().toString());
             posts = filterService.checkOtherFilters(includeGroup.getValue(), excludeGroup.getValue(), useSelect.getValue(),
                     sortSelect.getValue());
             grid.setItems(posts);
 
-
             excludeGroup.setItemEnabledProvider(item -> !event.getValue().contains(item));
             if (event.getValue() == null || event.getValue().isEmpty()) {
                 heading.setText("All listings");
-//                posts = filterService.checkOtherFilters(includeGroup.getValue(), excludeGroup.getValue(), useSelect.getValue(),
-//                        sortSelect.getValue());
-//                //heading.setText(String.valueOf(posts.size()));
-//                grid.setItems(posts);
-
+                if (!excludeGroup.getValue().isEmpty()) {
+                    heading.setText("Hide listings for " + stringTags(excludeGroup));
+                }
             }
             else {
-                StringBuilder strTags = new StringBuilder();
-                for (String s : event.getValue()) { strTags.append(s).append(", ");}
-
-                heading.setText("Show listings for " + strTags.substring(0, strTags.length()-2));
-//                posts = filterService.filterPosts(event.getValue());
-//                grid.setItems(posts);
-
+                heading.setText("Show listings for " + stringTags(includeGroup));
             }
         });
 
@@ -156,18 +146,13 @@ public class SearchResultsView  extends VerticalLayout {
             includeGroup.setItemEnabledProvider(item -> !event.getValue().contains(item));
             if (event.getValue() == null || event.getValue().isEmpty()) {
                 heading.setText("All listings");
-//                posts = filterService.checkOtherFilters(includeGroup.getValue(), excludeGroup.getValue(), useSelect.getValue(),
-//                        sortSelect.getValue());
-//                grid.setItems(posts);
+                if (!includeGroup.isEmpty()) {
+                    heading.setText("Show listings for " + stringTags(includeGroup));
 
+                }
             }
             else {
-                StringBuilder strTags = new StringBuilder();
-                for (String s : event.getValue()) { strTags.append(s).append(", ");}
-                heading.setText("Hide listings for " + strTags.substring(0, strTags.length()-2));
-//                posts = filterService.excludePosts(event.getValue());
-//                grid.setItems(posts);
-
+                heading.setText("Hide listings for " + stringTags(excludeGroup));
             }
         });
 
@@ -193,5 +178,13 @@ public class SearchResultsView  extends VerticalLayout {
 
         filterGroup.add(useSelect, sortSelect, postChoice, includeGroup, excludeGroup, resetButton);
         return filterGroup;
+    }
+
+    private String stringTags(CheckboxGroup<String> group) {
+        StringBuilder strTags = new StringBuilder();
+        for (String s : group.getValue()) { strTags.append(s).append(", ");}
+
+        return strTags.substring(0, strTags.length()-2);
+
     }
 }

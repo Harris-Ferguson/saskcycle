@@ -62,12 +62,14 @@ public class FilterService implements Serializable {
      * @param value tag values(s) associated with posts
      * @return list of posts that are not associated with spec. tag(s)
      */
-    public List<Post> excludePosts(Set<String> value) {
+    public List<Post> excludePosts(Set<String> value, String poster) {
 
-        for (String t : value) {
-            posts = SC.ExcludeListingsByTag(t, posts);
-        }
-        return posts;
+            for (String t : value) {
+                posts = SC.ExcludeListingsByTag(t, posts);
+            }
+            return posts;
+
+
     }
 
     /**
@@ -76,7 +78,7 @@ public class FilterService implements Serializable {
      */
     public List<Post> resetPosts() {
         posts.clear();
-        posts = SC.getAllPosts();
+        posts = SC.getAllListings();
 
         return posts;
     }
@@ -86,23 +88,44 @@ public class FilterService implements Serializable {
      * @param value tag values(s) associated with posts
      * @return lit of posts that contain the relevant tag(s)
      */
-    public List<Post> filterPosts(Set<String> value) {
+    public List<Post> filterPosts(Set<String> value, String poster) {
+        if (poster.equals("Users"))
+        {
+            List<Post> newPosts = new ArrayList<>();
 
-        List<Post> newPosts = new ArrayList<>();
-
-        for (String t : value) {
-            newPosts.addAll(SC.getAllPostsByTag(t));
-        }
-
-        List<Post> anotherPosts = new ArrayList<>();
-        for (Post p : newPosts) {
-            if (!anotherPosts.contains(p)) {
-                anotherPosts.add(p);
+            for (String t : value) {
+                newPosts.addAll(SC.getAllPostsByTag(t));
             }
 
+            List<Post> anotherPosts = new ArrayList<>();
+            for (Post p : newPosts) {
+                if (!anotherPosts.contains(p)) {
+                    anotherPosts.add(p);
+                }
+
+            }
+
+            return anotherPosts;
+        }
+        else
+        {
+            List<Post> newPosts = new ArrayList<>();
+
+            for (String t : value) {
+                newPosts.addAll(SC.getAllBusinessesByTag(t));
+            }
+
+            List<Post> anotherPosts = new ArrayList<>();
+            for (Post p : newPosts) {
+                if (!anotherPosts.contains(p)) {
+                    anotherPosts.add(p);
+                }
+
+            }
+
+            return anotherPosts;
         }
 
-        return anotherPosts;
     }
 
     /**
@@ -116,18 +139,19 @@ public class FilterService implements Serializable {
     public List<Post> checkOtherFilters(Set<String> includedTags, Set<String> excludedTags, String poster,
                                         String useChoice, String sortChoice) {
 
+
         if (poster.equals("Users") || poster.equals("Organizations")) {
             posts = showByPoster(poster);
         }
         else {
-            posts = SC.getAllPosts();
+            posts = SC.getAllListings();
         }
 
         if (!includedTags.isEmpty()) {
-            posts = filterPosts(includedTags);
+            posts = filterPosts(includedTags,poster);
         }
         if (!excludedTags.isEmpty()) {
-            posts = excludePosts(excludedTags);
+            posts = excludePosts(excludedTags,poster);
         }
         if (useChoice.equals("Get") || useChoice.equals("Give")) {
             posts = sortByFunction(useChoice);
@@ -150,4 +174,5 @@ public class FilterService implements Serializable {
 
         return posts;
     }
+
 }

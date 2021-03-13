@@ -19,19 +19,12 @@ public interface BusinessesPostsRepo extends MongoRepository<Business, String> {
      */
      List<Business> findAllByTags(String tags);
 
+    /**
+     * Find a single business object by its title
+     * This method will be primarily used for testing purposes
+     * @param title a possible string title of a business object found in the DB
+     * @return the business object with the given title if it exists, null otherwise(?)
+     */
      Business findByTitle(String title);
-
-//    List<Post> findByTagRegex(String tag);
-//
-////    List<Post> findAll(Sort date);
-//
-//    Post findByLocationRegex(String location, String tag);
-//
-//    Post findByLocationAndTag(String location, String tag);
-//
-//    Post findByDateAndTag(Date date, String tag);
-//
-//    Post findByDateRegex(Date date);
-
 
 }

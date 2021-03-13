@@ -155,11 +155,25 @@ public class SearchController {
         return Baccess.getAllBusinessesByKeyword(keyword);
     }
 
+    /**
+     * Find a single business object by its title
+     * This method will be primarily used for testing purposes
+     * @param title a possible string title of a business object found in the DB
+     * @return the business object with the given title if it exists, null otherwise(?)
+     */
     public Business findBusinessByTitle(String title)
     {
         return Baccess.findBusinessByTitle(title);
     }
 
+    /**
+     * Method to get all business posts from the database
+     * @return List of type business that cotains all buisness objects currently in DB
+     */
+    public List<Business> getAllBusinesses()
+    {
+        return Baccess.getAllBusinesses();
+    }
 
 }
 

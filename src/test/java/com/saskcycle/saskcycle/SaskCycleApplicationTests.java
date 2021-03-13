@@ -5,6 +5,7 @@ import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Business;
 import com.saskcycle.model.Post;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,49 +26,84 @@ class SaskCycleApplicationTests {
 
 
 	@Test
-	void contextLoads() {
-//		Assertions.assertEquals(1,2);
+	@DisplayName("Searching by tag tests")
+	void searchByTagTests() {
 
-		// FOR ADDING POSTS TO DATABASE WITH HASTE
-		ArrayList<String> tags = new ArrayList<>();
-		tags.add("Computers");
-		tags.add("Electronics");
-		tags.add("Decorations");
-		tags.add("Cookware");
-		tags.add("Clothing");
-		tags.add("Appliances");
-		tags.add("Art");
-//
-//
-//
-//
-		Business store = new Business("Test Store", "I am not real I am a test", "6", "10.1KM", tags);
-//		Post p1 = new Post("Clothing available", "Get some", "1", null, "1.2KM", tags);
-//		tags.remove(0);
-//		Business SuperStore2 = new Business("SuperStore2", "A store2", "2", "1.4KM", tags);
-//		Post p2 = new Post("No plastic", "Get some no plast", "2", null, "1.3KM", tags);
-//		Business SuperStore3 = new Business("SuperStorn", "A storn", "3", "1.2KM", tags);
-//		Post p3 = new Post("Clothing available", "Get some no toy", "3", null, "1.2KM", tags);
-//		tags.remove(0);
-//		Business SuperStore4 = new Business("SuperStorm", "A storm", "4", "1.4KM", tags);
-//		Post p4 = new Post("No plastic", "Get some no elect", "4", null, "1.3KM", tags);
-//
-//
-//		PR.insert(p1);
-//		PR.insert(p2);
-//		PR.insert(p3);
-//		PR.insert(p4);
-//
-//		BR.insert(store);
-//		BR.insert(SuperStore2);
-//		BR.insert(SuperStore3);
-//		BR.insert(SuperStore4);
-//
-		List<Business> businessList = SC.getAllBusinessesByTag("Clothing");
-		for (Business b : businessList) {
+		List<Business> bL = SC.getAllBusinessesByTag("Clothing");
+		for (Business b : bL) {
 			System.out.println(b.toString());
+		}
+		//three stores with clothing tags in DB
+		Assertions.assertEquals(3,bL.size());
+		bL.clear();
+
+		bL = SC.getAllBusinessesByTag("Metal");
+		for (Business b : bL) {
+			System.out.println(b.toString());
+		}
+		//One business with metal tags in DB
+		Assertions.assertEquals(1,bL.size());
+		bL.clear();
+
+		//serach for tag that does not exist
+		bL = SC.getAllBusinessesByTag("clothes");
+		Assertions.assertEquals(0,bL.size()); }
+
+	@Test
+	@DisplayName("Search for All businesses in DB")
+	void getAllBusinesses()
+	{
+		List<Business> bL = SC.getAllBusinesses();
+		for (Business b : bL) {
+			System.out.println(b.toString());
+		}
+		Assertions.assertEquals(5,bL.size());
+	}
+
+	@Test
+	@DisplayName("Search for businesses by keyword")
+	void searchBusinessBYKeyword()
+	{
+		//simple test to see if keyword string can be grabbed from every business object
+		List<Business> bL = SC.getAllBusinessesByKeyword(" ");
+		for (Business b : bL) {
+			System.out.println(b.toString());
+		}
+		Assertions.assertEquals(5,bL.size());
+
+		bL.clear();
+		bL = SC.getAllBusinessesByKeyword("Store");
+		for (Business b : bL) {
+			System.out.println(b.toString());
+		}
+		Assertions.assertEquals(2,bL.size());
+
+		bL.clear();
+		//test with nonsense string
+		bL= SC.getAllBusinessesByKeyword("flurg");
+		for (Business b : bL) {
+			System.out.println(b.toString());
+		}
+		Assertions.assertEquals(0,bL.size());
+
+		bL.clear();
+		//test with description keyword
+		bL= SC.getAllBusinessesByKeyword("home");
+		for (Business b : bL) {
+			System.out.println(b.toString());
+		}
+		Assertions.assertEquals(2,bL.size());
+
+		bL.clear();
+		//test with case sensitive string
+		bL= SC.getAllBusinessesByKeyword("HoMe");
+		for (Business b : bL) {
+			System.out.println(b.toString());
+		}
+		Assertions.assertEquals(2,bL.size());
 
 	}
 
-}
+
+
 }

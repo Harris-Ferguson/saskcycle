@@ -4,6 +4,8 @@ import com.saskcycle.saskcycle.view.MainView;
 import com.saskcycle.saskcycle.view.PostView;
 import com.saskcycle.saskcycle.view.SettingsView;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.NativeButton;
@@ -25,23 +27,25 @@ public class SaskCycleHeader extends HorizontalLayout {
         H1 logo = new H1("SaskCycle");
         logo.addClassName("logo");
 
-        // Creates a search bar located in the header
-        TextField searchBar = new TextField();
-        searchBar.setPlaceholder("Search for anything");
-        searchBar.addClassName("searchBar");
+//        // Creates a search bar located in the header
+//        TextField searchBar = new TextField();
+//        searchBar.setPlaceholder("Search for anything");
+//        searchBar.addClassName("searchBar");
 
         //Creates a hamburger menu that can store the account options
         DrawerToggle drawerToggle = new DrawerToggle();
         drawerToggle.addClassName("drawerToggle");
 
-        NativeButton searchButton = new NativeButton("Search");
+        Button searchButton = new Button("Search all listings");
         searchButton.addClickListener(e -> searchButton.getUI().ifPresent(ui -> ui.navigate("results")));
+        searchButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
 
         setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         setWidth("100%");
 
         addClassName("header");
-        add(drawerToggle, logo, searchBar, searchButton);
+        add(drawerToggle, logo, searchButton);
 
 
     }

@@ -67,13 +67,14 @@ public class SearchController {
 
     /***
      * Gets all Listings that contain a certain tag
-     * @param tag: a tag of a search item type
+     * @param tag : a tag of a search item type
+     * @param posts
      * @return a list of every post in the database containing that tag
      */
-    public  List<Post> getAllListingsByTag(String tag) {
+    public  List<Post> getAllListingsByTag(String tag, List<Post> posts) {
         List<Post> postsByTag = new ArrayList<>();
-        List<Post> allPosts = getAllListings();
-        for (Post p : allPosts) {
+        //List<Post> allPosts = getAllListings();
+        for (Post p : posts) {
             if (p.tags.contains(tag)) postsByTag.add(p);
         }
         return postsByTag;
@@ -128,20 +129,20 @@ public class SearchController {
     }
 
 
-    public List<Post> ExcludeListingsByTag(String tag) {
+    public List<Post> ExcludeListingsByTag(String tag, List<Post> posts) {
         List<Post> postsWithoutTag = new ArrayList<>();
-        List<Post> allPosts = getAllPosts();
-        for (Post p : allPosts) {
+        //List<Post> allPosts = getAllPosts();
+        for (Post p : posts) {
             if (!p.tags.contains(tag)) postsWithoutTag.add(p);
         }
         return postsWithoutTag;
     }
 
-    public List<Post> getSpecifiedPosts(String value) {
+    public List<Post> getSpecifiedPosts(String value, List<Post> posts) {
 
         List<Post> specPosts = new ArrayList<>();
-        List<Post> allPosts = getAllPosts();
-        for (Post p : allPosts) {
+        //List<Post> allPosts = getAllPosts();
+        for (Post p : posts) {
             if (value.equals("Get") && !p.give) {
                 specPosts.add(p);
             }
@@ -152,17 +153,15 @@ public class SearchController {
         return specPosts;
     }
 
-    public List<Post> getSortedPosts(String value) {
+    public void getSortedPosts(String value, List<Post> posts) {
 
-        List<Post> allPosts = getAllPosts();
         if (value.equals("Alphabetically (A-Z)")) {
-                allPosts.sort(Comparator.comparing(a -> a.title));
+                posts.sort(Comparator.comparing(a -> a.title));
         }
         if (value.equals("Closest to me")) {
-            allPosts.sort(Comparator.comparing(a -> a.location));
+            posts.sort(Comparator.comparing(a -> Float.parseFloat(a.location.substring(0, a.location.length()-2))));
         }
 
-        return allPosts;
     }
 }
 

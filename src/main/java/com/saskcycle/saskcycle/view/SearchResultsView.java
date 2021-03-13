@@ -3,6 +3,8 @@ package com.saskcycle.saskcycle.view;
 import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.view.components.PostComponent;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.grid.Grid;
@@ -27,16 +29,16 @@ public class SearchResultsView  extends VerticalLayout {
 
     Grid<Post> grid;
 
-    H2 label;
+    private H1 heading;
 
     String[] tagArr = new String[]{"Appliances", "Clothing", "Electronics", "Furniture"};
-
-    //VerticalLayout content;
 
     private List<Post> posts;
 
     @PostConstruct
     public void init(){
+
+        heading = new H1("All listings");
 
         posts = SC.getAllPosts();
 
@@ -45,7 +47,6 @@ public class SearchResultsView  extends VerticalLayout {
         grid = new Grid<>();
         grid.setItems(posts);
         grid.setHeight("1000px");
-
         grid.addComponentColumn(PostComponent::new);
 
         HorizontalLayout resultsGroup = new HorizontalLayout();
@@ -53,10 +54,10 @@ public class SearchResultsView  extends VerticalLayout {
         resultsGroup.setWidth("100%");
         resultsGroup.add(filterGroup, grid);
 
-        add(new H1("All listings"), resultsGroup);
+        add(heading, resultsGroup);
     }
 
-    public VerticalLayout FilterComponent() {
+    private VerticalLayout FilterComponent() {
         VerticalLayout filterGroup = new VerticalLayout();
 
         filterGroup.setWidth("200px");
@@ -66,10 +67,7 @@ public class SearchResultsView  extends VerticalLayout {
         useSelect.setLabel("What do you want to do?");
 
         useSelect.addValueChangeListener(event -> {
-            posts.clear();
-            posts = SC.getSpecifiedPosts(event.getValue());
-
-            grid.setItems(posts);
+            sortByFunction(event.getValue());
 
         });
 
@@ -78,10 +76,7 @@ public class SearchResultsView  extends VerticalLayout {
         sortSelect.setLabel("Sort by");
 
         sortSelect.addValueChangeListener(event -> {
-            posts.clear();
-            posts = SC.getSortedPosts(event.getValue());
-
-            grid.setItems(posts);
+            sortPosts(event.getValue());
         });
 
 
@@ -91,10 +86,15 @@ public class SearchResultsView  extends VerticalLayout {
         includeGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
         includeGroup.addValueChangeListener(event -> {
-            if (event.getValue() == null) {
+            if (event.getValue() == null || event.getValue().isEmpty()) {
+                heading.setText("All listings");
                 resetPosts();
             }
             else {
+                StringBuilder strTags = new StringBuilder();
+                for (String s : event.getValue()) { strTags.append(s).append(", ");}
+
+                heading.setText("Show listings for " + strTags.substring(0, strTags.length()-2));
                 filterPosts(event.getValue());
             }
         });
@@ -105,28 +105,52 @@ public class SearchResultsView  extends VerticalLayout {
         excludeGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
         excludeGroup.addValueChangeListener(event -> {
-            if (event.getValue() == null) {
+            if (event.getValue() == null || event.getValue().isEmpty()) {
+                heading.setText("All listings");
                 resetPosts();
             }
             else {
+                StringBuilder strTags = new StringBuilder();
+                for (String s : event.getValue()) { strTags.append(s).append(", ");}
+                heading.setText("Hide listings for " + strTags.substring(0, strTags.length()-2));
                 excludePosts(event.getValue());
             }
         });
 
-        CheckboxGroup<String> postChoice = new CheckboxGroup<>();
+        Select<String> postChoice = new Select<>();
         postChoice.setLabel("Hide posts from");
         postChoice.setItems("Users", "Organizations");
-        postChoice.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
-        filterGroup.add(useSelect, sortSelect, includeGroup, excludeGroup, postChoice);
+        Button resetButton = new Button("Reset filters");
+        resetButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        resetButton.addClickListener(event -> {
+            resetPosts();
+        });
+
+        filterGroup.add(useSelect, sortSelect, postChoice, includeGroup, excludeGroup, resetButton);
         return filterGroup;
     }
 
+    private void sortByFunction(String value) {
+        //posts.clear();
+        posts = SC.getSpecifiedPosts(value, posts);
+
+        grid.setItems(posts);
+    }
+
+    private void sortPosts(String value) {
+
+        //posts.clear();
+        SC.getSortedPosts(value, posts);
+
+        grid.setItems(posts);
+    }
+
     private void excludePosts(Set<String> value) {
-        posts.clear();
+        //posts.clear();
 
         for (String t : value) {
-            posts.addAll(SC.ExcludeListingsByTag(t));
+            posts = SC.ExcludeListingsByTag(t, posts);
         }
         grid.setItems(posts);
 
@@ -141,21 +165,11 @@ public class SearchResultsView  extends VerticalLayout {
 
     private void filterPosts(Set<String> value) {
 
-        posts.clear();
+        //posts.clear();
         for (String t : value) {
-            posts.addAll(SC.getAllListingsByTag(t));
+            posts = SC.getAllListingsByTag(t, posts);
         }
         grid.setItems(posts);
-    }
-
-
-    public static void main(String[] args) {
-
-//        SearchResultsView searchResultsView = new SearchResultsView();
-//
-//        searchResultsView.filterPosts(event.getValue());
-
-
     }
 
 }

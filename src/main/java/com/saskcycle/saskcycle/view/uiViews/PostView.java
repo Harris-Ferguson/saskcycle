@@ -1,6 +1,7 @@
 package com.saskcycle.saskcycle.view;
 
 import com.saskcycle.saskcycle.security.SecurityUtils;
+import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;

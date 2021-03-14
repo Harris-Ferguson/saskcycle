@@ -1,11 +1,13 @@
 package com.saskcycle.saskcycle.view.components;
 
+import com.saskcycle.saskcycle.security.SecurityUtils;
 import com.saskcycle.saskcycle.view.uiViews.MainView;
 import com.saskcycle.saskcycle.view.uiViews.PostView;
 import com.saskcycle.saskcycle.view.uiViews.SettingsView;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;

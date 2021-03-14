@@ -1,15 +1,15 @@
-package com.saskcycle.saskcycle.view;
+package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.DAO.CurrentUserSettingsDAOInterface;
 import com.saskcycle.DAO.PostsDAO;
 import com.saskcycle.DAO.PostsDAOInterface;
 import com.saskcycle.model.Post;
+import com.saskcycle.saskcycle.view.layouts.PostCreateLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.listbox.MultiSelectListBox;
@@ -19,7 +19,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -174,9 +173,8 @@ public class PostCreateView extends VerticalLayout {
             Notification.show("Please add some tags");
         }
         else{
-            Post newPost = new Post(title,description,String.valueOf(pr.AllPosts().size() + 1),currentAccount.getCurrentAccount(),location,tags);
-            newPost.datePosted = new Date();    //apply date of creation to post
-            newPost.give = givePost;            //apply give flag for post
+            Post newPost = new Post(title,description,String.valueOf(pr.AllPosts().size() + 1),currentAccount.getCurrentAccount(),location,tags,givePost);
+            newPost.datePosted = new Date();    //apply date of creation to po
             newPost.privacy = isPostPublic;     //apply privacy of post
             if(includeEmail){
                 newPost.contactEmail = currentAccount.getEmail();   //apply email of current account

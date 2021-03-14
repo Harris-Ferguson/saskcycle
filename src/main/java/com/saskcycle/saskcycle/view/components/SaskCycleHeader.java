@@ -22,16 +22,12 @@ public class SaskCycleHeader extends HorizontalLayout {
     H1 logo = new H1("SaskCycle");
     logo.addClassName("logo");
 
-    //        // Creates a search bar located in the header
-    //        TextField searchBar = new TextField();
-    //        searchBar.setPlaceholder("Search for anything");
-    //        searchBar.addClassName("searchBar");
-
     // Creates a hamburger menu that can store the account options
     DrawerToggle drawerToggle = new DrawerToggle();
     drawerToggle.addClassName("drawerToggle");
 
     Button searchButton = new Button("Search all listings");
+    searchButton.addClassName("header-button");
     searchButton.addClickListener(
         e -> searchButton.getUI().ifPresent(ui -> ui.navigate("results")));
     searchButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

@@ -158,12 +158,10 @@ public class FilterService implements Serializable {
      * Checks what features are being applied to the posts
      * @param includedTags tags for posts the user wants to see
      * @param excludedTags tags for posts user doesn't want to see
-     * @param useChoice whether the posts are give or get
      * @param sortChoice sorting order of the posts
      * @return list of posts with appropriate filters applied
      */
-    public List<Post> checkOtherFilters(Set<String> includedTags, Set<String> excludedTags, String poster,
-                                        String useChoice, String sortChoice) {
+    public List<Post> checkOtherFilters(Set<String> includedTags, Set<String> excludedTags, String poster, String sortChoice) {
 
 
         if (poster.equals("Users") || poster.equals("Organizations")) {
@@ -179,9 +177,11 @@ public class FilterService implements Serializable {
         if (!excludedTags.isEmpty()) {
             posts = excludePosts(excludedTags,poster);
         }
+        /* Use case is not fully implemented
         if (useChoice.equals("Get") || useChoice.equals("Give")) {
             posts = sortByFunction(useChoice);
         }
+        */
         if (sortChoice.equals("Alphabetically (A-Z)") || sortChoice.equals("Closest to me")) {
             posts = sortPosts(sortChoice);
         }

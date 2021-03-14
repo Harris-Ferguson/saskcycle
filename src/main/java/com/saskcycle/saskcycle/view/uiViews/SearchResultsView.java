@@ -33,7 +33,7 @@ public class SearchResultsView extends VerticalLayout {
   private List<Post> posts;
 
   private Select<String> sortSelect;
-  private Select<String> useSelect;
+  // private Select<String> useSelect;
   private Select<String> postChoice;
 
   private CheckboxGroup<String> includeGroup;
@@ -83,16 +83,20 @@ public class SearchResultsView extends VerticalLayout {
 
     filterGroup.setWidth("200px");
 
-    useSelect = new Select<>();
-    useSelect.setItems("Select", "Get", "Give");
-    useSelect.setLabel("What do you want to do?");
-    useSelect.setValue("Select");
+    /* Use case has not been fully implemented
+      useSelect = new Select<>();
+      useSelect.setItems("Select", "Get", "Give");
+      useSelect.setLabel("What do you want to do?");
+      useSelect.setValue("Select");
 
-    useSelect.addValueChangeListener(
-        event -> {
-          posts = filterService.sortByFunction(event.getValue());
-          grid.setItems(posts);
-        });
+      useSelect.addValueChangeListener(
+              event -> {
+                  posts = filterService.sortByFunction(event.getValue());
+                  grid.setItems(posts);
+              });    useSelect = new Select<>();
+
+     */
+
 
     sortSelect = new Select<>();
     sortSelect.setItems("Select", "Alphabetically (A-Z)", "Closest to me");
@@ -117,7 +121,7 @@ public class SearchResultsView extends VerticalLayout {
                   includeGroup.getValue(),
                   excludeGroup.getValue(),
                   postChoice.getValue(),
-                  useSelect.getValue(),
+//                  useSelect.getValue(),
                   sortSelect.getValue());
           grid.setItems(posts);
 
@@ -144,7 +148,7 @@ public class SearchResultsView extends VerticalLayout {
                   includeGroup.getValue(),
                   excludeGroup.getValue(),
                   postChoice.getValue(),
-                  useSelect.getValue(),
+//                  useSelect.getValue(),
                   sortSelect.getValue());
           grid.setItems(posts);
 
@@ -160,7 +164,7 @@ public class SearchResultsView extends VerticalLayout {
         });
 
     postChoice = new Select<>();
-    postChoice.setLabel("Hide posts from");
+    postChoice.setLabel("Only show posts from");
     postChoice.setItems("Select", "Users", "Organizations");
     postChoice.setValue("Select");
 
@@ -171,26 +175,27 @@ public class SearchResultsView extends VerticalLayout {
                   includeGroup.getValue(),
                   excludeGroup.getValue(),
                   postChoice.getValue(),
-                  useSelect.getValue(),
+//                  useSelect.getValue(),
                   sortSelect.getValue());
           grid.setItems(posts);
         });
 
     Button resetButton = new Button("Reset filters");
+    resetButton.addClassName("reset-button");
     resetButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     resetButton.addClickListener(
         event -> {
           includeGroup.clear();
           excludeGroup.clear();
           sortSelect.setValue("Select");
-          useSelect.setValue("Select");
+//          useSelect.setValue("Select");
           postChoice.setValue("Select");
 
           posts = filterService.resetPosts();
           grid.setItems(posts);
         });
 
-    filterGroup.add(useSelect, sortSelect, postChoice, includeGroup, excludeGroup, resetButton);
+    filterGroup.add(sortSelect, postChoice, includeGroup, excludeGroup, resetButton);
     return filterGroup;
   }
 

@@ -56,3 +56,14 @@ a[highlight] {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.header-button{
+    background: white;
+    color: black;
+}
+
+.reset-button {
+    colour: white;
+    background:#04584a;
+
+}

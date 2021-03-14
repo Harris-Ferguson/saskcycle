@@ -105,7 +105,6 @@ public class SearchResultsView extends VerticalLayout {
 
     sortSelect.addValueChangeListener(
         event -> {
-          sortSelect.setLabel(event.getValue());
 //          posts = filterService.sortPosts(event.getValue());
             posts = filterService.checkOtherFilters(
                     includeGroup.getValue(),

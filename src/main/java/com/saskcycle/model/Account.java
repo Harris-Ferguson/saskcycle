@@ -18,15 +18,15 @@ public class Account extends User {
 
   private String email;
 
-  private final String role;
+  private String role;
 
-  private final Feed wishlish;
+  private Feed wishlish;
 
-  private final Feed posts;
+  private Feed posts;
 
   private double userRating;
 
-  private final ArrayList<Notification> notifications;
+  private ArrayList<Notification> notifications;
 
   private UserNotificationSettings notificationSettings =
       new UserNotificationSettings(false, false);

@@ -40,9 +40,9 @@ public class SettingsView extends Composite {
     }
 
     return new VerticalLayout(
-            new H1("Settings"),
-            postCheckbox,
-            new Button("Save", event -> changeSettings(postCheckbox)));
+        new H1("Settings"),
+        postCheckbox,
+        new Button("Save", event -> changeSettings(postCheckbox)));
   }
 
   private void changeSettings(CheckboxGroup<String> settings) {

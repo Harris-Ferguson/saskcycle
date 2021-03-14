@@ -12,21 +12,21 @@ import java.util.Collection;
 @Document(collection = "User Accounts")
 public class Account extends User {
 
-    /* --------- Attributes -------------*/
+  /* --------- Attributes -------------*/
 
   @Id private String id;
 
   private String email;
 
-  private String role;
+  private final String role;
 
-  private Feed wishlish;
+  private final Feed wishlish;
 
-  private Feed posts;
+  private final Feed posts;
 
   private double userRating;
 
-  private ArrayList<Notification> notifications;
+  private final ArrayList<Notification> notifications;
 
   private UserNotificationSettings notificationSettings =
       new UserNotificationSettings(false, false);

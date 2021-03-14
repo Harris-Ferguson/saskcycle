@@ -17,22 +17,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
-
-import java.util.List;
-
-import java.nio.file.attribute.UserPrincipalNotFoundException;
-import java.util.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
-
 @Service
 public class AccountDAO implements UserDAOInterface {
-
 
   /* --------- Attributes ------------ */
 
@@ -132,7 +122,6 @@ public class AccountDAO implements UserDAOInterface {
             new ArrayList<Notification>());
     if (accountExists(account)) {
       throw new IllegalArgumentException("Account already exists");
-
     }
     return addAccount(account);
   }

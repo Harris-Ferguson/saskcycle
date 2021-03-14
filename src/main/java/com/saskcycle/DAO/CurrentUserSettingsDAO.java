@@ -26,25 +26,26 @@ public class CurrentUserSettingsDAO implements CurrentUserSettingsDAOInterface {
     return account.getNotificationSettings().wantsEmail();
   }
 
-    @Override
-    public String getEmail() {
-        Account account = getCurrentAccount();
-        return account.getEmail();
-    }
+  @Override
+  public String getEmail() {
+    Account account = getCurrentAccount();
+    return account.getEmail();
+  }
 
-    @Override
-    public boolean getTextSetting() {
-        Account account = getCurrentAccount();
-        return account.getNotificationSettings().wantsText();
-    }
+  @Override
+  public boolean getTextSetting() {
+    Account account = getCurrentAccount();
+    return account.getNotificationSettings().wantsText();
+  }
 
-    /**
-     * Gets the current user, I.E the user who is currently making a given request
-     * @return the current user as an Account object
-     */
-    public Account getCurrentAccount(){
-        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userDAO.searchByName(user.getUsername());
-    }
-
+  /**
+   * Gets the current user, I.E the user who is currently making a given request
+   *
+   * @return the current user as an Account object
+   */
+  public Account getCurrentAccount() {
+    UserDetails user =
+        (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    return userDAO.searchByName(user.getUsername());
+  }
 }

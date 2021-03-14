@@ -8,6 +8,5 @@ public class Feed extends ArrayList<Post> {
 
   /* --------- Methods -------------*/
 
-    public Feed() {
-    }
+  public Feed() {}
 }

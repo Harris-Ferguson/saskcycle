@@ -53,6 +53,7 @@ public class SaskCycleHeader extends HorizontalLayout {
 
   /**
    * Creates a log in and register buttons
+   *
    * @return HorizontalLayout containing the two buttons
    */
   private HorizontalLayout createSignInButtons() {

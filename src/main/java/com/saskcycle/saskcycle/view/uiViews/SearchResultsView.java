@@ -84,19 +84,19 @@ public class SearchResultsView extends VerticalLayout {
     filterGroup.setWidth("200px");
 
     /* Use case has not been fully implemented
-      useSelect = new Select<>();
-      useSelect.setItems("Select", "Get", "Give");
-      useSelect.setLabel("What do you want to do?");
-      useSelect.setValue("Select");
+     useSelect = new Select<>();
+     useSelect.setItems("Select", "Get", "Give");
+     useSelect.setLabel("What do you want to do?");
+     useSelect.setValue("Select");
 
-      useSelect.addValueChangeListener(
-              event -> {
-                  posts = filterService.sortByFunction(event.getValue());
-                  grid.setItems(posts);
-              });    useSelect = new Select<>();
+     useSelect.addValueChangeListener(
+             event -> {
+                 posts = filterService.sortByFunction(event.getValue());
+                 grid.setItems(posts);
+             });    useSelect = new Select<>();
 
-     */
-      // Dropdown menu user to select sorting
+    */
+    // Dropdown menu user to select sorting
     sortSelect = new Select<>();
     sortSelect.setItems("Select", "Alphabetically (A-Z)", "Closest to me");
     sortSelect.setLabel("Sort by");
@@ -104,13 +104,14 @@ public class SearchResultsView extends VerticalLayout {
 
     sortSelect.addValueChangeListener(
         event -> {
-//          posts = filterService.sortPosts(event.getValue());
-            posts = filterService.checkOtherFilters(
-                    includeGroup.getValue(),
-                    excludeGroup.getValue(),
-                    postChoice.getValue(),
-//                  useSelect.getValue(),
-                    sortSelect.getValue());
+          //          posts = filterService.sortPosts(event.getValue());
+          posts =
+              filterService.checkOtherFilters(
+                  includeGroup.getValue(),
+                  excludeGroup.getValue(),
+                  postChoice.getValue(),
+                  //                  useSelect.getValue(),
+                  sortSelect.getValue());
           grid.setItems(posts);
         });
 
@@ -127,7 +128,7 @@ public class SearchResultsView extends VerticalLayout {
                   includeGroup.getValue(),
                   excludeGroup.getValue(),
                   postChoice.getValue(),
-//                  useSelect.getValue(),
+                  //                  useSelect.getValue(),
                   sortSelect.getValue());
           grid.setItems(posts);
 
@@ -142,7 +143,7 @@ public class SearchResultsView extends VerticalLayout {
           }
         });
 
-      // Checkbox to select tags that user wants to exclude
+    // Checkbox to select tags that user wants to exclude
     excludeGroup = new CheckboxGroup<>();
     excludeGroup.setLabel("Hide results for");
     excludeGroup.setItems("Appliances", "Clothing", "Electronics", "Furniture");
@@ -155,7 +156,7 @@ public class SearchResultsView extends VerticalLayout {
                   includeGroup.getValue(),
                   excludeGroup.getValue(),
                   postChoice.getValue(),
-//                  useSelect.getValue(),
+                  //                  useSelect.getValue(),
                   sortSelect.getValue());
           grid.setItems(posts);
 
@@ -183,7 +184,7 @@ public class SearchResultsView extends VerticalLayout {
                   includeGroup.getValue(),
                   excludeGroup.getValue(),
                   postChoice.getValue(),
-//                  useSelect.getValue(),
+                  //                  useSelect.getValue(),
                   sortSelect.getValue());
           grid.setItems(posts);
         });
@@ -196,7 +197,7 @@ public class SearchResultsView extends VerticalLayout {
           includeGroup.clear();
           excludeGroup.clear();
           sortSelect.setValue("Select");
-//          useSelect.setValue("Select");
+          //          useSelect.setValue("Select");
           postChoice.setValue("Select");
 
           posts = filterService.resetPosts();
@@ -209,6 +210,7 @@ public class SearchResultsView extends VerticalLayout {
 
   /**
    * Creates a string representation of all of the tags being applied
+   *
    * @param group contains the user filter choices
    * @return string of the selected tags
    */

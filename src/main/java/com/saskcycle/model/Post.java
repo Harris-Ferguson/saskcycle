@@ -9,46 +9,49 @@ import java.util.Date;
 @Document(collection = "Posts")
 public class Post {
 
-    /* --------- Attributes ------------ */
-    public boolean give;
+  /* --------- Attributes ------------ */
+  public boolean give;
 
-    public String title;
+  public String title;
 
-    public String description;
+  public String description;
 
+  @Id public String id;
 
-    @Id
-    public String id;
+  public int IDnum;
 
-    public int IDnum;
+  // ToDo
+  // public Arraylist<pictures> photos;
 
-    //ToDo
-    // public Arraylist<pictures> photos;
+  public Date datePosted;
 
-    public Date datePosted;
+  public Account owner;
 
-    public Account owner;
+  public String location;
 
-    public String location;
+  public ArrayList<String> tags;
 
-    public ArrayList<String> tags;
+  public boolean privacy;
 
-    public boolean privacy;
+  public String contactEmail;
 
-    public String contactEmail;
-
-    /* ----------- Methods ------------- */
-    public Post(String title, String description, String id, Account owner, String location, ArrayList<String> tags, boolean give){
-        this.title = title;
-        this.description = description;
-        this.id = id;
-        this.owner = null;
-        this.location = location;
-        this.tags = tags;
-        this.give = give;
-    }
-
-
+  /* ----------- Methods ------------- */
+  public Post(
+      String title,
+      String description,
+      String id,
+      Account owner,
+      String location,
+      ArrayList<String> tags,
+      boolean give) {
+    this.title = title;
+    this.description = description;
+    this.id = id;
+    this.owner = null;
+    this.location = location;
+    this.tags = tags;
+    this.give = give;
+  }
 
   @Override
   public boolean equals(Object obj) {

@@ -1,5 +1,6 @@
 package com.saskcycle.model;
 
+import com.vaadin.flow.component.polymertemplate.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -8,24 +9,44 @@ import java.util.Date;
 @Document(collection = "Posts")
 public class Post {
 
-  /* --------- Attributes ------------ */
+    /* --------- Attributes ------------ */
+    public boolean give;
 
-  public String title;
+    public String title;
 
-  public String description;
+    public String description;
 
-  public int IDnum;
 
-  // public Arraylist<pictures> photos;
+    @Id
+    public String id;
 
-  public Date datePosted;
+    public int IDnum;
 
-  public Account owner;
 
-  public String location;
+    // public Arraylist<pictures> photos;
 
-  public ArrayList<String> tags;
+    public Date datePosted;
 
-  /* ----------- Methods ------------- */
+    public Account owner;
+
+    public String location;
+
+    public ArrayList<String> tags;
+
+    public boolean privacy;
+
+    public String contactEmail;
+
+    /* ----------- Methods ------------- */
+    public Post(String title, String description, String id, Account owner, String location, ArrayList<String> tags){
+        this.title = title;
+        this.description = description;
+        this.id = id;
+        this.owner = null;
+        this.location = location;
+        this.tags = tags;
+    }
+
+
 
 }

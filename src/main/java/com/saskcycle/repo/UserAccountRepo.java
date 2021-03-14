@@ -15,3 +15,4 @@ public interface UserAccountRepo extends MongoRepository<Account, String> {
     boolean existsByEmail(String email);
     boolean existsByUsername(String username);
 }
+

@@ -4,6 +4,8 @@ import com.saskcycle.saskcycle.security.SecurityUtils;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -29,6 +31,7 @@ public class SaskCycleHeader extends HorizontalLayout {
     DrawerToggle drawerToggle = new DrawerToggle();
     drawerToggle.addClassName("drawerToggle");
 
+
     // Create the signup / signin buttons
     HorizontalLayout signinButtons = createSignInButtons();
 
@@ -38,6 +41,7 @@ public class SaskCycleHeader extends HorizontalLayout {
     addClassName("header");
     add(drawerToggle, logo, searchBar, signinButtons);
   }
+
 
   /** Constructs the drawer feature, denoted by the hamburger menu */
   private VerticalLayout createDrawer() {

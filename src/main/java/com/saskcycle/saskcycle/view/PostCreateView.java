@@ -47,13 +47,11 @@ public class PostCreateView extends VerticalLayout {
 
 
     public PostCreateView(){
+        //give flag (true = giving away, false = looking for)
         AtomicBoolean give = new AtomicBoolean(true);
 
+        //post privacy flag (true = public, false = accounts only)
         AtomicBoolean isPostPublic = new AtomicBoolean(true);
-
-        Binder<Post> binder = new Binder<>();
-
-        Label infoLabel = new Label();
 
         //cancel button
         Button returnButton = new Button("Return",new Icon(VaadinIcon.ARROW_BACKWARD));
@@ -65,7 +63,7 @@ public class PostCreateView extends VerticalLayout {
         postType.setPlaceholder("giving away");
         postType.setLabel("Why are you posting?");
         postType.addValueChangeListener(e -> {
-            if(e.getValue().trim() == "giving away"){
+            if(e.getValue().trim().equals("giving away")){
                 give.set(true);
             }
             else {
@@ -79,11 +77,6 @@ public class PostCreateView extends VerticalLayout {
         title.setPlaceholder("Type here ...");
         title.setMinWidth("600px");
         title.setRequiredIndicatorVisible(true);
-        /*binder.forField(title)
-                .withValidator(new StringLengthValidator(
-                        "Please add a Post Title",1,null))
-                .bind(Post::getTitle,Post::setTitle);*/
-
 
         //Description Field
         TextArea description = new TextArea();
@@ -92,10 +85,6 @@ public class PostCreateView extends VerticalLayout {
         description.setMinWidth("600px");
         description.setMinHeight("200px");
         description.setRequiredIndicatorVisible(true);
-        /*binder.forField(description)
-                .withValidator(new StringLengthValidator(
-                        "Please add a Post Description",1,null));*/
-
 
         //Location Field
         TextField location = new TextField();
@@ -103,10 +92,6 @@ public class PostCreateView extends VerticalLayout {
         location.setPlaceholder("Type your location ...");
         location.setMinWidth("600px");
         location.setRequiredIndicatorVisible(true);
-        /*binder.forField(location)
-                .withValidator(new StringLengthValidator(
-                        "Please add a location to your post",1,null));*/
-
 
         // Privacy and email/phone check boxes
         Select<String> privacy = new Select<>();
@@ -115,7 +100,7 @@ public class PostCreateView extends VerticalLayout {
         privacy.setPlaceholder("Public");
         privacy.setMaxWidth("150px");
         privacy.addValueChangeListener(e -> {
-            if(e.getValue() == "Public"){
+            if(e.getValue().equals("Public")){
                 isPostPublic.set(true);
             }
             else {
@@ -123,6 +108,7 @@ public class PostCreateView extends VerticalLayout {
             }
         });
 
+        // email check box
         Checkbox email = new Checkbox();
         Div value = new Div();
         value.setText("Email: ");
@@ -134,11 +120,10 @@ public class PostCreateView extends VerticalLayout {
                 value.setText("Email: ");
             }
         });
-
+        // adding privacy, email and phone checks to component
         VerticalLayout contactBox = new VerticalLayout(new HorizontalLayout(email,value),phone());
         HorizontalLayout contactPanel = new HorizontalLayout(privacy,contactBox);
         contactPanel.setAlignItems(Alignment.CENTER);
-
 
         //Tags list
         MultiSelectListBox<String> tags = new MultiSelectListBox<>();
@@ -162,27 +147,18 @@ public class PostCreateView extends VerticalLayout {
         HorizontalLayout Header = new HorizontalLayout(returnButton,new H1("Create Post"),postType);
         Header.setAlignItems(Alignment.CENTER);
 
+        //create post button (calls publish post when clicked)
         Button createPostButton = new Button("Create Post!",new Icon(VaadinIcon.THUMBS_UP));
-        createPostButton.addClickListener(e -> {
-            //if(binder.isValid()){
-                publishPost(give.get(),title.getValue(),description.getValue(),location.getValue(), tagList,isPostPublic.get(), email.getValue());
-            //}
-            /*else {
-                BinderValidationStatus<Post> validate = binder.validate();
-                String errorText = validate.getFieldValidationStatuses()
-                        .stream().filter(BindingValidationStatus::isError)
-                        .map(BindingValidationStatus::getMessage)
-                        .map(Optional::get).distinct()
-                        .collect(Collectors.joining(", "));
-                infoLabel.setText("There are errors: "+ errorText);
-            }*/
-
-        });
+        createPostButton.addClickListener(e -> { publishPost(give.get(),title.getValue(),description.getValue(),location.getValue(), tagList,isPostPublic.get(), email.getValue()); });
 
         add(Header,InfoPanel,createPostButton);
     }
 
 
+    /* publish post
+     * method verifies all the required fields are filled out
+     * if so, then a new post is made using all the provided info from user
+     */
     private void publishPost(boolean givePost,String title, String description, String location, ArrayList<String> tags,  boolean isPostPublic, boolean includeEmail){
 
         if(title.trim().isEmpty()){
@@ -199,11 +175,11 @@ public class PostCreateView extends VerticalLayout {
         }
         else{
             Post newPost = new Post(title,description,String.valueOf(pr.AllPosts().size() + 1),currentAccount.getCurrentAccount(),location,tags);
-            newPost.datePosted = new Date();
-            newPost.give = givePost;
-            newPost.privacy = isPostPublic;
+            newPost.datePosted = new Date();    //apply date of creation to post
+            newPost.give = givePost;            //apply give flag for post
+            newPost.privacy = isPostPublic;     //apply privacy of post
             if(includeEmail){
-                newPost.contactEmail = currentAccount.getEmail();
+                newPost.contactEmail = currentAccount.getEmail();   //apply email of current account
             }
             postRepo.addPost(newPost);
 
@@ -218,26 +194,10 @@ public class PostCreateView extends VerticalLayout {
             });
             confirmPosted.add(new H1("Successful Post!"),returnButton);
             confirmPosted.setOpened(true);
-
-
-
         }
     }
 
-    private HorizontalLayout email(){
-        Checkbox email = new Checkbox();
-        Div value = new Div();
-        value.setText("Email: ");
-        email.addValueChangeListener(event ->{
-            if( event.getValue()){
-                value.setText("Email: "+ currentAccount.getEmail());
-            }
-            else {
-                value.setText("Email: ");
-            }
-        });
-        return new HorizontalLayout(email,value);
-    }
+    //Placeholder phone widget method
     private HorizontalLayout phone(){
         Checkbox phone = new Checkbox();
         Div value = new Div();

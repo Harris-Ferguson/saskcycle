@@ -38,7 +38,7 @@ public class SaskCycleHeader extends HorizontalLayout {
     setWidth("100%");
 
     addClassName("header");
-    add(drawerToggle, logo, searchButton);
+    add(drawerToggle, logo, searchButton, createSignInButtons());
   }
 
   /** Constructs the drawer feature, denoted by the hamburger menu */
@@ -49,5 +49,27 @@ public class SaskCycleHeader extends HorizontalLayout {
     accountLink.setHighlightCondition(HighlightConditions.sameLocation());
 
     return new VerticalLayout(accountLink, postLink, settingsLink);
+  }
+
+  /**
+   * Creates a log in and register buttons
+   * @return HorizontalLayout containing the two buttons
+   */
+  private HorizontalLayout createSignInButtons() {
+    Anchor loginButton = new Anchor();
+    Anchor signonButton = new Anchor("/register");
+    signonButton.setText("Sign Up");
+    loginButton.setClassName("register-button");
+    signonButton.setClassName("register-button");
+    if (SecurityUtils.isUserLoggedIn()) {
+      loginButton.setHref("/logout");
+      loginButton.setText("Logout");
+      signonButton.setVisible(false);
+    } else {
+      loginButton.setHref("/login");
+      loginButton.setText("Log In");
+      signonButton.setVisible(true);
+    }
+    return new HorizontalLayout(loginButton, signonButton);
   }
 }

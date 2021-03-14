@@ -96,8 +96,7 @@ public class SearchResultsView extends VerticalLayout {
               });    useSelect = new Select<>();
 
      */
-
-
+      // Dropdown menu user to select sorting
     sortSelect = new Select<>();
     sortSelect.setItems("Select", "Alphabetically (A-Z)", "Closest to me");
     sortSelect.setLabel("Sort by");
@@ -115,6 +114,7 @@ public class SearchResultsView extends VerticalLayout {
           grid.setItems(posts);
         });
 
+    // Checkbox to select tags that user wants to include
     includeGroup = new CheckboxGroup<>();
     includeGroup.setLabel("Show results for");
     includeGroup.setItems("Appliances", "Clothing", "Electronics", "Furniture");
@@ -142,6 +142,7 @@ public class SearchResultsView extends VerticalLayout {
           }
         });
 
+      // Checkbox to select tags that user wants to exclude
     excludeGroup = new CheckboxGroup<>();
     excludeGroup.setLabel("Hide results for");
     excludeGroup.setItems("Appliances", "Clothing", "Electronics", "Furniture");
@@ -169,6 +170,7 @@ public class SearchResultsView extends VerticalLayout {
           }
         });
 
+    // Show dropdown menu to select tbe author of the posts the user wants to see
     postChoice = new Select<>();
     postChoice.setLabel("Only show posts from");
     postChoice.setItems("Select", "Users", "Organizations");
@@ -185,7 +187,7 @@ public class SearchResultsView extends VerticalLayout {
                   sortSelect.getValue());
           grid.setItems(posts);
         });
-
+    // Reset listings
     Button resetButton = new Button("Reset filters");
     resetButton.addClassName("reset-button");
     resetButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -205,6 +207,11 @@ public class SearchResultsView extends VerticalLayout {
     return filterGroup;
   }
 
+  /**
+   * Creates a string representation of all of the tags being applied
+   * @param group contains the user filter choices
+   * @return string of the selected tags
+   */
   private String stringTags(CheckboxGroup<String> group) {
     StringBuilder strTags = new StringBuilder();
     for (String s : group.getValue()) {

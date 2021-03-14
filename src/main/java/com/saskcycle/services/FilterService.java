@@ -89,14 +89,17 @@ public class FilterService implements Serializable {
      * @return lit of posts that contain the relevant tag(s)
      */
     public List<Post> filterPosts(Set<String> value, String poster) {
+        // Only apply filters to user posts
         if (poster.equals("Users"))
         {
             List<Post> newPosts = new ArrayList<>();
 
+            // Get the posts associated with the tags
             for (String t : value) {
                 newPosts.addAll(SC.getAllPostsByTag(t));
             }
 
+            // Remove duplicates
             List<Post> anotherPosts = new ArrayList<>();
             for (Post p : newPosts) {
 //                for (Post a : anotherPosts) {
@@ -115,14 +118,17 @@ public class FilterService implements Serializable {
 
             return anotherPosts;
         }
+        // Only apply filters to organization posts
         else if (poster.equals("Organizations"))
         {
             List<Post> newPosts = new ArrayList<>();
 
+            // Get the posts associated with the tags
             for (String t : value) {
                 newPosts.addAll(SC.getAllBusinessesByTag(t));
             }
 
+            // Remove duplicates
             List<Post> anotherPosts = new ArrayList<>();
             for (Post p : newPosts) {
                 if (!anotherPosts.contains(p)) {
@@ -133,14 +139,17 @@ public class FilterService implements Serializable {
 
             return anotherPosts;
         }
+        // Otherwise no user/organization was chosen
         else
         {
             List<Post> newPosts = new ArrayList<>();
 
+            // Get the posts associated with the tags
             for (String t : value) {
                 newPosts.addAll(SC.getAllListingsByTag(t));
             }
 
+            // Remove duplicates
             List<Post> anotherPosts = new ArrayList<>();
             for (Post p : newPosts) {
                 if (!anotherPosts.contains(p)) {
@@ -163,17 +172,19 @@ public class FilterService implements Serializable {
      */
     public List<Post> checkOtherFilters(Set<String> includedTags, Set<String> excludedTags, String poster, String sortChoice) {
 
-
+        // Determine what posts from users/organizations should have filters applied
         if (poster.equals("Users") || poster.equals("Organizations")) {
             posts = showByPoster(poster);
         }
+        // If not selected, then get all listings in the DB
         else {
             posts = SC.getAllListings();
         }
-
+        // Find all posts with the specified associated tags
         if (!includedTags.isEmpty()) {
             posts = filterPosts(includedTags,poster);
         }
+        // Do not get the posts that have the specified tag(s)
         if (!excludedTags.isEmpty()) {
             posts = excludePosts(excludedTags,poster);
         }
@@ -182,12 +193,18 @@ public class FilterService implements Serializable {
             posts = sortByFunction(useChoice);
         }
         */
+        // If specified, sort posts
         if (sortChoice.equals("Alphabetically (A-Z)") || sortChoice.equals("Closest to me")) {
             posts = sortPosts(sortChoice);
         }
         return posts;
     }
 
+    /***
+     * Shows all posts from either all businesses or all users
+     * @param value a string containing either Users or Organizations. If it is neither an empty list is returned.
+     * @return a list of all User or Organizational posts
+     */
     public List<Post> showByPoster(String value) {
 
         posts.clear();

@@ -1,4 +1,4 @@
-package com.saskcycle.saskcycle.view;
+package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.saskcycle.security.SecurityUtils;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;

@@ -105,7 +105,14 @@ public class SearchResultsView extends VerticalLayout {
 
     sortSelect.addValueChangeListener(
         event -> {
-          posts = filterService.sortPosts(event.getValue());
+          sortSelect.setLabel(event.getValue());
+//          posts = filterService.sortPosts(event.getValue());
+            posts = filterService.checkOtherFilters(
+                    includeGroup.getValue(),
+                    excludeGroup.getValue(),
+                    postChoice.getValue(),
+//                  useSelect.getValue(),
+                    sortSelect.getValue());
           grid.setItems(posts);
         });
 

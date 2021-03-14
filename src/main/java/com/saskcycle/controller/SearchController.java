@@ -156,10 +156,11 @@ public class SearchController {
    * Either sorts posts alphabetically or from closest to farthest away
    *
    * @param value the filter value
-   * @postcond modifies the order of posts
    * @param posts the posts being filtered
+   * @postcond modifies the order of posts
+   * @return
    */
-  public void getSortedPosts(String value, List<Post> posts) {
+  public List<Post> getSortedPosts(String value, List<Post> posts) {
 
     if (value.equals("Alphabetically (A-Z)")) {
       posts.sort(Comparator.comparing(a -> a.title));
@@ -169,6 +170,8 @@ public class SearchController {
           Comparator.comparing(
               a -> Float.parseFloat(a.location.substring(0, a.location.length() - 2))));
     }
+
+    return posts;
   }
 
   /***

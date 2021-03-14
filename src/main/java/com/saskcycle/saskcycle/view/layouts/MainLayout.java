@@ -1,5 +1,6 @@
-package com.saskcycle.saskcycle.view;
+package com.saskcycle.saskcycle.view.layouts;
 
+import com.saskcycle.saskcycle.view.components.SaskCycleHeader;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.router.PageTitle;
 
@@ -9,6 +10,7 @@ public class MainLayout extends SaskCycleLayout {
 
   SaskCycleHeader saskCycleHeader;
 
+  /** Sets up the layout of the main page */
   public MainLayout() {
 
     super();
@@ -22,5 +24,4 @@ public class MainLayout extends SaskCycleLayout {
     saskCycleHeader = new SaskCycleHeader();
     addToNavbar(new SaskCycleHeader());
   }
-
 }

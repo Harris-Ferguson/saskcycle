@@ -15,4 +15,6 @@ public class Notification {
   private ArrayList<Account> subscribers;
 
   /* ----------- Methods ------------- */
+
+
 }

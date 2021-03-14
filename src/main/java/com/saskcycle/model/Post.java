@@ -22,7 +22,7 @@ public class Post {
 
     public int IDnum;
 
-
+    @ToDo
     // public Arraylist<pictures> photos;
 
     public Date datePosted;
@@ -49,4 +49,11 @@ public class Post {
 
 
 
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof Post)) {
+      return false;
+    }
+    return (((Post) obj).id.equals(this.id)) && (((Post) obj).title.equals(this.title));
+  }
 }

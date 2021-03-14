@@ -12,7 +12,7 @@ import java.util.Collection;
 @Document(collection = "User Accounts")
 public class Account extends User {
 
-  /* --------- Attributes -------------*/
+    /* --------- Attributes -------------*/
 
   @Id private String id;
 

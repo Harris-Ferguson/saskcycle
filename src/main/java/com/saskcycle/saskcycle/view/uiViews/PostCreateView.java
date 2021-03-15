@@ -1,6 +1,6 @@
 package com.saskcycle.saskcycle.view.uiViews;
 
-import com.saskcycle.DAO.CurrentUserSettingsDAOInterface;
+import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.DAO.PostsDAO;
 import com.saskcycle.DAO.PostsDAOInterface;
 import com.saskcycle.model.Post;
@@ -33,7 +33,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Secured("ROLE_USER")
 public class PostCreateView extends VerticalLayout {
 
-  @Autowired private CurrentUserSettingsDAOInterface currentAccount;
+  @Autowired private CurrentUserDAOInterface currentAccount;
 
   @Autowired private PostsDAOInterface postRepo;
 

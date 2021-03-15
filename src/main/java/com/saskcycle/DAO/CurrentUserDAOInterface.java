@@ -3,7 +3,7 @@ package com.saskcycle.DAO;
 import com.saskcycle.model.Account;
 
 /** An interface for operations on the currently logged in user */
-public interface CurrentUserSettingsDAOInterface {
+public interface CurrentUserDAOInterface {
   /**
    * Update a users Notification Settings
    *

@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CurrentUserSettingsDAO implements CurrentUserSettingsDAOInterface {
+public class CurrentUserDAO implements CurrentUserDAOInterface {
 
   @Autowired private UserDAOInterface userDAO;
 

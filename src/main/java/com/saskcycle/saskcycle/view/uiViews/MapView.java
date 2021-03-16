@@ -19,11 +19,4 @@ public class MapView extends VerticalLayout {
         add(new MapComponent());
         map.displayMarker(53, -106, "Label!");
     }
-
-    public Div createMap(){
-        Div map = new Div();
-        map.setId("map");
-        map.setHeight("100%");
-        return map;
-    }
 }

@@ -11,38 +11,21 @@ var servce;
 window.initMap = function() {
     var saskatoon = new google.maps.LatLng(52.118, -106.643)
 
-    infowindow = new google.maps.InfoWindow();
-
     map = new google.maps.Map(document.getElementById("map"), {
         center: saskatoon,
         zoom: 10,
     });
-
-    var request = {
-        query : 'Recycle',
-        fields : ['name', 'geometry']
-    };
-
-    var service = new google.maps.places.PlacesService(map);
-
-    service.findPlaceFromQuery(request, function(results, status) {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-            for (var i = 0; i < results.length; i++) {
-                createMarker(results[i], results[i].name);
-                console.log(results[i]);
-            }
-            map.setCenter(results[0].geometry.location);
-        }
-    });
 };
 
-function createMarker(place, name) {
-    new google.maps.Marker({
-        position: place.geometry.location,
+function addMarker(lat, long, name){
+    console.log(lat, long, name);
+    pos = new google.maps.LatLng(lat, long);
+    new google.maps.marker({
+        position: pos,
         title: name,
         map: map
     });
-}
+};
 
 // Append the 'script' element to 'head'
 document.head.appendChild(script);

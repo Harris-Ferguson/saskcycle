@@ -8,6 +8,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+import elemental.json.JsonString;
 import org.vaadin.stefan.fullcalendar.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -58,13 +59,25 @@ public class EventView extends VerticalLayout {
 
     HorizontalLayout toolbar = new HorizontalLayout();
 
-    H1 month = new H1(String.valueOf(LocalDate.now().getMonth()) + " " + LocalDate.now().getYear());
+    H1 month = new H1(LocalDate.now().getMonth()+ " " + LocalDate.now().getYear());
 
-    Button buttonToday = new Button("Today", VaadinIcon.HOME.create(), e -> calendar.today());
+    Button buttonToday = new Button("Today", VaadinIcon.HOME.create(), e -> {
+      calendar.today();
+      calendar.getElement().executeJs("return this.getCalendar().view.title")
+              .then(x -> month.setText(x instanceof JsonString ? x.asString(): "--"));
+    });
     Button buttonPrevious = new Button("Previous", VaadinIcon.ANGLE_LEFT.create(), e -> {
       calendar.previous();
+      calendar.getElement().executeJs("return this.getCalendar().view.title")
+              .then(x -> month.setText(x instanceof JsonString ? x.asString(): "--"));
+
     });
-    Button buttonNext = new Button("Next", VaadinIcon.ANGLE_RIGHT.create(), e -> calendar.next());
+
+    Button buttonNext = new Button("Next", VaadinIcon.ANGLE_RIGHT.create(), e -> {
+      calendar.next();
+      calendar.getElement().executeJs("return this.getCalendar().view.title")
+              .then(x -> month.setText(x instanceof JsonString ? x.asString(): "--"));
+    });
     buttonNext.setIconAfterText(true);
 
     DatePicker gotoDate = new DatePicker();
@@ -72,6 +85,7 @@ public class EventView extends VerticalLayout {
       calendar.gotoDate(event1.getValue());
       month.setText(event1.getValue().getMonth().toString() + " " + event1.getValue().getYear());
     });
+
     gotoDate.getElement().getStyle().set("visibility", "hidden");
     gotoDate.getElement().getStyle().set("position", "fixed");
     gotoDate.setWidth("0px");

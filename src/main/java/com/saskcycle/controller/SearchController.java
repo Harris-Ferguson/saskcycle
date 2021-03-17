@@ -49,7 +49,7 @@ public class SearchController {
    * @param post: A post object
    */
   public void addPost(Post post) {
-    Paccess.addPost(post);
+    if (post != null) Paccess.addPost(post);
   }
 
   /***
@@ -122,6 +122,9 @@ public class SearchController {
    * @return list of posts not associated with the specified tag(s)
    */
   public List<Post> ExcludeListingsByTag(String tag, List<Post> posts) {
+    // If no tag, no posts are excluded
+    if (tag.isEmpty()) return posts;
+    // Otherwise, exclude other posts
     List<Post> postsWithoutTag = new ArrayList<>();
     // List<Post> allPosts = getAllPosts();
     for (Post p : posts) {
@@ -140,6 +143,10 @@ public class SearchController {
   public List<Post> getSpecifiedPosts(String value, List<Post> posts) {
 
     List<Post> specPosts = new ArrayList<>();
+
+    // If incorrect string parameter given, return empty list
+    if (!value.equals("Get") && !value.equals("Give")) return specPosts;
+
     // List<Post> allPosts = getAllPosts();
     for (Post p : posts) {
       if (value.equals("Get") && !p.give) {
@@ -158,7 +165,7 @@ public class SearchController {
    * @param value the filter value
    * @param posts the posts being filtered
    * @postcond modifies the order of posts
-   * @return
+   * @return List of sorted posts
    */
   public List<Post> getSortedPosts(String value, List<Post> posts) {
 

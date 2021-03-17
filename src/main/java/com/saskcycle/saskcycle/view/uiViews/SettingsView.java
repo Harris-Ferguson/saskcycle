@@ -1,6 +1,6 @@
 package com.saskcycle.saskcycle.view.uiViews;
 
-import com.saskcycle.DAO.CurrentUserSettingsDAOInterface;
+import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
@@ -23,7 +23,7 @@ public class SettingsView extends Composite {
   private static final String emailString = "Email me";
   private static final String textString = "Text me";
 
-  @Autowired private CurrentUserSettingsDAOInterface currentAuthDAO;
+  @Autowired private CurrentUserDAOInterface currentAuthDAO;
 
   @Override
   protected Component initContent() {

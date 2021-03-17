@@ -60,4 +60,12 @@ public class Post {
     }
     return (((Post) obj).id.equals(this.id)) && (((Post) obj).title.equals(this.title));
   }
+
+  /**
+   * Checks to insure that each post field has been filled
+   * @return True if each field has been filled, false otherwise
+   */
+  public boolean isComplete(){
+    return !title.isEmpty() && !description.isEmpty() && !this.id.isEmpty() && !this.tags.isEmpty();
+  }
 }

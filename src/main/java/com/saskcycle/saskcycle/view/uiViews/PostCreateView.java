@@ -56,9 +56,7 @@ public class PostCreateView extends VerticalLayout {
     postType.setPlaceholder("giving away");
     postType.setLabel("Why are you posting?");
     postType.addValueChangeListener(
-        e -> {
-          give.set(e.getValue().trim().equals("giving away"));
-        });
+        e -> give.set(e.getValue().trim().equals("giving away")));
 
     // Title Field
     TextField title = new TextField();
@@ -89,9 +87,7 @@ public class PostCreateView extends VerticalLayout {
     privacy.setPlaceholder("Public");
     privacy.setMaxWidth("150px");
     privacy.addValueChangeListener(
-        e -> {
-          isPostPublic.set(e.getValue().equals("Public"));
-        });
+        e -> isPostPublic.set(e.getValue().equals("Public")));
 
     // email check box
     Checkbox email = new Checkbox();
@@ -136,16 +132,14 @@ public class PostCreateView extends VerticalLayout {
     // create post button (calls publish post when clicked)
     Button createPostButton = new Button("Create Post!", new Icon(VaadinIcon.THUMBS_UP));
     createPostButton.addClickListener(
-        e -> {
-          publishPost(
-              give.get(),
-              title.getValue(),
-              description.getValue(),
-              location.getValue(),
-              tagList,
-              isPostPublic.get(),
-              email.getValue());
-        });
+        e -> publishPost(
+            give.get(),
+            title.getValue(),
+            description.getValue(),
+            location.getValue(),
+            tagList,
+            isPostPublic.get(),
+            email.getValue()));
 
     add(Header, InfoPanel, createPostButton);
   }
@@ -161,7 +155,7 @@ public class PostCreateView extends VerticalLayout {
       String location,
       ArrayList<String> tags,
       boolean isPostPublic,
-      boolean includeEmail) {
+      boolean includeEmail){
 
     if (title.trim().isEmpty()) {
       Notification.show("Enter a Title");

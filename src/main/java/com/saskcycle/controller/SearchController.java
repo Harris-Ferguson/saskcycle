@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class SearchController {
@@ -220,4 +221,12 @@ public class SearchController {
   public List<Post> getAllBusinesses() {
     return new ArrayList<>(Baccess.getAllBusinesses());
   }
+
+  public void filterService(Set<String> includedTags, Set<String> excludedTags, String poster, String sortChoice)
+  {
+
+  }
+
+
+
 }

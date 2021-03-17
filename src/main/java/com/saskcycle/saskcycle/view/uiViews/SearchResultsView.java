@@ -1,5 +1,6 @@
 package com.saskcycle.saskcycle.view.uiViews;
 
+import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.view.components.PostComponent;
 import com.saskcycle.saskcycle.view.layouts.SearchResultsLayout;
@@ -25,6 +26,9 @@ import java.util.List;
 public class SearchResultsView extends VerticalLayout {
 
   @Autowired FilterService filterService;
+
+  @Autowired
+  SearchController SC;
 
   private Grid<Post> grid;
 
@@ -221,5 +225,10 @@ public class SearchResultsView extends VerticalLayout {
     }
 
     return strTags.substring(0, strTags.length() - 2);
+  }
+
+  public void updatePosts()
+  {
+
   }
 }

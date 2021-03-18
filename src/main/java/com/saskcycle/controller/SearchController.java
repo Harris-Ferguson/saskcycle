@@ -24,7 +24,7 @@ public class SearchController {
   List<Post> currentPosts;
 
   public SearchController() {
-    currentPosts = this.getAllListings();
+//    currentPosts = this.getAllListings();
   }
 
   /* ---------  Methods  --------- */

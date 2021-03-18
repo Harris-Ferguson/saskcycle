@@ -21,7 +21,11 @@ public class SearchController {
 
   @Autowired private BusinessDAOInterface Baccess;
 
-  public SearchController() {}
+  List<Post> currentPosts;
+
+  public SearchController() {
+    currentPosts = this.getAllListings();
+  }
 
   /* ---------  Methods  --------- */
 

@@ -118,8 +118,8 @@ public class EventView extends VerticalLayout {
 
       Entry entry = new Entry();
       entry.setTitle(e.title);
-      entry.setStart(LocalDate.now().withDayOfMonth(e.startTime[1]).atTime(e.startTime[2], e.startTime[3]), calendar.getTimezone());
-      entry.setEnd(LocalDate.now().withDayOfMonth(e.endTime[1]).atTime(e.endTime[2], e.endTime[3]), calendar.getTimezone());
+      entry.setStart(LocalDate.now().withMonth(e.startTime[0]).withDayOfMonth(e.startTime[1]).atTime(e.startTime[2], e.startTime[3]), calendar.getTimezone());
+      entry.setEnd(LocalDate.now().withMonth(e.endTime[0]).withDayOfMonth(e.endTime[1]).atTime(e.endTime[2], e.endTime[3]), calendar.getTimezone());
 
       entry.setColor("#ff3333");
 

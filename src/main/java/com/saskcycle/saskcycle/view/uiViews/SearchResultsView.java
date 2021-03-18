@@ -50,7 +50,6 @@ public class SearchResultsView extends VerticalLayout {
     heading = new H1("All listings");
     //sets up searchController list to have all listings populated (currently can't do it in constructor or app breaks)
     SC.resetPosts();
-//    posts = SC.getAllListings();
 
     VerticalLayout filterGroup = FilterComponent();
 
@@ -110,14 +109,6 @@ public class SearchResultsView extends VerticalLayout {
     sortSelect.addValueChangeListener(
         event -> {
             this.updatePosts();
-          //          posts = filterService.sortPosts(event.getValue());
-//          posts =
-//              filterService.checkOtherFilters(
-//                  includeGroup.getValue(),
-//                  excludeGroup.getValue(),
-//                  postChoice.getValue(),
-//                  //                  useSelect.getValue(),
-//                  sortSelect.getValue());
           grid.setItems(SC.getCurrentPosts());
         });
 
@@ -130,13 +121,6 @@ public class SearchResultsView extends VerticalLayout {
     includeGroup.addValueChangeListener(
         event -> {
             this.updatePosts();
-//          posts =
-//              filterService.checkOtherFilters(
-//                  includeGroup.getValue(),
-//                  excludeGroup.getValue(),
-//                  postChoice.getValue(),
-//                  //                  useSelect.getValue(),
-//                  sortSelect.getValue());
           grid.setItems(SC.getCurrentPosts());
 
           excludeGroup.setItemEnabledProvider(item -> !event.getValue().contains(item));
@@ -159,13 +143,6 @@ public class SearchResultsView extends VerticalLayout {
     excludeGroup.addValueChangeListener(
         event -> {
             this.updatePosts();
-//          posts =
-//              filterService.checkOtherFilters(
-//                  includeGroup.getValue(),
-//                  excludeGroup.getValue(),
-//                  postChoice.getValue(),
-//                  //                  useSelect.getValue(),
-//                  sortSelect.getValue());
           grid.setItems(SC.getCurrentPosts());
 
           includeGroup.setItemEnabledProvider(item -> !event.getValue().contains(item));
@@ -188,13 +165,6 @@ public class SearchResultsView extends VerticalLayout {
     postChoice.addValueChangeListener(
         event -> {
             this.updatePosts();
-//          posts =
-//              filterService.checkOtherFilters(
-//                  includeGroup.getValue(),
-//                  excludeGroup.getValue(),
-//                  postChoice.getValue(),
-//                  //                  useSelect.getValue(),
-//                  sortSelect.getValue());
           grid.setItems(SC.getCurrentPosts());
         });
     // Reset listings
@@ -208,10 +178,10 @@ public class SearchResultsView extends VerticalLayout {
           sortSelect.setValue("Select");
           //          useSelect.setValue("Select");
           postChoice.setValue("Select");
+
           //"resets" searchController list
           SC.resetPosts();
-//
-//          posts = filterService.resetPosts();
+
           grid.setItems(SC.getCurrentPosts());
         });
 

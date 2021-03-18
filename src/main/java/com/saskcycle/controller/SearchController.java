@@ -168,10 +168,9 @@ public class SearchController implements Serializable {
    * Filters posts based on what action is associated with each post
    *
    * @param value give/get
-   * @param posts the posts being filtered
    * @return list of posts that are associated with the specific action (give/get)
    */
-  public List<Post> getSpecifiedPosts(String value, List<Post> posts) {
+  public List<Post> getSpecifiedPosts(String value) {
 
     List<Post> specPosts = new ArrayList<>();
 
@@ -179,13 +178,17 @@ public class SearchController implements Serializable {
     if (!value.equals("Get") && !value.equals("Give")) return specPosts;
 
     // List<Post> allPosts = getAllPosts();
-    for (Post p : posts) {
+    for (Post p : currentPosts) {
       if (value.equals("Get") && !p.give) {
         specPosts.add(p);
       }
       if (value.equals("Give") && p.give) {
         specPosts.add(p);
       }
+    }
+    if (value.equals("Get"))
+    {
+      specPosts.addAll(this.getAllBusinesses());
     }
     return specPosts;
   }
@@ -252,7 +255,7 @@ public class SearchController implements Serializable {
     return new ArrayList<>(Baccess.getAllBusinesses());
   }
 
-  public void filterService(Set<String> includedTags, Set<String> excludedTags, String poster, String sortChoice, double pageNumber)
+  public void filterService(Set<String> includedTags, Set<String> excludedTags, String poster,String useChoice, String sortChoice, double pageNumber)
   {
     // Determine what posts from users/organizations should have filters applied
     if (poster.equals("Users") || poster.equals("Organizations")) {
@@ -270,11 +273,11 @@ public class SearchController implements Serializable {
     if (!excludedTags.isEmpty()) {
       this.currentPosts = excludePosts(excludedTags, poster);
     }
-    /* Use case is not fully implemented
+//    /* Use case is not fully implemented
     if (useChoice.equals("Get") || useChoice.equals("Give")) {
-        posts = sortByFunction(useChoice);
+        currentPosts = getSpecifiedPosts(useChoice);
     }
-    */
+
     // If specified, sort posts
     if (sortChoice.equals("Alphabetically (A-Z)") || sortChoice.equals("Closest to me")) {
       this.currentPosts = this.getSortedPosts(sortChoice,currentPosts);

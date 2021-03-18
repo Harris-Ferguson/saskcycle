@@ -38,7 +38,7 @@ public class SearchResultsView extends VerticalLayout {
 //  private List<Post> posts;
 
   private Select<String> sortSelect;
-  // private Select<String> useSelect;
+  private Select<String> useSelect;
   private Select<String> postChoice;
   private NumberField   numberField;
   private CheckboxGroup<String> includeGroup;
@@ -88,7 +88,7 @@ public class SearchResultsView extends VerticalLayout {
 
     filterGroup.setWidth("200px");
 
-    /* Use case has not been fully implemented
+//    /* Use case has not been fully implemented
      useSelect = new Select<>();
      useSelect.setItems("Select", "Get", "Give");
      useSelect.setLabel("What do you want to do?");
@@ -96,11 +96,11 @@ public class SearchResultsView extends VerticalLayout {
 
      useSelect.addValueChangeListener(
              event -> {
-                 posts = filterService.sortByFunction(event.getValue());
-                 grid.setItems(posts);
+                 this.updatePosts();
+                 grid.setItems(SC.getPageOfPosts(numberField.getValue()));
              });    useSelect = new Select<>();
 
-    */
+
     // Dropdown menu user to select sorting
     sortSelect = new Select<>();
     sortSelect.setItems("Select", "Alphabetically (A-Z)", "Closest to me");
@@ -110,7 +110,7 @@ public class SearchResultsView extends VerticalLayout {
     sortSelect.addValueChangeListener(
         event -> {
             this.updatePosts();
-            numberField.setMax(SC.amountOfPages());
+//            numberField.setMax(SC.amountOfPages());
           grid.setItems(SC.getPageOfPosts(numberField.getValue()));
         });
 
@@ -202,7 +202,7 @@ public class SearchResultsView extends VerticalLayout {
               });
 
       add(numberField);
-    filterGroup.add(sortSelect, postChoice, includeGroup, excludeGroup, resetButton,numberField);
+    filterGroup.add(sortSelect, postChoice, useSelect, includeGroup, excludeGroup, resetButton,numberField);
 
 
     return filterGroup;
@@ -228,15 +228,12 @@ public class SearchResultsView extends VerticalLayout {
         SC.filterService(includeGroup.getValue(),
                 excludeGroup.getValue(),
                 postChoice.getValue(),
-                //                  useSelect.getValue(),
+                useSelect.getValue(),
                 sortSelect.getValue(),
                 numberField.getValue());
     numberField.setMax(SC.amountOfPages());
     numberField.setValue(1d);
   }
 
-  private int getMaxSize()
-  {
-      return 0;
-  }
+
 }

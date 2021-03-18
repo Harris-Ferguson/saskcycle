@@ -14,7 +14,7 @@ public class MapComponent extends Div {
         this.setHeight("100%");
         this.setWidth("100%");
         this.setId("map");
-        displayMarker(-56.1, -106.6, "MapComponentCaller");
+        displayMarker(56.1, -106.6, "MapComponentCaller");
     }
 
     public void displayMarker(double lat, double lon, String name){

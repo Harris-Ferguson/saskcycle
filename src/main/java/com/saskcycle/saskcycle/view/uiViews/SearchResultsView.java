@@ -2,6 +2,7 @@ package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
+import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.components.PostComponent;
 import com.saskcycle.saskcycle.view.layouts.SearchResultsLayout;
 import com.vaadin.flow.component.button.Button;
@@ -114,8 +115,7 @@ public class SearchResultsView extends VerticalLayout {
     // Checkbox to select tags that user wants to include
     includeGroup = new CheckboxGroup<>();
     includeGroup.setLabel("Show results for");
-    includeGroup.setItems(SC.getTags());
-//    includeGroup.setItems("Appliances", "Clothing", "Electronics", "Furniture");
+    includeGroup.setItems(Tags.getTagNames());
     includeGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
     includeGroup.addValueChangeListener(
@@ -137,7 +137,7 @@ public class SearchResultsView extends VerticalLayout {
     // Checkbox to select tags that user wants to exclude
     excludeGroup = new CheckboxGroup<>();
     excludeGroup.setLabel("Hide results for");
-    excludeGroup.setItems(SC.getTags());
+    excludeGroup.setItems(Tags.getTagNames());
     excludeGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
     excludeGroup.addValueChangeListener(

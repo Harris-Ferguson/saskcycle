@@ -13,14 +13,20 @@ public enum Tags {
     Paper,
     Toys,
     Wood;
+    /**
+     * Gets the current systemwide tags currenlty implemented by the application
+     * @return an Arrary of Strings representing the usaeable tags in the system
+     */
+    public static String[] getTagNames()
+    {
+        String[] tags = new String[Tags.values().length];
+        int index = 0;
+        for (Tags value : Tags.values()) {
+            tags[index] =  value.name();
+            index += 1;
 
-    public static final Tags[] TAGS = new Tags[]{Tags.Appliances,Tags.Art,Tags.Cans,Tags.Clothing,
-            Tags.Clothing,Tags.Cookware,Tags.Decorations,Tags.Electronics,Tags.Furniture,Tags.Metal,
-            Tags.Paper,Tags.Toys,Tags.Wood};
-
-    public static Tags[] getValues() {
-        return (Tags[])TAGS.clone();
-
+        }
+        return tags;
     }
 }
 

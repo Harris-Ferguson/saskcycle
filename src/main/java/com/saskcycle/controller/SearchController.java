@@ -25,6 +25,8 @@ public class SearchController implements Serializable {
 
   List<Post> currentPosts;
 
+  private final int ITEMS_PER_PAGE = 5;
+
   public SearchController() {
 
   }
@@ -58,10 +60,13 @@ public class SearchController implements Serializable {
    */
   public List<Post> getPageOfPosts(double pageSelect)
   {
-    int goTo = (int) pageSelect * 5;
+    //goTo will determine the last post to look for per page
+    int goTo = (int) pageSelect * ITEMS_PER_PAGE;
     List<Post> postsPage = new ArrayList<>();
-    for (int i = ((int)pageSelect - 1)*5; i < goTo; i++)
+    //start at an iteration of 5, and go five items forward in list
+    for (int i = ((int)pageSelect - 1)*ITEMS_PER_PAGE; i < goTo; i++)
     {
+      //ensure no array out of bounds errors
       if(i < currentPosts.size())
       {
         postsPage.add(currentPosts.get(i));
@@ -341,7 +346,6 @@ public class SearchController implements Serializable {
       List<Post> anotherPosts = new ArrayList<>();
       for (Post p : newPosts) {
         if (!anotherPosts.contains(p)) {
-//          System.out.println(p.title);
           anotherPosts.add(p);
         }
       }
@@ -441,21 +445,21 @@ public class SearchController implements Serializable {
     }
   }
 
-  /**
-   * Gets the current systemwide tags currenlty implemented by the application
-   * @return an Arrary of Strings representing the usaeable tags in the system
-   */
-  public String[] getTags()
-  {
-    String[] tags = new String[12];
-    int index = 0;
-    for (Tags value : Tags.values()) {
-      tags[index] =  value.name();
-      index += 1;
-
-    }
-    return tags;
-  }
+//  /**
+//   * Gets the current systemwide tags currenlty implemented by the application
+//   * @return an Arrary of Strings representing the usaeable tags in the system
+//   */
+//  public String[] getTags()
+//  {
+//    String[] tags = new String[Tags.values().length];
+//    int index = 0;
+//    for (Tags value : Tags.values()) {
+//      tags[index] =  value.name();
+//      index += 1;
+//
+//    }
+//    return tags;
+//  }
 
 
 }

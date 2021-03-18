@@ -36,9 +36,18 @@ public class SearchController implements Serializable {
     currentPosts = this.getAllListings();
   }
 
-  public List<Post> getCurrentPosts()
+  public List<Post> getCurrentPosts(double pageSelect)
   {
-    return this.currentPosts;
+    List<Post> postsPage = new ArrayList<>();
+    for (int i = ((int) pageSelect - 1)*4; i < ((i-1)*4 + 4); i++)
+    {
+      if(i < currentPosts.size())
+      {
+        postsPage.add(currentPosts.get(i));
+      }
+    }
+
+    return postsPage;
   }
   /***
    * Gets every post - giving away, getting, and static business posts - in one query
@@ -237,7 +246,7 @@ public class SearchController implements Serializable {
     return new ArrayList<>(Baccess.getAllBusinesses());
   }
 
-  public void filterService(Set<String> includedTags, Set<String> excludedTags, String poster, String sortChoice)
+  public void filterService(Set<String> includedTags, Set<String> excludedTags, String poster, String sortChoice, double pageNumber)
   {
     // Determine what posts from users/organizations should have filters applied
     if (poster.equals("Users") || poster.equals("Organizations")) {

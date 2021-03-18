@@ -14,6 +14,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class SearchResultsView extends VerticalLayout {
   private Select<String> sortSelect;
   // private Select<String> useSelect;
   private Select<String> postChoice;
-
+  private NumberField   numberField;
   private CheckboxGroup<String> includeGroup;
   private CheckboxGroup<String> excludeGroup;
 
@@ -70,7 +71,7 @@ public class SearchResultsView extends VerticalLayout {
    */
   private Grid<Post> initGrid() {
     Grid<Post> newGrid = new Grid<>();
-    newGrid.setItems(SC.getCurrentPosts());
+    newGrid.setItems(SC.getCurrentPosts(numberField.getValue()));
     newGrid.setHeight("1000px");
     newGrid.addComponentColumn(PostComponent::new);
 
@@ -109,7 +110,7 @@ public class SearchResultsView extends VerticalLayout {
     sortSelect.addValueChangeListener(
         event -> {
             this.updatePosts();
-          grid.setItems(SC.getCurrentPosts());
+          grid.setItems(SC.getCurrentPosts(numberField.getValue()));
         });
 
     // Checkbox to select tags that user wants to include
@@ -121,7 +122,7 @@ public class SearchResultsView extends VerticalLayout {
     includeGroup.addValueChangeListener(
         event -> {
             this.updatePosts();
-          grid.setItems(SC.getCurrentPosts());
+          grid.setItems(SC.getCurrentPosts(numberField.getValue()));
 
           excludeGroup.setItemEnabledProvider(item -> !event.getValue().contains(item));
           if (event.getValue() == null || event.getValue().isEmpty()) {
@@ -143,7 +144,7 @@ public class SearchResultsView extends VerticalLayout {
     excludeGroup.addValueChangeListener(
         event -> {
             this.updatePosts();
-          grid.setItems(SC.getCurrentPosts());
+          grid.setItems(SC.getCurrentPosts(numberField.getValue()));
 
           includeGroup.setItemEnabledProvider(item -> !event.getValue().contains(item));
           if (event.getValue() == null || event.getValue().isEmpty()) {
@@ -165,7 +166,7 @@ public class SearchResultsView extends VerticalLayout {
     postChoice.addValueChangeListener(
         event -> {
             this.updatePosts();
-          grid.setItems(SC.getCurrentPosts());
+          grid.setItems(SC.getCurrentPosts(numberField.getValue()));
         });
     // Reset listings
     Button resetButton = new Button("Reset filters");
@@ -179,13 +180,28 @@ public class SearchResultsView extends VerticalLayout {
           //          useSelect.setValue("Select");
           postChoice.setValue("Select");
 
-          //"resets" searchController list
+          // "resets" searchController list
           SC.resetPosts();
 
-          grid.setItems(SC.getCurrentPosts());
+          grid.setItems(SC.getCurrentPosts(numberField.getValue()));
         });
 
-    filterGroup.add(sortSelect, postChoice, includeGroup, excludeGroup, resetButton);
+      numberField = new NumberField();
+      numberField.setLabel("Go to page:");
+      numberField.setValue(1d);
+      numberField.setHasControls(true);
+      numberField.setMin(1);
+      numberField.setMax(SC.getAllListings().size() / 5 + 1);
+      numberField.addValueChangeListener(
+              event -> {
+//                  this.updatePosts();
+                  grid.setItems(SC.getCurrentPosts(numberField.getValue()));
+              });
+
+      add(numberField);
+    filterGroup.add(sortSelect, postChoice, includeGroup, excludeGroup, resetButton,numberField);
+
+
     return filterGroup;
   }
 
@@ -210,6 +226,7 @@ public class SearchResultsView extends VerticalLayout {
                 excludeGroup.getValue(),
                 postChoice.getValue(),
                 //                  useSelect.getValue(),
-                sortSelect.getValue());
+                sortSelect.getValue(),
+                numberField.getValue());
   }
 }

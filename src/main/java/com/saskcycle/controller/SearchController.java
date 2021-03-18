@@ -441,6 +441,10 @@ public class SearchController implements Serializable {
     }
   }
 
+  /**
+   * Gets the current systemwide tags currenlty implemented by the application
+   * @return an Arrary of Strings representing the usaeable tags in the system
+   */
   public String[] getTags()
   {
     String[] tags = new String[12];

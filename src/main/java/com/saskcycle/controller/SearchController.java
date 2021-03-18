@@ -25,7 +25,7 @@ public class SearchController implements Serializable {
   List<Post> currentPosts;
 
   public SearchController() {
-//    currentPosts = this.getAllListings();
+
   }
 
   /* ---------  Methods  --------- */
@@ -152,7 +152,7 @@ public class SearchController implements Serializable {
     if (tag.isEmpty()) return posts;
     // Otherwise, exclude other posts
     List<Post> postsWithoutTag = new ArrayList<>();
-    // List<Post> allPosts = getAllPosts();
+
     for (Post p : posts) {
       if (!p.tags.contains(tag)) postsWithoutTag.add(p);
     }

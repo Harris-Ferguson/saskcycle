@@ -182,7 +182,8 @@ public class SearchResultsView extends VerticalLayout {
 
           // "resets" searchController list
           SC.resetPosts();
-
+          numberField.setMax(SC.getAllListings().size() / 5 + 1);
+          numberField.setValue(1d);
           grid.setItems(SC.getCurrentPosts(numberField.getValue()));
         });
 
@@ -228,5 +229,12 @@ public class SearchResultsView extends VerticalLayout {
                 //                  useSelect.getValue(),
                 sortSelect.getValue(),
                 numberField.getValue());
+    numberField.setMax(SC.getCurrentPosts(numberField.getValue()).size() / 5 + 1);
+        numberField.setValue(1d);
+  }
+
+  private int getMaxSize()
+  {
+      return 0;
   }
 }

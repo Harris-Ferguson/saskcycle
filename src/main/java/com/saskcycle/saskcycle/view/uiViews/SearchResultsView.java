@@ -2,9 +2,9 @@ package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
+import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.components.PostComponent;
 import com.saskcycle.saskcycle.view.layouts.SearchResultsLayout;
-import com.saskcycle.services.FilterService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
@@ -20,13 +20,11 @@ import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
+
 
 @Route(value = "results", layout = SearchResultsLayout.class)
 @PageTitle("SaskCycle | Results")
 public class SearchResultsView extends VerticalLayout {
-
-  @Autowired FilterService filterService;
 
   @Autowired
   SearchController SC;
@@ -35,20 +33,20 @@ public class SearchResultsView extends VerticalLayout {
 
   private H1 heading;
 
-//  private List<Post> posts;
-
   private Select<String> sortSelect;
   private Select<String> useSelect;
   private Select<String> postChoice;
   private NumberField   numberField;
   private CheckboxGroup<String> includeGroup;
   private CheckboxGroup<String> excludeGroup;
+  private Object Tags;
 
-  /** Constructs the view that displays the listings */
+    /** Constructs the view that displays the listings */
   @PostConstruct
   public void SearchResultsView() {
 
     heading = new H1("All listings");
+
     //sets up searchController list to have all listings populated (currently can't do it in constructor or app breaks)
     SC.resetPosts();
 
@@ -99,7 +97,7 @@ public class SearchResultsView extends VerticalLayout {
                  this.updatePosts();
                  grid.setItems(SC.getPageOfPosts(numberField.getValue()));
              });
-//     useSelect = new Select<>();
+
 
 
     // Dropdown menu user to select sorting
@@ -111,14 +109,14 @@ public class SearchResultsView extends VerticalLayout {
     sortSelect.addValueChangeListener(
         event -> {
             this.updatePosts();
-//            numberField.setMax(SC.amountOfPages());
           grid.setItems(SC.getPageOfPosts(numberField.getValue()));
         });
 
     // Checkbox to select tags that user wants to include
     includeGroup = new CheckboxGroup<>();
     includeGroup.setLabel("Show results for");
-    includeGroup.setItems("Appliances", "Clothing", "Electronics", "Furniture");
+    includeGroup.setItems(SC.getTags());
+//    includeGroup.setItems("Appliances", "Clothing", "Electronics", "Furniture");
     includeGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
     includeGroup.addValueChangeListener(
@@ -140,7 +138,7 @@ public class SearchResultsView extends VerticalLayout {
     // Checkbox to select tags that user wants to exclude
     excludeGroup = new CheckboxGroup<>();
     excludeGroup.setLabel("Hide results for");
-    excludeGroup.setItems("Appliances", "Clothing", "Electronics", "Furniture");
+    excludeGroup.setItems(SC.getTags());
     excludeGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
     excludeGroup.addValueChangeListener(
@@ -198,7 +196,6 @@ public class SearchResultsView extends VerticalLayout {
       numberField.setMax(SC.amountOfPages());
       numberField.addValueChangeListener(
               event -> {
-//                  this.updatePosts();
                   grid.setItems(SC.getPageOfPosts(numberField.getValue()));
               });
 
@@ -224,14 +221,20 @@ public class SearchResultsView extends VerticalLayout {
     return strTags.substring(0, strTags.length() - 2);
   }
 
+    /**
+     * This method notifies the controlled that the user has changed a filtering option,
+     * and the searchController adjusts its list of current posts accordingly as well as
+     * ensures the amount of post pages is correct
+     */
   public void updatePosts()
   {
-        SC.filterService(includeGroup.getValue(),
+      SC.filterService(includeGroup.getValue(),
                 excludeGroup.getValue(),
                 postChoice.getValue(),
                 useSelect.getValue(),
-                sortSelect.getValue(),
-                numberField.getValue());
+                sortSelect.getValue());
+
+
     numberField.setMax(SC.amountOfPages());
     numberField.setValue(1d);
   }

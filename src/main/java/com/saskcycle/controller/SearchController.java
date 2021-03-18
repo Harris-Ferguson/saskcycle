@@ -4,6 +4,7 @@ import com.saskcycle.DAO.BusinessDAOInterface;
 import com.saskcycle.DAO.PostsDAOInterface;
 import com.saskcycle.model.Business;
 import com.saskcycle.model.Post;
+import com.saskcycle.model.Tags;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -31,16 +32,30 @@ public class SearchController implements Serializable {
   /* ---------  Methods  --------- */
 
 
+  /**
+   * Method used to populate currentPosts with all listings in the database
+   */
   public void resetPosts()
   {
     currentPosts = this.getAllListings();
   }
 
+  /**
+   * getter method for all items in the currentPosts list which can be filtered or unfiltered
+   * @return a list of Post objects that represent what the user has currently selected via filters
+   */
   public List<Post> getCurrentPosts()
   {
     return this.currentPosts;
   }
 
+  /**
+   * Method to determine which "page" of posts to display to the user. Pages contain up to five posts at a time,
+   * and which posts are displayed is determined by what the uswer selects in the view
+   * @param pageSelect a double representing the page number of posts to return (usign a double because that is what
+   *                   Vaaden uses)
+   * @return a list of up to 5 posts from the corresponding "page" of all currentPosts
+   */
   public List<Post> getPageOfPosts(double pageSelect)
   {
     int goTo = (int) pageSelect * 5;
@@ -186,10 +201,7 @@ public class SearchController implements Serializable {
         specPosts.add(p);
       }
     }
-//    if (value.equals("Get"))
-//    {
-//      specPosts.addAll(this.getAllBusinesses());
-//    }
+
     return specPosts;
   }
 
@@ -255,7 +267,15 @@ public class SearchController implements Serializable {
     return new ArrayList<>(Baccess.getAllBusinesses());
   }
 
-  public void filterService(Set<String> includedTags, Set<String> excludedTags, String poster,String useChoice, String sortChoice, double pageNumber)
+  /**
+   * Method that takes in filters user currently has selected, and determines which posts to put into list currentPosts
+   * @param includedTags a set of strings representing currently selected tags
+   * @param excludedTags a set of strings that represent tags to exclude
+   * @param poster  string representing whether the user is looking for other users or businesses/organizations
+   * @param useChoice string representing if user is looking for people that are taking things or giving things
+   * @param sortChoice  string representing how the user wants the posts to be sorted
+   */
+  public void filterService(Set<String> includedTags, Set<String> excludedTags, String poster,String useChoice, String sortChoice)
   {
     // Determine what posts from users/organizations should have filters applied
     if (poster.equals("Users") || poster.equals("Organizations")) {
@@ -282,7 +302,6 @@ public class SearchController implements Serializable {
     if (sortChoice.equals("Alphabetically (A-Z)") || sortChoice.equals("Closest to me")) {
       this.currentPosts = this.getSortedPosts(sortChoice,currentPosts);
     }
-//    return posts;
   }
 
   /***
@@ -370,19 +389,6 @@ public class SearchController implements Serializable {
   }
 
 
-//  /**
-//   * Gets the either the give or get posts depending what's chosen by the user
-//   *
-//   * @param value "get" or "give"
-//   * @return list of get or give posts
-//   */
-//  public List<Post> sortByFunction(String value) {
-//
-//    posts = SC.getSpecifiedPosts(value, posts);
-//
-//    return posts;
-//  }
-
   /**
    * Sorts posts by the given specification
    *
@@ -410,6 +416,10 @@ public class SearchController implements Serializable {
     return currentPosts;
   }
 
+  /**
+   * helper method for the view to determine how many pages of posts there will be based on size of currentPosts
+   * @return an integer representing the amount of pages there will be in the view
+   */
   public int amountOfPages()
   {
     int numberOfPages;
@@ -429,6 +439,18 @@ public class SearchController implements Serializable {
     {
       return numberOfPages;
     }
+  }
+
+  public String[] getTags()
+  {
+    String[] tags = new String[12];
+    int index = 0;
+    for (Tags value : Tags.values()) {
+      tags[index] =  value.name();
+      index += 1;
+
+    }
+    return tags;
   }
 
 

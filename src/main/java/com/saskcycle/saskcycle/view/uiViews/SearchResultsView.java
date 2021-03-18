@@ -180,7 +180,7 @@ public class SearchResultsView extends VerticalLayout {
           includeGroup.clear();
           excludeGroup.clear();
           sortSelect.setValue("Select");
-          //          useSelect.setValue("Select");
+          useSelect.setValue("Select");
           postChoice.setValue("Select");
 
           // "resets" searchController list

@@ -71,7 +71,7 @@ public class SearchResultsView extends VerticalLayout {
    */
   private Grid<Post> initGrid() {
     Grid<Post> newGrid = new Grid<>();
-    newGrid.setItems(SC.getCurrentPosts(numberField.getValue()));
+    newGrid.setItems(SC.getPageOfPosts(numberField.getValue()));
     newGrid.setHeight("1000px");
     newGrid.addComponentColumn(PostComponent::new);
 
@@ -110,7 +110,8 @@ public class SearchResultsView extends VerticalLayout {
     sortSelect.addValueChangeListener(
         event -> {
             this.updatePosts();
-          grid.setItems(SC.getCurrentPosts(numberField.getValue()));
+            numberField.setMax(SC.getCurrentPosts().size() / 5 + 1);
+          grid.setItems(SC.getPageOfPosts(numberField.getValue()));
         });
 
     // Checkbox to select tags that user wants to include
@@ -122,7 +123,7 @@ public class SearchResultsView extends VerticalLayout {
     includeGroup.addValueChangeListener(
         event -> {
             this.updatePosts();
-          grid.setItems(SC.getCurrentPosts(numberField.getValue()));
+          grid.setItems(SC.getPageOfPosts(numberField.getValue()));
 
           excludeGroup.setItemEnabledProvider(item -> !event.getValue().contains(item));
           if (event.getValue() == null || event.getValue().isEmpty()) {
@@ -144,7 +145,7 @@ public class SearchResultsView extends VerticalLayout {
     excludeGroup.addValueChangeListener(
         event -> {
             this.updatePosts();
-          grid.setItems(SC.getCurrentPosts(numberField.getValue()));
+          grid.setItems(SC.getPageOfPosts(numberField.getValue()));
 
           includeGroup.setItemEnabledProvider(item -> !event.getValue().contains(item));
           if (event.getValue() == null || event.getValue().isEmpty()) {
@@ -166,7 +167,8 @@ public class SearchResultsView extends VerticalLayout {
     postChoice.addValueChangeListener(
         event -> {
             this.updatePosts();
-          grid.setItems(SC.getCurrentPosts(numberField.getValue()));
+            numberField.setMax(SC.getCurrentPosts().size() / 5 + 1);
+          grid.setItems(SC.getPageOfPosts(numberField.getValue()));
         });
     // Reset listings
     Button resetButton = new Button("Reset filters");
@@ -182,9 +184,9 @@ public class SearchResultsView extends VerticalLayout {
 
           // "resets" searchController list
           SC.resetPosts();
-          numberField.setMax(SC.getAllListings().size() / 5 + 1);
+          numberField.setMax(SC.getCurrentPosts().size() / 5 + 1);
           numberField.setValue(1d);
-          grid.setItems(SC.getCurrentPosts(numberField.getValue()));
+          grid.setItems(SC.getPageOfPosts(numberField.getValue()));
         });
 
       numberField = new NumberField();
@@ -192,11 +194,11 @@ public class SearchResultsView extends VerticalLayout {
       numberField.setValue(1d);
       numberField.setHasControls(true);
       numberField.setMin(1);
-      numberField.setMax(SC.getAllListings().size() / 5 + 1);
+      numberField.setMax(SC.getCurrentPosts().size() / 5 + 1);
       numberField.addValueChangeListener(
               event -> {
 //                  this.updatePosts();
-                  grid.setItems(SC.getCurrentPosts(numberField.getValue()));
+                  grid.setItems(SC.getPageOfPosts(numberField.getValue()));
               });
 
       add(numberField);
@@ -229,7 +231,7 @@ public class SearchResultsView extends VerticalLayout {
                 //                  useSelect.getValue(),
                 sortSelect.getValue(),
                 numberField.getValue());
-    numberField.setMax(SC.getCurrentPosts(numberField.getValue()).size() / 5 + 1);
+    numberField.setMax(SC.getCurrentPosts().size() / 5 + 1);
     numberField.setValue(1d);
   }
 

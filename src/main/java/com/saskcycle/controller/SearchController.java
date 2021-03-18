@@ -36,7 +36,12 @@ public class SearchController implements Serializable {
     currentPosts = this.getAllListings();
   }
 
-  public List<Post> getCurrentPosts(double pageSelect)
+  public List<Post> getCurrentPosts()
+  {
+    return this.currentPosts;
+  }
+
+  public List<Post> getPageOfPosts(double pageSelect)
   {
     int goTo = (int) pageSelect * 5;
     List<Post> postsPage = new ArrayList<>();

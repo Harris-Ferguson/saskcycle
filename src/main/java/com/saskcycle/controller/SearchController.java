@@ -38,8 +38,9 @@ public class SearchController implements Serializable {
 
   public List<Post> getCurrentPosts(double pageSelect)
   {
+    int goTo = (int) pageSelect * 5;
     List<Post> postsPage = new ArrayList<>();
-    for (int i = ((int) pageSelect - 1)*4; i < ((i-1)*4 + 4); i++)
+    for (int i = ((int)pageSelect - 1)*5; i < goTo; i++)
     {
       if(i < currentPosts.size())
       {

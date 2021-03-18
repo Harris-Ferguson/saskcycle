@@ -103,23 +103,11 @@ public class AccountDAO implements UserDAOInterface {
 
   @Override
   public Account register(String username, String email, String password) {
-    // this is janky but we're building a user details user then using its authorities to build an
-    // Account
-    // we could probably find another way to do this, OR abstract this to a method in Account
-    UserDetails newUser = User.withUsername(username).password(password).roles("USER").build();
+    String encodedPass = encoder.encode(password);
+    UserDetails newUser = User.withUsername(username).password(encodedPass).roles("USER").build();
 
-    Account account =
-        new Account(
-            username,
-            encoder.encode(password),
-            newUser.getAuthorities(),
-            Long.toString(UAR.count()),
-            email,
-            "USER",
-            new Feed(),
-            new Feed(),
-            0.0,
-            new ArrayList<Notification>());
+    Account account = Account.makeAccountFromUser(newUser, email);
+
     if (accountExists(account)) {
       throw new IllegalArgumentException("Account already exists");
     }

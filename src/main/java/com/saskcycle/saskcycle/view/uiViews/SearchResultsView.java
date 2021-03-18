@@ -2,7 +2,6 @@ package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
-import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.components.PostComponent;
 import com.saskcycle.saskcycle.view.layouts.SearchResultsLayout;
 import com.vaadin.flow.component.button.Button;
@@ -39,7 +38,7 @@ public class SearchResultsView extends VerticalLayout {
   private NumberField   numberField;
   private CheckboxGroup<String> includeGroup;
   private CheckboxGroup<String> excludeGroup;
-  private Object Tags;
+
 
     /** Constructs the view that displays the listings */
   @PostConstruct

@@ -49,7 +49,7 @@ public class SearchResultsView extends VerticalLayout {
 
     heading = new H1("All listings");
     //sets up searchController list to have all listings populated (currently can't do it in constructor or app breaks)
-    SC.init();
+    SC.resetPosts();
 //    posts = SC.getAllListings();
 
     VerticalLayout filterGroup = FilterComponent();
@@ -209,7 +209,7 @@ public class SearchResultsView extends VerticalLayout {
           //          useSelect.setValue("Select");
           postChoice.setValue("Select");
           //"resets" searchController list
-          SC.init();
+          SC.resetPosts();
 //
 //          posts = filterService.resetPosts();
           grid.setItems(SC.getCurrentPosts());

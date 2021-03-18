@@ -29,6 +29,16 @@ public class SearchController {
 
   /* ---------  Methods  --------- */
 
+
+  public void init()
+  {
+    currentPosts = this.getAllListings();
+  }
+
+  public List<Post> getCurrentPosts()
+  {
+    return this.currentPosts;
+  }
   /***
    * Gets every post - giving away, getting, and static business posts - in one query
    * @return A lLst of Post and Business items (which can be displayed the same way).

@@ -48,8 +48,8 @@ public class SearchResultsView extends VerticalLayout {
   public void SearchResultsView() {
 
     heading = new H1("All listings");
-
-    posts = filterService.getPosts();
+    SC.init();
+    posts = SC.getAllListings();
 
     VerticalLayout filterGroup = FilterComponent();
 
@@ -70,7 +70,7 @@ public class SearchResultsView extends VerticalLayout {
    */
   private Grid<Post> initGrid() {
     Grid<Post> newGrid = new Grid<>();
-    newGrid.setItems(posts);
+    newGrid.setItems(SC.getCurrentPosts());
     newGrid.setHeight("1000px");
     newGrid.addComponentColumn(PostComponent::new);
 
@@ -116,7 +116,7 @@ public class SearchResultsView extends VerticalLayout {
                   postChoice.getValue(),
                   //                  useSelect.getValue(),
                   sortSelect.getValue());
-          grid.setItems(posts);
+          grid.setItems(SC.getCurrentPosts());
         });
 
     // Checkbox to select tags that user wants to include
@@ -134,7 +134,7 @@ public class SearchResultsView extends VerticalLayout {
                   postChoice.getValue(),
                   //                  useSelect.getValue(),
                   sortSelect.getValue());
-          grid.setItems(posts);
+          grid.setItems(SC.getCurrentPosts());
 
           excludeGroup.setItemEnabledProvider(item -> !event.getValue().contains(item));
           if (event.getValue() == null || event.getValue().isEmpty()) {
@@ -162,7 +162,7 @@ public class SearchResultsView extends VerticalLayout {
                   postChoice.getValue(),
                   //                  useSelect.getValue(),
                   sortSelect.getValue());
-          grid.setItems(posts);
+          grid.setItems(SC.getCurrentPosts());
 
           includeGroup.setItemEnabledProvider(item -> !event.getValue().contains(item));
           if (event.getValue() == null || event.getValue().isEmpty()) {
@@ -190,7 +190,7 @@ public class SearchResultsView extends VerticalLayout {
                   postChoice.getValue(),
                   //                  useSelect.getValue(),
                   sortSelect.getValue());
-          grid.setItems(posts);
+          grid.setItems(SC.getCurrentPosts());
         });
     // Reset listings
     Button resetButton = new Button("Reset filters");
@@ -205,7 +205,7 @@ public class SearchResultsView extends VerticalLayout {
           postChoice.setValue("Select");
 
           posts = filterService.resetPosts();
-          grid.setItems(posts);
+          grid.setItems(SC.getCurrentPosts());
         });
 
     filterGroup.add(sortSelect, postChoice, includeGroup, excludeGroup, resetButton);
@@ -229,6 +229,10 @@ public class SearchResultsView extends VerticalLayout {
 
   public void updatePosts()
   {
-
+        SC.filterService(includeGroup.getValue(),
+                excludeGroup.getValue(),
+                postChoice.getValue(),
+                //                  useSelect.getValue(),
+                sortSelect.getValue());
   }
 }

@@ -24,6 +24,8 @@ import java.util.Optional;
 @Service
 public class AccountDAO implements UserDAOInterface {
 
+  private static final String ROLE = "USER";
+
   /* --------- Attributes ------------ */
 
   // This is the actual connection with the Account repo - the rest of the class will use this to
@@ -104,7 +106,7 @@ public class AccountDAO implements UserDAOInterface {
   @Override
   public Account register(String username, String email, String password) {
     String encodedPass = encoder.encode(password);
-    UserDetails newUser = User.withUsername(username).password(encodedPass).roles("USER").build();
+    UserDetails newUser = User.withUsername(username).password(encodedPass).roles(ROLE).build();
 
     Account account = Account.makeAccountFromUser(newUser, email);
 

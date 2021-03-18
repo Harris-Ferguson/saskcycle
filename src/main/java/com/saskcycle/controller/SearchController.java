@@ -186,10 +186,10 @@ public class SearchController implements Serializable {
         specPosts.add(p);
       }
     }
-    if (value.equals("Get"))
-    {
-      specPosts.addAll(this.getAllBusinesses());
-    }
+//    if (value.equals("Get"))
+//    {
+//      specPosts.addAll(this.getAllBusinesses());
+//    }
     return specPosts;
   }
 

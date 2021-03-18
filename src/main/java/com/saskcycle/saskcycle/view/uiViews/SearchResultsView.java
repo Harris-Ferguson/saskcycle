@@ -98,7 +98,8 @@ public class SearchResultsView extends VerticalLayout {
              event -> {
                  this.updatePosts();
                  grid.setItems(SC.getPageOfPosts(numberField.getValue()));
-             });    useSelect = new Select<>();
+             });
+//     useSelect = new Select<>();
 
 
     // Dropdown menu user to select sorting

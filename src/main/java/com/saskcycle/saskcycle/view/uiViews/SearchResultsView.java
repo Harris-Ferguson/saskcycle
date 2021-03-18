@@ -110,7 +110,7 @@ public class SearchResultsView extends VerticalLayout {
     sortSelect.addValueChangeListener(
         event -> {
             this.updatePosts();
-            numberField.setMax(SC.getCurrentPosts().size() / 5 + 1);
+            numberField.setMax(SC.amountOfPages());
           grid.setItems(SC.getPageOfPosts(numberField.getValue()));
         });
 
@@ -167,7 +167,7 @@ public class SearchResultsView extends VerticalLayout {
     postChoice.addValueChangeListener(
         event -> {
             this.updatePosts();
-            numberField.setMax(SC.getCurrentPosts().size() / 5 + 1);
+            numberField.setMax(SC.amountOfPages());
           grid.setItems(SC.getPageOfPosts(numberField.getValue()));
         });
     // Reset listings
@@ -184,7 +184,7 @@ public class SearchResultsView extends VerticalLayout {
 
           // "resets" searchController list
           SC.resetPosts();
-          numberField.setMax(SC.getCurrentPosts().size() / 5 + 1);
+          numberField.setMax(SC.amountOfPages());
           numberField.setValue(1d);
           grid.setItems(SC.getPageOfPosts(numberField.getValue()));
         });
@@ -194,7 +194,7 @@ public class SearchResultsView extends VerticalLayout {
       numberField.setValue(1d);
       numberField.setHasControls(true);
       numberField.setMin(1);
-      numberField.setMax(SC.getCurrentPosts().size() / 5 + 1);
+      numberField.setMax(SC.amountOfPages());
       numberField.addValueChangeListener(
               event -> {
 //                  this.updatePosts();
@@ -231,7 +231,7 @@ public class SearchResultsView extends VerticalLayout {
                 //                  useSelect.getValue(),
                 sortSelect.getValue(),
                 numberField.getValue());
-    numberField.setMax(SC.getCurrentPosts().size() / 5 + 1);
+    numberField.setMax(SC.amountOfPages());
     numberField.setValue(1d);
   }
 

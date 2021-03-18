@@ -407,5 +407,26 @@ public class SearchController implements Serializable {
     return currentPosts;
   }
 
+  public int amountOfPages()
+  {
+    int numberOfPages;
+    if (this.currentPosts.size() % 5 == 0)
+    {
+      numberOfPages = this.currentPosts.size() / 5;
+    }
+    else
+    {
+      numberOfPages =  this.currentPosts.size() / 5 + 1;
+    }
+    if(numberOfPages == 0)
+    {
+      return 1;
+    }
+    else
+    {
+      return numberOfPages;
+    }
+  }
+
 
 }

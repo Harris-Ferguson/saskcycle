@@ -230,7 +230,7 @@ public class SearchResultsView extends VerticalLayout {
                 sortSelect.getValue(),
                 numberField.getValue());
     numberField.setMax(SC.getCurrentPosts(numberField.getValue()).size() / 5 + 1);
-        numberField.setValue(1d);
+    numberField.setValue(1d);
   }
 
   private int getMaxSize()

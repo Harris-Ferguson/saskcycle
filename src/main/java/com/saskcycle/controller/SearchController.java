@@ -272,7 +272,7 @@ public class SearchController implements Serializable {
     */
     // If specified, sort posts
     if (sortChoice.equals("Alphabetically (A-Z)") || sortChoice.equals("Closest to me")) {
-      this.currentPosts = sortPosts(sortChoice);
+      this.currentPosts = this.getSortedPosts(sortChoice,currentPosts);
     }
 //    return posts;
   }

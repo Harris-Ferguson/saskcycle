@@ -1,35 +1,31 @@
 package com.saskcycle.saskcycle.view.uiViews;
 
-import com.saskcycle.DAO.EventsDAO;
 import com.saskcycle.controller.EventController;
 import com.saskcycle.model.Event;
 import com.saskcycle.saskcycle.view.layouts.EventLayout;
-import com.vaadin.flow.component.charts.model.VerticalAlign;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H5;
+import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import elemental.json.JsonString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.stefan.fullcalendar.*;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.combobox.ComboBox;
-
-
-import org.apache.catalina.loader.ResourceEntry;
 
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 // @Route("events")
@@ -69,16 +65,54 @@ public class EventView extends VerticalLayout {
 
     calendar.addEntryClickedListener(event -> {
       H3 eventTitle = new H3(event.getEntry().getTitle());
-      Dialog eventInfo =  new Dialog(eventTitle);
+      Dialog eventInfo =  new Dialog();
 
-      H5 startTime = new H5(String.valueOf(event.getEntry().getStart(calendar.getTimezone())));
-      H5 endTime = new H5(String.valueOf(event.getEntry().getEnd(calendar.getTimezone())));
+      H5 startTime = new H5(event.getEntry().getStart(calendar.getTimezone()).format(DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy hh:mm a")));
+
+      TextField start = new TextField();
+      start.setLabel("Start");
+      start.setValue(String.valueOf(event.getEntry().getStart(calendar.getTimezone())));
+      start.setReadOnly(true);
+
+      //event.getEntry().getStart(calendar.getTimezone()).format(DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy hh:mm a"));
+
+      System.out.println(event.getEntry().getStart(calendar.getTimezone()).format(DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy hh:mm a")));
+//      H5 endTime = new H5(String.valueOf(event.getEntry().getEnd(calendar.getTimezone())));
+
+      Paragraph desc = new Paragraph(event.getEntry().getDescription());
+
+      Scroller scroller = new Scroller();
+
+      scroller.setContent(desc);
+      scroller.setHeight("100px");
+      scroller.setWidth("350px");
+      scroller.getStyle().set("border", "1px solid #eeeeee");
+
+      H5 location = new H5(EC.getEventByTitle(event.getEntry().getTitle()).location);
+      H5 organizer = new H5(EC.getEventByTitle(event.getEntry().getTitle()).organizer);
+
+      String[] tags = EC.getEventByTitle(event.getEntry().getTitle()).tags;
 
 
 
 
+      HorizontalLayout time = new HorizontalLayout(VaadinIcon.CLOCK.create(), startTime);
+      time.setAlignItems(Alignment.BASELINE);
 
-      eventInfo.add(startTime, endTime);
+      HorizontalLayout loc = new HorizontalLayout(VaadinIcon.MAP_MARKER.create(), location);
+      loc.setAlignItems(Alignment.BASELINE);
+
+      HorizontalLayout org = new HorizontalLayout(VaadinIcon.USER.create(), organizer);
+      org.setAlignItems(Alignment.BASELINE);
+
+      HorizontalLayout exit = new HorizontalLayout(VaadinIcon.CLOSE.create());
+      exit.addClassName("exit");
+      exit.setAlignItems(Alignment.END);
+
+
+
+
+      eventInfo.add(exit, eventTitle, scroller, time, loc, org);
 
 
 
@@ -161,10 +195,13 @@ public class EventView extends VerticalLayout {
       // end info array format [month, day, end hour, end minute]
       entry.setEnd(LocalDate.now().withMonth(e.endTime[0]).withDayOfMonth(e.endTime[1]).atTime(e.endTime[2], e.endTime[3]), calendar.getTimezone());
 
+      entry.setDescription(e.desc);
+
       entry.setColor("#04584a");
 
       calendar.addEntry(entry);
     }
 
   }
+
 }

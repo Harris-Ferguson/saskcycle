@@ -17,4 +17,16 @@ public class EventController {
     public List<Event> getAllEvents() {
         return Eaccess.allEvents();
     }
+
+    public Event getEventByTitle(String title) {
+
+        List<Event> events = getAllEvents();
+
+        for (Event e : events) {
+            if (e.title.equals(title)) {
+                return e;
+            }
+        }
+        return null;
+    }
 }

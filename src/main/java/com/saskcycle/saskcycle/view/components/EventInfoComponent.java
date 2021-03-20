@@ -14,6 +14,8 @@ import com.vaadin.flow.component.orderedlayout.Scroller;
 import org.vaadin.stefan.fullcalendar.EntryClickedEvent;
 import org.vaadin.stefan.fullcalendar.Timezone;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class EventInfoComponent extends Dialog {
@@ -32,7 +34,9 @@ public class EventInfoComponent extends Dialog {
 
         H3 eventTitle = new H3(clickEvent.getEntry().getTitle());
 
-        H5 startTime = new H5(clickEvent.getEntry().getStart(timezone).format(DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy hh:mm a")));
+        H5 startTime = new H5(formatTime(clickEvent.getEntry().getStart(timezone), clickEvent.getEntry().getEnd(timezone)));
+
+
 
         // Display description of the event
         Paragraph desc = new Paragraph(clickEvent.getEntry().getDescription());
@@ -82,5 +86,30 @@ public class EventInfoComponent extends Dialog {
             component.addClassName("reset-button");
         }
         return tagGroup;
+    }
+
+    /**
+     * Styles the time string depending on if the event is on the same day
+     * @param start start time
+     * @param end end time
+     * @return string representation of the LocalDateTime duration of the event
+     */
+    private String formatTime(LocalDateTime start, LocalDateTime end) {
+
+        String eventTime;
+
+        LocalDate startDate = start.toLocalDate();
+        LocalDate endDate = end.toLocalDate();
+
+        if (startDate.equals(endDate)) {
+            eventTime = start.format(DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy, hh:mm a"));
+            eventTime += " to " + end.format(DateTimeFormatter.ofPattern("hh:mm a"));
+        }
+        else {
+            eventTime = start.format(DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy hh:mm a"));
+            eventTime += " to " + end.format(DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy hh:mm a"));
+        }
+
+        return eventTime;
     }
 }

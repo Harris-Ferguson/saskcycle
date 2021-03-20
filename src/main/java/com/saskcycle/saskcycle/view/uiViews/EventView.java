@@ -2,14 +2,15 @@ package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.controller.EventController;
 import com.saskcycle.model.Event;
+import com.saskcycle.saskcycle.view.components.EventInfoComponent;
 import com.saskcycle.saskcycle.view.layouts.EventLayout;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.Paragraph;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
@@ -24,7 +25,6 @@ import com.vaadin.flow.component.button.Button;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -32,9 +32,11 @@ import java.util.List;
 @Route(value = "events", layout = EventLayout.class)
 public class EventView extends VerticalLayout {
 
-  FullCalendar calendar;
+  private FullCalendar calendar;
 
   private Button buttonDatePicker;
+
+  private H1 month;
 
   private List<Event> events;
 
@@ -45,7 +47,6 @@ public class EventView extends VerticalLayout {
   public void EventView() {
 
     events = EC.getAllEvents();
-
     add(createToolBar(), createCalendar());
   }
 
@@ -64,67 +65,12 @@ public class EventView extends VerticalLayout {
     calLayout.setFlexGrow(1, calendar);
 
     calendar.addEntryClickedListener(event -> {
-      H3 eventTitle = new H3(event.getEntry().getTitle());
-      Dialog eventInfo =  new Dialog();
-
-      H5 startTime = new H5(event.getEntry().getStart(calendar.getTimezone()).format(DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy hh:mm a")));
-
-      TextField start = new TextField();
-      start.setLabel("Start");
-      start.setValue(String.valueOf(event.getEntry().getStart(calendar.getTimezone())));
-      start.setReadOnly(true);
-
-      //event.getEntry().getStart(calendar.getTimezone()).format(DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy hh:mm a"));
-
-      System.out.println(event.getEntry().getStart(calendar.getTimezone()).format(DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy hh:mm a")));
-//      H5 endTime = new H5(String.valueOf(event.getEntry().getEnd(calendar.getTimezone())));
-
-      Paragraph desc = new Paragraph(event.getEntry().getDescription());
-
-      Scroller scroller = new Scroller();
-
-      scroller.setContent(desc);
-      scroller.setHeight("100px");
-      scroller.setWidth("350px");
-      scroller.getStyle().set("border", "1px solid #eeeeee");
-
-      H5 location = new H5(EC.getEventByTitle(event.getEntry().getTitle()).location);
-      H5 organizer = new H5(EC.getEventByTitle(event.getEntry().getTitle()).organizer);
-
-      String[] tags = EC.getEventByTitle(event.getEntry().getTitle()).tags;
-
-
-
-
-      HorizontalLayout time = new HorizontalLayout(VaadinIcon.CLOCK.create(), startTime);
-      time.setAlignItems(Alignment.BASELINE);
-
-      HorizontalLayout loc = new HorizontalLayout(VaadinIcon.MAP_MARKER.create(), location);
-      loc.setAlignItems(Alignment.BASELINE);
-
-      HorizontalLayout org = new HorizontalLayout(VaadinIcon.USER.create(), organizer);
-      org.setAlignItems(Alignment.BASELINE);
-
-      HorizontalLayout exit = new HorizontalLayout(VaadinIcon.CLOSE.create());
-      exit.addClassName("exit");
-      exit.setAlignItems(Alignment.END);
-
-
-
-
-      eventInfo.add(exit, eventTitle, scroller, time, loc, org);
-
-
-
-      eventInfo.setHeight("400px");
-      eventInfo.setWidth("400px");
-
+      Event e = EC.getEventByTitle(event.getEntry().getTitle());
+      Dialog eventInfo = new EventInfoComponent(event, calendar.getTimezone(), e);
       eventInfo.open();
     });
 
     addEvents();
-
-
     return calLayout;
   }
 
@@ -136,33 +82,27 @@ public class EventView extends VerticalLayout {
 
     HorizontalLayout toolbar = new HorizontalLayout();
 
-    H1 month = new H1(LocalDate.now().getMonth()+ " " + LocalDate.now().getYear());
+    month = new H1(LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM yyyy")));
 
     Button buttonToday = new Button("Today", VaadinIcon.HOME.create(), e -> {
       calendar.today();
-      calendar.getElement().executeJs("return this.getCalendar().view.title")
-              .then(x -> month.setText(x instanceof JsonString ? x.asString(): "--"));
+      updateMonth();
     });
     Button buttonPrevious = new Button("Previous", VaadinIcon.ANGLE_LEFT.create(), e -> {
       calendar.previous();
-      calendar.getElement().executeJs("return this.getCalendar().view.title")
-              .then(x -> month.setText(x instanceof JsonString ? x.asString(): "--"));
-
+      updateMonth();
     });
 
     Button buttonNext = new Button("Next", VaadinIcon.ANGLE_RIGHT.create(), e -> {
       calendar.next();
-      calendar.getElement().executeJs("return this.getCalendar().view.title")
-              .then(x -> month.setText(x instanceof JsonString ? x.asString(): "--"));
+      updateMonth();
     });
     buttonNext.setIconAfterText(true);
 
     DatePicker gotoDate = new DatePicker();
     gotoDate.addValueChangeListener(event1 -> {
       calendar.gotoDate(event1.getValue());
-      calendar.getElement().executeJs("return this.getCalendar().view.title")
-              .then(x -> month.setText(x instanceof JsonString ? x.asString(): "--"));
-
+      updateMonth();
     });
 
     gotoDate.getElement().getStyle().set("visibility", "hidden");
@@ -173,8 +113,6 @@ public class EventView extends VerticalLayout {
     buttonDatePicker = new Button(VaadinIcon.CALENDAR.create());
     buttonDatePicker.getElement().appendChild(gotoDate.getElement());
     buttonDatePicker.addClickListener(event -> gotoDate.open());
-
-
 
     toolbar.add(buttonToday, buttonPrevious, buttonDatePicker, buttonNext);
     return new VerticalLayout(month, toolbar);
@@ -202,6 +140,16 @@ public class EventView extends VerticalLayout {
       calendar.addEntry(entry);
     }
 
+  }
+
+
+  /**
+   * Updates the month label for the calendar
+   */
+  private void updateMonth() {
+
+    calendar.getElement().executeJs("return this.getCalendar().view.title")
+            .then(x -> month.setText(x instanceof JsonString ? x.asString(): "--"));
   }
 
 }

@@ -7,6 +7,7 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -30,20 +31,18 @@ public class EventInfoComponent extends Dialog {
 
         // Style dialog window
         setHeight("400px");
-        setWidth("400px");
+        setWidth("650px");
 
         H3 eventTitle = new H3(clickEvent.getEntry().getTitle());
 
         H5 startTime = new H5(formatTime(clickEvent.getEntry().getStart(timezone), clickEvent.getEntry().getEnd(timezone)));
-
-
 
         // Display description of the event
         Paragraph desc = new Paragraph(clickEvent.getEntry().getDescription());
         Scroller scroller = new Scroller();
         scroller.setContent(desc);
         scroller.setHeight("100px");
-        scroller.setWidth("350px");
+        scroller.setWidth("600px");
         scroller.getStyle().set("border", "1px solid #eeeeee");
 
         H5 location = new H5(saskcycleEvent.location);
@@ -55,16 +54,20 @@ public class EventInfoComponent extends Dialog {
         HorizontalLayout time = new HorizontalLayout(VaadinIcon.CLOCK.create(), startTime);
         time.setAlignItems(FlexComponent.Alignment.BASELINE);
 
-        HorizontalLayout loc = new HorizontalLayout(VaadinIcon.MAP_MARKER.create(), location);
-        loc.setAlignItems(FlexComponent.Alignment.BASELINE);
+        Icon map = VaadinIcon.MAP_MARKER.create();
+        HorizontalLayout loc = new HorizontalLayout(map, location);
+        loc.setAlignItems(FlexComponent.Alignment.CENTER);
 
-        HorizontalLayout org = new HorizontalLayout(VaadinIcon.USER.create(), organizer);
-        org.setAlignItems(FlexComponent.Alignment.BASELINE);
+        Icon user = VaadinIcon.USER.create();
+        HorizontalLayout org = new HorizontalLayout(user, organizer);
+        org.setAlignItems(FlexComponent.Alignment.CENTER);
+
 
         // Exit button which allows user to close the event info window
         HorizontalLayout exit = new HorizontalLayout(VaadinIcon.CLOSE.create());
         exit.addClassName("exit");
         exit.setAlignItems(FlexComponent.Alignment.END);
+        exit.getStyle().set("cursor", "pointer");
         exit.addClickListener(e -> this.close());
 
         add(exit, eventTitle, scroller, formatTags(tags), time, loc, org);
@@ -101,10 +104,12 @@ public class EventInfoComponent extends Dialog {
         LocalDate startDate = start.toLocalDate();
         LocalDate endDate = end.toLocalDate();
 
+        // Event is on the same day
         if (startDate.equals(endDate)) {
             eventTime = start.format(DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy, hh:mm a"));
             eventTime += " to " + end.format(DateTimeFormatter.ofPattern("hh:mm a"));
         }
+        // Even spans more than one day
         else {
             eventTime = start.format(DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy hh:mm a"));
             eventTime += " to " + end.format(DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy hh:mm a"));

@@ -26,7 +26,9 @@ import com.vaadin.flow.component.button.Button;
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
+import java.util.TimeZone;
 
 // @Route("events")
 @Route(value = "events", layout = EventLayout.class)
@@ -58,8 +60,9 @@ public class EventView extends VerticalLayout {
 
     VerticalLayout calLayout = new VerticalLayout();
 
-    calendar = FullCalendarBuilder.create().build();
+    calendar = FullCalendarBuilder.create().withAutoBrowserTimezone().build();
     calendar.setWeekNumbersVisible(false);
+
 
     calLayout.add(calendar);
     calLayout.setFlexGrow(1, calendar);
@@ -88,15 +91,22 @@ public class EventView extends VerticalLayout {
       calendar.today();
       updateMonth();
     });
+    buttonToday.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    buttonToday.addClassName("reset-button");
+
     Button buttonPrevious = new Button("Previous", VaadinIcon.ANGLE_LEFT.create(), e -> {
       calendar.previous();
       updateMonth();
     });
+    buttonPrevious.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    buttonPrevious.addClassName("reset-button");
 
     Button buttonNext = new Button("Next", VaadinIcon.ANGLE_RIGHT.create(), e -> {
       calendar.next();
       updateMonth();
     });
+    buttonNext.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    buttonNext.addClassName("reset-button");
     buttonNext.setIconAfterText(true);
 
     DatePicker gotoDate = new DatePicker();
@@ -110,9 +120,12 @@ public class EventView extends VerticalLayout {
     gotoDate.setWidth("0px");
     gotoDate.setHeight("0px");
     gotoDate.setWeekNumbersVisible(true);
+
     buttonDatePicker = new Button(VaadinIcon.CALENDAR.create());
     buttonDatePicker.getElement().appendChild(gotoDate.getElement());
     buttonDatePicker.addClickListener(event -> gotoDate.open());
+    buttonDatePicker.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    buttonDatePicker.addClassName("reset-button");
 
     toolbar.add(buttonToday, buttonPrevious, buttonDatePicker, buttonNext);
     return new VerticalLayout(month, toolbar);

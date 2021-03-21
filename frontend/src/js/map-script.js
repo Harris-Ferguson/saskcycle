@@ -17,10 +17,10 @@ window.initMap = function() {
     });
 };
 
-function addMarker(lat, long, name){
+window.addMarker = function(lat, long, name){
     console.log(lat, long, name);
-    pos = new google.maps.LatLng(lat, long);
-    new google.maps.marker({
+    let pos = new google.maps.LatLng(lat, long);
+    new google.maps.Marker({
         position: pos,
         title: name,
         map: map

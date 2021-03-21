@@ -14,10 +14,9 @@ public class MapComponent extends Div {
         this.setHeight("100%");
         this.setWidth("100%");
         this.setId("map");
-        displayMarker(56.1, -106.6, "MapComponentCaller");
     }
 
-    public void displayMarker(double lat, double lon, String name){
-        getElement().executeJs("addMarker($0, $1, $2)", lat, lon, name);
+    public void addMarker(double lat, double lon, String name){
+        getElement().executeJs("return window.addMarker($0, $1, $2)", lat, lon, name);
     }
 }

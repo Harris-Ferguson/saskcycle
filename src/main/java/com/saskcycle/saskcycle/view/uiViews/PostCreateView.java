@@ -180,7 +180,11 @@ public class PostCreateView extends VerticalLayout {
               currentAccount.getCurrentAccount(),
               location,
               tags,
-              givePost);
+              givePost,
+              0,
+              0,
+              ""
+              );
       newPost.datePosted = new Date(); // apply date of creation to po
       newPost.privacy = isPostPublic; // apply privacy of post
       if (includeEmail) {

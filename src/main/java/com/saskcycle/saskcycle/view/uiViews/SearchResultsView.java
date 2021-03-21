@@ -54,6 +54,12 @@ public class SearchResultsView extends VerticalLayout {
 
     grid = initGrid();
 
+    //grid.setSelectionMode(Grid.SelectionMode.NONE);
+
+    grid.addItemClickListener(event -> {
+          System.out.println(event.getItem().title);
+      });
+
     HorizontalLayout resultsGroup = new HorizontalLayout();
     resultsGroup.setAlignItems(Alignment.START);
     resultsGroup.setWidth("100%");

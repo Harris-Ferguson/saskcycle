@@ -58,6 +58,7 @@ public class SearchResultsView extends VerticalLayout {
 
     grid.addItemClickListener(event -> {
           System.out.println(event.getItem().title);
+          getUI().ifPresent(ui -> ui.navigate("clickedPost"));
       });
 
     HorizontalLayout resultsGroup = new HorizontalLayout();

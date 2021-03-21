@@ -15,8 +15,7 @@ public class MapView extends VerticalLayout {
     public MapView() {
         this.setHeight("100%");
         this.setWidth("100%");
-        MapComponent map = new MapComponent();
-        add(new MapComponent());
-        map.addMarker(52.118, -106.643, "Label!");
+        MapComponent map = new MapComponent(52.118, -106.643, "Label");
+        add(map);
     }
 }

@@ -71,3 +71,12 @@ a[highlight] {
 .register-button{
     color: white;
 }
+
+.wishlist-button {
+    colour: white;
+    background:#04584a;
+    position: absolute;
+    margin-top: 85px;
+
+
+}

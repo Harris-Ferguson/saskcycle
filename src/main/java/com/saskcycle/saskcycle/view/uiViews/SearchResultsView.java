@@ -5,6 +5,7 @@ import com.saskcycle.model.Post;
 import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.components.PostComponent;
 import com.saskcycle.saskcycle.view.layouts.SearchResultsLayout;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
@@ -17,6 +18,8 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteConfiguration;
+import com.vaadin.flow.router.RouterLink;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -57,8 +60,9 @@ public class SearchResultsView extends VerticalLayout {
     //grid.setSelectionMode(Grid.SelectionMode.NONE);
 
     grid.addItemClickListener(event -> {
-          System.out.println(event.getItem().title);
-          getUI().ifPresent(ui -> ui.navigate("clickedPost"));
+          //System.out.println(event.getItem().title);
+        getUI().ifPresent(ui -> ui.navigate("clickedPost"));
+
       });
 
     HorizontalLayout resultsGroup = new HorizontalLayout();

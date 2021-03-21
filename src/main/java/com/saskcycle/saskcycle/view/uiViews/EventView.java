@@ -25,6 +25,7 @@ import com.vaadin.flow.component.button.Button;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
@@ -60,9 +61,9 @@ public class EventView extends VerticalLayout {
 
     VerticalLayout calLayout = new VerticalLayout();
 
-    calendar = FullCalendarBuilder.create().withAutoBrowserTimezone().build();
+    calendar = FullCalendarBuilder.create().build();
     calendar.setWeekNumbersVisible(false);
-
+    calendar.setTimezone(new Timezone(ZoneId.of("Canada/Saskatchewan")));
 
     calLayout.add(calendar);
     calLayout.setFlexGrow(1, calendar);
@@ -152,7 +153,6 @@ public class EventView extends VerticalLayout {
 
       calendar.addEntry(entry);
     }
-
   }
 
 

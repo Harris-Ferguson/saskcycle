@@ -35,6 +35,13 @@ public class Post {
 
   public String contactEmail;
 
+  // Latitude of post location
+  public double lat;
+  // longitude of post location
+  public double lon;
+
+  String postalCode;
+
   /* ----------- Methods ------------- */
   public Post(
       String title,
@@ -43,7 +50,11 @@ public class Post {
       Account owner,
       String location,
       ArrayList<String> tags,
-      boolean give) {
+      boolean give,
+      double longitude,
+      double latitude,
+      String postalCode
+      ) {
     this.title = title;
     this.description = description;
     this.id = id;
@@ -51,7 +62,28 @@ public class Post {
     this.location = location;
     this.tags = tags;
     this.give = give;
+    this.lat = longitude;
+    this.lon = latitude;
+    this.postalCode = postalCode;
   }
+
+
+  public String getPostalCode() {
+    return postalCode;
+  }
+
+  public void setPostalCode(String postalCode) {
+    this.postalCode = postalCode;
+  }
+
+  public String getLocation() {
+    return location;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
 
   @Override
   public boolean equals(Object obj) {

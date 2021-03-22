@@ -85,7 +85,6 @@ public class PostCreateView extends VerticalLayout {
     location.setMinWidth("600px");
     location.setRequiredIndicatorVisible(true);
 
-
     // Postal Code Field
     TextField postalCode = new TextField();
     postalCode.setLabel("PostalCode");
@@ -132,7 +131,7 @@ public class PostCreateView extends VerticalLayout {
         });
 
     // Left side of post creation
-    VerticalLayout LeftInfoPanel = new VerticalLayout(title, description, location, contactPanel);
+    VerticalLayout LeftInfoPanel = new VerticalLayout(title, description, location, contactPanel, postalCode);
 
     // Right side of post creation
     VerticalLayout RightInfoPanel = new VerticalLayout(new H1("Tags:"), tags);

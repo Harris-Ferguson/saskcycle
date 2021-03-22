@@ -79,4 +79,7 @@ public interface PostsDAOInterface {
    * @param post a post to be removed
    */
   void deletePost(Post post);
+
 }
+
+

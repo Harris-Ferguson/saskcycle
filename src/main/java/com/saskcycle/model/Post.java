@@ -34,9 +34,9 @@ public class Post {
   public String contactEmail;
 
   // Latitude of post location
-  public double lat;
+  public double latitude;
   // longitude of post location
-  public double lon;
+  public double longitude;
 
   String postalCode;
 
@@ -49,8 +49,8 @@ public class Post {
       String location,
       ArrayList<String> tags,
       boolean give,
-      double longitude,
       double latitude,
+      double longitude,
       String postalCode
       ) {
     this.title = title;
@@ -60,8 +60,8 @@ public class Post {
     this.location = location;
     this.tags = tags;
     this.give = give;
-    this.lat = longitude;
-    this.lon = latitude;
+    this.latitude = latitude;
+    this.longitude = longitude;
     this.postalCode = postalCode;
   }
 

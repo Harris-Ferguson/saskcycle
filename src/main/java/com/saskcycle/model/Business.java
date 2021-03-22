@@ -15,7 +15,7 @@ public class Business extends Post {
       String location,
       ArrayList<String> tags,
       boolean give) {
-    super(title, description, id, null, location, tags, give);
+    //super(title, description, id, null, location, tags, give);
   }
 
   public ArrayList<String> get_tags() {

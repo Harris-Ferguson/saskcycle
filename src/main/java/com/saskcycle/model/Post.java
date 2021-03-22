@@ -36,21 +36,95 @@ public class Post {
   public String contactEmail;
 
   /* ----------- Methods ------------- */
-  public Post(
-      String title,
-      String description,
-      String id,
-      Account owner,
-      String location,
-      ArrayList<String> tags,
-      boolean give) {
-    this.title = title;
-    this.description = description;
-    this.id = id;
-    this.owner = null;
-    this.location = location;
-    this.tags = tags;
+  public Post(){
+  }
+
+  public Boolean getPostType() { return give; }
+
+  public void setPostType(Boolean postType){ give = postType; }
+
+  public void setGive(boolean give) {
     this.give = give;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public int getIDnum() {
+    return IDnum;
+  }
+
+  public void setIDnum(int IDnum) {
+    this.IDnum = IDnum;
+  }
+
+  public Date getDatePosted() {
+    return datePosted;
+  }
+
+  public void setDatePosted(Date datePosted) {
+    this.datePosted = datePosted;
+  }
+
+  public Account getOwner() {
+    return owner;
+  }
+
+  public void setOwner(Account owner) {
+    this.owner = owner;
+  }
+
+  public String getLocation() {
+    return location;
+  }
+
+  public void setLocation(String location) {
+    this.location = location;
+  }
+
+  public ArrayList<String> getTags() {
+    return tags;
+  }
+
+  public void setTags(ArrayList<String> tags) {
+    this.tags = tags;
+  }
+
+  public boolean isPublic() {
+    return privacy;
+  }
+
+  public void setPublic(boolean privacy) {
+    this.privacy = privacy;
+  }
+
+  public String getContactEmail() {
+    return contactEmail;
+  }
+
+  public void setContactEmail(String contactEmail) {
+    this.contactEmail = contactEmail;
   }
 
   @Override

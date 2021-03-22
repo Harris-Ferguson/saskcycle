@@ -66,18 +66,27 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
 
         // Contains additional info about the post
         VerticalLayout sidePanel = new VerticalLayout();
+
+        sidePanel.setWidth("50px");
         location = new H4();
         postTime = new H4();
 
         // TODO: Matthew's story
         H4 contact = new H4("For more information, contact test_email@email.com");
 
+        VerticalLayout desc = new VerticalLayout();
+        desc.add(paragraph);
+        desc.setWidth("750px");
+
         sidePanel.add(wishlistButton, location, postTime, contact);
 
-        add(title, new HorizontalLayout(paragraph, sidePanel));
+        add(title, new HorizontalLayout(desc, sidePanel));
     }
 
-    // Methods that may work eventually in creating a custom post based on what's clicked
+    /**
+     * Resets the UI depending on what post was clicked
+     * @param afterNavigationEvent
+     */
     @Override
     public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
 
@@ -89,6 +98,11 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
 
     }
 
+    /**
+     * Sets the ID of the post that was clicked
+     * @param beforeEvent
+     * @param postId clicked post's id number
+     */
     @Override
     public void setParameter(BeforeEvent beforeEvent, String postId) {
         id = postId;

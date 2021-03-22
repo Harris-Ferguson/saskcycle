@@ -4,6 +4,7 @@ import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.DAO.PostsDAO;
 import com.saskcycle.DAO.PostsDAOInterface;
 import com.saskcycle.model.Post;
+import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.layouts.PostCreateLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -75,7 +76,7 @@ public class PostCreateView extends VerticalLayout {
 
     // Location Field
     TextField location = new TextField();
-    location.setLabel("Location");
+    location.setLabel("Location (Postal Code)");
     location.setPlaceholder("Type your location ...");
     location.setMinWidth("600px");
     location.setRequiredIndicatorVisible(true);
@@ -108,7 +109,7 @@ public class PostCreateView extends VerticalLayout {
 
     // Tags list
     MultiSelectListBox<String> tags = new MultiSelectListBox<>();
-    tags.setItems("Appliances", "Clothing", "Electronics", "Furniture", "Art");
+    tags.setItems(Tags.getTagNames());
     ArrayList<String> tagList = new ArrayList<>();
     tags.addValueChangeListener(
         e -> {

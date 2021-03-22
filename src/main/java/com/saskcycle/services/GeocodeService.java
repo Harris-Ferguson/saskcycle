@@ -39,6 +39,11 @@ public class GeocodeService implements Serializable {
         setLon(Double.parseDouble(response.getString("longt")));
     }
 
+    /**
+     * Gets the geolocation for a given street address
+     * Sets the lat and lon fields in this object
+     * @param streetAddress any north american street address
+     */
     public void geolocationFromStreetAddress(String streetAddress){
         String encodedStreetAddress = URLEncoder.encode(streetAddress + " saskatoon saskatchewan", StandardCharsets.UTF_8);
         getResponse(baseUrl + encodedStreetAddress + urlSuffix);

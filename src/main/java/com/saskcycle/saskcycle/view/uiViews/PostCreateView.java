@@ -88,7 +88,7 @@ public class PostCreateView extends VerticalLayout {
     TextField postalCodeField = new TextField();
     postalCodeField.setLabel("Postal Code");
     postalCodeField.setPlaceholder("form: K1A0B1");
-    postalCodeField.setMinWidth("600px");
+    postalCodeField.setMinWidth("150px");
     // Postal layout check
     Matcher postalMatcher = postalRegex.matcher(postalCodeField.getValue());
     postalCodeField.setPreventInvalidInput(true);

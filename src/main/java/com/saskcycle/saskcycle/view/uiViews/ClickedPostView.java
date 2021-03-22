@@ -21,6 +21,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.SimpleDateFormat;
+
 @Route(value = "clickedPost", layout = ClickedPostLayout.class)
 public class ClickedPostView extends VerticalLayout implements HasUrlParameter<String>, AfterNavigationObserver {
 
@@ -67,9 +69,10 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         // Contains additional info about the post
         VerticalLayout sidePanel = new VerticalLayout();
 
-        sidePanel.setWidth("50px");
+        sidePanel.setWidth("250px");
         location = new H4();
         postTime = new H4();
+        //sidePanel.getStyle().set("border", "1px solid #eeeeee");
 
         // TODO: Matthew's story
         H4 contact = new H4("For more information, contact test_email@email.com");
@@ -94,8 +97,7 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         title.setText(post.title);
         paragraph.setText(post.description);
         location.setText(post.location);
-        postTime.setText(String.valueOf(post.datePosted));
-
+        postTime.setText("Posted at " + new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a").format(post.datePosted));
     }
 
     /**

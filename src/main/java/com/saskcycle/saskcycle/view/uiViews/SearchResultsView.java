@@ -59,7 +59,9 @@ public class SearchResultsView extends VerticalLayout {
 
     //grid.setSelectionMode(Grid.SelectionMode.NONE);
 
-    grid.addItemClickListener(event -> {
+
+    // Constructing a post view based on what's clicked is still under construction
+      grid.addItemClickListener(event -> {
           //System.out.println(event.getItem().title);
         getUI().ifPresent(ui -> ui.navigate("clickedPost"));
 
@@ -69,7 +71,6 @@ public class SearchResultsView extends VerticalLayout {
     resultsGroup.setAlignItems(Alignment.START);
     resultsGroup.setWidth("100%");
     resultsGroup.add(filterGroup, grid);
-
     add(heading, resultsGroup);
   }
 

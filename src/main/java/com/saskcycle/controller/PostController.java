@@ -26,7 +26,7 @@ public class PostController {
     }
 
     public void setPostType(String type){
-        if(type.equals("give")){
+        if(type.equals("giving away")){
             currentPost.setPostType(true);
         }
         else {
@@ -111,20 +111,22 @@ public class PostController {
     }
 
     public void setPostID(){
-        Integer postDataBaseSize = postDAD.AllPosts().size();
-        currentPost.setId(postDataBaseSize.toString() + 1);
+        Integer postDataBaseSize = currentPost.hashCode();
+        currentPost.setId(postDataBaseSize.toString());
     }
 
     public Integer getPostID(){
         return Integer.parseInt(currentPost.getId());
     }
 
-    public void verifyAndPublish(){
+    public Boolean verifyAndPublish(){
         if(currentPost.isComplete()){
             postDAD.addPost(currentPost);
+            return true;
         }
         else{
             System.err.println("Error Verifying post creation");
+            return false;
         }
     }
 

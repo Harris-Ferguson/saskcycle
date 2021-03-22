@@ -62,8 +62,11 @@ public class PostCreateView extends VerticalLayout {
     Div postType = new Div();
     Select<String> postTypeSelect = new Select<>();
     postTypeSelect.setItems("giving away", "looking for");
+    postTypeSelect.setPlaceholder("giving or looking");
     postTypeSelect.setLabel("Why are you posting?");
     postTypeSelect.setRequiredIndicatorVisible(true);
+    postTypeSelect.addValueChangeListener( e ->
+            postType.setText(postTypeSelect.getValue()));
 
     // Title Field
     TextField title = new TextField();
@@ -80,22 +83,13 @@ public class PostCreateView extends VerticalLayout {
     description.setMinHeight("200px");
     description.setRequiredIndicatorVisible(true);
 
-    // Location Field
-    Div locationDistance = new Div();
-   /* locationDistance.setText("KM");
-    NumberField location = new NumberField();
-    location.setLabel("Distance");
-    location.setHasControls(true);
-    location.setStep(0.1d);
-    location.setMin(0);*/
-    //add location field and KM text to panel
+    // Postal Field
     Pattern postalRegex = Pattern.compile("[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]");
     TextField postalCodeField = new TextField();
     postalCodeField.setLabel("Postal Code");
-    postalCodeField.setPlaceholder("Type here ...");
+    postalCodeField.setPlaceholder("form: K1A0B1");
     postalCodeField.setMinWidth("600px");
-    postalCodeField.setMinHeight("200px");
-
+    // Postal layout check
     Matcher postalMatcher = postalRegex.matcher(postalCodeField.getValue());
     postalCodeField.setPreventInvalidInput(true);
     postalCodeField.setMaxLength(6);
@@ -106,15 +100,16 @@ public class PostCreateView extends VerticalLayout {
             postalMatch.set(postalMatcher.find());
   });
 
-    HorizontalLayout locationPanel = new HorizontalLayout( postalCodeField,locationDistance);
-    locationPanel.setAlignItems(Alignment.BASELINE);
-
     // Privacy and email/phone check boxes
-    Select<String> privacy = new Select<>();
-    privacy.setItems("Public", "Accounts");
-    privacy.setLabel("Post Privacy");
-    privacy.setPlaceholder("Public");
-    privacy.setMaxWidth("150px");
+    Div postPrivacy = new Div();
+    Select<String> privacySelect = new Select<>();
+    privacySelect.setItems("Public", "Accounts");
+    privacySelect.setPlaceholder("privacy");
+    privacySelect.setLabel("Post Privacy");
+    privacySelect.setMaxWidth("150px");
+    privacySelect.setRequiredIndicatorVisible(true);
+    privacySelect.addValueChangeListener( e ->
+            postPrivacy.setText(privacySelect.getValue()));
 
     // email check box
     Checkbox email = new Checkbox();
@@ -128,10 +123,10 @@ public class PostCreateView extends VerticalLayout {
             curEmail.setText("Email: ");
           }
         });
+
     // adding privacy, email and phone checks to component
     VerticalLayout contactBox = new VerticalLayout(new HorizontalLayout(email, curEmail), phone());
-    HorizontalLayout contactPanel = new HorizontalLayout(privacy, contactBox);
-    contactPanel.setAlignItems(Alignment.CENTER);
+    HorizontalLayout contactPanel = new HorizontalLayout(privacySelect, contactBox);
 
     // Tags list
     MultiSelectListBox<String> tags = new MultiSelectListBox<>();
@@ -148,7 +143,8 @@ public class PostCreateView extends VerticalLayout {
 
     // Set up Binder bindings for certain components that require verification
     SerializablePredicate<String> PostCreatePredicates = value ->
-            !title.getValue().trim().isEmpty() || !description.getValue().trim().isEmpty() || !postType.getText().trim().isEmpty() || !postalCodeField.getValue().trim().isEmpty();
+            !title.getValue().trim().isEmpty() || !description.getValue().trim().isEmpty() || !postType.getText().trim().isEmpty()
+                    || !postalCodeField.getValue().trim().isEmpty() || !postPrivacy.getText().trim().isEmpty();
 
     Binder.Binding<PostController, String> typeBinding = binder.forField(postTypeSelect)
             .withNullRepresentation("")
@@ -170,8 +166,13 @@ public class PostCreateView extends VerticalLayout {
             .withValidator(PostCreatePredicates, "Please specify a postal code")
             .bind(PostController::getPostalCode, PostController::setPostPostalCode);
 
+    Binder.Binding<PostController, String> privacyBinding = binder.forField(privacySelect)
+            .withNullRepresentation("")
+            .withValidator(PostCreatePredicates, "Please specify your post's privacy")
+            .bind(PostController::getPostPrivacy, PostController::setPostPrivacy);
+
     // Left side of post creation
-    VerticalLayout LeftInfoPanel = new VerticalLayout(title, description, locationPanel, contactPanel);
+    VerticalLayout LeftInfoPanel = new VerticalLayout(title, description, postalCodeField, contactPanel);
 
     // Right side of post creation
     VerticalLayout RightInfoPanel = new VerticalLayout(new H1("Tags:"), tags);
@@ -183,22 +184,33 @@ public class PostCreateView extends VerticalLayout {
     HorizontalLayout Header = new HorizontalLayout(returnButton, new H1("Create Post"), postTypeSelect);
     Header.setAlignItems(Alignment.CENTER);
 
-    // create post button (calls publish post when clicked)
+    /**
+    * post create button declaration and event handeling
+    * button will perform various checks on fields in view to ensure info is filled out
+    * if all is good, then publish post will be called
+    */
     Button createPostButton = new Button("Create Post!", new Icon(VaadinIcon.THUMBS_UP));
     createPostButton.addClickListener(event -> {
-      if (binder.writeBeanIfValid(postController) && !postalCodeField.isEmpty() && !tagList.isEmpty()) {
+      // all fields are filled
+      if (binder.writeBeanIfValid(postController) && !tagList.isEmpty()) {
         infoLabel.setText("Saved bean values: " + postController);
+        // Postal code format check
         if(!postalMatch.get()){
             Notification postalNotification = new Notification("Invalid Postal Code",3000, Notification.Position.MIDDLE);
             postalNotification.open();
         }
         else {
-            publishPost(postTypeSelect.getValue(),title.getValue(),description.getValue(),postalCodeField.getValue(),tagList,privacy.getValue());
+            publishPost(postTypeSelect.getValue(),title.getValue(),description.getValue(),postalCodeField.getValue(),tagList,privacySelect.getValue());
         }
 
       }
       else {
-          //Missing value checks using Binder
+          // empty tag list check
+          if(tagList.isEmpty()){
+              Notification tagsNotification = new Notification("Please add Some tags",3000, Notification.Position.BOTTOM_CENTER);
+              tagsNotification.open();
+          }
+        //Missing value checks using Binder
         BinderValidationStatus<PostController> validate = binder.validate();
         String errorText = validate.getFieldValidationStatuses()
                 .stream().filter(BindingValidationStatus::isError)
@@ -206,18 +218,14 @@ public class PostCreateView extends VerticalLayout {
                 .map(Optional::get).distinct()
                 .collect(Collectors.joining(", "));
         infoLabel.setText("There are errors: " + errorText);
-        if(tagList.isEmpty()){
-            Notification tagsNotification = new Notification("Please add Some tags",3000, Notification.Position.BOTTOM_CENTER);
-            tagsNotification.open();
-        }
       }
     });
 
     add(Header, InfoPanel, createPostButton);
   }
 
-  /* publish post
-   * method verifies all the required fields are filled out
+  /** publishPost method
+   * method uses controller to set all post fields
    * if so, then a new post is made using all the provided info from user
    */
   private void publishPost(String postType, String postTitle, String postDesc, String postalCode, ArrayList<String> postTagsApplied,String postPrivacy){
@@ -229,20 +237,36 @@ public class PostCreateView extends VerticalLayout {
       postController.setPostTags(postTagsApplied);
       postController.setPostPrivacy(postPrivacy);
       postController.setPostID();
-      postController.verifyAndPublish();
+      Boolean publishSuccess = postController.verifyAndPublish();
 
-      // Confirmation Dialog Box
-      Dialog confirmPosted = new Dialog();
-      confirmPosted.setModal(false);
-      Button returnButton = new Button("Return Home", new Icon(VaadinIcon.HOME));
-      returnButton.addClickListener(
-          e -> {
-            returnButton.getUI().ifPresent(ui -> ui.navigate(""));
-            confirmPosted.close();
-          });
-      confirmPosted.add(new H1("Successful Post!"), returnButton);
-      confirmPosted.setOpened(true);
-    }
+      if(publishSuccess){
+          // Confirmation Dialog Box
+          Dialog confirmPosted = new Dialog();
+          confirmPosted.setModal(false);
+          Button returnButton = new Button("Return Home", new Icon(VaadinIcon.HOME));
+          returnButton.addClickListener(
+                  e -> {
+                      returnButton.getUI().ifPresent(ui -> ui.navigate(""));
+                      confirmPosted.close();
+                  });
+          confirmPosted.add(new H1("Successful Post!"), returnButton);
+          confirmPosted.setOpened(true);
+      }
+      else {
+          // Confirmation Dialog Box
+          Dialog failedPosted = new Dialog();
+          failedPosted.setModal(false);
+          Button returnButton = new Button("Return Home", new Icon(VaadinIcon.HOME));
+          returnButton.addClickListener(
+                  e -> {
+                      returnButton.getUI().ifPresent(ui -> ui.navigate(""));
+                      failedPosted.close();
+                  });
+          failedPosted.add(new H1("Something went wrong while posting"), returnButton);
+          failedPosted.setOpened(true);
+      }
+
+  }
 
   // Placeholder phone widget method
   private HorizontalLayout phone() {

@@ -2,6 +2,7 @@ package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.controller.PostController;
+import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.layouts.PostCreateLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -134,7 +135,7 @@ public class PostCreateView extends VerticalLayout {
 
     // Tags list
     MultiSelectListBox<String> tags = new MultiSelectListBox<>();
-    tags.setItems("Appliances", "Clothing", "Electronics", "Furniture", "Art");
+    tags.setItems(Tags.getTagNames());
     ArrayList<String> tagList = new ArrayList<>();
     TextField tagField = new TextField();
     tags.addValueChangeListener(

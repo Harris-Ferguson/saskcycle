@@ -29,7 +29,7 @@ public class PostsDAO implements PostsDAOInterface {
 
   @Override
   public Post searchByID(String id) {
-    return null;
+    return PR.searchById(id);
   }
 
   @Override

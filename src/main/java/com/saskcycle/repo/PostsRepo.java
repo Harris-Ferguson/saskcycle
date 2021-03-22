@@ -14,6 +14,7 @@ public interface PostsRepo extends MongoRepository<Post, String> {
     * but currently are not operational. Possibly usable for a future version of SaskCycle.
     * Commented out to allow SaskCycle to run. */
 
+    Post searchById(String id);
 //      Post findByTag(String tag);
 //
 //      Post findByLocation(String location, String tag);

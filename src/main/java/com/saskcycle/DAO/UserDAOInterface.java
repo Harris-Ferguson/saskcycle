@@ -7,6 +7,7 @@ import com.saskcycle.model.Account;
 import com.saskcycle.model.Feed;
 import com.saskcycle.model.Post;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +35,7 @@ public interface UserDAOInterface {
 
   Feed getPosts(Account account);
 
-  Feed getWishlist(Account account);
+ ArrayList<String> getWishlist(Account account);
 
   void removePost(Post post, Account account);
 

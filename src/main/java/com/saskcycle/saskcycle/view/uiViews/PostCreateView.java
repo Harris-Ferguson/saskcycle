@@ -187,7 +187,7 @@ public class PostCreateView extends VerticalLayout {
     } else if (postalCode.trim().isEmpty()){
       Notification.show("Please enter a postal code");
     } else{
-      geoService.findLatLon(postalCode);
+      geoService.geolocationFromPostalCode(postalCode);
       Post newPost =
           new Post(
               title,

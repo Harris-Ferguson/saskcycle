@@ -4,9 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 import org.json.*;
@@ -16,11 +15,9 @@ import org.springframework.stereotype.Service;
 public class GeocodeService implements Serializable {
 
     /* --------- Attributes ------------ */
-    // URL that returns JSON with latitude/longitude of an input postal code (Canada)
-    private String urlBase = "https://geocoder.ca/";
-    // 6 character postal code
-    private String postalCode;
     // JSON object containing latitude/longitude
+    String baseUrl = "https://geocoder.ca/?locate=";
+    String urlSuffix = "&geoit=XML&json=1";
     private JSONObject response;
     private double lat;
     private double lon;
@@ -29,12 +26,35 @@ public class GeocodeService implements Serializable {
 
     public GeocodeService(){}
 
-    public void findLatLon(String postalCode) {
-        this.postalCode = postalCode.trim().toLowerCase(Locale.ROOT);
+    /**
+     * Gets the geolocation for a given postal code
+     * Sets the lat and lon fields in this object
+     * @param postalCode valid canadian postal code
+     */
+    public void geolocationFromPostalCode(String postalCode) {
+        postalCode = URLEncoder.encode(postalCode.trim().toLowerCase(Locale.ROOT), StandardCharsets.UTF_8);
+        URL request;
+        getResponse(baseUrl + postalCode + urlSuffix);
+        setLat(Double.parseDouble(response.getString("latt")));
+        setLon(Double.parseDouble(response.getString("longt")));
+    }
+
+    public void geolocationFromStreetAddress(String streetAddress){
+        String encodedStreetAddress = URLEncoder.encode(streetAddress + " saskatoon saskatchewan", StandardCharsets.UTF_8);
+        getResponse(baseUrl + encodedStreetAddress + urlSuffix);
+        setLat(Double.parseDouble(response.getString("latt")));
+        setLon(Double.parseDouble(response.getString("longt")));
+    }
+
+    /**
+     * Sets the response instance with the result of the http request to the given URL
+     * @param url url to request
+     */
+    private void getResponse(String url) {
         URL request;
         try {
             // Connects to geocoder service
-            request = new URL(urlBase + postalCode + "?json=1");
+            request = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) request.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
@@ -46,8 +66,8 @@ public class GeocodeService implements Serializable {
             }
             in.close();
             response = new JSONObject(content.toString());
-            setLat(Double.parseDouble((response.getString("latt"))));
-            setLon(Double.parseDouble((response.getString("longt"))));
+        } catch (ProtocolException e) {
+            e.printStackTrace();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -59,7 +79,7 @@ public class GeocodeService implements Serializable {
         return lat;
     }
 
-    public void setLat(double lat) {
+    private void setLat(double lat) {
         this.lat = lat;
     }
 
@@ -67,7 +87,7 @@ public class GeocodeService implements Serializable {
         return lon;
     }
 
-    public void setLon(double lon) {
+    private void setLon(double lon) {
         this.lon = lon;
     }
 }

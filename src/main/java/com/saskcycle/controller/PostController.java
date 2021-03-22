@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 
 @Controller
 public class PostController {
@@ -121,6 +122,7 @@ public class PostController {
 
     public Boolean verifyAndPublish(){
         if(currentPost.isComplete()){
+            currentPost.setDatePosted(new Date());
             postDAD.addPost(currentPost);
             return true;
         }

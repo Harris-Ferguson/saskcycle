@@ -142,33 +142,35 @@ public class PostCreateView extends VerticalLayout {
         });
 
     // Set up Binder bindings for certain components that require verification
-    SerializablePredicate<String> PostCreatePredicates = value ->
-            !title.getValue().trim().isEmpty() || !description.getValue().trim().isEmpty() || !postType.getText().trim().isEmpty()
-                    || !postalCodeField.getValue().trim().isEmpty() || !postPrivacy.getText().trim().isEmpty();
+    SerializablePredicate<String> typePredicates = value -> !postType.getText().trim().isEmpty();
+    SerializablePredicate<String> titlePredicates = value -> !title.getValue().trim().isEmpty();
+    SerializablePredicate<String> descriptionPredicates = value -> !description.getValue().trim().isEmpty();
+    SerializablePredicate<String> postalPredicates = value -> !postalCodeField.getValue().trim().isEmpty();
+    SerializablePredicate<String> privacyPredicates = value ->!postPrivacy.getText().trim().isEmpty();
 
     Binder.Binding<PostController, String> typeBinding = binder.forField(postTypeSelect)
             .withNullRepresentation("")
-            .withValidator(PostCreatePredicates, "Please specify why your posting")
+            .withValidator(typePredicates, "Please specify why your posting")
             .bind(PostController::getPostType, PostController::setPostType);
 
     Binder.Binding<PostController, String> titleBinding = binder.forField(title)
             .withNullRepresentation("")
-            .withValidator(PostCreatePredicates, "Please specify your title")
+            .withValidator(titlePredicates, "Please specify your title")
             .bind(PostController::getPostTitle, PostController::setPostTitle);
 
     Binder.Binding<PostController, String> descriptionBinding = binder.forField(description)
             .withNullRepresentation("")
-            .withValidator(PostCreatePredicates, "Please specify your description")
+            .withValidator(descriptionPredicates, "Please specify your description")
             .bind(PostController::getPostDescription, PostController::setPostDescription);
 
     Binder.Binding<PostController, String> postalBinding = binder.forField(postalCodeField)
             .withNullRepresentation("")
-            .withValidator(PostCreatePredicates, "Please specify a postal code")
+            .withValidator(postalPredicates, "Please specify a postal code")
             .bind(PostController::getPostalCode, PostController::setPostPostalCode);
 
     Binder.Binding<PostController, String> privacyBinding = binder.forField(privacySelect)
             .withNullRepresentation("")
-            .withValidator(PostCreatePredicates, "Please specify your post's privacy")
+            .withValidator(privacyPredicates, "Please specify your post's privacy")
             .bind(PostController::getPostPrivacy, PostController::setPostPrivacy);
 
     // Left side of post creation
@@ -192,7 +194,7 @@ public class PostCreateView extends VerticalLayout {
     Button createPostButton = new Button("Create Post!", new Icon(VaadinIcon.THUMBS_UP));
     createPostButton.addClickListener(event -> {
       // all fields are filled
-      if (binder.writeBeanIfValid(postController) && !tagList.isEmpty()) {
+      if (binder.writeBeanIfValid(postController) && !tags.isEmpty()) {
         infoLabel.setText("Saved bean values: " + postController);
         // Postal code format check
         if(!postalMatch.get()){
@@ -229,7 +231,6 @@ public class PostCreateView extends VerticalLayout {
    * if so, then a new post is made using all the provided info from user
    */
   private void publishPost(String postType, String postTitle, String postDesc, String postalCode, ArrayList<String> postTagsApplied,String postPrivacy){
-
       postController.setPostType(postType);
       postController.setPostTitle(postTitle);
       postController.setPostDescription(postDesc);
@@ -238,7 +239,6 @@ public class PostCreateView extends VerticalLayout {
       postController.setPostPrivacy(postPrivacy);
       postController.setPostID();
       Boolean publishSuccess = postController.verifyAndPublish();
-
       if(publishSuccess){
           // Confirmation Dialog Box
           Dialog confirmPosted = new Dialog();

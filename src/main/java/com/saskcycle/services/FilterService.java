@@ -17,7 +17,6 @@ public class FilterService implements Serializable {
   private List<Post> posts;
 
   public FilterService(SearchController sc) {
-
     this.SC = sc;
     posts = SC.getAllListings();
   }

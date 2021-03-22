@@ -18,8 +18,6 @@ public class Post {
 
   @Id public String id;
 
-  public int IDnum;
-
   // ToDo
   // public Arraylist<pictures> photos;
 

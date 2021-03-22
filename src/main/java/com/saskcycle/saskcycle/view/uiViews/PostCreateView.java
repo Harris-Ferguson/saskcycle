@@ -5,6 +5,7 @@ import com.saskcycle.DAO.PostsDAO;
 import com.saskcycle.DAO.PostsDAOInterface;
 import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.view.layouts.PostCreateLayout;
+import com.saskcycle.services.GeocodeService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -38,6 +39,8 @@ public class PostCreateView extends VerticalLayout {
   @Autowired private PostsDAOInterface postRepo;
 
   @Autowired private PostsDAO pr;
+
+  @Autowired private GeocodeService geoService;
 
   public PostCreateView() {
     // give flag (true = giving away, false = looking for)
@@ -81,6 +84,14 @@ public class PostCreateView extends VerticalLayout {
     location.setPlaceholder("Type your location ...");
     location.setMinWidth("600px");
     location.setRequiredIndicatorVisible(true);
+
+
+    // Postal Code Field
+    TextField postalCode = new TextField();
+    postalCode.setLabel("PostalCode");
+    postalCode.setPlaceholder("Type your postal code (no space) ...");
+    postalCode.setMinWidth("600px");
+    postalCode.setRequiredIndicatorVisible(true);
 
     // Privacy and email/phone check boxes
     Select<String> privacy = new Select<>();
@@ -137,6 +148,7 @@ public class PostCreateView extends VerticalLayout {
     Button createPostButton = new Button("Create Post!", new Icon(VaadinIcon.THUMBS_UP));
     createPostButton.addClickListener(
         e -> {
+
           publishPost(
               give.get(),
               title.getValue(),
@@ -144,7 +156,8 @@ public class PostCreateView extends VerticalLayout {
               location.getValue(),
               tagList,
               isPostPublic.get(),
-              email.getValue());
+              email.getValue(),
+              postalCode.getValue());
         });
 
     add(Header, InfoPanel, createPostButton);
@@ -161,7 +174,8 @@ public class PostCreateView extends VerticalLayout {
       String location,
       ArrayList<String> tags,
       boolean isPostPublic,
-      boolean includeEmail) {
+      boolean includeEmail,
+      String postalCode) {
 
     if (title.trim().isEmpty()) {
       Notification.show("Enter a Title");
@@ -171,7 +185,10 @@ public class PostCreateView extends VerticalLayout {
       Notification.show("Enter a Location");
     } else if (tags.isEmpty()) {
       Notification.show("Please add some tags");
-    } else {
+    } else if (postalCode.trim().isEmpty()){
+      Notification.show("Please enter a postal code");
+    } else{
+      geoService.findLatLon(postalCode);
       Post newPost =
           new Post(
               title,
@@ -181,10 +198,9 @@ public class PostCreateView extends VerticalLayout {
               location,
               tags,
               givePost,
-              0,
-              0,
-              ""
-              );
+              geoService.getLon(),
+              geoService.getLat(),
+              postalCode);
       newPost.datePosted = new Date(); // apply date of creation to po
       newPost.privacy = isPostPublic; // apply privacy of post
       if (includeEmail) {

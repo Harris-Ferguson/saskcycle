@@ -3,14 +3,17 @@ package com.saskcycle.services;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
+import java.util.Locale;
 
 import org.json.*;
+import org.springframework.stereotype.Service;
 
-public class GeocodeService {
+@Service
+public class GeocodeService implements Serializable {
 
     /* --------- Attributes ------------ */
     // URL that returns JSON with latitude/longitude of an input postal code (Canada)
@@ -24,8 +27,10 @@ public class GeocodeService {
 
         /* ----------- Methods ------------- */
 
-    public GeocodeService(String postalCode) {
-        this.postalCode = postalCode;
+    public GeocodeService(){}
+
+    public void findLatLon(String postalCode) {
+        this.postalCode = postalCode.trim().toLowerCase(Locale.ROOT);
         URL request;
         try {
             // Connects to geocoder service
@@ -64,10 +69,5 @@ public class GeocodeService {
 
     public void setLon(double lon) {
         this.lon = lon;
-    }
-
-    public static void main(String[] args){
-        GeocodeService geo = new GeocodeService("s7n0g8");
-        System.out.println(geo.getLon() + " " + geo.getLat());
     }
 }

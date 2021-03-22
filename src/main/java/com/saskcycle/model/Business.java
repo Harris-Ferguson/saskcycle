@@ -14,8 +14,12 @@ public class Business extends Post {
       String id,
       String location,
       ArrayList<String> tags,
-      boolean give) {
-    super(title, description, id, null, location, tags, give);
+      boolean give,
+      double longitude,
+      double latitude,
+      String postalCode) {
+
+    super(title, description, id, null, location, tags, give, longitude, latitude, postalCode);
   }
 
   public ArrayList<String> get_tags() {

@@ -87,14 +87,10 @@ public class PostController {
     }
 
     public void setPostPostalCode(String postal){
-        try {
-            geocodeService.geolocationFromPostalCode(postal);
-            currentPost.setLatitude(geocodeService.getLat());
-            currentPost.setLongitude(geocodeService.getLon());
-            currentPost.setPostalCode(postal);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        geocodeService.geolocationFromPostalCode(postal);
+        currentPost.setLatitude(geocodeService.getLat());
+        currentPost.setLongitude(geocodeService.getLon());
+        currentPost.setPostalCode(postal);
     }
 
     public void setPostTags(ArrayList<String> tagList){

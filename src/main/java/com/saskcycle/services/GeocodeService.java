@@ -30,13 +30,22 @@ public class GeocodeService implements Serializable {
      * Sets the lat and lon fields in this object
      * @param postalCode valid canadian postal code
      */
-    public void geolocationFromPostalCode(String postalCode) throws JSONException {
+    public void geolocationFromPostalCode(String postalCode) {
         postalCode = URLEncoder.encode(postalCode.trim().toLowerCase(Locale.ROOT), StandardCharsets.UTF_8);
+        makeRequest(postalCode);
+    }
+
+    public void geolocationFromStreetAddress(String address){
+        String encodedAddress = URLEncoder.encode(address + " Saskatoon Saskatchewan", StandardCharsets.UTF_8);
+        makeRequest(encodedAddress);
+    }
+
+    private void makeRequest(String requestUrlString) {
         URL request;
-        JSONArray array = new JSONArray();
+        JSONArray array;
         try {
             // Connects to geocoder service
-            request = new URL(baseUrl + postalCode);
+            request = new URL(baseUrl + requestUrlString);
             HttpURLConnection connection = (HttpURLConnection) request.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
@@ -48,6 +57,9 @@ public class GeocodeService implements Serializable {
             }
             in.close();
             array = new JSONArray(content.toString());
+            JSONArray coords = array.getJSONObject(0).getJSONObject("geometry").getJSONArray("coordinates");
+            setLat(Double.parseDouble(coords.get(0).toString()));
+            setLon(Double.parseDouble(coords.get(1).toString()));
         } catch (ProtocolException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
@@ -57,9 +69,6 @@ public class GeocodeService implements Serializable {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        JSONArray coords = array.getJSONObject(0).getJSONObject("geometry").getJSONArray("coordinates");
-        setLat(Double.parseDouble(coords.get(0).toString()));
-        setLon(Double.parseDouble(coords.get(1).toString()));
     }
 
     /**
@@ -97,11 +106,9 @@ public class GeocodeService implements Serializable {
      */
     public static void main(String[] args) {
         GeocodeService ser = new GeocodeService();
-        try {
-            ser.geolocationFromPostalCode("S7H2T2");
-            System.out.println(ser.lat + " " + ser.lon);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        ser.geolocationFromPostalCode("S7H2T2");
+        System.out.println(ser.lat + " " + ser.lon);
+        ser.geolocationFromStreetAddress("1613 grosvenor ave");
+        System.out.println(ser.lat + " " + ser.lon);
     }
 }

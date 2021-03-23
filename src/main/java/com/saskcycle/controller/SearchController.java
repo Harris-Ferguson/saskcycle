@@ -225,8 +225,6 @@ public class SearchController implements Serializable {
     }
     else
     {
-      try
-      {
         List<PostDistancePair> sorted = new ArrayList<>();
         geocodeService.geolocationFromPostalCode(userLocation);
         for(Post post : posts){
@@ -239,13 +237,7 @@ public class SearchController implements Serializable {
           sortedPosts.add(postDistancePair.post);
         }
         return sortedPosts;
-      } catch (JSONException e) {
-        e.printStackTrace();
-      }
-
     }
-
-    return posts;
   }
 
   /***

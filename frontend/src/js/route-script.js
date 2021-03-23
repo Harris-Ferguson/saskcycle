@@ -62,6 +62,6 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer) {
 }
 
 function test(){
-alert(document.getElementById("text").value)
+alert(document.getElementById("sCoords").value)
 }
 document.head.appendChild(routeScript);

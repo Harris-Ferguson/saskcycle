@@ -15,6 +15,7 @@ import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -47,7 +48,18 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         Button wishlistButton = new Button("Add to wishlist", new Icon(VaadinIcon.STAR));
         wishlistButton.addClickListener(e -> {
                 if (SecurityUtils.isUserLoggedIn()){
-                    account.updateWishlist(post.id);
+                    if(account.getCurrentAccount().getWishlist().contains(post.id))
+                    {
+                        Notification notification = new Notification("Item is on your wishlist already!",3000);
+                        notification.open();
+                    }
+                    else
+                    {
+                        account.updateWishlist(post.id);
+                        Notification notification = new Notification("Item added to wishlist!",3000);
+                        notification.open();
+                    }
+
                 }
 
                 else

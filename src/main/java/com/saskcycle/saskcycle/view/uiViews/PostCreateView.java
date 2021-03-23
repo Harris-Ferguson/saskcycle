@@ -22,6 +22,7 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
@@ -148,15 +149,19 @@ public class PostCreateView extends VerticalLayout {
     createPostButton.addClickListener(
         e -> {
 
-          publishPost(
-              give.get(),
-              title.getValue(),
-              description.getValue(),
-              location.getValue(),
-              tagList,
-              isPostPublic.get(),
-              email.getValue(),
-              postalCode.getValue());
+          try {
+            publishPost(
+                give.get(),
+                title.getValue(),
+                description.getValue(),
+                location.getValue(),
+                tagList,
+                isPostPublic.get(),
+                email.getValue(),
+                postalCode.getValue());
+          } catch (JSONException jsonException) {
+            jsonException.printStackTrace();
+          }
         });
 
     add(Header, InfoPanel, createPostButton);
@@ -174,7 +179,7 @@ public class PostCreateView extends VerticalLayout {
       ArrayList<String> tags,
       boolean isPostPublic,
       boolean includeEmail,
-      String postalCode) {
+      String postalCode) throws JSONException {
 
     if (title.trim().isEmpty()) {
       Notification.show("Enter a Title");

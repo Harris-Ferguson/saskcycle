@@ -34,6 +34,7 @@ window.initMap = function(){
           document.getElementById("end").addEventListener("change", onChangeHandler);
         }
 
+
 function calculateAndDisplayRoute(directionsService, directionsRenderer) {
   directionsService.route(
     {

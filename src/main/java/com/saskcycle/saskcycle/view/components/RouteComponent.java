@@ -34,7 +34,7 @@ public class RouteComponent extends Div {
     private void initializeMap(){
         this.setHeight("100%");
         this.setWidth("100%");
-        this.setId("map");
+        this.setId("route");
     }
 
     /**

@@ -7,36 +7,51 @@ var map;
 
 window.markers = [];
 
+/*
+Usage for Directions API Code given by Google at:
+https://developers.google.com/maps/documentation/javascript/examples/directions-simple#maps_directions_simple-javascript
+*/
+
 // Attach your callback function to the `window` object
 window.initMap = function(){
+
+        const directionsService = new google.maps.DirectionsService();
+        const directionsRenderer = new google.maps.DirectionsRenderer();
+
         var saskatoon = new google.maps.LatLng(52.118, -106.643)
 
-        map = new google.maps.Map(document.getElementById("map"), {
+        map = new google.maps.Map(document.getElementById("route"), {
             center: saskatoon,
             zoom: 10,
         })
-        console.log(markers);
-        for(var i = 0 ; i < window.markers.length ; i++){
-            window.renderMarker(window.markers[i].lat, window.markers[i].long, window.markers[i].name);
+
+        directionsRenderer.setMap(map);
+
+          const onChangeHandler = function () {
+            calculateAndDisplayRoute(directionsService, directionsRenderer);
+          };
+          document.getElementById("submitStart").addEventListener("change", onChangeHandler);
+          document.getElementById("end").addEventListener("change", onChangeHandler);
         }
-};
 
-window.renderMarker = function(lat, long, name) {
-    let pos = new google.maps.LatLng(lat, long);
-    new google.maps.Marker({
-        position: pos,
-        title: name,
-        map: map
-    });
-};
-
-window.addMarker = function(lat, long, name) {
-    let marker = {
-        lat: lat,
-        long: long,
-        name: name
+function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+  directionsService.route(
+    {
+      origin: {
+        query: document.getElementById("text").value,
+      },
+      destination: {
+        query: document.getElementById("end").value,
+      },
+      travelMode: google.maps.TravelMode.DRIVING,
+    },
+    (response, status) => {
+      if (status === "OK") {
+        directionsRenderer.setDirections(response);
+      } else {
+        window.alert("Directions request failed due to " + status);
+      }
     }
-    window.markers.push(marker);
-};
-
+  );
+}
 document.head.appendChild(script);

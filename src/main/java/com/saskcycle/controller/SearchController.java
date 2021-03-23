@@ -447,8 +447,14 @@ public class SearchController implements Serializable {
     }
   }
 
+  /**
+   * Finds a user's list of saved posts (IDs) and returns a list of Post objects to be displayed in the view
+   * @return a list of Post objects found by their IDs
+   */
   public List<Post> getSavedPosts()
   {
+    //Get list of strings from User's accound class, intialize a list of posts to return,
+    // and a list of strings that represent invalid (deleted) IDs to be removed
     List<String> wishlist = currentDAD.getCurrentAccount().getWishlist();
     List<Post> wishListPosts = new ArrayList<>();
     List<String> postsToRemove = new ArrayList<>();

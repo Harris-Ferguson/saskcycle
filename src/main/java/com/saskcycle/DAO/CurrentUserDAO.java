@@ -51,6 +51,10 @@ public class CurrentUserDAO implements CurrentUserDAOInterface {
     return userDAO.searchByName(user.getUsername());
   }
 
+  /**
+   * Adds an ID to a logged in user's wishlist
+   * @param id a string representation the ID of a post in the database
+   */
   public void updateWishlist(String id)
   {
     Account account = this.getCurrentAccount();

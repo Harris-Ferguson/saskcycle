@@ -1,9 +1,11 @@
 package com.saskcycle.saskcycle.view.uiViews;
 
+import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
+import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.components.PostComponent;
 import com.saskcycle.saskcycle.view.layouts.SearchResultsLayout;
-import com.saskcycle.services.FilterService;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
@@ -13,49 +15,62 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteConfiguration;
+import com.vaadin.flow.router.RouterLink;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
+
 
 @Route(value = "results", layout = SearchResultsLayout.class)
 @PageTitle("SaskCycle | Results")
 public class SearchResultsView extends VerticalLayout {
 
-  @Autowired FilterService filterService;
+  @Autowired
+  SearchController SC;
 
   private Grid<Post> grid;
 
   private H1 heading;
 
-  private List<Post> posts;
-
   private Select<String> sortSelect;
-  // private Select<String> useSelect;
+  private Select<String> useSelect;
   private Select<String> postChoice;
-
+  private NumberField   numberField;
   private CheckboxGroup<String> includeGroup;
   private CheckboxGroup<String> excludeGroup;
 
-  /** Constructs the view that displays the listings */
+
+    /** Constructs the view that displays the listings */
   @PostConstruct
   public void SearchResultsView() {
 
     heading = new H1("All listings");
 
-    posts = filterService.getPosts();
+    //sets up searchController list to have all listings populated (currently can't do it in constructor or app breaks)
+    SC.resetPosts();
 
     VerticalLayout filterGroup = FilterComponent();
 
     grid = initGrid();
 
+    //grid.setSelectionMode(Grid.SelectionMode.NONE);
+
+
+    // Constructing a post view based on what's clicked is still under construction
+      grid.addItemClickListener(event -> {
+          //System.out.println(event.getItem().title);
+        getUI().ifPresent(ui -> ui.navigate("clickedPost"));
+
+      });
+
     HorizontalLayout resultsGroup = new HorizontalLayout();
     resultsGroup.setAlignItems(Alignment.START);
     resultsGroup.setWidth("100%");
     resultsGroup.add(filterGroup, grid);
-
     add(heading, resultsGroup);
   }
 
@@ -66,7 +81,7 @@ public class SearchResultsView extends VerticalLayout {
    */
   private Grid<Post> initGrid() {
     Grid<Post> newGrid = new Grid<>();
-    newGrid.setItems(posts);
+    newGrid.setItems(SC.getPageOfPosts(numberField.getValue()));
     newGrid.setHeight("1000px");
     newGrid.addComponentColumn(PostComponent::new);
 
@@ -83,7 +98,7 @@ public class SearchResultsView extends VerticalLayout {
 
     filterGroup.setWidth("200px");
 
-    /* Use case has not been fully implemented
+//    /* Use case has not been fully implemented
      useSelect = new Select<>();
      useSelect.setItems("Select", "Get", "Give");
      useSelect.setLabel("What do you want to do?");
@@ -91,46 +106,32 @@ public class SearchResultsView extends VerticalLayout {
 
      useSelect.addValueChangeListener(
              event -> {
-                 posts = filterService.sortByFunction(event.getValue());
-                 grid.setItems(posts);
-             });    useSelect = new Select<>();
-
-    */
+                 this.updatePosts();
+                 grid.setItems(SC.getPageOfPosts(numberField.getValue()));
+             });
+     
     // Dropdown menu user to select sorting
     sortSelect = new Select<>();
-    sortSelect.setItems("Select", "Alphabetically (A-Z)", "Closest to me");
+    sortSelect.setItems("Select", "Alphabetically (A-Z)");
     sortSelect.setLabel("Sort by");
     sortSelect.setValue("Select");
 
     sortSelect.addValueChangeListener(
         event -> {
-          //          posts = filterService.sortPosts(event.getValue());
-          posts =
-              filterService.checkOtherFilters(
-                  includeGroup.getValue(),
-                  excludeGroup.getValue(),
-                  postChoice.getValue(),
-                  //                  useSelect.getValue(),
-                  sortSelect.getValue());
-          grid.setItems(posts);
+            this.updatePosts();
+          grid.setItems(SC.getPageOfPosts(numberField.getValue()));
         });
 
     // Checkbox to select tags that user wants to include
     includeGroup = new CheckboxGroup<>();
     includeGroup.setLabel("Show results for");
-    includeGroup.setItems("Appliances", "Clothing", "Electronics", "Furniture");
+    includeGroup.setItems(Tags.getTagNames());
     includeGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
     includeGroup.addValueChangeListener(
         event -> {
-          posts =
-              filterService.checkOtherFilters(
-                  includeGroup.getValue(),
-                  excludeGroup.getValue(),
-                  postChoice.getValue(),
-                  //                  useSelect.getValue(),
-                  sortSelect.getValue());
-          grid.setItems(posts);
+            this.updatePosts();
+          grid.setItems(SC.getPageOfPosts(numberField.getValue()));
 
           excludeGroup.setItemEnabledProvider(item -> !event.getValue().contains(item));
           if (event.getValue() == null || event.getValue().isEmpty()) {
@@ -146,19 +147,13 @@ public class SearchResultsView extends VerticalLayout {
     // Checkbox to select tags that user wants to exclude
     excludeGroup = new CheckboxGroup<>();
     excludeGroup.setLabel("Hide results for");
-    excludeGroup.setItems("Appliances", "Clothing", "Electronics", "Furniture");
+    excludeGroup.setItems(Tags.getTagNames());
     excludeGroup.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
     excludeGroup.addValueChangeListener(
         event -> {
-          posts =
-              filterService.checkOtherFilters(
-                  includeGroup.getValue(),
-                  excludeGroup.getValue(),
-                  postChoice.getValue(),
-                  //                  useSelect.getValue(),
-                  sortSelect.getValue());
-          grid.setItems(posts);
+            this.updatePosts();
+          grid.setItems(SC.getPageOfPosts(numberField.getValue()));
 
           includeGroup.setItemEnabledProvider(item -> !event.getValue().contains(item));
           if (event.getValue() == null || event.getValue().isEmpty()) {
@@ -179,14 +174,9 @@ public class SearchResultsView extends VerticalLayout {
 
     postChoice.addValueChangeListener(
         event -> {
-          posts =
-              filterService.checkOtherFilters(
-                  includeGroup.getValue(),
-                  excludeGroup.getValue(),
-                  postChoice.getValue(),
-                  //                  useSelect.getValue(),
-                  sortSelect.getValue());
-          grid.setItems(posts);
+            this.updatePosts();
+            numberField.setMax(SC.amountOfPages());
+          grid.setItems(SC.getPageOfPosts(numberField.getValue()));
         });
     // Reset listings
     Button resetButton = new Button("Reset filters");
@@ -197,14 +187,31 @@ public class SearchResultsView extends VerticalLayout {
           includeGroup.clear();
           excludeGroup.clear();
           sortSelect.setValue("Select");
-          //          useSelect.setValue("Select");
+          useSelect.setValue("Select");
           postChoice.setValue("Select");
 
-          posts = filterService.resetPosts();
-          grid.setItems(posts);
+          // "resets" searchController list
+          SC.resetPosts();
+          numberField.setMax(SC.amountOfPages());
+          numberField.setValue(1d);
+          grid.setItems(SC.getPageOfPosts(numberField.getValue()));
         });
 
-    filterGroup.add(sortSelect, postChoice, includeGroup, excludeGroup, resetButton);
+      numberField = new NumberField();
+      numberField.setLabel("Go to page:");
+      numberField.setValue(1d);
+      numberField.setHasControls(true);
+      numberField.setMin(1);
+      numberField.setMax(SC.amountOfPages());
+      numberField.addValueChangeListener(
+              event -> {
+                  grid.setItems(SC.getPageOfPosts(numberField.getValue()));
+              });
+
+      add(numberField);
+    filterGroup.add(sortSelect, postChoice, useSelect, includeGroup, excludeGroup, resetButton,numberField);
+
+
     return filterGroup;
   }
 
@@ -222,4 +229,24 @@ public class SearchResultsView extends VerticalLayout {
 
     return strTags.substring(0, strTags.length() - 2);
   }
+
+    /**
+     * This method notifies the controlled that the user has changed a filtering option,
+     * and the searchController adjusts its list of current posts accordingly as well as
+     * ensures the amount of post pages is correct
+     */
+  public void updatePosts()
+  {
+      SC.filterService(includeGroup.getValue(),
+                excludeGroup.getValue(),
+                postChoice.getValue(),
+                useSelect.getValue(),
+                sortSelect.getValue());
+
+
+    numberField.setMax(SC.amountOfPages());
+    numberField.setValue(1d);
+  }
+
+
 }

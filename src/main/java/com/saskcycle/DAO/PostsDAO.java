@@ -16,13 +16,15 @@ public class PostsDAO implements PostsDAOInterface {
 
   @Autowired private final PostsRepo PR;
 
+
   /* ---------   Methods  ---------- */
-  public PostsDAO(PostsRepo PR) {
-    this.PR = PR;
+  public PostsDAO(PostsRepo repo) {
+    this.PR = repo;
   }
 
   @Override
   public List<Post> AllPosts() {
+    // Returns all posts from the Posts MongoDB database
     return PR.findAll();
   }
 
@@ -63,11 +65,13 @@ public class PostsDAO implements PostsDAOInterface {
 
   @Override
   public Post addPost(Post post) {
-    return PR.insert(post);
+  // Inserts a post to the Posts MongoDB Database
+  return PR.insert(post);
   }
 
   @Override
   public void deletePost(Post post) {
+    // Deletes a post from the Posts MongoDB Database
     PR.delete(post);
   }
 

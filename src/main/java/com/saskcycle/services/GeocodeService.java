@@ -31,7 +31,7 @@ public class GeocodeService implements Serializable {
      * Sets the lat and lon fields in this object
      * @param postalCode valid canadian postal code
      */
-    public void geolocationFromPostalCode(String postalCode) {
+    public void geolocationFromPostalCode(String postalCode) throws JSONException {
         postalCode = URLEncoder.encode(postalCode.trim().toLowerCase(Locale.ROOT), StandardCharsets.UTF_8);
         URL request;
         getResponse(baseUrl + postalCode + urlSuffix);
@@ -44,7 +44,7 @@ public class GeocodeService implements Serializable {
      * Sets the lat and lon fields in this object
      * @param streetAddress any north american street address
      */
-    public void geolocationFromStreetAddress(String streetAddress){
+    public void geolocationFromStreetAddress(String streetAddress) throws JSONException {
         String encodedStreetAddress = URLEncoder.encode(streetAddress + " saskatoon saskatchewan", StandardCharsets.UTF_8);
         getResponse(baseUrl + encodedStreetAddress + urlSuffix);
         setLat(Double.parseDouble(response.getString("latt")));
@@ -76,6 +76,8 @@ public class GeocodeService implements Serializable {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }

@@ -17,7 +17,6 @@ public class GeocodeService implements Serializable {
     /* --------- Attributes ------------ */
     // JSON object containing latitude/longitude
     String baseUrl = "http://geogratis.gc.ca/services/geolocation/en/locate?q=";
-    String urlSuffix = "&geoit=XML&json=1";
     private JSONObject response;
     private double lat;
     private double lon;
@@ -64,54 +63,16 @@ public class GeocodeService implements Serializable {
     }
 
     /**
-     * Sets the response instance with the result of the http request to the given URL
-     * @param url url to request
+     * Finds the distance from the point defined in the GeocodeService and the given point
+     * @param otherLat other latitude
+     * @param otherLon other longitude
+     * @return distance value
      */
-    private void getResponse(String url) {
-        URL request;
-        try {
-            // Connects to geocoder service
-            request = new URL(url);
-            HttpURLConnection connection = (HttpURLConnection) request.openConnection();
-            connection.setRequestMethod("GET");
-            connection.connect();
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-            in.close();
-            response = new JSONObject(content.toString());
-
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
     public double distance(double otherLat, double otherLon){
         double latlon = (Math.pow(lat, 2) + Math.pow(lon, 2));
         double otherLatLon = (Math.pow(otherLat, 2) + Math.pow(otherLon, 2));
         double sum = latlon + otherLatLon;
         return Math.sqrt(sum);
-    }
-
-    //convert degree to radian
-    private double Deg2Rad(double deg)
-    {
-        return (deg * Math.PI / 180.0);
-    }
-
-    //convert radian to degree
-    private double Rad2Deg(double rad)
-    {
-        return (rad / Math.PI * 180.0);
     }
 
     public double getLat() {
@@ -130,6 +91,10 @@ public class GeocodeService implements Serializable {
         this.lon = lon;
     }
 
+    /**
+     * Test
+     * @param args not used
+     */
     public static void main(String[] args) {
         GeocodeService ser = new GeocodeService();
         try {

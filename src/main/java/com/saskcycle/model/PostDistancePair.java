@@ -1,6 +1,4 @@
-package com.saskcycle.model.authorities;
-
-import com.saskcycle.model.Post;
+package com.saskcycle.model;
 
 public class PostDistancePair implements Comparable<PostDistancePair> {
     public Post post;
@@ -12,7 +10,13 @@ public class PostDistancePair implements Comparable<PostDistancePair> {
         this.distance = distance;
     }
 
+    /**
+     * CompareTo for the comparable interface
+     * @param o other post distance pair
+     * @return compare to normal values
+     */
     public int compareTo(PostDistancePair o) {
+        // THIS NEEDS TO BE NEGATIVE
         return -this.distance.compareTo(o.distance);
     }
 }

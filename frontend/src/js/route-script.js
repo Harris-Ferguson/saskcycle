@@ -12,33 +12,28 @@ Usage for Directions API Code given by Google at:
 https://developers.google.com/maps/documentation/javascript/examples/directions-simple#maps_directions_simple-javascript
 */
 
-// Attach your callback function to the `window` object
+
+/* Uses callback function to set up event handling for route planning, Attach to winder*/
 window.initMap = function(){
 
-        const directionsService = new google.maps.DirectionsService();
-        const directionsRenderer = new google.maps.DirectionsRenderer();
+    // Set the Google Directions services and renderers for interacting with the map
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer();
 
-        var saskatoon = new google.maps.LatLng(52.118, -106.643)
+    // Set up map from view to focus on Saskatoon coordinates
+    var saskatoon = new google.maps.LatLng(52.118, -106.643)
+    map = new google.maps.Map(document.getElementById("route"), {
+        center: saskatoon,
+        zoom: 10,
+    })
+    // Set directions to be rendered to display map
+    directionsRenderer.setMap(map);
 
-        map = new google.maps.Map(document.getElementById("route"), {
-            center: saskatoon,
-            zoom: 10,
-        })
+    // Hook javascript to GUI button - render directions upon submission
+    var submitButton = document.getElementById("submitStart");
+    submitButton.addEventListener("click", test); /*<- change here to submit directions*/
 
-        directionsRenderer.setMap(map);
-
-        var submitButton = document.getElementById("submitStart");
-
-        submitButton.addEventListener("click", test
-        /*calculateAndDisplayRoute(directionsService, directionsRenderer)*/)
-
-          const onChangeHandler = function () {
-            calculateAndDisplayRoute(directionsService, directionsRenderer);
-          };
-          document.getElementById("submitStart").addEventListener("change", onChangeHandler);
-          document.getElementById("end").addEventListener("change", onChangeHandler);
-        }
-
+    }
 
 function calculateAndDisplayRoute(directionsService, directionsRenderer) {
   directionsService.route(

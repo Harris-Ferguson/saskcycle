@@ -41,6 +41,7 @@ public class TransitRouteView extends VerticalLayout /*implements HasUrlParamete
         submitStart.setId("submitStart");
         submitStart.setWidth("150px");
         startingAddress.add(text, submitStart);
+        startingAddress.setAlignItems(Alignment.CENTER);
 
         HorizontalLayout targetAddress = new HorizontalLayout();
 
@@ -51,12 +52,8 @@ public class TransitRouteView extends VerticalLayout /*implements HasUrlParamete
         data.setValue("s7n0p8");
         data.setReadOnly(true);
 
-
         targetAddress.add(dataLabel, data);
-
-        startingAddress.setAlignItems(Alignment.CENTER);
         add(startingAddress);
-
 
         // Map view
         RouteComponent route = new RouteComponent(52.118, -106.643, "Label");

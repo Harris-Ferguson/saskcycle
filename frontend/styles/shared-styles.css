@@ -72,6 +72,14 @@ a[highlight] {
     color: white;
 }
 
+.exit {
+    position: absolute;
+    margin-top: 4px;
+    margin-right: 4px;
+    top: 0;
+    right: 0;
+}
+
 #map {
     height: 100%;
     width: 100%;

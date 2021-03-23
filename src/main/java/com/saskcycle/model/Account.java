@@ -5,6 +5,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -88,6 +89,21 @@ public class Account extends User {
     this.wishlish = new Feed();
     this.posts = new Feed();
   }
+
+    public static Account makeAccountFromUser(UserDetails user, String email) {
+        return new Account(
+                user.getUsername(),
+                user.getPassword(),
+                user.getAuthorities(),
+                Integer.toString(user.hashCode()),
+                email,
+                "USER",
+                new Feed(),
+                new Feed(),
+                0.0,
+                new ArrayList<Notification>()
+        );
+    }
 
   /* --------- Getters and Setters -------------*/
 

@@ -16,29 +16,22 @@ public class Business extends Post {
       ArrayList<String> tags,
       boolean give,
       double longitude,
-      double latitude,
-      String postalCode) {
-
-    super(title, description, id, null, location, tags, give, longitude, latitude, postalCode);
+      double latitude) {
   }
 
-  public ArrayList<String> get_tags() {
+  public ArrayList<String> getTags() {
     return this.tags;
   }
 
-  public String get_name() {
+  public String getName() {
     return this.title;
   }
 
-  public String get_description() {
+  public String getDescription() {
     return this.description;
   }
 
-  public String get_location() {
-    return this.location;
-  }
-
   public String toString() {
-    return this.title + "\n" + this.description + "\n" + this.location + "\n";
+    return this.title + "\n" + this.description + "\n";
   }
 }

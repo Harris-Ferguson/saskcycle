@@ -27,6 +27,11 @@ window.initMap = function(){
 
         directionsRenderer.setMap(map);
 
+        var submitButton = document.getElementById("submitStart");
+
+        submitButton.addEventListener("click", test
+        /*calculateAndDisplayRoute(directionsService, directionsRenderer)*/)
+
           const onChangeHandler = function () {
             calculateAndDisplayRoute(directionsService, directionsRenderer);
           };
@@ -54,5 +59,9 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer) {
       }
     }
   );
+}
+
+function test(){
+alert(document.getElementById("text").value)
 }
 document.head.appendChild(routeScript);

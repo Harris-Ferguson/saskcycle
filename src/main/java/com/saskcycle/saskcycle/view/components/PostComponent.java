@@ -29,11 +29,12 @@ public class PostComponent extends Div {
     H3 title = new H3(post.title);
 
     Paragraph desc = new Paragraph(post.description);
+    H5 postal = new H5(post.getPostalCode());
 
     title.addClassName("posts");
     desc.addClassName("posts");
 
-    add(title, desc, formatTags(post));
+    add(title, desc, postal, formatTags(post));
   }
 
   /**

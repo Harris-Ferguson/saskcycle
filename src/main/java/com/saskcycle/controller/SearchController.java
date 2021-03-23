@@ -5,14 +5,14 @@ import com.saskcycle.DAO.PostsDAOInterface;
 import com.saskcycle.model.Business;
 import com.saskcycle.model.Post;
 import com.saskcycle.model.Tags;
+import com.saskcycle.model.authorities.PostDistancePair;
+import com.saskcycle.services.GeocodeService;
+import com.vaadin.flow.internal.Pair;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class SearchController implements Serializable {
@@ -22,6 +22,8 @@ public class SearchController implements Serializable {
   @Autowired private PostsDAOInterface Paccess;
 
   @Autowired private BusinessDAOInterface Baccess;
+
+  @Autowired private GeocodeService geocodeService;
 
   List<Post> currentPosts;
 
@@ -218,10 +220,31 @@ public class SearchController implements Serializable {
    * @postcond modifies the order of posts
    * @return List of sorted posts
    */
-  public List<Post> getSortedPosts(String value, List<Post> posts) {
-
+  public List<Post> getSortedPosts(String value, List<Post> posts, String userLocation) {
     if (value.equals("Alphabetically (A-Z)")) {
       posts.sort(Comparator.comparing(a -> a.title));
+      return posts;
+    }
+    else
+    {
+      try
+      {
+        List<PostDistancePair> sorted = new ArrayList<>();
+        geocodeService.geolocationFromPostalCode(userLocation);
+        for(Post post : posts){
+          double distance = geocodeService.distance(post.getLatitude(), post.getLongitude());
+          sorted.add(new PostDistancePair(post,distance));
+        }
+        Collections.sort(sorted);
+        List<Post> sortedPosts = new ArrayList<>();
+        for (PostDistancePair postDistancePair : sorted) {
+          sortedPosts.add(postDistancePair.post);
+        }
+        return sortedPosts;
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
+
     }
 
     return posts;
@@ -275,7 +298,7 @@ public class SearchController implements Serializable {
    * @param useChoice string representing if user is looking for people that are taking things or giving things
    * @param sortChoice  string representing how the user wants the posts to be sorted
    */
-  public void filterService(Set<String> includedTags, Set<String> excludedTags, String poster,String useChoice, String sortChoice)
+  public void filterService(Set<String> includedTags, Set<String> excludedTags, String poster,String useChoice, String sortChoice,String location)
   {
     // Determine what posts from users/organizations should have filters applied
     if (poster.equals("Users") || poster.equals("Organizations")) {
@@ -300,7 +323,7 @@ public class SearchController implements Serializable {
 
     // If specified, sort posts
     if (sortChoice.equals("Alphabetically (A-Z)") || sortChoice.equals("Closest to me")) {
-      this.currentPosts = this.getSortedPosts(sortChoice,currentPosts);
+      this.currentPosts = this.getSortedPosts(sortChoice,currentPosts,location);
     }
   }
 
@@ -388,18 +411,18 @@ public class SearchController implements Serializable {
   }
 
 
-  /**
-   * Sorts posts by the given specification
-   *
-   * @param value the characteristic by which the code is sorted
-   * @return list of sorted posts
-   */
-  public List<Post> sortPosts(String value) {
-
-    this.getSortedPosts(value, currentPosts);
-
-    return currentPosts;
-  }
+//  /**
+//   * Sorts posts by the given specification
+//   *
+//   * @param value the characteristic by which the code is sorted
+//   * @return list of sorted posts
+//   */
+//  public List<Post> sortPosts(String value) {
+//
+//    this.getSortedPosts(value, currentPosts);
+//
+//    return currentPosts;
+//  }
 
   /**
    * Hides the posts that are tagged with the specified tag(s)

@@ -114,8 +114,7 @@ public class PostController {
     }
 
     public void setPostID(){
-        Integer postDataBaseSize = currentPost.hashCode();
-        currentPost.setId(postDataBaseSize.toString());
+        currentPost.setId(Integer.toString(currentPost.hashCode()));
     }
 
     public Integer getPostID(){
@@ -126,6 +125,7 @@ public class PostController {
         if(currentPost.isComplete()){
             currentPost.setDatePosted(new Date());
             postDAD.addPost(currentPost);
+            currentPost = new Post();
             return true;
         }
         else{
@@ -133,5 +133,4 @@ public class PostController {
             return false;
         }
     }
-
 }

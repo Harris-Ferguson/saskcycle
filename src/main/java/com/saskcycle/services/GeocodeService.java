@@ -16,7 +16,7 @@ public class GeocodeService implements Serializable {
 
     /* --------- Attributes ------------ */
     // JSON object containing latitude/longitude
-    String baseUrl = "https://geocoder.ca/?locate=";
+    String baseUrl = "http://geogratis.gc.ca/services/geolocation/en/locate?q=";
     String urlSuffix = "&geoit=XML&json=1";
     private JSONObject response;
     private double lat;
@@ -34,21 +34,33 @@ public class GeocodeService implements Serializable {
     public void geolocationFromPostalCode(String postalCode) throws JSONException {
         postalCode = URLEncoder.encode(postalCode.trim().toLowerCase(Locale.ROOT), StandardCharsets.UTF_8);
         URL request;
-        getResponse(baseUrl + postalCode + urlSuffix);
-        setLat(Double.parseDouble(response.getString("latt")));
-        setLon(Double.parseDouble(response.getString("longt")));
-    }
-
-    /**
-     * Gets the geolocation for a given street address
-     * Sets the lat and lon fields in this object
-     * @param streetAddress any north american street address
-     */
-    public void geolocationFromStreetAddress(String streetAddress) throws JSONException {
-        String encodedStreetAddress = URLEncoder.encode(streetAddress + " saskatoon saskatchewan", StandardCharsets.UTF_8);
-        getResponse(baseUrl + encodedStreetAddress + urlSuffix);
-        setLat(Double.parseDouble(response.getString("latt")));
-        setLon(Double.parseDouble(response.getString("longt")));
+        JSONArray array = new JSONArray();
+        try {
+            // Connects to geocoder service
+            request = new URL(baseUrl + postalCode);
+            HttpURLConnection connection = (HttpURLConnection) request.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+            in.close();
+            array = new JSONArray(content.toString());
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONArray coords = array.getJSONObject(0).getJSONObject("geometry").getJSONArray("coordinates");
+        setLat(Double.parseDouble(coords.get(0).toString()));
+        setLon(Double.parseDouble(coords.get(1).toString()));
     }
 
     /**
@@ -71,6 +83,7 @@ public class GeocodeService implements Serializable {
             }
             in.close();
             response = new JSONObject(content.toString());
+
         } catch (ProtocolException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
@@ -80,6 +93,25 @@ public class GeocodeService implements Serializable {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public double distance(double otherLat, double otherLon){
+        double latlon = (Math.pow(lat, 2) + Math.pow(lon, 2));
+        double otherLatLon = (Math.pow(otherLat, 2) + Math.pow(otherLon, 2));
+        double sum = latlon + otherLatLon;
+        return Math.sqrt(sum);
+    }
+
+    //convert degree to radian
+    private double Deg2Rad(double deg)
+    {
+        return (deg * Math.PI / 180.0);
+    }
+
+    //convert radian to degree
+    private double Rad2Deg(double rad)
+    {
+        return (rad / Math.PI * 180.0);
     }
 
     public double getLat() {
@@ -96,5 +128,15 @@ public class GeocodeService implements Serializable {
 
     private void setLon(double lon) {
         this.lon = lon;
+    }
+
+    public static void main(String[] args) {
+        GeocodeService ser = new GeocodeService();
+        try {
+            ser.geolocationFromPostalCode("S7H2T2");
+            System.out.println(ser.lat + " " + ser.lon);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

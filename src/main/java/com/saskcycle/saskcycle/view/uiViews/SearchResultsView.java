@@ -10,12 +10,14 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.NumberField;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteConfiguration;
@@ -35,14 +37,14 @@ public class SearchResultsView extends VerticalLayout {
   private Grid<Post> grid;
 
   private H1 heading;
-
+  private String location;
   private Select<String> sortSelect;
   private Select<String> useSelect;
   private Select<String> postChoice;
   private NumberField   numberField;
   private CheckboxGroup<String> includeGroup;
   private CheckboxGroup<String> excludeGroup;
-
+  private TextField addressField;
 
     /** Constructs the view that displays the listings */
   @PostConstruct
@@ -109,17 +111,29 @@ public class SearchResultsView extends VerticalLayout {
                  this.updatePosts();
                  grid.setItems(SC.getPageOfPosts(numberField.getValue()));
              });
-     
+
+     addressField = new TextField();
+
     // Dropdown menu user to select sorting
     sortSelect = new Select<>();
-    sortSelect.setItems("Select", "Alphabetically (A-Z)");
+    sortSelect.setItems("Select", "Alphabetically (A-Z)", "Closest to me");
     sortSelect.setLabel("Sort by");
     sortSelect.setValue("Select");
 
     sortSelect.addValueChangeListener(
         event -> {
-            this.updatePosts();
-          grid.setItems(SC.getPageOfPosts(numberField.getValue()));
+            if (sortSelect.getValue().equals("Closest to me")){
+                Dialog dialog = new Dialog();
+                addressField.setLabel("Enter your postal code or address");
+                Button submit = new Button("Submit", e -> {
+                    dialog.close();
+                    location = addressField.getValue();
+                    this.updatePosts();
+                    grid.setItems(SC.getPageOfPosts(numberField.getValue()));
+                });
+                dialog.add(addressField, submit);
+                dialog.open();
+            }
         });
 
     // Checkbox to select tags that user wants to include
@@ -208,10 +222,7 @@ public class SearchResultsView extends VerticalLayout {
                   grid.setItems(SC.getPageOfPosts(numberField.getValue()));
               });
 
-      add(numberField);
-    filterGroup.add(sortSelect, postChoice, useSelect, includeGroup, excludeGroup, resetButton,numberField);
-
-
+    filterGroup.add(useSelect, sortSelect, includeGroup, excludeGroup, postChoice, numberField);
     return filterGroup;
   }
 
@@ -241,7 +252,8 @@ public class SearchResultsView extends VerticalLayout {
                 excludeGroup.getValue(),
                 postChoice.getValue(),
                 useSelect.getValue(),
-                sortSelect.getValue());
+                sortSelect.getValue(),
+                location);
 
 
     numberField.setMax(SC.amountOfPages());

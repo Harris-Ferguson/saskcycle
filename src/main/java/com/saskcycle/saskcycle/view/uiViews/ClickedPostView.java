@@ -9,6 +9,7 @@ import com.saskcycle.saskcycle.security.SecurityUtils;
 import com.saskcycle.saskcycle.view.components.MapComponent;
 import com.saskcycle.saskcycle.view.layouts.ClickedPostLayout;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
@@ -29,6 +30,7 @@ import java.text.SimpleDateFormat;
 public class ClickedPostView extends VerticalLayout implements HasUrlParameter<String>, AfterNavigationObserver {
 
     private H1 title;
+    private H1 title2;
 
     private String text;
     private String id;
@@ -53,6 +55,7 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
     public ClickedPostView() {
 
         title = new H1();
+        title2 = new H1();
         paragraph = new Paragraph();
 
         Button wishlistButton = new Button("Add to wishlist", new Icon(VaadinIcon.STAR));
@@ -90,7 +93,16 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         //location = new H4();
         postTime = new H4();
         //sidePanel.getStyle().set("border", "1px solid #eeeeee");
-
+        Button mapButton = new Button("Show the map", new Icon(VaadinIcon.MAP_MARKER));
+        mapButton.addClickListener(e -> {
+//            sidePanel.add(showMap());
+            map.addMarker(latitude,longitude,text);
+            UI.getCurrent().getPage().reload();
+        });
+        mapButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        mapButton.addClassName("map-button");
+        HorizontalLayout heading2 = new HorizontalLayout(title2, mapButton);
+        heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
         // TODO: Matthew's story
         H4 contact = new H4("For more information, contact test_email@email.com");
 
@@ -98,7 +110,7 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         desc.add(paragraph);
         desc.setWidth("600px");
 
-        sidePanel.add(wishlistButton, showMap(), postTime, contact);
+        sidePanel.add(wishlistButton,mapButton,showMap(), postTime, contact);
 
         add(new HorizontalLayout(new VerticalLayout(title, desc), sidePanel));
     }
@@ -110,8 +122,11 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         mapContainer.setHeight("400px");
         mapContainer.setWidth("400px");
         map = new MapComponent();
-        mapContainer.add(map);
 
+//        latitude = post.latitude;
+//        longitude = post.longitude;
+//        map.addMarker(latitude, longitude, text);
+        mapContainer.add(map);
         return mapContainer;
 
     }
@@ -136,7 +151,7 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         postTime.setText("Posted at " + new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a").format(post.datePosted));
 
         System.out.println(latitude + " " + longitude);
-        map.addMarker(latitude, longitude, text);
+//        map.addMarker(latitude, longitude, text);
     }
 
     /**

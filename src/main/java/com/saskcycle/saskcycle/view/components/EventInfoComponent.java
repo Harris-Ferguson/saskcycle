@@ -55,16 +55,9 @@ public class EventInfoComponent extends Dialog {
         HorizontalLayout time = new HorizontalLayout(VaadinIcon.CLOCK.create(), startTime);
         time.setAlignItems(FlexComponent.Alignment.BASELINE);
 
-//        Icon map = VaadinIcon.MAP_MARKER.create();
-//        HorizontalLayout loc = new HorizontalLayout(map, location);
-//        loc.setAlignItems(FlexComponent.Alignment.CENTER);
-
-        VerticalLayout mapContainer = new VerticalLayout();
-
-        mapContainer.setHeight("300px");
-        mapContainer.setWidth("300px");
-        MapComponent map = new MapComponent();
-        mapContainer.add(map);
+        Icon map = VaadinIcon.MAP_MARKER.create();
+        HorizontalLayout loc = new HorizontalLayout(map, location);
+        loc.setAlignItems(FlexComponent.Alignment.CENTER);
 
 
         Icon user = VaadinIcon.USER.create();
@@ -79,7 +72,7 @@ public class EventInfoComponent extends Dialog {
         exit.getStyle().set("cursor", "pointer");
         exit.addClickListener(e -> this.close());
 
-        add(exit, eventTitle, scroller, formatTags(tags), mapContainer, time, org);
+        add(exit, eventTitle, scroller, formatTags(tags), time, loc, org);
     }
 
     /**

@@ -107,7 +107,6 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
 
         VerticalLayout mapContainer = new VerticalLayout();
 
-
         mapContainer.setHeight("400px");
         mapContainer.setWidth("400px");
         map = new MapComponent();
@@ -129,6 +128,7 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         paragraph.setText(post.description);
         latitude = post.latitude;
         longitude = post.longitude;
+
         //location.setText(post.location);
         title.setText(post.getTitle());
         paragraph.setText(post.getDescription());

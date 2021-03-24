@@ -33,6 +33,8 @@ public class PostView extends VerticalLayout {
 
     grid = initGrid();
 
+
+
     grid.addItemClickListener(event ->{
       getUI().ifPresent(ui -> ui.navigate(ClickedPostView.class,event.getItem().id));
     });

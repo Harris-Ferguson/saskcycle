@@ -21,6 +21,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 import java.text.SimpleDateFormat;
 
@@ -35,6 +36,7 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
 
     H4 location;
     H4 postTime;
+    H4 email;
 
     private Paragraph paragraph;
 
@@ -84,16 +86,17 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         sidePanel.setWidth("250px");
         location = new H4();
         postTime = new H4();
+        email = new H4();
         //sidePanel.getStyle().set("border", "1px solid #eeeeee");
 
         // TODO: Matthew's story
-        H4 contact = new H4("For more information, contact test_email@email.com");
+        H4 contact = new H4("For more information, contact:"+email);
 
         VerticalLayout desc = new VerticalLayout();
         desc.add(paragraph);
         desc.setWidth("750px");
 
-        sidePanel.add(wishlistButton, location, postTime, contact);
+        sidePanel.add(wishlistButton, location, postTime, email);
 
         add(title, new HorizontalLayout(desc, sidePanel));
     }
@@ -110,6 +113,21 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         paragraph.setText(post.description);
         location.setText(post.location);
         postTime.setText("Posted at " + new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a").format(post.datePosted));
+        if(post.isContactEmailPresent()) {
+            if(post.isPublic()){
+                email.setText("For more information, contact:" + post.getContactEmail());
+                System.out.println(account.getCurrentAccount().getRole());
+            }
+            // TODO: Check current user role to make sure only accounts can see email if post is marked as such
+            /*else if() {
+                    emailPrivate(post);
+            }*/
+        }
+
+    }
+
+    public void emailPrivate(Post post){
+        email.setText("For more information, contact:" + post.getContactEmail());
     }
 
     /**

@@ -127,6 +127,15 @@ public class Post {
     this.contactEmail = contactEmail;
   }
 
+  public Boolean isContactEmailPresent(){
+    if(this.contactEmail != null){
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof Post)) {

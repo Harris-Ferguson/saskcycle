@@ -25,7 +25,7 @@ window.initMap = function(){
     var saskatoon = new google.maps.LatLng(52.118, -106.643)
     map = new google.maps.Map(document.getElementById("map"), {
         center: saskatoon,
-        zoom: 10,
+        zoom: 11,
     })
     dRenderer.setMap(map);
 

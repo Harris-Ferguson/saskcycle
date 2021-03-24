@@ -6,9 +6,13 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.router.Route;
+
+import java.time.Duration;
 
 @Route(value = "map", layout = MainLayout.class)
 public class MapView extends VerticalLayout /*implements HasUrlParameter<String>, AfterNavigationObserver*/{
@@ -27,7 +31,7 @@ public class MapView extends VerticalLayout /*implements HasUrlParameter<String>
         text.setWidth("500px");
         text.setId("text");
 
-        Button submitStart = new Button("Submit Address");
+        Button submitStart = new Button("Get Route");
         submitStart.setId("submitStart");
         submitStart.setWidth("150px");
         startingAddress.add(startLabel, text, submitStart);
@@ -40,15 +44,40 @@ public class MapView extends VerticalLayout /*implements HasUrlParameter<String>
 
         Select<String> transSelect = new Select<>("Walking", "Cycling", "Transit", "Driving");
         transSelect.setValue("Walking");
+        transSelect.setLabel("Method of Transportation:");
         transSelect.setId("trans");
 
-        transSelectLayout.add(transLabel, transSelect);
+
+//        todo: Implement departure time
+
+        HorizontalLayout timeLayout = new HorizontalLayout();
+
+        RadioButtonGroup<String> timeButtons = new RadioButtonGroup<>();
+        timeButtons.setId("timeButton");
+        timeButtons.setItems("Now", "Custom Time");
+        timeButtons.setValue("Now");
+        timeButtons.setLabel("Departure Time:");
+
+        TimePicker tp = new TimePicker();
+        tp.setId("timePick");
+        tp.setStep(Duration.ofMinutes(15));
+        tp.setReadOnly(true);
+
+        timeButtons.addValueChangeListener(event ->{
+            if (timeButtons.getValue().equals("Now")) {
+                tp.setReadOnly(true);
+                tp.clear();
+            }
+            else tp.setReadOnly(false);
+        });
+
+        timeLayout.add(timeButtons);
+
+
+        transSelectLayout.add(transSelect,  timeButtons, tp);
         transSelectLayout.setAlignItems(Alignment.CENTER);
 
-        //todo: Implement departure time
-//        TimePicker tp = new TimePicker();
-//        tp.
-        //todo: Find way to display route back information
+
 
         // Map view
         MapComponent map = new MapComponent(52.118, -106.643, "Label");

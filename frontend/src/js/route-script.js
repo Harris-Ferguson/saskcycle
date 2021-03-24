@@ -1,7 +1,7 @@
-// Create the script tag, set the appropriate attributes
-var routeScript = document.createElement('script');
-routeScript.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBBlDTjB1qNQkH_h7fVb4W9XNeEjfvJLEU&callback=initMap&libraries=places&v=weekly';
-routeScript.async = true;
+//// Create the script tag, set the appropriate attributes
+//var routeScript = document.createElement('script');
+//routeScript.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBBlDTjB1qNQkH_h7fVb4W9XNeEjfvJLEU&callback=initMap&libraries=places&v=weekly';
+//routeScript.async = true;
 
 var map;
 
@@ -59,4 +59,4 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer) {
 function test(){
 alert(document.getElementById("sCoords").value)
 }
-document.head.appendChild(routeScript);
+//document.head.appendChild(routeScript);

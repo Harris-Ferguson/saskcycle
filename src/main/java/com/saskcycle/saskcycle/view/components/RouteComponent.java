@@ -1,10 +1,10 @@
 package com.saskcycle.saskcycle.view.components;
 
 import com.vaadin.flow.component.AttachEvent;
-import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.html.Div;
 
-@JsModule("./src/js/route-script.js")
+@JavaScript("./src/js/route-script.js")
 public class RouteComponent extends Div {
 
     private double lat;

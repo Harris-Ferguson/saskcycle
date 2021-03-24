@@ -1,7 +1,7 @@
 package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.controller.SearchController;
-import com.saskcycle.saskcycle.view.components.RouteComponent;
+import com.saskcycle.saskcycle.view.components.MapComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
@@ -56,9 +56,11 @@ public class TransitRouteView extends VerticalLayout /*implements HasUrlParamete
         add(startingAddress);
 
         // Map view
-        RouteComponent route = new RouteComponent(52.118, -106.643, "Label");
-        add(route);
+        MapComponent map = new MapComponent(52.118, -106.643, "Label");
+//        RouteComponent route = new RouteComponent(52.118, -106.643, "Label");
+//        add(route);
 
+        add(map);
         add(targetAddress);
 
 

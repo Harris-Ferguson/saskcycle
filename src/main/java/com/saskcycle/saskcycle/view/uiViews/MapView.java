@@ -6,6 +6,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
@@ -16,9 +17,8 @@ public class MapView extends VerticalLayout /*implements HasUrlParameter<String>
         this.setHeight("100%");
         this.setWidth("100%");
 
-        // Search bar and corresponding submit button
+        // Search bar, transportation selection, and corresponding submit button
         HorizontalLayout startingAddress = new HorizontalLayout();
-
 
         Label startLabel = new Label("Starting Address: ");
 
@@ -33,6 +33,20 @@ public class MapView extends VerticalLayout /*implements HasUrlParameter<String>
         startingAddress.add(startLabel, text, submitStart);
         startingAddress.setAlignItems(Alignment.CENTER);
 
+        // Selection for method of transportation (default walking)
+        HorizontalLayout transSelectLayout = new HorizontalLayout();
+        Label transLabel = new Label("Method of Transportation: ");
+
+        Select<String> transSelect = new Select<>("Walking", "Transit", "Cycling", "Driving");
+        transSelect.setValue("Walking");
+        transSelect.setId("Trans");
+
+        transSelectLayout.add(transLabel, transSelect);
+        transSelectLayout.setAlignItems(Alignment.CENTER);
+
+        // Map view
+        MapComponent map = new MapComponent(52.118, -106.643, "Label");
+
         // Information for bottom target address Hbox
         HorizontalLayout targetAddress = new HorizontalLayout();
 
@@ -45,15 +59,9 @@ public class MapView extends VerticalLayout /*implements HasUrlParameter<String>
 
         targetAddress.add(dataLabel, data);
 
+        // Add components to view
+        add(startingAddress, transSelectLayout, map, targetAddress);
 
-        add(startingAddress);
-
-        // Map view
-        MapComponent map = new MapComponent(52.118, -106.643, "Label");
-
-
-        add(map);
-        add(targetAddress);
     }
 
 

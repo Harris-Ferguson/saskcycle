@@ -21,7 +21,7 @@ public class Account extends User {
 
   private String role;
 
-  private Feed wishlish;
+  private ArrayList<String> wishlist;
 
   private Feed posts;
 
@@ -41,7 +41,7 @@ public class Account extends User {
       String id,
       String email,
       String role,
-      Feed wishlish,
+      ArrayList<String> wishlist,
       Feed posts,
       double userRating,
       ArrayList<Notification> notifications) {
@@ -49,7 +49,7 @@ public class Account extends User {
     this.id = id;
     this.email = email;
     this.role = role;
-    this.wishlish = wishlish;
+    this.wishlist = wishlist;
     this.posts = posts;
     this.userRating = userRating;
     this.notifications = notifications;
@@ -86,7 +86,7 @@ public class Account extends User {
     this.email = email;
     this.userRating = 0;
     this.notifications = new ArrayList<>();
-    this.wishlish = new Feed();
+    this.wishlist = new ArrayList<>();
     this.posts = new Feed();
   }
 
@@ -98,7 +98,7 @@ public class Account extends User {
                 Integer.toString(user.hashCode()),
                 email,
                 "USER",
-                new Feed(),
+                new ArrayList<>(),
                 new Feed(),
                 0.0,
                 new ArrayList<Notification>()
@@ -143,9 +143,10 @@ public class Account extends User {
     return notifications;
   }
 
-  public Feed getWishlist() {
-    return wishlish;
+  public ArrayList<String> getWishlist() {
+    return wishlist;
   }
+
 
   public UserNotificationSettings getNotificationSettings() {
     return notificationSettings;
@@ -155,7 +156,4 @@ public class Account extends User {
     this.notificationSettings = notificationSettings;
   }
 
-  public Feed getWishlish() {
-    return wishlish;
-  }
 }

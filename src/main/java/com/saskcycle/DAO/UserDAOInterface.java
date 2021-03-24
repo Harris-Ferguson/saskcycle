@@ -4,7 +4,6 @@ package com.saskcycle.DAO;
 // https://medium.com/@ahmodadeola/creating-restful-apis-with-spring-boot-2-and-mongodb-3bba937cd438
 
 import com.saskcycle.model.Account;
-import com.saskcycle.model.Feed;
 import com.saskcycle.model.Post;
 
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public interface UserDAOInterface {
 
   void deleteAccount(Account account);
 
-  Feed getPosts(Account account);
+  ArrayList<String> getPosts(Account account);
 
  ArrayList<String> getWishlist(Account account);
 

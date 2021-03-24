@@ -7,8 +7,6 @@ https://medium.com/@ahmodadeola/creating-restful-apis-with-spring-boot-2-and-mon
  */
 
 import com.saskcycle.model.Account;
-import com.saskcycle.model.Feed;
-import com.saskcycle.model.Notification;
 import com.saskcycle.model.Post;
 import com.saskcycle.repo.UserAccountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +75,7 @@ public class AccountDAO implements UserDAOInterface {
   }
 
   @Override
-  public Feed getPosts(Account account) {
+  public ArrayList<String> getPosts(Account account) {
     return account.getPosts();
   }
 

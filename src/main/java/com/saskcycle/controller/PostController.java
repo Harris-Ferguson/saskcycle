@@ -1,5 +1,6 @@
 package com.saskcycle.controller;
 
+import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.DAO.PostsDAO;
 import com.saskcycle.DAO.PostsDAOInterface;
 import com.saskcycle.model.Post;
@@ -8,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Controller
-public class PostController {
+public class PostController implements Serializable {
 
     /* --------- Attributes --------- */
 
@@ -20,10 +23,15 @@ public class PostController {
 
     @Autowired private PostsDAOInterface postDAD;
 
+    @Autowired private CurrentUserDAOInterface currentDAD;
+
     /* ---------  Methods  --------- */
 
     public PostController(){
-        this.currentPost = new Post();
+    }
+
+    public void setCurrentInspectedPost(Post post){
+        this.currentPost = post;
     }
 
     public void setPostType(String type){
@@ -130,6 +138,33 @@ public class PostController {
             System.err.println("Error Verifying post creation");
             return false;
         }
+    }
+
+    /**
+     * Obtain the users created posts
+     * @return lists of users created posts
+     */
+    public List<Post> getUserCreatedPosts()
+    {
+        List<String> usersPosts = currentDAD.getCurrentAccount().getPosts();
+        List<Post> userCreatedPostsList = new ArrayList<>();
+        List<String> postsToRemove = new ArrayList<>();
+        for (String s : usersPosts)
+        {
+            if (postDAD.searchByID(s) == null)
+            {
+                postsToRemove.add(s);
+            }
+            else
+            {
+                userCreatedPostsList.add(postDAD.searchByID(s));
+            }
+
+        }
+        for (String s : postsToRemove) {
+            currentDAD.getCurrentAccount().getWishlist().remove(s);
+        }
+        return userCreatedPostsList;
     }
 
 }

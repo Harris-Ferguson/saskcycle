@@ -37,4 +37,6 @@ public interface CurrentUserDAOInterface {
   boolean getTextSetting();
 
   public void updateWishlist(String id);
+
+  public void updateCreatedPostList(String id);
 }

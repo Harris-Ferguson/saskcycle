@@ -2,6 +2,7 @@ package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.controller.PostController;
+import com.saskcycle.model.Post;
 import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.layouts.PostCreateLayout;
 import com.vaadin.flow.component.button.Button;
@@ -28,6 +29,7 @@ import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -46,10 +48,14 @@ public class PostCreateView extends VerticalLayout {
 
   Binder<PostController> binder = new Binder<>(PostController.class);
 
-  //Post postBeingMade = new Post();
-  @Autowired final PostController postController = new PostController();
+  Post postBeingMade = new Post();
+  @Autowired
+  PostController postController;
 
-  public PostCreateView() {
+  @PostConstruct
+  public void PostCreateView() {
+
+    postController.setCurrentInspectedPost(postBeingMade);
 
     // cancel button
     Button returnButton = new Button("Return", new Icon(VaadinIcon.ARROW_BACKWARD));
@@ -97,8 +103,7 @@ public class PostCreateView extends VerticalLayout {
     AtomicBoolean postalMatch = new AtomicBoolean(postalMatcher.find());
     postalCodeField.addValueChangeListener(e -> {
             postalMatcher.reset(e.getValue());
-            postalMatch.set(postalMatcher.find());
-  });
+            postalMatch.set(postalMatcher.find()); });
 
     // Privacy and email/phone check boxes
     Div postPrivacy = new Div();
@@ -122,7 +127,7 @@ public class PostCreateView extends VerticalLayout {
           } else {
             curEmail.setText("Email: ");
           }
-        });
+    });
 
     // adding privacy, email and phone checks to component
     VerticalLayout contactBox = new VerticalLayout(new HorizontalLayout(email, curEmail), phone());
@@ -139,7 +144,7 @@ public class PostCreateView extends VerticalLayout {
           tagList.addAll(e.getValue());
           tagField.clear();
           tagField.setValue(e.toString());
-        });
+    });
 
     // Set up Binder bindings for certain components that require verification
     SerializablePredicate<String> typePredicates = value -> !postType.getText().trim().isEmpty();
@@ -202,7 +207,7 @@ public class PostCreateView extends VerticalLayout {
             postalNotification.open();
         }
         else {
-            publishPost(postTypeSelect.getValue(),title.getValue(),description.getValue(),postalCodeField.getValue(),tagList,privacySelect.getValue());
+            publishPost(postTypeSelect.getValue(),title.getValue(),description.getValue(),postalCodeField.getValue(),tagList,privacySelect.getValue(),email.getValue());
         }
 
       }
@@ -230,16 +235,21 @@ public class PostCreateView extends VerticalLayout {
    * method uses controller to set all post fields
    * if so, then a new post is made using all the provided info from user
    */
-  private void publishPost(String postType, String postTitle, String postDesc, String postalCode, ArrayList<String> postTagsApplied,String postPrivacy){
+  private void publishPost(String postType, String postTitle, String postDesc, String postalCode, ArrayList<String> postTagsApplied,String postPrivacy,boolean includeEmail){
       postController.setPostType(postType);
       postController.setPostTitle(postTitle);
       postController.setPostDescription(postDesc);
       postController.setPostPostalCode(postalCode);
       postController.setPostTags(postTagsApplied);
       postController.setPostPrivacy(postPrivacy);
+      if(includeEmail){
+          postController.setPostContactEmail(currentAccount.getEmail());
+      }
       postController.setPostID();
       Boolean publishSuccess = postController.verifyAndPublish();
       if(publishSuccess){
+          currentAccount.updateCreatedPostList(postController.getPostID().toString());
+
           // Confirmation Dialog Box
           Dialog confirmPosted = new Dialog();
           confirmPosted.setModal(false);

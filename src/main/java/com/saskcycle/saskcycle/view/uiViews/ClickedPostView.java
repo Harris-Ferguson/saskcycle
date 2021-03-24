@@ -152,7 +152,7 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         System.out.println(latitude + " " + longitude);
 //        map.addMarker(latitude, longitude, text);
         map = new MapComponent(latitude, longitude, "Label");
-//        add(map);
+        add(map);
     }
 
     /**

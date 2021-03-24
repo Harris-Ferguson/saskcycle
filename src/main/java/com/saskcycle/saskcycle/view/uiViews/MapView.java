@@ -10,7 +10,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "map", layout = MainLayout.class)
-public class MapView extends VerticalLayout {
+public class MapView extends VerticalLayout /*implements HasUrlParameter<String>, AfterNavigationObserver*/{
 
     public MapView() {
         this.setHeight("100%");
@@ -51,8 +51,21 @@ public class MapView extends VerticalLayout {
 
         add(map);
         add(targetAddress);
-
-
-
     }
+
+
+    // Reimplement tomorrow
+
+//    @Override
+//    public void setParameter(BeforeEvent beforeEvent, String s) {
+//        id = s;
+//    }
+//
+//    @Override
+//    public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
+//        Post post = SC.getPostByID(id);
+//        lon = post.getLongitude();
+//        lat = post.getLatitude();
+//    }
+//}
 }

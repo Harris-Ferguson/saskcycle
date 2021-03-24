@@ -41,6 +41,8 @@ window.initMap = function(){
 
 }
 
+/* --------- Marker Scripts ---------- */
+
 window.renderMarker = function(lat, long, name) {
     let pos = new google.maps.LatLng(lat, long);
     new google.maps.Marker({
@@ -59,8 +61,32 @@ window.addMarker = function(lat, long, name) {
     window.markers.push(marker);
 };
 
+/* --------- Route Scripts ---------- */
+
 function test(){
 alert(document.getElementById("sCoords").value)
 }
+
+
+//function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+//  directionsService.route(
+//    {
+//      origin: {
+//        query: document.getElementById("text").value,
+//      },
+//      destination: {
+//        query: document.getElementById("end").value,
+//      },
+//      travelMode: google.maps.TravelMode.DRIVING,
+//    },
+//    (response, status) => {
+//      if (status === "OK") {
+//        directionsRenderer.setDirections(response);
+//      } else {
+//        window.alert("Directions request failed due to " + status);
+//      }
+//    }
+//  );
+//}
 
 document.head.appendChild(script);

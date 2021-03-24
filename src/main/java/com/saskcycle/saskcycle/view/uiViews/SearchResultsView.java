@@ -4,6 +4,7 @@ import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
 import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.components.PostComponent;
+import com.saskcycle.saskcycle.view.components.PostalCodeComponent;
 import com.saskcycle.saskcycle.view.layouts.SearchResultsLayout;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -13,8 +14,11 @@ import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Inline;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -44,7 +48,7 @@ public class SearchResultsView extends VerticalLayout {
   private NumberField   numberField;
   private CheckboxGroup<String> includeGroup;
   private CheckboxGroup<String> excludeGroup;
-  private TextField addressField;
+  private PostalCodeComponent postalCodeBox;
 
     /** Constructs the view that displays the listings */
   @PostConstruct
@@ -100,7 +104,6 @@ public class SearchResultsView extends VerticalLayout {
 
     filterGroup.setWidth("200px");
 
-//    /* Use case has not been fully implemented
      useSelect = new Select<>();
      useSelect.setItems("Select", "Get", "Give");
      useSelect.setLabel("What do you want to do?");
@@ -112,7 +115,7 @@ public class SearchResultsView extends VerticalLayout {
                  grid.setItems(SC.getPageOfPosts(numberField.getValue()));
              });
 
-     addressField = new TextField();
+    postalCodeBox = new PostalCodeComponent();
 
     // Dropdown menu user to select sorting
     sortSelect = new Select<>();
@@ -124,14 +127,22 @@ public class SearchResultsView extends VerticalLayout {
         event -> {
             if (sortSelect.getValue().equals("Closest to me")){
                 Dialog dialog = new Dialog();
-                addressField.setLabel("Enter your postal code or address");
                 Button submit = new Button("Submit", e -> {
-                    dialog.close();
-                    location = addressField.getValue();
-                    this.updatePosts();
-                    grid.setItems(SC.getPageOfPosts(numberField.getValue()));
+                    if(postalCodeBox.postalCodeIsValid()) {
+                        dialog.close();
+                        location = postalCodeBox.getPostalCode();
+                        this.updatePosts();
+                        grid.setItems(SC.getPageOfPosts(numberField.getValue()));
+                    }
+                    else{
+                        Notification errorNotif = new  Notification("Enter a valid postal code",
+                                                            500,
+                                                                    Notification.Position.MIDDLE);
+                        errorNotif.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                        errorNotif.open();
+                    }
                 });
-                dialog.add(addressField, submit);
+                dialog.add(postalCodeBox, submit);
                 dialog.open();
             }
         });

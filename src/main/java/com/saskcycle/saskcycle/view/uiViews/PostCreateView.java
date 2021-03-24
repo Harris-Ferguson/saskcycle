@@ -3,6 +3,7 @@ package com.saskcycle.saskcycle.view.uiViews;
 import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.controller.PostController;
 import com.saskcycle.model.Tags;
+import com.saskcycle.saskcycle.view.components.PostalCodeComponent;
 import com.saskcycle.saskcycle.view.layouts.PostCreateLayout;
 import com.saskcycle.services.GeocodeService;
 import com.vaadin.flow.component.button.Button;
@@ -31,9 +32,6 @@ import org.springframework.security.access.annotation.Secured;
 
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Route(value = "Create-Posts", layout = PostCreateLayout.class)
@@ -87,21 +85,7 @@ public class PostCreateView extends VerticalLayout {
     description.setRequiredIndicatorVisible(true);
 
     // Postal Field
-    Pattern postalRegex = Pattern.compile("[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]");
-    TextField postalCodeField = new TextField();
-    postalCodeField.setLabel("Postal Code");
-    postalCodeField.setPlaceholder("form: K1A0B1");
-    postalCodeField.setMinWidth("150px");
-    // Postal layout check
-    Matcher postalMatcher = postalRegex.matcher(postalCodeField.getValue());
-    postalCodeField.setPreventInvalidInput(true);
-    postalCodeField.setMaxLength(6);
-    postalCodeField.setRequiredIndicatorVisible(true);
-    AtomicBoolean postalMatch = new AtomicBoolean(postalMatcher.find());
-    postalCodeField.addValueChangeListener(e -> {
-            postalMatcher.reset(e.getValue());
-            postalMatch.set(postalMatcher.find());
-  });
+    PostalCodeComponent postalCodeField = new PostalCodeComponent();
 
     // Privacy and email/phone check boxes
     Div postPrivacy = new Div();
@@ -148,7 +132,7 @@ public class PostCreateView extends VerticalLayout {
     SerializablePredicate<String> typePredicates = value -> !postType.getText().trim().isEmpty();
     SerializablePredicate<String> titlePredicates = value -> !title.getValue().trim().isEmpty();
     SerializablePredicate<String> descriptionPredicates = value -> !description.getValue().trim().isEmpty();
-    SerializablePredicate<String> postalPredicates = value -> !postalCodeField.getValue().trim().isEmpty();
+    SerializablePredicate<String> postalPredicates = value -> !postalCodeField.getTextField().getValue().trim().isEmpty();
     SerializablePredicate<String> privacyPredicates = value ->!postPrivacy.getText().trim().isEmpty();
 
     Binder.Binding<PostController, String> typeBinding = binder.forField(postTypeSelect)
@@ -166,7 +150,7 @@ public class PostCreateView extends VerticalLayout {
             .withValidator(descriptionPredicates, "Please specify your description")
             .bind(PostController::getPostDescription, PostController::setPostDescription);
 
-    Binder.Binding<PostController, String> postalBinding = binder.forField(postalCodeField)
+    Binder.Binding<PostController, String> postalBinding = binder.forField(postalCodeField.getTextField())
             .withNullRepresentation("")
             .withValidator(postalPredicates, "Please specify a postal code")
             .bind(PostController::getPostalCode, PostController::setPostPostalCode);
@@ -200,12 +184,12 @@ public class PostCreateView extends VerticalLayout {
       if (binder.writeBeanIfValid(postController) && !tags.isEmpty()) {
         infoLabel.setText("Saved bean values: " + postController);
         // Postal code format check
-        if(!postalMatch.get()){
+        if(!postalCodeField.postalCodeIsValid()){
             Notification postalNotification = new Notification("Invalid Postal Code",3000, Notification.Position.MIDDLE);
             postalNotification.open();
         }
         else {
-            publishPost(postTypeSelect.getValue(),title.getValue(),description.getValue(),postalCodeField.getValue(),tagList,privacySelect.getValue());
+            publishPost(postTypeSelect.getValue(),title.getValue(),description.getValue(),postalCodeField.getTextField().getValue(),tagList,privacySelect.getValue());
         }
 
       }

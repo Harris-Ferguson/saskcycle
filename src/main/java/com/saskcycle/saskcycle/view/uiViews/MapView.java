@@ -40,7 +40,7 @@ public class MapView extends VerticalLayout /*implements HasUrlParameter<String>
 
         TextField data = new TextField();
         data.setId("sCoords");
-        data.setValue("s7n0p8");
+        data.setValue("918 11th street east saskatoon");
         data.setReadOnly(true);
 
         targetAddress.add(dataLabel, data);

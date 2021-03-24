@@ -18,8 +18,8 @@ window.markers = [];
 window.initMap = function(){
 
     // Set the Google Directions services and renderers for interacting with the map
-    const directionsService = new google.maps.DirectionsService();
-    const directionsRenderer = new google.maps.DirectionsRenderer();
+    const dService = new google.maps.DirectionsService();
+    const dRenderer = new google.maps.DirectionsRenderer();
 
     // Set up map from view to focus on Saskatoon coordinates
     var saskatoon = new google.maps.LatLng(52.118, -106.643)
@@ -27,7 +27,7 @@ window.initMap = function(){
         center: saskatoon,
         zoom: 10,
     })
-    directionsRenderer.setMap(map);
+    dRenderer.setMap(map);
 
     // Display all markers
     console.log(markers);
@@ -37,7 +37,10 @@ window.initMap = function(){
 
     // Hook javascript to GUI button - render directions upon submission
     var submitButton = document.getElementById("submitStart");
-    submitButton.addEventListener("click", test); /*<- change here to submit directions*/
+    const eventHandler = function(){
+        calculateAndDisplayRoute(dService, dRenderer);
+    }
+    submitButton.addEventListener("click", eventHandler);
 
 }
 
@@ -52,7 +55,7 @@ window.renderMarker = function(lat, long, name) {
     });
 };
 
-window.addMarker = function(lat, long, name) {
+window.addMarker = function(lat, long, name){
     let marker = {
         lat: lat,
         long: long,
@@ -68,25 +71,26 @@ alert(document.getElementById("sCoords").value)
 }
 
 
-//function calculateAndDisplayRoute(directionsService, directionsRenderer) {
-//  directionsService.route(
-//    {
-//      origin: {
-//        query: document.getElementById("text").value,
-//      },
-//      destination: {
-//        query: document.getElementById("end").value,
-//      },
-//      travelMode: google.maps.TravelMode.DRIVING,
-//    },
-//    (response, status) => {
-//      if (status === "OK") {
-//        directionsRenderer.setDirections(response);
-//      } else {
-//        window.alert("Directions request failed due to " + status);
-//      }
-//    }
-//  );
-//}
+function calculateAndDisplayRoute(directionsService, directionsRenderer){
+    alert("hey!");
+  directionsService.route(
+    {
+      origin: {
+        query: document.getElementById("text").value,
+      },
+      destination: {
+        query: document.getElementById("sCoords").value,
+      },
+      travelMode: google.maps.TravelMode.DRIVING,
+    },
+    (response, status) => {
+      if (status === "OK") {
+        directionsRenderer.setDirections(response);
+      } else {
+        window.alert("Directions request failed due to " + status);
+      }
+    }
+  );
+}
 
 document.head.appendChild(script);

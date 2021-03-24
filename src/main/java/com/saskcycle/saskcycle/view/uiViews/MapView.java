@@ -19,6 +19,9 @@ public class MapView extends VerticalLayout /*implements HasUrlParameter<String>
         // Search bar and corresponding submit button
         HorizontalLayout startingAddress = new HorizontalLayout();
 
+
+        Label startLabel = new Label("Starting Address: ");
+
         TextField text = new TextField();
         text.setPlaceholder("Input your starting address (EG 123 4th street East)");
         text.setWidth("500px");
@@ -27,7 +30,7 @@ public class MapView extends VerticalLayout /*implements HasUrlParameter<String>
         Button submitStart = new Button("Submit Address");
         submitStart.setId("submitStart");
         submitStart.setWidth("150px");
-        startingAddress.add(text, submitStart);
+        startingAddress.add(startLabel, text, submitStart);
         startingAddress.setAlignItems(Alignment.CENTER);
 
         // Information for bottom target address Hbox

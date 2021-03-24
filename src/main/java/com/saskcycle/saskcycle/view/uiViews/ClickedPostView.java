@@ -106,9 +106,9 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
     public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
 
         post = SC.getPostByID(id);
-        title.setText(post.title);
-        paragraph.setText(post.description);
-        location.setText(post.location);
+        title.setText(post.getTitle());
+        paragraph.setText(post.getDescription());
+        location.setText(post.getPostalCode());
         postTime.setText("Posted at " + new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a").format(post.datePosted));
     }
 

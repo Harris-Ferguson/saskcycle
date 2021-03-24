@@ -7,6 +7,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class CurrentUserDAO implements CurrentUserDAOInterface {
 
@@ -47,5 +49,16 @@ public class CurrentUserDAO implements CurrentUserDAOInterface {
     UserDetails user =
         (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     return userDAO.searchByName(user.getUsername());
+  }
+
+  /**
+   * Adds an ID to a logged in user's wishlist
+   * @param id a string representation the ID of a post in the database
+   */
+  public void updateWishlist(String id)
+  {
+    Account account = this.getCurrentAccount();
+    account.getWishlist().add(id);
+    userDAO.updateAccount(account);
   }
 }

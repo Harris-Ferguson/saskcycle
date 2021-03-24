@@ -1,6 +1,7 @@
 package com.saskcycle.controller;
 
 import com.saskcycle.DAO.BusinessDAOInterface;
+import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.DAO.PostsDAOInterface;
 import com.saskcycle.model.Business;
 import com.saskcycle.model.Post;
@@ -23,6 +24,7 @@ public class SearchController implements Serializable {
 
   @Autowired private BusinessDAOInterface Baccess;
 
+  @Autowired private CurrentUserDAOInterface currentDAD;
   List<Post> currentPosts;
 
   private final int ITEMS_PER_PAGE = 5;
@@ -443,6 +445,35 @@ public class SearchController implements Serializable {
     {
       return numberOfPages;
     }
+  }
+
+  /**
+   * Finds a user's list of saved posts (IDs) and returns a list of Post objects to be displayed in the view
+   * @return a list of Post objects found by their IDs
+   */
+  public List<Post> getSavedPosts()
+  {
+    //Get list of strings from User's accound class, intialize a list of posts to return,
+    // and a list of strings that represent invalid (deleted) IDs to be removed
+    List<String> wishlist = currentDAD.getCurrentAccount().getWishlist();
+    List<Post> wishListPosts = new ArrayList<>();
+    List<String> postsToRemove = new ArrayList<>();
+    for (String s : wishlist)
+    {
+      if (Paccess.searchByID(s) == null)
+      {
+        postsToRemove.add(s);
+      }
+      else
+      {
+        wishListPosts.add(Paccess.searchByID(s));
+      }
+
+    }
+    for (String s : postsToRemove) {
+      currentDAD.getCurrentAccount().getWishlist().remove(s);
+    }
+    return wishListPosts;
   }
 
 //  /**

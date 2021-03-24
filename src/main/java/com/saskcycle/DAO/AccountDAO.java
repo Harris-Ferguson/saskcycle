@@ -82,7 +82,7 @@ public class AccountDAO implements UserDAOInterface {
   }
 
   @Override
-  public Feed getWishlist(Account account) {
+  public ArrayList<String> getWishlist(Account account) {
     return account.getWishlist();
   }
 
@@ -94,7 +94,7 @@ public class AccountDAO implements UserDAOInterface {
 
   @Override
   public void addPost(Post post, Account account) {
-    account.getWishlist().add(post);
+    account.getWishlist().add(post.id);
     UAR.save(account);
   }
 

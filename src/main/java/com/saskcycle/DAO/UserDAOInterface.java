@@ -56,4 +56,14 @@ public interface UserDAOInterface {
    * @param password password for the new user
    */
   Account register(String username, String email, String password);
+
+  /**
+   * Adds a new user with Organization permissions
+   *
+   * @param username
+   * @param email
+   * @param password
+   * @return
+   */
+  Account registerOrg(String username, String email, String password);
 }

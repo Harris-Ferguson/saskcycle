@@ -5,6 +5,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -18,7 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageTitle("Sask Cycle | Register")
 public class RegisterView extends Composite {
 
+  public static final String ORGANIZATION = "Register as Organization";
   @Autowired private UserDAOInterface userDao;
+
+  private final CheckboxGroup<String> orgCheckbox = new CheckboxGroup<>();
 
   @Override
   protected Component initContent() {
@@ -26,12 +30,14 @@ public class RegisterView extends Composite {
     TextField email = new TextField("Email");
     PasswordField password1 = new PasswordField("Password");
     PasswordField password2 = new PasswordField("Confirm Password");
+    orgCheckbox.setItems(ORGANIZATION);
     return new VerticalLayout(
         new H2("Register"),
         username,
         email,
         password1,
         password2,
+        orgCheckbox,
         new Button(
             "Register",
             event ->
@@ -53,7 +59,12 @@ public class RegisterView extends Composite {
   private void register(String username, String email, String password1, String password2) {
     if (credentialsAreValid(username, email, password1, password2)) {
       try {
-        userDao.register(username, email, password1);
+        if(orgCheckbox.isSelected(ORGANIZATION)){
+          userDao.registerOrg(username, email, password1);
+        }
+        else {
+          userDao.register(username, email, password1);
+        }
         Notification.show("Registered!");
         UI.getCurrent().navigate("login");
       } catch (IllegalArgumentException e) {

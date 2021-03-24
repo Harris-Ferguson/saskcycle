@@ -8,7 +8,6 @@ https://medium.com/@ahmodadeola/creating-restful-apis-with-spring-boot-2-and-mon
 
 import com.saskcycle.model.Account;
 import com.saskcycle.model.Feed;
-import com.saskcycle.model.Notification;
 import com.saskcycle.model.Post;
 import com.saskcycle.repo.UserAccountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +16,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AccountDAO implements UserDAOInterface {
 
-  private static final String ROLE = "USER";
+  private static final String USER_ROLE = "USER";
+  private static final String ORG_ROLE = "ORG";
 
   /* --------- Attributes ------------ */
 
@@ -105,14 +104,24 @@ public class AccountDAO implements UserDAOInterface {
 
   @Override
   public Account register(String username, String email, String password) {
+    return register(username, email, password, USER_ROLE);
+  }
+
+  @Override
+  public Account registerOrg(String username, String email, String password) {
+    return register(username, email, password, ORG_ROLE);
+  }
+
+  private Account register(String username, String email, String password, String userRole){
     String encodedPass = encoder.encode(password);
-    UserDetails newUser = User.withUsername(username).password(encodedPass).roles(ROLE).build();
+    UserDetails newUser = User.withUsername(username).password(encodedPass).roles(userRole).build();
 
-    Account account = Account.makeAccountFromUser(newUser, email);
+    Account account = Account.makeAccountFromUser(newUser, email, userRole);
 
-    if (accountExists(account)) {
+    if(accountExists(account)){
       throw new IllegalArgumentException("Account already exists");
     }
     return addAccount(account);
   }
+
 }

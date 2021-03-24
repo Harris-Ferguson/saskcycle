@@ -90,14 +90,14 @@ public class Account extends User {
     this.posts = new Feed();
   }
 
-    public static Account makeAccountFromUser(UserDetails user, String email) {
+    public static Account makeAccountFromUser(UserDetails user, String email, String userRole) {
         return new Account(
                 user.getUsername(),
                 user.getPassword(),
                 user.getAuthorities(),
                 Integer.toString(user.hashCode()),
                 email,
-                "USER",
+                userRole,
                 new Feed(),
                 new Feed(),
                 0.0,

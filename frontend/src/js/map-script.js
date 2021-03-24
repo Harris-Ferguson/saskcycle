@@ -78,10 +78,10 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer){
     var indexOfTransSelection = document.getElementById("trans").value;
     var transSelection;
     alert(indexOfTransSelection);
-    if (indexOfTransSelection == 0)  transSelection = "WALKING";
-    else if (indexOfTransSelection == 1) transSelection = "BICYCLING";
-    else if (indexOfTransSelection == 2) transSelection = "TRANSIT";
-    else if (indexOfTransSelection == 2) transSelection = "DRIVING";
+    if (indexOfTransSelection == 1)  transSelection = "WALKING";
+    else if (indexOfTransSelection == 2) transSelection = "BICYCLING";
+    else if (indexOfTransSelection == 3) transSelection = "TRANSIT";
+    else if (indexOfTransSelection == 4) transSelection = "DRIVING";
 
 
   directionsService.route(

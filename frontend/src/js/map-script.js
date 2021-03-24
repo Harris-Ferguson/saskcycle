@@ -74,7 +74,8 @@ alert(document.getElementById("sCoords").value)
 
 function calculateAndDisplayRoute(directionsService, directionsRenderer){
 
-    // due to the limitations of Vaadin, we must hard code the corr
+    // Due to the limitations of Vaadin (returns int instead of text for selectors,
+    // we must hard code the values selected from the GUI selector
     var indexOfTransSelection = document.getElementById("trans").value;
     var transSelection;
     alert(indexOfTransSelection);
@@ -83,11 +84,17 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer){
     else if (indexOfTransSelection == 3) transSelection = "TRANSIT";
     else if (indexOfTransSelection == 4) transSelection = "DRIVING";
 
+    var startingLocation = document.getElementById("text").value;
+
+    if (!startingLocation.includes("saskatoon") || !startingLocation.includes("Saskatoon")) {
+    startingLocation = startingLocation.concat(" Saskatoon");
+    }
+    alert(startingLocation)
 
   directionsService.route(
     {
       origin: {
-        query: document.getElementById("text").value,
+        query: startingLocation,
       },
       destination: {
         query: document.getElementById("sCoords").value,

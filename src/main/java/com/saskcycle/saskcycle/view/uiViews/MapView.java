@@ -45,8 +45,10 @@ public class MapView extends VerticalLayout /*implements HasUrlParameter<String>
         transSelectLayout.add(transLabel, transSelect);
         transSelectLayout.setAlignItems(Alignment.CENTER);
 
+        //todo: Implement departure time
 //        TimePicker tp = new TimePicker();
 //        tp.
+        //todo: Find way to display route back information
 
         // Map view
         MapComponent map = new MapComponent(52.118, -106.643, "Label");

@@ -1,5 +1,7 @@
 package com.saskcycle.saskcycle.view.layouts;
 
+import com.saskcycle.saskcycle.security.SecurityUtils;
+import com.saskcycle.saskcycle.view.uiViews.EventCreateView;
 import com.saskcycle.saskcycle.view.uiViews.MainView;
 import com.saskcycle.saskcycle.view.uiViews.PostView;
 import com.saskcycle.saskcycle.view.uiViews.SettingsView;
@@ -19,8 +21,12 @@ public abstract class SaskCycleLayout extends AppLayout {
     RouterLink accountLink = new RouterLink("Main", MainView.class);
     RouterLink postLink = new RouterLink("Posts", PostView.class);
     RouterLink settingsLink = new RouterLink("Settings", SettingsView.class);
+    RouterLink eventCreateLink = new RouterLink();
+    if(SecurityUtils.isOrgUser()){
+      eventCreateLink = new RouterLink("Events", EventCreateView.class);
+    }
     accountLink.setHighlightCondition(HighlightConditions.sameLocation());
 
-    addToDrawer(new VerticalLayout(accountLink, postLink, settingsLink));
+    addToDrawer(new VerticalLayout(accountLink, postLink, settingsLink, eventCreateLink));
   }
 }

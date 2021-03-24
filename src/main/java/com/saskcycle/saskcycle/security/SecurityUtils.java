@@ -52,4 +52,16 @@ public final class SecurityUtils {
         && !(authentication instanceof AnonymousAuthenticationToken)
         && authentication.isAuthenticated();
   }
+
+  /**
+   * Checks if the current user in an Organizational user
+   * @return true if the user is an org user, false otherwise
+   */
+  public static boolean isOrgUser(){
+    List<String> allowedRoles = Arrays.asList("ROLE_ORG");
+    Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
+    return userAuthentication.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .anyMatch(allowedRoles::contains);
+  }
 }

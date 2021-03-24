@@ -35,4 +35,6 @@ public interface CurrentUserDAOInterface {
    * @return true / false if the user wants texts
    */
   boolean getTextSetting();
+
+  public void updateWishlist(String id);
 }

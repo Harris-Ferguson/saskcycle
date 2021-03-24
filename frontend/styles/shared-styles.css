@@ -72,6 +72,12 @@ a[highlight] {
     color: white;
 }
 
+
+.wishlist-button {
+    colour: white;
+    background:#04584a;
+}
+
 .exit {
     position: absolute;
     margin-top: 4px;

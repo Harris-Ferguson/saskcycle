@@ -69,7 +69,7 @@ public class SearchResultsView extends VerticalLayout {
     // Constructing a post view based on what's clicked is still under construction
       grid.addItemClickListener(event -> {
           //System.out.println(event.getItem().title);
-        getUI().ifPresent(ui -> ui.navigate("clickedPost"));
+        getUI().ifPresent(ui -> ui.navigate(ClickedPostView.class,event.getItem().id));
 
       });
 
@@ -110,6 +110,7 @@ public class SearchResultsView extends VerticalLayout {
      useSelect.setValue("Select");
 
      useSelect.addValueChangeListener(
+
              event -> {
                  this.updatePosts();
                  grid.setItems(SC.getPageOfPosts(numberField.getValue()));

@@ -130,6 +130,9 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         latitude = post.latitude;
         longitude = post.longitude;
         //location.setText(post.location);
+        title.setText(post.getTitle());
+        paragraph.setText(post.getDescription());
+        location.setText(post.getPostalCode());
         postTime.setText("Posted at " + new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a").format(post.datePosted));
 
         System.out.println(latitude + " " + longitude);

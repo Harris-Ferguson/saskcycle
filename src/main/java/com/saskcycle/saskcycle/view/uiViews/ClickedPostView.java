@@ -96,7 +96,6 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         Button mapButton = new Button("Show the map", new Icon(VaadinIcon.MAP_MARKER));
         mapButton.addClickListener(e -> {
 //            sidePanel.add(showMap());
-            map.addMarker(latitude,longitude,text);
             UI.getCurrent().getPage().reload();
         });
         mapButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -152,6 +151,8 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
 
         System.out.println(latitude + " " + longitude);
 //        map.addMarker(latitude, longitude, text);
+        map = new MapComponent(latitude, longitude, "Label");
+//        add(map);
     }
 
     /**

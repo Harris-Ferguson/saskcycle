@@ -19,8 +19,6 @@ public class Account extends User {
 
   private String email;
 
-  private String role;
-
   private Feed wishlish;
 
   private Feed posts;
@@ -40,7 +38,6 @@ public class Account extends User {
       Collection<? extends GrantedAuthority> authorities,
       String id,
       String email,
-      String role,
       Feed wishlish,
       Feed posts,
       double userRating,
@@ -48,7 +45,6 @@ public class Account extends User {
     super(username, password, authorities);
     this.id = id;
     this.email = email;
-    this.role = role;
     this.wishlish = wishlish;
     this.posts = posts;
     this.userRating = userRating;
@@ -63,7 +59,6 @@ public class Account extends User {
   public Account(
       String username,
       String password,
-      String role,
       boolean enabled,
       boolean accountNonExpired,
       boolean credentialsNonExpired,
@@ -82,7 +77,6 @@ public class Account extends User {
         accountNonLocked,
         authorities);
     this.id = id;
-    this.role = role;
     this.email = email;
     this.userRating = 0;
     this.notifications = new ArrayList<>();
@@ -90,14 +84,13 @@ public class Account extends User {
     this.posts = new Feed();
   }
 
-    public static Account makeAccountFromUser(UserDetails user, String email, String userRole) {
+    public static Account makeAccountFromUser(UserDetails user, String email) {
         return new Account(
                 user.getUsername(),
                 user.getPassword(),
                 user.getAuthorities(),
                 Integer.toString(user.hashCode()),
                 email,
-                userRole,
                 new Feed(),
                 new Feed(),
                 0.0,
@@ -117,10 +110,6 @@ public class Account extends User {
 
   public void setUserRating(double userRating) {
     this.userRating = userRating;
-  }
-
-  public String getRole() {
-    return role;
   }
 
   public String getEmail() {

@@ -104,19 +104,20 @@ public class AccountDAO implements UserDAOInterface {
 
   @Override
   public Account register(String username, String email, String password) {
-    return register(username, email, password, USER_ROLE);
+    String encodedPass = encoder.encode(password);
+    UserDetails newUser = User.withUsername(username).password(encodedPass).authorities(USER_ROLE).build();
+    return register(newUser, email);
   }
 
   @Override
   public Account registerOrg(String username, String email, String password) {
-    return register(username, email, password, ORG_ROLE);
+    String encodedPass = encoder.encode(password);
+    UserDetails newUser = User.withUsername(username).password(encodedPass).authorities(USER_ROLE, ORG_ROLE).build();
+    return register(newUser, email);
   }
 
-  private Account register(String username, String email, String password, String userRole){
-    String encodedPass = encoder.encode(password);
-    UserDetails newUser = User.withUsername(username).password(encodedPass).roles(userRole).build();
-
-    Account account = Account.makeAccountFromUser(newUser, email, userRole);
+  private Account register(UserDetails user, String email){
+    Account account = Account.makeAccountFromUser(user, email);
 
     if(accountExists(account)){
       throw new IllegalArgumentException("Account already exists");

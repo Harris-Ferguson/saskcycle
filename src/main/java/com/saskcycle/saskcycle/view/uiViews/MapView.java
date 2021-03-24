@@ -37,9 +37,10 @@ public class MapView extends VerticalLayout /*implements HasUrlParameter<String>
         HorizontalLayout transSelectLayout = new HorizontalLayout();
         Label transLabel = new Label("Method of Transportation: ");
 
-        Select<String> transSelect = new Select<>("Walking", "Transit", "Cycling", "Driving");
+
+        Select<String> transSelect = new Select<>("Walking", "Cycling", "Transit", "Driving");
         transSelect.setValue("Walking");
-        transSelect.setId("Trans");
+        transSelect.setId("trans");
 
         transSelectLayout.add(transLabel, transSelect);
         transSelectLayout.setAlignItems(Alignment.CENTER);
@@ -63,6 +64,8 @@ public class MapView extends VerticalLayout /*implements HasUrlParameter<String>
         add(startingAddress, transSelectLayout, map, targetAddress);
 
     }
+
+
 
 
     // Reimplement tomorrow

@@ -35,6 +35,7 @@ window.initMap = function(){
         window.renderMarker(window.markers[i].lat, window.markers[i].long, window.markers[i].name);
     }
 
+
     // Hook javascript to GUI button - render directions upon submission
     var submitButton = document.getElementById("submitStart");
     const eventHandler = function(){
@@ -72,7 +73,17 @@ alert(document.getElementById("sCoords").value)
 
 
 function calculateAndDisplayRoute(directionsService, directionsRenderer){
-    alert("hey!");
+
+    // due to the limitations of Vaadin, we must hard code the corr
+    var indexOfTransSelection = document.getElementById("trans").value;
+    var transSelection;
+    alert(indexOfTransSelection);
+    if (indexOfTransSelection == 0)  transSelection = "WALKING";
+    else if (indexOfTransSelection == 1) transSelection = "BICYCLING";
+    else if (indexOfTransSelection == 2) transSelection = "TRANSIT";
+    else if (indexOfTransSelection == 2) transSelection = "DRIVING";
+
+
   directionsService.route(
     {
       origin: {
@@ -81,7 +92,7 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer){
       destination: {
         query: document.getElementById("sCoords").value,
       },
-      travelMode: google.maps.TravelMode.DRIVING,
+      travelMode: google.maps.TravelMode[transSelection],
     },
     (response, status) => {
       if (status === "OK") {

@@ -34,7 +34,7 @@ public final class SecurityUtils {
     // check if the user has one of the user roles defined on the view's security
     List<String> allowedRoles = Arrays.asList(secured.value());
     Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
-    return userAuthentication.getAuthorities().stream() //
+    return userAuthentication.getAuthorities().stream()
         .map(GrantedAuthority::getAuthority)
         .anyMatch(allowedRoles::contains);
   }

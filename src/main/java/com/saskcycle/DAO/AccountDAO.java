@@ -112,7 +112,7 @@ public class AccountDAO implements UserDAOInterface {
   @Override
   public Account registerOrg(String username, String email, String password) {
     String encodedPass = encoder.encode(password);
-    UserDetails newUser = User.withUsername(username).password(encodedPass).authorities(USER_ROLE, ORG_ROLE).build();
+    UserDetails newUser = User.withUsername(username).password(encodedPass).roles(USER_ROLE, ORG_ROLE).build();
     return register(newUser, email);
   }
 

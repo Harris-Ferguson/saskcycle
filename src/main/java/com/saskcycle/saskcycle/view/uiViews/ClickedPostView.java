@@ -6,6 +6,7 @@ import com.saskcycle.DAO.UserDAOInterface;
 import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.security.SecurityUtils;
+import com.saskcycle.saskcycle.view.components.MapComponent;
 import com.saskcycle.saskcycle.view.layouts.ClickedPostLayout;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -32,6 +33,9 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
     private String text;
     private String id;
     private Post post;
+    private Double latitude, longitude;
+
+    private MapComponent map;
 
     H4 location;
     H4 postTime;
@@ -80,9 +84,10 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
 
         // Contains additional info about the post
         VerticalLayout sidePanel = new VerticalLayout();
+        sidePanel.setAlignItems(Alignment.CENTER);
 
-        sidePanel.setWidth("250px");
-        location = new H4();
+        sidePanel.setWidth("400px");
+        //location = new H4();
         postTime = new H4();
         //sidePanel.getStyle().set("border", "1px solid #eeeeee");
 
@@ -91,11 +96,25 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
 
         VerticalLayout desc = new VerticalLayout();
         desc.add(paragraph);
-        desc.setWidth("750px");
+        desc.setWidth("600px");
 
-        sidePanel.add(wishlistButton, location, postTime, contact);
+        sidePanel.add(wishlistButton, showMap(), postTime, contact);
 
-        add(title, new HorizontalLayout(desc, sidePanel));
+        add(new HorizontalLayout(new VerticalLayout(title, desc), sidePanel));
+    }
+
+    private VerticalLayout showMap() {
+
+        VerticalLayout mapContainer = new VerticalLayout();
+
+
+        mapContainer.setHeight("400px");
+        mapContainer.setWidth("400px");
+        map = new MapComponent();
+        mapContainer.add(map);
+
+        return mapContainer;
+
     }
 
     /**
@@ -108,8 +127,13 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         post = SC.getPostByID(id);
         title.setText(post.title);
         paragraph.setText(post.description);
-        location.setText(post.location);
+        latitude = post.latitude;
+        longitude = post.longitude;
+        //location.setText(post.location);
         postTime.setText("Posted at " + new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a").format(post.datePosted));
+
+        System.out.println(latitude + " " + longitude);
+        map.addMarker(latitude, longitude, text);
     }
 
     /**

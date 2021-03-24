@@ -12,6 +12,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.vaadin.stefan.fullcalendar.EntryClickedEvent;
 import org.vaadin.stefan.fullcalendar.Timezone;
 
@@ -54,9 +55,17 @@ public class EventInfoComponent extends Dialog {
         HorizontalLayout time = new HorizontalLayout(VaadinIcon.CLOCK.create(), startTime);
         time.setAlignItems(FlexComponent.Alignment.BASELINE);
 
-        Icon map = VaadinIcon.MAP_MARKER.create();
-        HorizontalLayout loc = new HorizontalLayout(map, location);
-        loc.setAlignItems(FlexComponent.Alignment.CENTER);
+//        Icon map = VaadinIcon.MAP_MARKER.create();
+//        HorizontalLayout loc = new HorizontalLayout(map, location);
+//        loc.setAlignItems(FlexComponent.Alignment.CENTER);
+
+        VerticalLayout mapContainer = new VerticalLayout();
+
+        mapContainer.setHeight("300px");
+        mapContainer.setWidth("300px");
+        MapComponent map = new MapComponent();
+        mapContainer.add(map);
+
 
         Icon user = VaadinIcon.USER.create();
         HorizontalLayout org = new HorizontalLayout(user, organizer);
@@ -70,7 +79,7 @@ public class EventInfoComponent extends Dialog {
         exit.getStyle().set("cursor", "pointer");
         exit.addClickListener(e -> this.close());
 
-        add(exit, eventTitle, scroller, formatTags(tags), time, loc, org);
+        add(exit, eventTitle, scroller, formatTags(tags), mapContainer, time, org);
     }
 
     /**

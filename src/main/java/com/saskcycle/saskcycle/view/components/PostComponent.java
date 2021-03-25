@@ -47,6 +47,7 @@ public class PostComponent extends Div {
 
     HorizontalLayout tagGroup = new HorizontalLayout();
 
+
     for (int i = 0; i < post.tags.size(); i++) {
       Button component = new Button(post.tags.get(i));
       tagGroup.add(component);

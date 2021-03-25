@@ -5,7 +5,7 @@ import com.saskcycle.controller.EventController;
 import com.saskcycle.model.Event;
 import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.view.components.DeleteEventPreviewComponent;
-import com.saskcycle.saskcycle.view.components.EventInfoComponent;
+import com.saskcycle.saskcycle.view.components.EventComponent;
 import com.saskcycle.saskcycle.view.components.PostComponent;
 import com.saskcycle.saskcycle.view.layouts.PostCreateLayout;
 import com.vaadin.flow.component.button.Button;
@@ -22,8 +22,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.vaadin.stefan.fullcalendar.Timezone;
 
 import javax.annotation.PostConstruct;
-import java.awt.*;
-import java.time.ZoneId;
 
 @Route(value = "delete-event", layout = PostCreateLayout.class)
 @PageTitle("SaskCycle | Event Create")
@@ -36,6 +34,7 @@ public class EventDeleteView extends VerticalLayout {
     @Autowired
     private EventController EC;
 
+
     @PostConstruct
     public void EventDeleteView() {
         // addClassName("filter-view");
@@ -45,7 +44,7 @@ public class EventDeleteView extends VerticalLayout {
 
         Grid<Post> newGrid = new Grid<>();
         newGrid.setItems(currentAccount.getCurrentAccount().getPosts());
-        newGrid.addComponentColumn(PostComponent::new);
+        newGrid.addComponentColumn(EventComponent::new);
 
         newGrid.addItemClickListener(event -> {
             Event e = EC.getEventByTitle(event.getItem().title);
@@ -56,6 +55,5 @@ public class EventDeleteView extends VerticalLayout {
 
 
         add(new H1("Events"), createButton, newGrid);
-
     }
 }

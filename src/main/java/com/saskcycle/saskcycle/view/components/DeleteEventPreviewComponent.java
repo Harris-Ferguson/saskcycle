@@ -1,8 +1,11 @@
 package com.saskcycle.saskcycle.view.components;
 
+import com.saskcycle.DAO.CurrentUserDAOInterface;
+import com.saskcycle.controller.EventController;
 import com.saskcycle.model.Event;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H5;
@@ -12,24 +15,31 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
-import org.vaadin.stefan.fullcalendar.EntryClickedEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.stefan.fullcalendar.Timezone;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-public class EventInfoComponent extends Dialog {
+public class DeleteEventPreviewComponent extends Dialog {
+
+    @Autowired
+    private CurrentUserDAOInterface currentAccount;
+
+    @Autowired
+    private EventController EC;
 
     Timezone saskCycleTimezone;
 
-    /**
-     * Constructs a dialog box to display info about an event in the calendar
-     * @param clickEvent click event
-     * @param saskcycleEvent the event that was clicked in the calendar
-     */
-    public EventInfoComponent(EntryClickedEvent clickEvent, Event saskcycleEvent) {
+    ConfirmDialog deleteCheck;
+
+    Event saskcycleEvent;
+
+    public DeleteEventPreviewComponent(Event saskcycleEvent){
+        this.saskcycleEvent = saskcycleEvent;
         saskCycleTimezone = new Timezone(ZoneId.of("Canada/Saskatchewan"));
 
 
@@ -37,12 +47,12 @@ public class EventInfoComponent extends Dialog {
         setHeight("400px");
         setWidth("650px");
 
-        H3 eventTitle = new H3(clickEvent.getEntry().getTitle());
+        H3 eventTitle = new H3(saskcycleEvent.title);
 
-        H5 startTime = new H5(formatTime(clickEvent.getEntry().getStart(saskCycleTimezone), clickEvent.getEntry().getEnd(saskCycleTimezone)));
+        //H5 startTime = new H5(formatTime(saskcycleEvent..getStart(saskCycleTimezone), clickEvent.getEntry().getEnd(saskCycleTimezone)));
 
         // Display description of the event
-        Paragraph desc = new Paragraph(clickEvent.getEntry().getDescription());
+        Paragraph desc = new Paragraph(saskcycleEvent.description);
         Scroller scroller = new Scroller();
         scroller.setContent(desc);
         scroller.setHeight("100px");
@@ -54,9 +64,9 @@ public class EventInfoComponent extends Dialog {
 
         String[] tags = saskcycleEvent.tags.toArray(new String[0]);
 
-        // Display other event info with indication icons
-        HorizontalLayout time = new HorizontalLayout(VaadinIcon.CLOCK.create(), startTime);
-        time.setAlignItems(FlexComponent.Alignment.BASELINE);
+//        // Display other event info with indication icons
+//        HorizontalLayout time = new HorizontalLayout(VaadinIcon.CLOCK.create(), startTime);
+//        time.setAlignItems(FlexComponent.Alignment.BASELINE);
 
         Icon map = VaadinIcon.MAP_MARKER.create();
         HorizontalLayout loc = new HorizontalLayout(map, location);
@@ -74,8 +84,13 @@ public class EventInfoComponent extends Dialog {
         exit.getStyle().set("cursor", "pointer");
         exit.addClickListener(e -> this.close());
 
-        add(exit, eventTitle, scroller, formatTags(tags), time, loc, org);
+        Button deleteEventButton = new Button("Delete this event");
+        deleteEventButton.addClickListener(event -> { });
+
+        add(exit, eventTitle, scroller, formatTags(tags), loc, org, deleteEventButton);
+
     }
+
 
     /**
      * Formats the post's tags into a visual representation
@@ -121,4 +136,6 @@ public class EventInfoComponent extends Dialog {
 
         return eventTime;
     }
+
+
 }

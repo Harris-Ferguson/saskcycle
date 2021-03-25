@@ -116,6 +116,7 @@ public class EventCreateView extends VerticalLayout {
         add(Header, InfoPanel, createPostButton);
     }
 
+
     /* publish post
      * method verifies all the required fields are filled out
      * if so, then a new post is made using all the provided info from user

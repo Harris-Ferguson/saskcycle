@@ -29,5 +29,12 @@ public class EventsDAO implements EventDAOInterface {
 
     }
 
+    @Override
+    public void deleteEvent(Event saskcycleEvent) {
+
+        ER.delete(saskcycleEvent);
+
+    }
+
 
 }

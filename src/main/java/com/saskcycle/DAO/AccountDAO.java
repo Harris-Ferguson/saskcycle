@@ -122,7 +122,14 @@ public class AccountDAO implements UserDAOInterface {
       UAR.save(account);
     }
 
-    private Account register(UserDetails user, String email){
+  @Override
+  public void removeFromUserPosts(Post post, Account account) {
+    account.getPosts().remove(post);
+    UAR.save(account);
+
+  }
+
+  private Account register(UserDetails user, String email){
     Account account = Account.makeAccountFromUser(user, email);
 
     if(accountExists(account)){

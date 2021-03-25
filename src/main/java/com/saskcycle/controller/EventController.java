@@ -33,4 +33,8 @@ public class EventController {
     public void addEvent(Event newEvent) {
         Eaccess.addEvent(newEvent);
     }
+
+    public void deleteEvent(Event saskcycleEvent) {
+        Eaccess.deleteEvent(saskcycleEvent);
+    }
 }

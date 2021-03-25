@@ -68,4 +68,6 @@ public interface UserDAOInterface {
   Account registerOrg(String username, String email, String password);
 
   void addToUserPosts(Post post, Account account);
+
+  void removeFromUserPosts(Post post, Account account);
 }

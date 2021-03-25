@@ -144,10 +144,11 @@ public class EventCreateView extends VerticalLayout {
             int[] startTimeDetails = new int[]{eventStart.getMonth().getValue(), eventStart.getDayOfMonth(), eventStart.getHour(), eventStart.getMinute(), eventStart.getYear()};
             int[] endTimeDetails = new int[]{eventEnd.getMonth().getValue(), eventEnd.getDayOfMonth(), eventEnd.getHour(), eventEnd.getMinute(), eventEnd.getYear()};
             Event newEvent = new Event(startTimeDetails, endTimeDetails, title, currentAccount.getCurrentAccount().getUsername(),
-                    tags.toArray(new String[tags.size()]), description, location);
+                    tags, description, location);
 
             //postRepo.addPost(newPost);
             EC.addEvent(newEvent);
+            currentAccount.updatePosts(newEvent);
 
             // Confirmation Dialog Box
             Dialog confirmPosted = new Dialog();

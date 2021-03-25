@@ -48,7 +48,7 @@ public class EventInfoComponent extends Dialog {
         H5 location = new H5(saskcycleEvent.location);
         H5 organizer = new H5(saskcycleEvent.organizer);
 
-        String[] tags = saskcycleEvent.tags;
+        String[] tags = saskcycleEvent.tags.toArray(new String[0]);
 
         // Display other event info with indication icons
         HorizontalLayout time = new HorizontalLayout(VaadinIcon.CLOCK.create(), startTime);

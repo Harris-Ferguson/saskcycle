@@ -30,6 +30,7 @@ import org.springframework.security.access.annotation.Secured;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 @Route(value = "create-event", layout = PostCreateLayout.class)
@@ -140,7 +141,7 @@ public class EventCreateView extends VerticalLayout {
             int[] startTimeDetails = new int[]{eventStart.getMonth().getValue(), eventStart.getDayOfMonth(), eventStart.getHour(), eventStart.getMinute(), eventStart.getYear()};
             int[] endTimeDetails = new int[]{eventEnd.getMonth().getValue(), eventEnd.getDayOfMonth(), eventEnd.getHour(), eventEnd.getMinute(), eventEnd.getYear()};
             Event newEvent = new Event(startTimeDetails, endTimeDetails, title, "Sarcan",
-                    new String[]{"Cans"}, description, location);
+                    tags.toArray(new String[tags.size()]), description, location);
 
             //postRepo.addPost(newPost);
             EC.addEvent(newEvent);

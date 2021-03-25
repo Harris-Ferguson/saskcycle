@@ -1,6 +1,6 @@
 package com.saskcycle.saskcycle.view.auth;
 
-import com.saskcycle.DAO.UserDAOInterface;
+import com.saskcycle.controller.AccountController;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class RegisterView extends Composite {
 
   public static final String ORGANIZATION = "Register as Organization";
-  @Autowired private UserDAOInterface userDao;
+  @Autowired private AccountController accountController;
 
   private final CheckboxGroup<String> orgCheckbox = new CheckboxGroup<>();
 
@@ -60,10 +60,10 @@ public class RegisterView extends Composite {
     if (credentialsAreValid(username, email, password1, password2)) {
       try {
         if(orgCheckbox.isSelected(ORGANIZATION)){
-          userDao.registerOrg(username, email, password1);
+          accountController.registerOrg(username, email, password1);
         }
         else {
-          userDao.register(username, email, password1);
+          accountController.register(username, email, password1);
         }
         Notification.show("Registered!");
         UI.getCurrent().navigate("login");

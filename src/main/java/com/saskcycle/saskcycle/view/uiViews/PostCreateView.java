@@ -44,8 +44,6 @@ public class PostCreateView extends VerticalLayout {
 
   @Autowired private CurrentUserDAOInterface currentAccount;
 
-  //@Autowired private PostsDAOInterface postRepo;
-
   Binder<PostController> binder = new Binder<>(PostController.class);
 
   Post postBeingMade = new Post();

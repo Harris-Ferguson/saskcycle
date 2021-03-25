@@ -128,6 +128,10 @@ public class PostController implements Serializable {
         return Integer.parseInt(currentPost.getId());
     }
 
+    public void removePost(){
+        postDAD.deletePost(currentPost);
+    }
+
     public Boolean verifyAndPublish(){
         if(currentPost.isComplete()){
             currentPost.setDatePosted(new Date());

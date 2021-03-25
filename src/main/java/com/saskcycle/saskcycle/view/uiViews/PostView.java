@@ -11,6 +11,7 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,6 @@ public class PostView extends VerticalLayout {
     grid = initGrid();
 
 
-
     grid.addItemClickListener(event ->{
       getUI().ifPresent(ui -> ui.navigate(ClickedPostView.class,event.getItem().id));
     });
@@ -51,9 +51,35 @@ public class PostView extends VerticalLayout {
     Grid<Post> newGrid = new Grid<>();
     newGrid.setItems(postController.getUserCreatedPosts());
     newGrid.setHeight("1000px");
-    newGrid.addComponentColumn(PostComponent::new);
+    newGrid.addComponentColumn(PostComponent::new).setWidth("500px");
+    newGrid.addComponentColumn( item -> createEditButton(grid,item)).setWidth("100px");
+    newGrid.addComponentColumn( item -> createDeleteButton(grid,item)).setWidth("100px");
+
 
     return newGrid;
+  }
+
+  private Button createEditButton(Grid<Post> grid, Post post){
+    postController.setCurrentInspectedPost(post);
+    Button button = new Button("Edit Post",new Icon(VaadinIcon.PENCIL));
+    button.addClickListener(event -> {
+      getUI().ifPresent(ui -> ui.navigate(EditPostView.class,post.id));
+    });
+    return button;
+
+  }
+
+  private Button createDeleteButton(Grid<Post> grid, Post post){
+    postController.setCurrentInspectedPost(post);
+    Button button = new Button("Delete Post",new Icon(VaadinIcon.TRASH));
+    button.addClickListener(event -> {
+      ListDataProvider<Post> dataProvider = (ListDataProvider<Post>) grid.getDataProvider();
+      dataProvider.getItems().remove(post);
+      dataProvider.refreshAll();
+      postController.removePost();
+    });
+    return button;
+
   }
 
 }

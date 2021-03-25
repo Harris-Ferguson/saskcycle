@@ -48,7 +48,7 @@ public class EventCreateView extends VerticalLayout {
 
         // cancel button
         Button returnButton = new Button("Return", new Icon(VaadinIcon.ARROW_BACKWARD));
-        returnButton.addClickListener(e -> returnButton.getUI().ifPresent(ui -> ui.navigate("posts")));
+        returnButton.addClickListener(e -> returnButton.getUI().ifPresent(ui -> ui.navigate("delete-event")));
 
         // Title Field
         TextField title = new TextField();

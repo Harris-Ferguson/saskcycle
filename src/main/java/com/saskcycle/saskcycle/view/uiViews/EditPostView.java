@@ -261,13 +261,14 @@ public class EditPostView extends VerticalLayout implements HasUrlParameter<Stri
         postController.setPostPostalCode(postalCode);
         postController.setPostTags(postTagsApplied);
         postController.setPostPrivacy(postPrivacy);
+        System.out.println("NEW POST TITLE: "+ postController.getPostTitle());
         if(includeEmail){
             postController.setPostContactEmail(currentAccount.getEmail());
         }
 
-        Boolean publishSuccess = postController.verifyAndPublish();
-        if(publishSuccess){
-            currentAccount.updateCreatedPostList(postController.getPostID().toString());
+        Boolean editSuccess = postController.verifyAndUpdatePost();
+        if(editSuccess){
+            //currentAccount.updateCreatedPostList(postController.getPostID().toString());
 
             // Confirmation Dialog Box
             Dialog confirmPosted = new Dialog();

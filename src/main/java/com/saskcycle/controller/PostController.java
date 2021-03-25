@@ -144,6 +144,16 @@ public class PostController implements Serializable {
         }
     }
 
+    public Boolean verifyAndUpdatePost(){
+        if(currentPost.isComplete()){
+            postDAD.updatePost(currentPost);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     /**
      * Obtain the users created posts
      * @return lists of users created posts

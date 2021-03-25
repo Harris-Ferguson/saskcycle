@@ -20,13 +20,18 @@ public class Event extends Post {
     //private Timezone timezone;
 
     public Event(int[] startTime, int[] endTime, String etitle, String organizer, ArrayList<String> etags, String desc, String elocation) {
-        this.title = etitle;
+        super();
+        super.setTitle(etitle);
+        super.setTags(etags);
+        super.setLocation(elocation);
+        super.setDescription(desc);
+//        this.title = etitle;
         this.startTime = startTime;
         this.endTime = endTime;
         this.organizer = organizer;
-        this.etags = etags;
-        this.desc = desc;
-        this.elocation = elocation;
+//        this.etags = etags;
+//        this.desc = desc;
+//        this.elocation = elocation;
 
 //        this.timezone = tz;
     }

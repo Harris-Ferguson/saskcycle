@@ -132,7 +132,11 @@ public class EventCreateView extends VerticalLayout {
             Notification.show("Enter a Location");
         } else if (tags.isEmpty()) {
             Notification.show("Please add some tags");
-        } else {
+        }
+        else if (eventEnd.isBefore(eventStart)) {
+            Notification.show("Event's end time is before its start time");
+        }
+        else {
             int[] startTimeDetails = new int[]{eventStart.getMonth().getValue(), eventStart.getDayOfMonth(), eventStart.getHour(), eventStart.getMinute(), eventStart.getYear()};
             int[] endTimeDetails = new int[]{eventEnd.getMonth().getValue(), eventEnd.getDayOfMonth(), eventEnd.getHour(), eventEnd.getMinute(), eventEnd.getYear()};
             Event newEvent = new Event(startTimeDetails, endTimeDetails, title, "Sarcan",

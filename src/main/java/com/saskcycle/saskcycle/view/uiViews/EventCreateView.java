@@ -28,6 +28,7 @@ import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -101,6 +102,8 @@ public class EventCreateView extends VerticalLayout {
         Button createPostButton = new Button("Create Post!", new Icon(VaadinIcon.THUMBS_UP));
         createPostButton.addClickListener(
                 e -> publishEvent(
+                        startTime.getValue(),
+                        endTime.getValue(),
                         title.getValue(),
                         description.getValue(),
                         location.getValue(),
@@ -114,6 +117,8 @@ public class EventCreateView extends VerticalLayout {
      * if so, then a new post is made using all the provided info from user
      */
     private void publishEvent(
+            LocalDateTime eventStart,
+            LocalDateTime eventEnd,
             String title,
             String description,
             String location,
@@ -128,7 +133,9 @@ public class EventCreateView extends VerticalLayout {
         } else if (tags.isEmpty()) {
             Notification.show("Please add some tags");
         } else {
-            Event newEvent = new Event(new int[]{3, 23, 12, 45}, new int[]{3, 23, 5, 45}, title, "Sarcan",
+            int[] startTimeDetails = new int[]{eventStart.getMonth().getValue(), eventStart.getDayOfMonth(), eventStart.getHour(), eventStart.getMinute(), eventStart.getYear()};
+            int[] endTimeDetails = new int[]{eventEnd.getMonth().getValue(), eventEnd.getDayOfMonth(), eventEnd.getHour(), eventEnd.getMinute(), eventEnd.getYear()};
+            Event newEvent = new Event(startTimeDetails, endTimeDetails, title, "Sarcan",
                     new String[]{"Cans"}, description, location);
 
             //postRepo.addPost(newPost);

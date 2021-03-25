@@ -39,7 +39,10 @@ import java.util.Date;
 public class EventCreateView extends VerticalLayout {
 
     @Autowired
-    EventController EC;
+    private EventController EC;
+
+    @Autowired
+    private CurrentUserDAOInterface currentAccount;
 
     public EventCreateView() {
 
@@ -96,7 +99,7 @@ public class EventCreateView extends VerticalLayout {
         HorizontalLayout InfoPanel = new HorizontalLayout(LeftInfoPanel, RightInfoPanel);
 
         // Header of post creation
-        HorizontalLayout Header = new HorizontalLayout(returnButton, new H1("Create Post"));
+        HorizontalLayout Header = new HorizontalLayout(returnButton, new H1("Create Event Post"));
         Header.setAlignItems(Alignment.CENTER);
 
         // create post button (calls publish post when clicked)
@@ -140,7 +143,7 @@ public class EventCreateView extends VerticalLayout {
         else {
             int[] startTimeDetails = new int[]{eventStart.getMonth().getValue(), eventStart.getDayOfMonth(), eventStart.getHour(), eventStart.getMinute(), eventStart.getYear()};
             int[] endTimeDetails = new int[]{eventEnd.getMonth().getValue(), eventEnd.getDayOfMonth(), eventEnd.getHour(), eventEnd.getMinute(), eventEnd.getYear()};
-            Event newEvent = new Event(startTimeDetails, endTimeDetails, title, "Sarcan",
+            Event newEvent = new Event(startTimeDetails, endTimeDetails, title, currentAccount.getCurrentAccount().getUsername(),
                     tags.toArray(new String[tags.size()]), description, location);
 
             //postRepo.addPost(newPost);

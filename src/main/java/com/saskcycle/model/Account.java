@@ -19,7 +19,9 @@ public class Account extends User {
 
   private String email;
 
-  private Feed wishlish;
+  private String role;
+
+  private ArrayList<String> wishlist;
 
   private Feed posts;
 
@@ -38,14 +40,16 @@ public class Account extends User {
       Collection<? extends GrantedAuthority> authorities,
       String id,
       String email,
-      Feed wishlish,
+      String role,
+      ArrayList<String> wishlist,
       Feed posts,
       double userRating,
       ArrayList<Notification> notifications) {
     super(username, password, authorities);
     this.id = id;
     this.email = email;
-    this.wishlish = wishlish;
+    this.role = role;
+    this.wishlist = wishlist;
     this.posts = posts;
     this.userRating = userRating;
     this.notifications = notifications;
@@ -59,6 +63,7 @@ public class Account extends User {
   public Account(
       String username,
       String password,
+      String role,
       boolean enabled,
       boolean accountNonExpired,
       boolean credentialsNonExpired,
@@ -77,10 +82,11 @@ public class Account extends User {
         accountNonLocked,
         authorities);
     this.id = id;
+    this.role = role;
     this.email = email;
     this.userRating = 0;
     this.notifications = new ArrayList<>();
-    this.wishlish = new Feed();
+    this.wishlist = new ArrayList<>();
     this.posts = new Feed();
   }
 
@@ -91,7 +97,8 @@ public class Account extends User {
                 user.getAuthorities(),
                 Integer.toString(user.hashCode()),
                 email,
-                new Feed(),
+                "USER",
+                new ArrayList<>(),
                 new Feed(),
                 0.0,
                 new ArrayList<Notification>()
@@ -110,6 +117,10 @@ public class Account extends User {
 
   public void setUserRating(double userRating) {
     this.userRating = userRating;
+  }
+
+  public String getRole() {
+    return role;
   }
 
   public String getEmail() {
@@ -132,9 +143,10 @@ public class Account extends User {
     return notifications;
   }
 
-  public Feed getWishlist() {
-    return wishlish;
+  public ArrayList<String> getWishlist() {
+    return wishlist;
   }
+
 
   public UserNotificationSettings getNotificationSettings() {
     return notificationSettings;
@@ -144,7 +156,4 @@ public class Account extends User {
     this.notificationSettings = notificationSettings;
   }
 
-  public Feed getWishlish() {
-    return wishlish;
-  }
 }

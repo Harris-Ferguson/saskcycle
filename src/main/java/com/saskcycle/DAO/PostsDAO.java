@@ -16,9 +16,10 @@ public class PostsDAO implements PostsDAOInterface {
 
   @Autowired private final PostsRepo PR;
 
+
   /* ---------   Methods  ---------- */
-  public PostsDAO(PostsRepo PR) {
-    this.PR = PR;
+  public PostsDAO(PostsRepo repo) {
+    this.PR = repo;
   }
 
   @Override
@@ -29,7 +30,7 @@ public class PostsDAO implements PostsDAOInterface {
 
   @Override
   public Post searchByID(String id) {
-    return null;
+    return PR.searchById(id);
   }
 
   @Override

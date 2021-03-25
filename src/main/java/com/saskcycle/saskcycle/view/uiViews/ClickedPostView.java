@@ -1,5 +1,11 @@
 package com.saskcycle.saskcycle.view.uiViews;
 
+import com.saskcycle.DAO.CurrentUserDAO;
+import com.saskcycle.DAO.CurrentUserDAOInterface;
+import com.saskcycle.DAO.UserDAOInterface;
+import com.saskcycle.controller.SearchController;
+import com.saskcycle.model.Post;
+import com.saskcycle.saskcycle.security.SecurityUtils;
 import com.saskcycle.saskcycle.view.layouts.ClickedPostLayout;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -9,22 +15,64 @@ import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.text.SimpleDateFormat;
 
 @Route(value = "clickedPost", layout = ClickedPostLayout.class)
-public class ClickedPostView extends VerticalLayout /*implements HasUrlParameter<String>, AfterNavigationObserver*/ {
+public class ClickedPostView extends VerticalLayout implements HasUrlParameter<String>, AfterNavigationObserver {
 
     private H1 title;
 
+    private String text;
+    private String id;
+    private Post post;
+
+    H4 location;
+    H4 postTime;
+
+    private Paragraph paragraph;
+
+    @Autowired
+    SearchController SC;
+    @Autowired
+    CurrentUserDAOInterface account;
+
+//    @Autowired
+//    UserDAOInterface userDAD;
+
     public ClickedPostView() {
 
-        title = new H1("Placeholder post title");
-        Paragraph paragraph = new Paragraph("Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?");
+        title = new H1();
+        paragraph = new Paragraph();
 
         Button wishlistButton = new Button("Add to wishlist", new Icon(VaadinIcon.STAR));
+        wishlistButton.addClickListener(e -> {
+                if (SecurityUtils.isUserLoggedIn()){
+                    if(account.getCurrentAccount().getWishlist().contains(post.id))
+                    {
+                        Notification notification = new Notification("Item is on your wishlist already!",3000);
+                        notification.open();
+                    }
+                    else
+                    {
+                        account.updateWishlist(post.id);
+                        Notification notification = new Notification("Item added to wishlist!",3000);
+                        notification.open();
+                    }
+
+                }
+
+                else
+                    {
+                        wishlistButton.getUI().ifPresent(ui -> ui.navigate("login"));
+                    }
+                });
         wishlistButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         wishlistButton.addClassName("wishlist-button");
         HorizontalLayout heading = new HorizontalLayout(title, wishlistButton);
@@ -32,24 +80,45 @@ public class ClickedPostView extends VerticalLayout /*implements HasUrlParameter
 
         // Contains additional info about the post
         VerticalLayout sidePanel = new VerticalLayout();
-        H4 location = new H4("S0K 3A0");
-        H4 postTime = new H4("Posted on March 22, 2021 at 5:05 p.m.");
-        H4 contact= new H4("For more information, contact test_email@email.com");
+
+        sidePanel.setWidth("250px");
+        location = new H4();
+        postTime = new H4();
+        //sidePanel.getStyle().set("border", "1px solid #eeeeee");
+
+        // TODO: Matthew's story
+        H4 contact = new H4("For more information, contact test_email@email.com");
+
+        VerticalLayout desc = new VerticalLayout();
+        desc.add(paragraph);
+        desc.setWidth("750px");
 
         sidePanel.add(wishlistButton, location, postTime, contact);
 
-        add(title, new HorizontalLayout(paragraph, sidePanel));
+        add(title, new HorizontalLayout(desc, sidePanel));
     }
 
-    // Methods that may work eventually in creating a custom post based on what's clicked
-//    @Override
-//    public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
-//        heading.setText(title);
-//
-//    }
-//
-//    @Override
-//    public void setParameter(BeforeEvent beforeEvent, String s) {
-//        title = s;
-//    }
+    /**
+     * Resets the UI depending on what post was clicked
+     * @param afterNavigationEvent
+     */
+    @Override
+    public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
+
+        post = SC.getPostByID(id);
+        title.setText(post.title);
+        paragraph.setText(post.description);
+        location.setText(post.location);
+        postTime.setText("Posted at " + new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a").format(post.datePosted));
+    }
+
+    /**
+     * Sets the ID of the post that was clicked
+     * @param beforeEvent
+     * @param postId clicked post's id number
+     */
+    @Override
+    public void setParameter(BeforeEvent beforeEvent, String postId) {
+        id = postId;
+    }
 }

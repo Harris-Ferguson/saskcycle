@@ -5,6 +5,7 @@ import com.saskcycle.saskcycle.view.uiViews.EventCreateView;
 import com.saskcycle.saskcycle.view.uiViews.MainView;
 import com.saskcycle.saskcycle.view.uiViews.PostView;
 import com.saskcycle.saskcycle.view.uiViews.SettingsView;
+import com.saskcycle.saskcycle.view.uiViews.WishlistView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HighlightConditions;
@@ -25,8 +26,9 @@ public abstract class SaskCycleLayout extends AppLayout {
     if(SecurityUtils.isOrgUser()){
       eventCreateLink = new RouterLink("Events", EventCreateView.class);
     }
+    RouterLink wishListLink = new RouterLink("savedPosts", WishlistView.class);
     accountLink.setHighlightCondition(HighlightConditions.sameLocation());
 
-    addToDrawer(new VerticalLayout(accountLink, postLink, settingsLink, eventCreateLink));
+    addToDrawer(new VerticalLayout(accountLink, postLink, settingsLink, eventCreateLink, wishListLink));
   }
 }

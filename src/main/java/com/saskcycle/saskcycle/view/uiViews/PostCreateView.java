@@ -2,6 +2,7 @@ package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.controller.PostController;
+import com.saskcycle.model.Post;
 import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.components.PostalCodeComponent;
 import com.saskcycle.services.GeocodeService;
@@ -31,6 +32,7 @@ import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,16 +44,19 @@ public class PostCreateView extends VerticalLayout {
 
   @Autowired private CurrentUserDAOInterface currentAccount;
 
-  //@Autowired private PostsDAOInterface postRepo;
-
   Binder<PostController> binder = new Binder<>(PostController.class);
 
-  //Post postBeingMade = new Post();
-  @Autowired final PostController postController = new PostController();
+  Post postBeingMade = new Post();
+  @Autowired
+  PostController postController;
 
   @Autowired private GeocodeService geoService;
 
-  public PostCreateView() {
+
+  @PostConstruct
+  public void PostCreateView() {
+
+    postController.setCurrentInspectedPost(postBeingMade);
 
     // cancel button
     Button returnButton = new Button("Return", new Icon(VaadinIcon.ARROW_BACKWARD));
@@ -62,40 +67,24 @@ public class PostCreateView extends VerticalLayout {
 
     // Post type select (give away, looking for)
     Div postType = new Div();
-    Select<String> postTypeSelect = new Select<>();
-    postTypeSelect.setItems("giving away", "looking for");
-    postTypeSelect.setPlaceholder("giving or looking");
-    postTypeSelect.setLabel("Why are you posting?");
-    postTypeSelect.setRequiredIndicatorVisible(true);
+    Select<String> postTypeSelect = selectPostType();
     postTypeSelect.addValueChangeListener( e ->
             postType.setText(postTypeSelect.getValue()));
 
+
+
     // Title Field
-    TextField title = new TextField();
-    title.setLabel("Post Title");
-    title.setPlaceholder("Type here ...");
-    title.setMinWidth("600px");
-    title.setRequiredIndicatorVisible(true);
+    TextField title = postTitle();
 
     // Description Field
-    TextArea description = new TextArea();
-    description.setLabel("Description");
-    description.setPlaceholder("Type here ...");
-    description.setMinWidth("600px");
-    description.setMinHeight("200px");
-    description.setRequiredIndicatorVisible(true);
+    TextArea description = postDescription();
 
     // Postal Field
     PostalCodeComponent postalCodeField = new PostalCodeComponent();
 
     // Privacy and email/phone check boxes
     Div postPrivacy = new Div();
-    Select<String> privacySelect = new Select<>();
-    privacySelect.setItems("Public", "Accounts");
-    privacySelect.setPlaceholder("privacy");
-    privacySelect.setLabel("Post Privacy");
-    privacySelect.setMaxWidth("150px");
-    privacySelect.setRequiredIndicatorVisible(true);
+    Select<String> privacySelect = postPrivacy();
     privacySelect.addValueChangeListener( e ->
             postPrivacy.setText(privacySelect.getValue()));
 
@@ -110,7 +99,7 @@ public class PostCreateView extends VerticalLayout {
           } else {
             curEmail.setText("Email: ");
           }
-        });
+    });
 
     // adding privacy, email and phone checks to component
     VerticalLayout contactBox = new VerticalLayout(new HorizontalLayout(email, curEmail), phone());
@@ -127,7 +116,7 @@ public class PostCreateView extends VerticalLayout {
           tagList.addAll(e.getValue());
           tagField.clear();
           tagField.setValue(e.toString());
-        });
+    });
 
     // Set up Binder bindings for certain components that require verification
     SerializablePredicate<String> typePredicates = value -> !postType.getText().trim().isEmpty();
@@ -190,7 +179,7 @@ public class PostCreateView extends VerticalLayout {
             postalNotification.open();
         }
         else {
-            publishPost(postTypeSelect.getValue(),title.getValue(),description.getValue(),postalCodeField.getTextField().getValue(),tagList,privacySelect.getValue());
+            publishPost(postTypeSelect.getValue(),title.getValue(),description.getValue(),postalCodeField.getTextField().getValue(),tagList,privacySelect.getValue(),email.getValue());
         }
 
       }
@@ -214,46 +203,110 @@ public class PostCreateView extends VerticalLayout {
     add(Header, InfoPanel, createPostButton);
   }
 
+
+    /* ----------- Widget setup Methods ------------- */
+
   /** publishPost method
    * method uses controller to set all post fields
    * if so, then a new post is made using all the provided info from user
    */
-  private void publishPost(String postType, String postTitle, String postDesc, String postalCode, ArrayList<String> postTagsApplied,String postPrivacy){
+  private void publishPost(String postType, String postTitle, String postDesc, String postalCode, ArrayList<String> postTagsApplied,String postPrivacy,boolean includeEmail){
       postController.setPostType(postType);
       postController.setPostTitle(postTitle);
       postController.setPostDescription(postDesc);
       postController.setPostPostalCode(postalCode);
       postController.setPostTags(postTagsApplied);
       postController.setPostPrivacy(postPrivacy);
+      if(includeEmail){
+          postController.setPostContactEmail(currentAccount.getEmail());
+      }
       postController.setPostID();
       Boolean publishSuccess = postController.verifyAndPublish();
       if(publishSuccess){
+          currentAccount.updateCreatedPostList(postController.getPostID());
           // Confirmation Dialog Box
-          Dialog confirmPosted = new Dialog();
-          confirmPosted.setModal(false);
-          Button returnButton = new Button("Return Home", new Icon(VaadinIcon.HOME));
-          returnButton.addClickListener(
-                  e -> {
-                      returnButton.getUI().ifPresent(ui -> ui.navigate(""));
-                      confirmPosted.close();
-                  });
-          confirmPosted.add(new H1("Successful Post!"), returnButton);
+          Dialog confirmPosted = postDialogBox(publishSuccess);
           confirmPosted.setOpened(true);
       }
       else {
-          // Confirmation Dialog Box
-          Dialog failedPosted = new Dialog();
-          failedPosted.setModal(false);
-          Button returnButton = new Button("Return Home", new Icon(VaadinIcon.HOME));
-          returnButton.addClickListener(
-                  e -> {
-                      returnButton.getUI().ifPresent(ui -> ui.navigate(""));
-                      failedPosted.close();
-                  });
-          failedPosted.add(new H1("Something went wrong while posting"), returnButton);
+          // error Dialog Box
+          Dialog failedPosted = postDialogBox(publishSuccess);
           failedPosted.setOpened(true);
       }
 
+  }
+
+    /**
+     * post dialog box creation
+     * @param success if post was successful or not
+     * @return dialog box
+     */
+  private Dialog postDialogBox(Boolean success){
+      Dialog dialog = new Dialog();
+      dialog.setModal(false);
+      Button returnButton = new Button("Return Home", new Icon(VaadinIcon.HOME));
+      returnButton.addClickListener(
+              e -> {
+                  returnButton.getUI().ifPresent(ui -> ui.navigate(""));
+                  dialog.close();
+              });
+      if(success){
+          dialog.add(new H1("Successful Post!"), returnButton);
+      }
+      else {
+          dialog.add(new H1("Something went wrong while posting"), returnButton);
+      }
+      return dialog;
+  }
+
+    /**
+     * Build select for the type of post
+     * @return select widget
+     */
+  private Select<String> selectPostType(){
+    Select<String> postTypeSelect = new Select<>();
+    postTypeSelect.setItems("giving away", "looking for");
+    postTypeSelect.setPlaceholder("giving or looking");
+    postTypeSelect.setLabel("Why are you posting?");
+    postTypeSelect.setRequiredIndicatorVisible(true);
+    return postTypeSelect;
+  }
+
+    /**
+     * Build title are for post create
+     * @return textfield title widget
+     */
+  private TextField postTitle(){
+      TextField title = new TextField();
+      title.setLabel("Post Title");
+      title.setPlaceholder("Type here ...");
+      title.setMinWidth("600px");
+      title.setRequiredIndicatorVisible(true);
+      return title;
+  }
+
+    /**
+     * Build Description for post create
+     * @return TextArea description widget
+     */
+  private TextArea postDescription(){
+    TextArea description = new TextArea();
+    description.setLabel("Description");
+    description.setPlaceholder("Type here ...");
+    description.setMinWidth("600px");
+    description.setMinHeight("200px");
+    description.setRequiredIndicatorVisible(true);
+    return description;
+  }
+
+  private Select<String> postPrivacy(){
+      Select<String> privacySelect = new Select<>();
+      privacySelect.setItems("Public", "Accounts");
+      privacySelect.setPlaceholder("privacy");
+      privacySelect.setLabel("Post Privacy");
+      privacySelect.setMaxWidth("150px");
+      privacySelect.setRequiredIndicatorVisible(true);
+      return privacySelect;
   }
 
   // Placeholder phone widget method

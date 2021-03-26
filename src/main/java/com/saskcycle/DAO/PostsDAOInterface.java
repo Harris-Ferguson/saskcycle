@@ -74,6 +74,8 @@ public interface PostsDAOInterface {
    */
   Post addPost(Post post);
 
+  void updatePost(Post post);
+
   /**
    * Removes the specified post from the database
    * @param post a post to be removed

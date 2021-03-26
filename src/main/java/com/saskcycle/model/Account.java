@@ -23,7 +23,7 @@ public class Account extends User {
 
   private ArrayList<String> wishlist;
 
-  private Feed posts;
+  private ArrayList<String> postIds;
 
   private double userRating;
 
@@ -42,7 +42,7 @@ public class Account extends User {
       String email,
       String role,
       ArrayList<String> wishlist,
-      Feed posts,
+      ArrayList<String> postIds,
       double userRating,
       ArrayList<Notification> notifications) {
     super(username, password, authorities);
@@ -50,7 +50,7 @@ public class Account extends User {
     this.email = email;
     this.role = role;
     this.wishlist = wishlist;
-    this.posts = posts;
+    this.postIds = postIds;
     this.userRating = userRating;
     this.notifications = notifications;
   }
@@ -87,7 +87,7 @@ public class Account extends User {
     this.userRating = 0;
     this.notifications = new ArrayList<>();
     this.wishlist = new ArrayList<>();
-    this.posts = new Feed();
+    this.postIds = new ArrayList<>();
   }
 
     public static Account makeAccountFromUser(UserDetails user, String email) {
@@ -99,7 +99,7 @@ public class Account extends User {
                 email,
                 "USER",
                 new ArrayList<>(),
-                new Feed(),
+                new ArrayList<>(),
                 0.0,
                 new ArrayList<Notification>()
         );
@@ -107,8 +107,8 @@ public class Account extends User {
 
   /* --------- Getters and Setters -------------*/
 
-  public ArrayList<Post> getPosts() {
-    return posts;
+  public ArrayList<String> getPostIds() {
+    return postIds;
   }
 
   public double getUserRating() {
@@ -146,7 +146,6 @@ public class Account extends User {
   public ArrayList<String> getWishlist() {
     return wishlist;
   }
-
 
   public UserNotificationSettings getNotificationSettings() {
     return notificationSettings;

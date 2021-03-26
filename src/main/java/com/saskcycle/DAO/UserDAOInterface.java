@@ -32,7 +32,7 @@ public interface UserDAOInterface {
 
   void deleteAccount(Account account);
 
-  ArrayList<Post> getPosts(Account account);
+  ArrayList<String> getPosts(Account account);
 
  ArrayList<String> getWishlist(Account account);
 
@@ -47,27 +47,4 @@ public interface UserDAOInterface {
    * @return true if the Account already exists, false if not
    */
   boolean accountExists(Account account);
-
-  /**
-   * Adds a new user to the system based on username, email, and password
-   *
-   * @param username username for the new user
-   * @param email email for the new user
-   * @param password password for the new user
-   */
-  Account register(String username, String email, String password);
-
-  /**
-   * Adds a new user with Organization permissions
-   *
-   * @param username
-   * @param email
-   * @param password
-   * @return
-   */
-  Account registerOrg(String username, String email, String password);
-
-  void addToUserPosts(Post post, Account account);
-
-  void removeFromUserPosts(Post post, Account account);
 }

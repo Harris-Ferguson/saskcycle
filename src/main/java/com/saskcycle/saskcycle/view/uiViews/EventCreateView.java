@@ -77,7 +77,7 @@ public class EventCreateView extends VerticalLayout {
 
         // Tags list
         MultiSelectListBox<String> tags = new MultiSelectListBox<>();
-        tags.setItems("Appliances", "Clothing", "Electronics", "Furniture", "Art");
+        tags.setItems(Tags.getTagNames());
         ArrayList<String> tagList = new ArrayList<>();
         tags.addValueChangeListener(
                 e -> {

@@ -69,6 +69,11 @@ public class PostsDAO implements PostsDAOInterface {
   return PR.insert(post);
   }
 
+  public void updatePost(Post post){
+    deletePost(searchByID(post.id));
+    addPost(post);
+  }
+
   @Override
   public void deletePost(Post post) {
     // Deletes a post from the Posts MongoDB Database

@@ -5,12 +5,10 @@ import com.saskcycle.controller.EventController;
 import com.saskcycle.model.Event;
 import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.view.components.DeleteEventPreviewComponent;
-import com.saskcycle.saskcycle.view.components.EventComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.charts.model.Dial;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.*;
@@ -25,8 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
 import javax.annotation.PostConstruct;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Route(value = "delete-event", layout = MainLayout.class)
 @PageTitle("SaskCycle | Event Create")
@@ -48,21 +46,27 @@ public class EventDeleteView extends VerticalLayout {
         createButton.addClickListener(
                 e -> createButton.getUI().ifPresent(ui -> ui.navigate("create-event")));
 
-        Grid<Post> newGrid = initGrid();
-        newGrid.addItemClickListener(event -> {
-            Event e = EC.getEventByID(event.getItem().id);
-            Dialog dialog = new DeleteEventPreviewComponent(e);
-            dialog.open();
+        Grid<Event> newGrid = initGrid();
+    newGrid.addItemClickListener(
+        event -> {
+          System.out.println(event.getItem().getTitle());
+          Event e = EC.getEventByID(event.getItem().id);
+          Dialog dialog = new DeleteEventPreviewComponent(e);
+          dialog.open();
         });
-
 
         add(new H1("Your events"), createButton, newGrid);
     }
 
-    private Grid<Post> initGrid() {
+    private Grid<Event> initGrid() {
 
-        Grid<Post> newGrid = new Grid<>();
-        newGrid.setItems(currentAccount.getCurrentAccount().getPosts());
+        Grid<Event> newGrid = new Grid<>();
+        List<Event> posts = new ArrayList<>();
+        for (String postIds : currentAccount.getCurrentAccount().getPostIds())
+        {
+            posts.add(EC.getEventByID(postIds));
+        }
+        newGrid.setItems(posts);
         newGrid.addComponentColumn(this::displayEvent);
 
         return newGrid;

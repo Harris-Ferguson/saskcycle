@@ -39,18 +39,19 @@ public class EventController {
     }
 
     public Event getEventByID(String id) {
-
-        List<Event> events = getAllEvents();
-
-        for (Event e : events) {
-            if (e.id.equals(id)) {
-                return e;
-            }
-        }
-        return null;
+        return Eaccess.searchById(id);
+//        List<Event> events = getAllEvents();
+//
+//        for (Event e : events) {
+//            if (e.id.equals(id)) {
+//                return e;
+//            }
+//        }
+//        return null;
     }
 
-    public void updateCalendarEntryId(Event e) {
+    public void updateCalendarEntryId(Event e, String id) {
+        e.setCalendarEntryID(id);
         Eaccess.updateEvent(e);
     }
 

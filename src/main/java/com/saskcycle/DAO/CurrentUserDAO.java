@@ -61,6 +61,12 @@ public class CurrentUserDAO implements CurrentUserDAOInterface {
     account.getWishlist().add(id);
     userDAO.updateAccount(account);
   }
+  public void removeFromWishlist(String id)
+  {
+    Account account = this.getCurrentAccount();
+    account.getWishlist().remove(id);
+    userDAO.updateAccount(account);
+  }
 
   public void updatePosts(Post p) {
       Account account = this.getCurrentAccount();

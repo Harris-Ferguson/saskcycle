@@ -45,4 +45,6 @@ public interface CurrentUserDAOInterface {
   void deleteEvent(Event saskcycleEvent);
 
   public void updateCreatedPostList(String id);
+
+  public void removeFromWishlist(String id);
 }

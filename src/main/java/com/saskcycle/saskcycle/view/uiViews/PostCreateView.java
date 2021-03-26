@@ -94,12 +94,7 @@ public class PostCreateView extends VerticalLayout {
 
     // Privacy and email/phone check boxes
     Div postPrivacy = new Div();
-    Select<String> privacySelect = new Select<>();
-    privacySelect.setItems("Public", "Accounts");
-    privacySelect.setPlaceholder("privacy");
-    privacySelect.setLabel("Post Privacy");
-    privacySelect.setMaxWidth("150px");
-    privacySelect.setRequiredIndicatorVisible(true);
+    Select<String> privacySelect = postPrivacy();
     privacySelect.addValueChangeListener( e ->
             postPrivacy.setText(privacySelect.getValue()));
 
@@ -218,6 +213,9 @@ public class PostCreateView extends VerticalLayout {
     add(Header, InfoPanel, createPostButton);
   }
 
+
+    /* ----------- Widget setup Methods ------------- */
+
   /** publishPost method
    * method uses controller to set all post fields
    * if so, then a new post is made using all the provided info from user
@@ -236,37 +234,40 @@ public class PostCreateView extends VerticalLayout {
       Boolean publishSuccess = postController.verifyAndPublish();
       if(publishSuccess){
           currentAccount.updateCreatedPostList(postController.getPostID().toString());
-
           // Confirmation Dialog Box
-          Dialog confirmPosted = new Dialog();
-          confirmPosted.setModal(false);
-          Button returnButton = new Button("Return Home", new Icon(VaadinIcon.HOME));
-          returnButton.addClickListener(
-                  e -> {
-                      returnButton.getUI().ifPresent(ui -> ui.navigate(""));
-                      confirmPosted.close();
-                  });
-          confirmPosted.add(new H1("Successful Post!"), returnButton);
+          Dialog confirmPosted = postDialogBox(publishSuccess);
           confirmPosted.setOpened(true);
       }
       else {
-          // Confirmation Dialog Box
-          Dialog failedPosted = new Dialog();
-          failedPosted.setModal(false);
-          Button returnButton = new Button("Return Home", new Icon(VaadinIcon.HOME));
-          returnButton.addClickListener(
-                  e -> {
-                      returnButton.getUI().ifPresent(ui -> ui.navigate(""));
-                      failedPosted.close();
-                  });
-          failedPosted.add(new H1("Something went wrong while posting"), returnButton);
+          // error Dialog Box
+          Dialog failedPosted = postDialogBox(publishSuccess);
           failedPosted.setOpened(true);
       }
 
   }
 
-
-
+    /**
+     * post dialog box creation
+     * @param success if post was successful or not
+     * @return dialog box
+     */
+  private Dialog postDialogBox(Boolean success){
+      Dialog dialog = new Dialog();
+      dialog.setModal(false);
+      Button returnButton = new Button("Return Home", new Icon(VaadinIcon.HOME));
+      returnButton.addClickListener(
+              e -> {
+                  returnButton.getUI().ifPresent(ui -> ui.navigate(""));
+                  dialog.close();
+              });
+      if(success){
+          dialog.add(new H1("Successful Post!"), returnButton);
+      }
+      else {
+          dialog.add(new H1("Something went wrong while posting"), returnButton);
+      }
+      return dialog;
+  }
 
     /**
      * Build select for the type of post
@@ -306,6 +307,16 @@ public class PostCreateView extends VerticalLayout {
     description.setMinHeight("200px");
     description.setRequiredIndicatorVisible(true);
     return description;
+  }
+
+  private Select<String> postPrivacy(){
+      Select<String> privacySelect = new Select<>();
+      privacySelect.setItems("Public", "Accounts");
+      privacySelect.setPlaceholder("privacy");
+      privacySelect.setLabel("Post Privacy");
+      privacySelect.setMaxWidth("150px");
+      privacySelect.setRequiredIndicatorVisible(true);
+      return privacySelect;
   }
 
   // Placeholder phone widget method

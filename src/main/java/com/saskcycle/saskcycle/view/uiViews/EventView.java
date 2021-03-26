@@ -70,7 +70,7 @@ public class EventView extends VerticalLayout {
 
     calendar.addEntryClickedListener(event -> {
       Event e = EC.getEventByTitle(event.getEntry().getTitle());
-      Dialog eventInfo = new EventInfoComponent(event, e);
+      Dialog eventInfo = new EventInfoComponent(e);
       eventInfo.open();
     });
 

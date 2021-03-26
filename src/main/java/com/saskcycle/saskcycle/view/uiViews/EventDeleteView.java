@@ -6,7 +6,6 @@ import com.saskcycle.model.Event;
 import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.view.components.DeleteEventPreviewComponent;
 import com.saskcycle.saskcycle.view.components.EventComponent;
-import com.saskcycle.saskcycle.view.components.PostComponent;
 import com.saskcycle.saskcycle.view.layouts.PostCreateLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -19,7 +18,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.vaadin.stefan.fullcalendar.Timezone;
 
 import javax.annotation.PostConstruct;
 
@@ -37,23 +35,28 @@ public class EventDeleteView extends VerticalLayout {
 
     @PostConstruct
     public void EventDeleteView() {
-        // addClassName("filter-view");
         Button createButton = new Button("Create Event", new Icon(VaadinIcon.PLUS));
         createButton.addClickListener(
                 e -> createButton.getUI().ifPresent(ui -> ui.navigate("create-event")));
+
+        Grid<Post> newGrid = initGrid();
+        newGrid.addItemClickListener(event -> {
+            Event e = EC.getEventByTitle(event.getItem().title);
+            Dialog dialog = new DeleteEventPreviewComponent(e);
+            dialog.open();
+        });
+
+
+        add(new H1("Your events"), createButton, newGrid);
+    }
+
+    private Grid<Post> initGrid() {
 
         Grid<Post> newGrid = new Grid<>();
         newGrid.setItems(currentAccount.getCurrentAccount().getPosts());
         newGrid.addComponentColumn(EventComponent::new);
 
-        newGrid.addItemClickListener(event -> {
-            Event e = EC.getEventByTitle(event.getItem().title);
-            Dialog dialog = new DeleteEventPreviewComponent(e);
-            dialog.open();
-            //System.out.println(event.getItem().title);
-        });
+        return newGrid;
 
-
-        add(new H1("Events"), createButton, newGrid);
     }
 }

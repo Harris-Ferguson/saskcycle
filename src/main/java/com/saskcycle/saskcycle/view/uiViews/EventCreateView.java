@@ -65,13 +65,6 @@ public class EventCreateView extends VerticalLayout {
         description.setMinHeight("200px");
         description.setRequiredIndicatorVisible(true);
 
-//        // Location Field
-//        TextField location = new TextField();
-//        location.setLabel("Location");
-//        location.setPlaceholder("Type your location ...");
-//        location.setMinWidth("600px");
-//        location.setRequiredIndicatorVisible(true);
-
         DateTimePicker startTime = new DateTimePicker();
         startTime.setLabel("Start time");
 
@@ -137,9 +130,6 @@ public class EventCreateView extends VerticalLayout {
             Notification.show("Enter a Title");
         } else if (description.trim().isEmpty()) {
             Notification.show("Enter a Description"); }
-        //else if (location.trim().isEmpty()) {
-//            Notification.show("Enter a Location");
-//        }
         else if (tags.isEmpty()) {
             Notification.show("Please add some tags");
         }
@@ -214,23 +204,4 @@ public class EventCreateView extends VerticalLayout {
         return addressInfo;
     }
 
-    private void verifyPostalCode() {
-
-        // Postal Field
-        Pattern postalRegex = Pattern.compile("[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]");
-        postalCode.setLabel("Postal Code");
-        postalCode.setPlaceholder("form: K1A0B1");
-        postalCode.setMinWidth("150px");
-        // Postal layout check
-        Matcher postalMatcher = postalRegex.matcher(postalCode.getValue());
-        postalCode.setPreventInvalidInput(true);
-        postalCode.setMaxLength(6);
-        postalCode.setRequiredIndicatorVisible(true);
-        AtomicBoolean postalMatch = new AtomicBoolean(postalMatcher.find());
-        postalCode.addValueChangeListener(e -> {
-            postalMatcher.reset(e.getValue());
-            postalMatch.set(postalMatcher.find());
-        });
-
-    }
 }

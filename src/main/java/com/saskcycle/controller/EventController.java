@@ -37,4 +37,16 @@ public class EventController {
     public void deleteEvent(Event saskcycleEvent) {
         Eaccess.deleteEvent(saskcycleEvent);
     }
+
+    public Event getEventByID(String id) {
+
+        List<Event> events = getAllEvents();
+
+        for (Event e : events) {
+            if (e.id.equals(id)) {
+                return e;
+            }
+        }
+        return null;
+    }
 }

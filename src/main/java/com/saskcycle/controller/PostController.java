@@ -1,5 +1,6 @@
 package com.saskcycle.controller;
 
+import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.DAO.PostsDAOInterface;
 import com.saskcycle.model.Post;
 import com.saskcycle.services.GeocodeService;
@@ -7,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Controller
-public class PostController {
+public class PostController implements Serializable {
 
     /* --------- Attributes --------- */
 
@@ -21,10 +24,15 @@ public class PostController {
 
     @Autowired private GeocodeService geocodeService;
 
+    @Autowired private CurrentUserDAOInterface currentDAD;
+
     /* ---------  Methods  --------- */
 
     public PostController(){
-        this.currentPost = new Post();
+    }
+
+    public void setCurrentInspectedPost(Post post){
+        this.currentPost = post;
     }
 
     public void setPostType(String type){
@@ -104,6 +112,10 @@ public class PostController {
         return Integer.parseInt(currentPost.getId());
     }
 
+    public void removePost(){
+        postDAD.deletePost(currentPost);
+    }
+
     public Boolean verifyAndPublish(){
         if(currentPost.isComplete()){
             currentPost.setDatePosted(new Date());
@@ -116,4 +128,42 @@ public class PostController {
             return false;
         }
     }
+
+    public Boolean verifyAndUpdatePost(){
+        if(currentPost.isComplete()){
+            postDAD.updatePost(currentPost);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * Obtain the users created posts
+     * @return lists of users created posts
+     */
+    public List<Post> getUserCreatedPosts()
+    {
+        List<String> usersPosts = currentDAD.getCurrentAccount().getPostIds();
+        List<Post> userCreatedPostsList = new ArrayList<>();
+        List<String> postsToRemove = new ArrayList<>();
+        for (String s : usersPosts)
+        {
+            if (postDAD.searchByID(s) == null)
+            {
+                postsToRemove.add(s);
+            }
+            else
+            {
+                userCreatedPostsList.add(postDAD.searchByID(s));
+            }
+
+        }
+        for (String s : postsToRemove) {
+            currentDAD.getCurrentAccount().getWishlist().remove(s);
+        }
+        return userCreatedPostsList;
+    }
+
 }

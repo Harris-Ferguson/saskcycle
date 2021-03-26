@@ -32,7 +32,7 @@ public interface UserDAOInterface {
 
   void deleteAccount(Account account);
 
-  ArrayList<Post> getPosts(Account account);
+  ArrayList<String> getPosts(Account account);
 
  ArrayList<String> getWishlist(Account account);
 

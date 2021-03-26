@@ -24,6 +24,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 import java.text.SimpleDateFormat;
 
@@ -40,6 +41,7 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
     private MapComponent map;
 
     H4 postTime;
+    H4 email;
 
     private Paragraph paragraph;
 
@@ -86,6 +88,8 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
 
         sidePanel.setWidth("400px");
         postTime = new H4();
+        email = new H4();
+        //sidePanel.getStyle().set("border", "1px solid #eeeeee");
         sidePanel.getStyle().set("border", "1px solid #eeeeee");
         heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
 
@@ -97,12 +101,14 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
             getUI().ifPresent(ui -> ui.navigate(MapView.class, post.getPostalCode()));
             UI.getCurrent().getPage().reload();
         });
-        H4 contact = new H4("For more information, contact test_email@email.com");
+
+        H4 contact = new H4("For more information, contact:"+email);
 
         VerticalLayout desc = new VerticalLayout();
         desc.add(paragraph);
         desc.setWidth("600px");
 
+        sidePanel.add(wishlistButton, postTime, email);
         sidePanel.add(wishlistButton, showMap(), goToRouteButton, postTime, contact);
 
         add(new HorizontalLayout(new VerticalLayout(title, desc), sidePanel));
@@ -111,12 +117,17 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
     private VerticalLayout showMap() {
 
         VerticalLayout mapContainer = new VerticalLayout();
-
         mapContainer.setHeight("400px");
         mapContainer.setWidth("400px");
         map = new MapComponent();
         mapContainer.add(map);
         return mapContainer;
+
+    }
+
+    public void emailPrivate(Post post){
+        email.setText("For more information, contact:" + post.getContactEmail());
+
 
     }
 
@@ -144,5 +155,18 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
                 + new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a").format(post.datePosted));
         map = new MapComponent(latitude, longitude, "Label");
         add(map);
+        post = SC.getPostByID(id);
+        title.setText(post.title);
+        paragraph.setText(post.description);
+        postTime.setText("Posted at " + new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a").format(post.datePosted));
+        if(post.isContactEmailPresent()) {
+            if(post.isPublic()){
+                email.setText("For more information, contact:" + post.getContactEmail());
+            }
+            // TODO: Check current user role to make sure only accounts can see email if post is marked as such
+            if(SecurityUtils.isUserLoggedIn()) {
+                emailPrivate(post);
+            }
+        }
     }
 }

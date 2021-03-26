@@ -15,9 +15,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.ArrayList;
 
 @Service
 public class AccountDAO implements UserDAOInterface {
@@ -76,8 +76,8 @@ public class AccountDAO implements UserDAOInterface {
   }
 
   @Override
-  public ArrayList<Post> getPosts(Account account) {
-    return account.getPosts();
+  public ArrayList<String> getPosts(Account account) {
+    return account.getPostIds();
   }
 
   @Override
@@ -118,13 +118,13 @@ public class AccountDAO implements UserDAOInterface {
 
     @Override
     public void addToUserPosts(Post post, Account account) {
-      account.getPosts().add(post);
+      account.getPostIds().add(post.id);
       UAR.save(account);
     }
 
   @Override
   public void removeFromUserPosts(Post post, Account account) {
-    account.getPosts().remove(post);
+    account.getPostIds().remove(post);
     UAR.save(account);
 
   }

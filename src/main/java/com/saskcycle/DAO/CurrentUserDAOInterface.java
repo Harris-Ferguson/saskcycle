@@ -43,4 +43,6 @@ public interface CurrentUserDAOInterface {
   public void updatePosts(Post post);
 
   void deleteEvent(Event saskcycleEvent);
+
+  public void updateCreatedPostList(String id);
 }

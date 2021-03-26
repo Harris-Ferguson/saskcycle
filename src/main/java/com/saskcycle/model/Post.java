@@ -136,6 +136,15 @@ public class Post {
     this.postalCode = postalCode;
   }
 
+  public Boolean isContactEmailPresent(){
+    if(this.contactEmail != null){
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof Post)) {

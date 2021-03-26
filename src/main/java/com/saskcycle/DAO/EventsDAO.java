@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EventsDAO implements EventDAOInterface {
@@ -21,6 +22,12 @@ public class EventsDAO implements EventDAOInterface {
     @Override
     public List<Event> allEvents() {
         return ER.findAll();
+    }
+
+    @Override
+    public Event searchById(String id) {
+        Optional<Event> event = ER.findById(id);
+        return event.get();
     }
 
     @Override

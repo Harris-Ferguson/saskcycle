@@ -3,6 +3,7 @@ package com.saskcycle.saskcycle.view.uiViews;
 import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.controller.EventController;
 import com.saskcycle.model.Event;
+import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
@@ -74,7 +75,7 @@ public class EventCreateView extends VerticalLayout {
 
         // Tags list
         MultiSelectListBox<String> tags = new MultiSelectListBox<>();
-        tags.setItems("Appliances", "Clothing", "Electronics", "Furniture", "Art");
+        tags.setItems(Tags.getTagNames());
         ArrayList<String> tagList = new ArrayList<>();
         tags.addValueChangeListener(
                 e -> {

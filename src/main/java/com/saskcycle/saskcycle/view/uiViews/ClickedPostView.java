@@ -33,14 +33,12 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
     private H1 title;
     private H1 title2;
 
-    private String text;
     private String id;
     private Post post;
     private Double latitude, longitude;
 
     private MapComponent map;
 
-    H4 location;
     H4 postTime;
 
     private Paragraph paragraph;
@@ -49,9 +47,6 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
     SearchController SC;
     @Autowired
     CurrentUserDAOInterface account;
-
-//    @Autowired
-//    UserDAOInterface userDAD;
 
     public ClickedPostView() {
 

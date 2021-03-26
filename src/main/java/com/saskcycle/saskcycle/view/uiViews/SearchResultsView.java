@@ -4,8 +4,7 @@ import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
 import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.components.PostComponent;
-import com.saskcycle.saskcycle.view.layouts.SearchResultsLayout;
-import com.vaadin.flow.component.UI;
+import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
@@ -18,14 +17,12 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouteConfiguration;
-import com.vaadin.flow.router.RouterLink;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 
 
-@Route(value = "results", layout = SearchResultsLayout.class)
+@Route(value = "results", layout = MainLayout.class)
 @PageTitle("SaskCycle | Results")
 public class SearchResultsView extends VerticalLayout {
 

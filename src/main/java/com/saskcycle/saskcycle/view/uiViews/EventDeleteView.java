@@ -6,7 +6,7 @@ import com.saskcycle.model.Event;
 import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.view.components.DeleteEventPreviewComponent;
 import com.saskcycle.saskcycle.view.components.EventComponent;
-import com.saskcycle.saskcycle.view.layouts.PostCreateLayout;
+import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
@@ -21,7 +21,7 @@ import org.springframework.security.access.annotation.Secured;
 
 import javax.annotation.PostConstruct;
 
-@Route(value = "delete-event", layout = PostCreateLayout.class)
+@Route(value = "delete-event", layout = MainLayout.class)
 @PageTitle("SaskCycle | Event Create")
 @Secured("ROLE_ORG")
 public class EventDeleteView extends VerticalLayout {

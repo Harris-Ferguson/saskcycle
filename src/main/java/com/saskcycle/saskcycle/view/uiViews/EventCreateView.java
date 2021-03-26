@@ -1,18 +1,12 @@
 package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.DAO.CurrentUserDAOInterface;
-import com.saskcycle.DAO.EventsDAO;
-import com.saskcycle.DAO.PostsDAO;
-import com.saskcycle.DAO.PostsDAOInterface;
 import com.saskcycle.controller.EventController;
 import com.saskcycle.model.Event;
-import com.saskcycle.model.Post;
-import com.saskcycle.saskcycle.view.layouts.PostCreateLayout;
+import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -20,7 +14,6 @@ import com.vaadin.flow.component.listbox.MultiSelectListBox;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
@@ -30,10 +23,8 @@ import org.springframework.security.access.annotation.Secured;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 
-@Route(value = "create-event", layout = PostCreateLayout.class)
+@Route(value = "create-event", layout = MainLayout.class)
 @PageTitle("SaskCycle | Event Create")
 @Secured("ROLE_ORG")
 public class EventCreateView extends VerticalLayout {

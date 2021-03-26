@@ -3,10 +3,9 @@ package com.saskcycle.saskcycle.view.uiViews;
 import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.view.components.PostComponent;
-import com.saskcycle.saskcycle.view.layouts.SearchResultsLayout;
+import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -15,7 +14,7 @@ import org.springframework.security.access.annotation.Secured;
 
 import javax.annotation.PostConstruct;
 
-@Route(value = "savedPosts", layout = SearchResultsLayout.class)
+@Route(value = "savedPosts", layout = MainLayout.class)
 @PageTitle("SaskCycle | Saved Posts")
 @Secured("ROLE_USER")
 public class WishlistView extends VerticalLayout {

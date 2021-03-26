@@ -15,7 +15,6 @@ public class MainLayout extends SaskCycleLayout {
 
     super();
     createHeader();
-    //        createDrawer();
   }
 
   /** Constructs the header at the top of the web page */

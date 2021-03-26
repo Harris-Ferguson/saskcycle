@@ -20,8 +20,6 @@ public class DeleteEventPreviewComponent extends ClickedInfo {
 
     Timezone saskCycleTimezone;
 
-    ConfirmDialog deleteCheck;
-
     Event saskcycleEvent;
 
     public DeleteEventPreviewComponent(Event saskcycleEvent){
@@ -32,7 +30,9 @@ public class DeleteEventPreviewComponent extends ClickedInfo {
         saskCycleTimezone = new Timezone(ZoneId.of("Canada/Saskatchewan"));
 
         Button deleteEventButton = new Button("Delete this event");
-        deleteEventButton.addClickListener(event -> { });
+        deleteEventButton.addClickListener(event -> {
+            System.out.println(EC.getAllEvents());
+        });
         add(deleteEventButton);
 
     }

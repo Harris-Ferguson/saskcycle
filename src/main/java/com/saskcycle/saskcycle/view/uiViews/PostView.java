@@ -5,6 +5,8 @@ import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.view.components.PostComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.charts.model.Dial;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
@@ -71,15 +73,36 @@ public class PostView extends VerticalLayout {
 
   private Button createDeleteButton(Grid<Post> grid, Post post){
     postController.setCurrentInspectedPost(post);
-    Button button = new Button("Delete Post",new Icon(VaadinIcon.TRASH));
-    button.addClickListener(event -> {
-      ListDataProvider<Post> dataProvider = (ListDataProvider<Post>) grid.getDataProvider();
-      dataProvider.getItems().remove(post);
-      dataProvider.refreshAll();
-      postController.removePost();
+    Button deleteButton = new Button("Delete Post",new Icon(VaadinIcon.TRASH));
+    deleteButton.addClickListener(event -> {
+      //Delete confirmation box
+      Dialog confirmDelete = new Dialog();
+      confirmDelete.setModal(false);
+      //confirm delete button
+      Button deleteButtonConfirm = new Button("Yes, delete post", new Icon(VaadinIcon.CHECK));
+      deleteButtonConfirm.addClickListener(
+              e -> {
+                ListDataProvider<Post> dataProvider = (ListDataProvider<Post>) grid.getDataProvider();
+                dataProvider.getItems().remove(post);
+                dataProvider.refreshAll();
+                postController.removePost();
+                confirmDelete.close();
+              });
+      //cancel delete
+      Button deleteButtonCancel = new Button("No, don't delete", new Icon(VaadinIcon.CLOSE));
+      deleteButtonCancel.addClickListener(
+              e -> {
+                confirmDelete.close();
+              });
+      VerticalLayout vbox = new VerticalLayout();
+      vbox.add(new H1("Are you sure you want to delete this post?"), deleteButtonConfirm,deleteButtonCancel);
+      vbox.setAlignItems(Alignment.CENTER);
+      confirmDelete.add(vbox);
+      confirmDelete.setOpened(true);
     });
-    return button;
-
+    return deleteButton;
   }
+
+
 
 }

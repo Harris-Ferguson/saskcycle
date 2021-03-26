@@ -166,17 +166,17 @@ public class EditPostView extends VerticalLayout implements HasUrlParameter<Stri
                 .withValidator(privacyPredicates, "Please specify your post's privacy")
                 .bind(PostController::getPostPrivacy, PostController::setPostPrivacy);
 
-        // Left side of post creation
+        // Left side of post edit
         VerticalLayout LeftInfoPanel = new VerticalLayout(title, description, postalCodeField, contactPanel);
 
-        // Right side of post creation
+        // Right side of post edit
         VerticalLayout RightInfoPanel = new VerticalLayout(new H1("Tags:"), tags);
 
-        // Body of post creation
+        // Body of post edit
         HorizontalLayout InfoPanel = new HorizontalLayout(LeftInfoPanel, RightInfoPanel);
 
         // Header of post edits
-        HorizontalLayout Header = new HorizontalLayout(returnButton, new H1("edit Post"));
+        HorizontalLayout Header = new HorizontalLayout(returnButton, new H1("Edit Post"));
         Header.setAlignItems(Alignment.CENTER);
 
         /**
@@ -220,8 +220,7 @@ public class EditPostView extends VerticalLayout implements HasUrlParameter<Stri
     }
 
     /**
-     * Resets the UI depending on what post was clicked
-     * @param afterNavigationEvent
+     * fills in fields with edited post fields fields
      */
     public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
 
@@ -280,7 +279,7 @@ public class EditPostView extends VerticalLayout implements HasUrlParameter<Stri
                         returnButton.getUI().ifPresent(ui -> ui.navigate(""));
                         confirmPosted.close();
                     });
-            confirmPosted.add(new H1("Successful Post!"), returnButton);
+            confirmPosted.add(new H1("Post Was Updated!"), returnButton);
             confirmPosted.setOpened(true);
         }
         else {
@@ -293,7 +292,7 @@ public class EditPostView extends VerticalLayout implements HasUrlParameter<Stri
                         returnButton.getUI().ifPresent(ui -> ui.navigate(""));
                         failedPosted.close();
                     });
-            failedPosted.add(new H1("Something went wrong while posting"), returnButton);
+            failedPosted.add(new H1("Something went wrong while updating post"), returnButton);
             failedPosted.setOpened(true);
         }
 

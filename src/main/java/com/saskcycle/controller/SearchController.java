@@ -5,15 +5,13 @@ import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.DAO.PostsDAOInterface;
 import com.saskcycle.model.Business;
 import com.saskcycle.model.Post;
-import com.saskcycle.model.Tags;
+import com.saskcycle.model.PostDistancePair;
+import com.saskcycle.services.GeocodeService;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class SearchController implements Serializable {
@@ -24,7 +22,10 @@ public class SearchController implements Serializable {
 
   @Autowired private BusinessDAOInterface Baccess;
 
+  @Autowired private GeocodeService geocodeService;
+
   @Autowired private CurrentUserDAOInterface currentDAD;
+
   List<Post> currentPosts;
 
   private final int ITEMS_PER_PAGE = 5;
@@ -220,18 +221,26 @@ public class SearchController implements Serializable {
    * @postcond modifies the order of posts
    * @return List of sorted posts
    */
-  public List<Post> getSortedPosts(String value, List<Post> posts) {
-
+  public List<Post> getSortedPosts(String value, List<Post> posts, String userLocation) {
     if (value.equals("Alphabetically (A-Z)")) {
       posts.sort(Comparator.comparing(a -> a.title));
+      return posts;
     }
-    if (value.equals("Closest to me")) {
-      posts.sort(
-          Comparator.comparing(
-              a -> Float.parseFloat(a.location.substring(0, a.location.length() - 2))));
+    else
+    {
+        List<PostDistancePair> sorted = new ArrayList<>();
+        geocodeService.geolocationFromPostalCode(userLocation);
+        for(Post post : posts){
+          double distance = geocodeService.distance(post.getLatitude(), post.getLongitude());
+          sorted.add(new PostDistancePair(post,distance));
+        }
+        Collections.sort(sorted);
+        List<Post> sortedPosts = new ArrayList<>();
+        for (PostDistancePair postDistancePair : sorted) {
+          sortedPosts.add(postDistancePair.post);
+        }
+        return sortedPosts;
     }
-
-    return posts;
   }
 
   /***
@@ -282,7 +291,7 @@ public class SearchController implements Serializable {
    * @param useChoice string representing if user is looking for people that are taking things or giving things
    * @param sortChoice  string representing how the user wants the posts to be sorted
    */
-  public void filterService(Set<String> includedTags, Set<String> excludedTags, String poster,String useChoice, String sortChoice)
+  public void filterService(Set<String> includedTags, Set<String> excludedTags, String poster,String useChoice, String sortChoice,String location)
   {
     // Determine what posts from users/organizations should have filters applied
     if (poster.equals("Users") || poster.equals("Organizations")) {
@@ -307,7 +316,7 @@ public class SearchController implements Serializable {
 
     // If specified, sort posts
     if (sortChoice.equals("Alphabetically (A-Z)") || sortChoice.equals("Closest to me")) {
-      this.currentPosts = this.getSortedPosts(sortChoice,currentPosts);
+      this.currentPosts = this.getSortedPosts(sortChoice,currentPosts,location);
     }
   }
 
@@ -396,19 +405,6 @@ public class SearchController implements Serializable {
 
 
   /**
-   * Sorts posts by the given specification
-   *
-   * @param value the characteristic by which the code is sorted
-   * @return list of sorted posts
-   */
-  public List<Post> sortPosts(String value) {
-
-    this.getSortedPosts(value, currentPosts);
-
-    return currentPosts;
-  }
-
-  /**
    * Hides the posts that are tagged with the specified tag(s)
    *
    * @param value tag values(s) associated with posts
@@ -475,22 +471,4 @@ public class SearchController implements Serializable {
     }
     return wishListPosts;
   }
-
-//  /**
-//   * Gets the current systemwide tags currenlty implemented by the application
-//   * @return an Arrary of Strings representing the usaeable tags in the system
-//   */
-//  public String[] getTags()
-//  {
-//    String[] tags = new String[Tags.values().length];
-//    int index = 0;
-//    for (Tags value : Tags.values()) {
-//      tags[index] =  value.name();
-//      index += 1;
-//
-//    }
-//    return tags;
-//  }
-
-
 }

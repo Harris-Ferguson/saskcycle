@@ -1,5 +1,7 @@
 package com.saskcycle.model;
 
+
+
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.vaadin.stefan.fullcalendar.Timezone;
 
@@ -9,8 +11,10 @@ import java.util.ArrayList;
 
 @Document(collection = "Events")
 public class Event extends Post {
-
+    /* --------- Attributes ------------ */
     public String etitle;
+
+
     public int[] startTime;
     public int[] endTime;
     public String organizer;
@@ -30,12 +34,6 @@ public class Event extends Post {
         this.elocation = elocation;
         this.startTime = startTime;
         this.endTime = endTime;
-
-//        this.etags = etags;
-//        this.desc = desc;
-//        this.elocation = elocation;
-
-//        this.timezone = tz;
     }
 
     public void setCalendarEntryID(String id) {

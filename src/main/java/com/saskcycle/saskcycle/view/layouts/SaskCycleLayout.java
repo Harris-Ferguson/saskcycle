@@ -25,6 +25,6 @@ public abstract class SaskCycleLayout extends AppLayout {
     RouterLink wishListLink = new RouterLink("savedPosts", WishlistView.class);
     accountLink.setHighlightCondition(HighlightConditions.sameLocation());
 
-    addToDrawer(new VerticalLayout(accountLink, postLink, settingsLink, eventCreateLink, wishListLink));
+    addToDrawer(new VerticalLayout(accountLink, postLink, settingsLink,wishListLink,eventCreateLink));
   }
 }

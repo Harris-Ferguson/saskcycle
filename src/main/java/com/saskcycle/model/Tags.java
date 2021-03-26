@@ -1,6 +1,8 @@
 package com.saskcycle.model;
 
 public enum Tags {
+
+    /* --------- Tag Titles ------------ */
     Appliances,
     Art,
     Cans,
@@ -13,6 +15,9 @@ public enum Tags {
     Paper,
     Toys,
     Wood;
+
+    /* ----------- Methods ------------- */
+
     /**
      * Gets the current systemwide tags currenlty implemented by the application
      * @return an Arrary of Strings representing the usaeable tags in the system

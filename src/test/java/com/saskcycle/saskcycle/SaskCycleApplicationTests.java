@@ -96,4 +96,10 @@ class SaskCycleApplicationTests {
     }
     Assertions.assertEquals(2, bL.size());
   }
+
+  //todo
+  // Write tests for model objects
+  // Write tests for adding and removing businesses/posts from database (as opposed to hardcoding results, checkmembership?
+  // Test Geocode service
+  // Test Controller methods (searching, etc)
 }

@@ -150,6 +150,7 @@ public class EventView extends VerticalLayout {
 
       entry.setColor("#04584a");
 
+
       calendar.addEntry(entry);
     }
   }

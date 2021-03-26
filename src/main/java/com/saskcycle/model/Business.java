@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 @Document(collection = "Businesses")
 public class Business extends Post {
-  // Methods
+
+  /* --------- Attributes ------------ */
 
   public Business(
       String title,
@@ -14,27 +15,26 @@ public class Business extends Post {
       String id,
       String location,
       ArrayList<String> tags,
-      boolean give) {
-    //super(title, description, id, null, location, tags, give);
+      boolean give,
+      double longitude,
+      double latitude) {
   }
 
-  public ArrayList<String> get_tags() {
+  /* ----------- Methods ------------- */
+
+  public ArrayList<String> getTags() {
     return this.tags;
   }
 
-  public String get_name() {
+  public String getName() {
     return this.title;
   }
 
-  public String get_description() {
+  public String getDescription() {
     return this.description;
   }
 
-  public String get_location() {
-    return this.location;
-  }
-
   public String toString() {
-    return this.title + "\n" + this.description + "\n" + this.location + "\n";
+    return this.title + "\n" + this.description + "\n";
   }
 }

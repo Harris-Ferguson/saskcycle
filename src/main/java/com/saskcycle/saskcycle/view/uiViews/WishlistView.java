@@ -4,6 +4,7 @@ import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.view.components.PostComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -45,6 +46,7 @@ public class WishlistView extends VerticalLayout {
         grid.addItemClickListener(event -> {
             //System.out.println(event.getItem().title);
             getUI().ifPresent(ui -> ui.navigate(ClickedPostView.class,event.getItem().id));
+            UI.getCurrent().getPage().reload();
 
         });
 

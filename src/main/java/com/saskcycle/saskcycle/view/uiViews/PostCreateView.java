@@ -223,7 +223,7 @@ public class PostCreateView extends VerticalLayout {
       postController.setPostID();
       Boolean publishSuccess = postController.verifyAndPublish();
       if(publishSuccess){
-          currentAccount.updateCreatedPostList(postController.getPostID().toString());
+          currentAccount.updateCreatedPostList(postController.getPostID());
           // Confirmation Dialog Box
           Dialog confirmPosted = postDialogBox(publishSuccess);
           confirmPosted.setOpened(true);

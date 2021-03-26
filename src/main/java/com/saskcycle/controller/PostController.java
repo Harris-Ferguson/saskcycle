@@ -108,8 +108,8 @@ public class PostController implements Serializable {
         currentPost.setId(Integer.toString(currentPost.hashCode()));
     }
 
-    public Integer getPostID(){
-        return Integer.parseInt(currentPost.getId());
+    public String getPostID(){
+        return currentPost.getId();
     }
 
     public void removePost(){
@@ -120,7 +120,7 @@ public class PostController implements Serializable {
         if(currentPost.isComplete()){
             currentPost.setDatePosted(new Date());
             postDAD.addPost(currentPost);
-            currentPost = new Post();
+//            currentPost = new Post();
             return true;
         }
         else{

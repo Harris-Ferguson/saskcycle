@@ -1,8 +1,10 @@
 package com.saskcycle.saskcycle.view.components;
 
 import com.saskcycle.model.Event;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H5;
@@ -89,7 +91,7 @@ public abstract class ClickedInfo extends Dialog {
 
         LocalDateTime startTime = LocalDate.now().withMonth(saskcycleEvent.startTime[0]).withDayOfMonth(saskcycleEvent.startTime[1]).atTime(saskcycleEvent.startTime[2], saskcycleEvent.startTime[3]);
         LocalDateTime endTime = LocalDate.now().withMonth(saskcycleEvent.endTime[0]).withDayOfMonth(saskcycleEvent.endTime[1]).atTime(saskcycleEvent.endTime[2], saskcycleEvent.endTime[3]);
-        H5 eventTime = new H5(formatTime(startTime, endTime));
+        String eventTime = formatTime(startTime, endTime);
 
         // Display description of the event
         Paragraph desc = new Paragraph(saskcycleEvent.description);
@@ -99,23 +101,11 @@ public abstract class ClickedInfo extends Dialog {
         scroller.setWidth("600px");
         scroller.getStyle().set("border", "1px solid #eeeeee");
 
-        H5 location = new H5(saskcycleEvent.location);
-        H5 organizer = new H5(saskcycleEvent.organizer);
+        Details org = new Details("Organizer", new Text(saskcycleEvent.owner.getEmail()));
+        Details loc = new Details("Location", new Text(saskcycleEvent.location));
+        Details time = new Details("Time", new Text(eventTime));
 
         String[] tags = saskcycleEvent.tags.toArray(new String[0]);
-
-        // Display other event info with indication icons
-        HorizontalLayout time = new HorizontalLayout(VaadinIcon.CLOCK.create(), eventTime);
-        time.setAlignItems(FlexComponent.Alignment.BASELINE);
-
-        Icon map = VaadinIcon.MAP_MARKER.create();
-        HorizontalLayout loc = new HorizontalLayout(map, location);
-        loc.setAlignItems(FlexComponent.Alignment.CENTER);
-
-        Icon user = VaadinIcon.USER.create();
-        HorizontalLayout org = new HorizontalLayout(user, organizer);
-        org.setAlignItems(FlexComponent.Alignment.CENTER);
-
 
         // Exit button which allows user to close the event info window
         HorizontalLayout exit = new HorizontalLayout(VaadinIcon.CLOSE.create());

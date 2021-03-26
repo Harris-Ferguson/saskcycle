@@ -68,6 +68,11 @@ a[highlight] {
 
 }
 
+.cancel-button {
+    color: #04584a;
+    background: white;
+}
+
 .register-button{
     color: white;
 }

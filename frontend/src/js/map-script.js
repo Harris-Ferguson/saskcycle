@@ -1,6 +1,9 @@
 /*
 Usage for Directions API Code given by Google at:
 https://developers.google.com/maps/documentation/javascript/examples/directions-simple#maps_directions_simple-javascript
+
+Additional help with conversion between localDateTime and java.util.Date from:
+https://stackoverflow.com/questions/19431234/converting-between-java-time-localdatetime-and-java-util-date
 */
 
 // Create the script tag, set the appropriate attributes
@@ -81,18 +84,24 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer){
     // we must hard code the values selected from the GUI selector
     var indexOfTransSelection = document.getElementById("trans").value;
     var transSelection;
-    alert(indexOfTransSelection);
+
+    // Convert departTime to Date object
+    var departTime = document.getElementById("timePick").value;
+    if (departTime != null) {
+        departTime = new Date(departTime);
+    }
+
+    var startingLocation = document.getElementById("text").value;
+    if (!startingLocation.includes("saskatoon") || !startingLocation.includes("Saskatoon")) {
+        startingLocation = startingLocation.concat(" Saskatoon");
+   }
+
     if (indexOfTransSelection == 1)  transSelection = "WALKING";
     else if (indexOfTransSelection == 2) transSelection = "BICYCLING";
     else if (indexOfTransSelection == 3) transSelection = "TRANSIT";
     else if (indexOfTransSelection == 4) transSelection = "DRIVING";
 
-    var startingLocation = document.getElementById("text").value;
-
-    if (!startingLocation.includes("saskatoon") || !startingLocation.includes("Saskatoon")) {
-    startingLocation = startingLocation.concat(" Saskatoon");
-    }
-    alert(startingLocation)
+    alert(departTime);
 
   directionsService.route(
     {
@@ -103,6 +112,9 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer){
         query: document.getElementById("sCoords").value,
       },
       travelMode: google.maps.TravelMode[transSelection],
+      transitOptions: {
+        departureTime: departTime
+      }
     },
     (response, status) => {
       if (status === "OK") {

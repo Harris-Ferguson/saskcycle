@@ -2,8 +2,10 @@ package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.saskcycle.view.components.MapComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
-import com.vaadin.flow.component.UI;
+
+import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -11,19 +13,20 @@ import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
-import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.router.*;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Route(value = "map", layout = MainLayout.class)
 public class MapView extends VerticalLayout implements HasUrlParameter<String>, BeforeEnterObserver {
 
     String postalCode;
 
-    boolean refresh = true;
+    TextField pCode;
 
-    TextField data;
+//    TextField departureTime;
 
     public MapView() {
         this.setHeight("100%");
@@ -36,7 +39,6 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
 
         TextField text = new TextField();
 //        getParameterMap().get("param1");
-
 
 
         text.setPlaceholder("Input your starting address (EG 123 4th street East)");
@@ -70,29 +72,30 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
         timeButtons.setValue("Now");
         timeButtons.setLabel("Departure Time:");
 
-        TimePicker tp = new TimePicker();
-        tp.setId("timePick");
-        tp.setStep(Duration.ofMinutes(15));
-        tp.setReadOnly(true);
+        DateTimePicker dtp = new DateTimePicker();
+        dtp.setId("timePick");
+        dtp.setDatePlaceholder("Date");
+        dtp.setTimePlaceholder("Time");
+        dtp.setStep(Duration.ofMinutes(15));
+        dtp.setReadOnly(true);
 
-        timeButtons.addValueChangeListener(event ->{
+        timeButtons.addValueChangeListener(event -> {
             if (timeButtons.getValue().equals("Now")) {
-                tp.setReadOnly(true);
-                tp.clear();
-            }
-            else tp.setReadOnly(false);
+                dtp.setReadOnly(true);
+                dtp.clear();
+            } else dtp.setReadOnly(false);
         });
+
 
         timeLayout.add(timeButtons);
 
 
-        transSelectLayout.add(transSelect,  timeButtons, tp);
+        transSelectLayout.add(transSelect, timeButtons, dtp);
         transSelectLayout.setAlignItems(Alignment.CENTER);
 
 
-
         // Map view
-        MapComponent map = new MapComponent(52.118, -106.643, "Label");
+        MapComponent map = new MapComponent();
 
         // Information for bottom target address Hbox
         HorizontalLayout targetAddress = new HorizontalLayout();
@@ -100,15 +103,15 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
 
         Label dataLabel = new Label("Approximate post address: ");
 
-        data = new TextField();
-        data.setId("sCoords");
-        data.setReadOnly(true);
+        pCode = new TextField();
+        pCode.setId("sCoords");
+        pCode.setReadOnly(true);
+
+        targetAddress.add(dataLabel, pCode);
 
 
-        targetAddress.add(dataLabel, data);
 
-//        System.out.println(map.getId());
-        // Add components to view
+
         add(startingAddress, transSelectLayout, map, targetAddress);
 
 
@@ -122,29 +125,7 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-        data.setValue(postalCode/*"918 11th street east saskatoon"*/);
+        pCode.setValue(postalCode);
 
     }
-
-//    @Override
-//    public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
-////        DataProvider.
-//    }
 }
-
-
-    // Reimplement tomorrow
-
-//    @Override
-//    public void setParameter(BeforeEvent beforeEvent, String s) {
-//        id = s;
-//    }
-//
-//    @Override
-//    public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
-//        Post post = SC.getPostByID(id);
-//        lon = post.getLongitude();
-//        lat = post.getLatitude();
-//    }
-//}
-//}

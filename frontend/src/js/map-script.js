@@ -12,10 +12,13 @@ script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBBlDTjB1qNQkH_h7
 script.async = true;
 
 
-
+// The google map object
 var map;
-
+// A list of every marker to be placed on the Google Map
 window.markers = [];
+
+
+/* --------- Initialization Script ---------- */
 
 
 /* Uses callback function to set up event handling for route planning, Attach to winder*/
@@ -46,13 +49,14 @@ window.initMap = function(){
         calculateAndDisplayRoute(dService, dRenderer);
     }
     if (submitButton != null) submitButton.addEventListener("click", eventHandler);
-
-
-
 }
+
 
 /* --------- Marker Scripts ---------- */
 
+/*
+* Creates a new Google Maps marker
+*/
 window.renderMarker = function(lat, long, name) {
     let pos = new google.maps.LatLng(lat, long);
     new google.maps.Marker({
@@ -62,6 +66,9 @@ window.renderMarker = function(lat, long, name) {
     });
 };
 
+/*
+* Adds a marker to the list of markers to render
+*/
 window.addMarker = function(lat, long, name){
     let marker = {
         lat: lat,
@@ -73,36 +80,33 @@ window.addMarker = function(lat, long, name){
 
 /* --------- Route Scripts ---------- */
 
-function test(){
-alert(document.getElementById("sCoords").value)
-}
-
-
+/*
+* Queries GoogleMaps to update the current map with new directions
+*/
 function calculateAndDisplayRoute(directionsService, directionsRenderer){
 
     // Due to the limitations of Vaadin (returns int instead of text for selectors,
     // we must hard code the values selected from the GUI selector
     var indexOfTransSelection = document.getElementById("trans").value;
     var transSelection;
-
-    // Convert departTime to Date object
-    var departTime = document.getElementById("timePick").value;
-    if (departTime != null) {
-        departTime = new Date(departTime);
-    }
-
-    var startingLocation = document.getElementById("text").value;
-    if (!startingLocation.includes("saskatoon") || !startingLocation.includes("Saskatoon")) {
-        startingLocation = startingLocation.concat(" Saskatoon");
-   }
-
     if (indexOfTransSelection == 1)  transSelection = "WALKING";
     else if (indexOfTransSelection == 2) transSelection = "BICYCLING";
     else if (indexOfTransSelection == 3) transSelection = "TRANSIT";
     else if (indexOfTransSelection == 4) transSelection = "DRIVING";
 
-    alert(departTime);
+    // Convert departTime (LocalDateTime) to Date object for GoogleAPI use
+    var departTime = document.getElementById("timePick").value;
+    if (departTime != null) {
+        departTime = new Date(departTime);
+    }
 
+    // Add "Saskatoon" to query name if Saskatoon not already in name
+    var startingLocation = document.getElementById("text").value;
+    if (!startingLocation.includes("saskatoon") || !startingLocation.includes("Saskatoon")) {
+        startingLocation = startingLocation.concat(" Saskatoon");
+   }
+
+  // Make GoogleMaps query
   directionsService.route(
     {
       origin: {

@@ -49,4 +49,8 @@ public class EventController {
         }
         return null;
     }
+
+    public void updateCalendarEntryId(Event e, String id) {
+        Eaccess.updateEvent(e, id);
+    }
 }

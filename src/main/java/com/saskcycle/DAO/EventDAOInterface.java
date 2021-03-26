@@ -11,4 +11,6 @@ public interface EventDAOInterface {
     void addEvent(Event event);
 
     void deleteEvent(Event saskcycleEvent);
+
+    void updateEvent(Event e, String id);
 }

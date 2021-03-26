@@ -62,6 +62,7 @@ public class EventView extends VerticalLayout {
     calLayout.setFlexGrow(1, calendar);
 
     calendar.addEntryClickedListener(event -> {
+      System.out.println(event.getEntry().getId());
       Event e = EC.getEventByTitle(event.getEntry().getTitle());
       Dialog eventInfo = new EventInfoComponent(e);
       eventInfo.open();
@@ -134,6 +135,10 @@ public class EventView extends VerticalLayout {
     for (Event e : events) {
 
       Entry entry = new Entry();
+      e.setCalendarEntryID(entry.getId());
+      //EC.updateCalendarEntryId(e, entry.getId());
+
+
       entry.setTitle(e.title);
       // start info array format [month, day, start hour, start minute]
       entry.setStart(LocalDate.now().withMonth(e.startTime[0]).withDayOfMonth(e.startTime[1]).atTime(e.startTime[2], e.startTime[3]), calendar.getTimezone());

@@ -17,6 +17,7 @@ public class Event extends Post {
     public ArrayList<String> etags;
     public String desc;
     public ArrayList<String> elocation;
+    String calendarEntryID;
     //private Timezone timezone;
 
     public Event(int[] startTime, int[] endTime, String etitle, Account organizer, ArrayList<String> etags, String desc, ArrayList<String> elocation) {
@@ -35,6 +36,10 @@ public class Event extends Post {
 //        this.elocation = elocation;
 
 //        this.timezone = tz;
+    }
+
+    public void setCalendarEntryID(String id) {
+        this.calendarEntryID = id;
     }
 
 

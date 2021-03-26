@@ -122,7 +122,8 @@ function calculateAndDisplayRoute(directionsService, directionsRenderer){
       if (status === "OK") {
         directionsRenderer.setDirections(response);
       } else {
-        window.alert("Directions request failed due to " + status);
+        if (status === "ZERO_RESULTS" && transSelection === "TRANSIT") window.alert("No bus routes to address!");
+        else window.alert("Directions request failed due to " + status);
       }
     }
   );

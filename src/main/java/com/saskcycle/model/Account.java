@@ -107,7 +107,7 @@ public class Account extends User {
 
   /* --------- Getters and Setters -------------*/
 
-  public Feed getPosts() {
+  public ArrayList<Post> getPosts() {
     return posts;
   }
 

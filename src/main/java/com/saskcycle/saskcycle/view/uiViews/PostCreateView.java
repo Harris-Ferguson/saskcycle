@@ -4,8 +4,8 @@ import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.controller.PostController;
 import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.components.PostalCodeComponent;
-import com.saskcycle.saskcycle.view.layouts.PostCreateLayout;
 import com.saskcycle.services.GeocodeService;
+import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Route(value = "Create-Posts", layout = PostCreateLayout.class)
+@Route(value = "Create-Posts", layout = MainLayout.class)
 @PageTitle("SaskCycle | Post Create")
 @Secured("ROLE_USER")
 public class PostCreateView extends VerticalLayout {

@@ -8,6 +8,7 @@ import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.security.SecurityUtils;
 import com.saskcycle.saskcycle.view.components.MapComponent;
 import com.saskcycle.saskcycle.view.layouts.ClickedPostLayout;
+import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -26,9 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.SimpleDateFormat;
 
-@Route(value = "clickedPost", layout = ClickedPostLayout.class)
+@Route(value = "clickedPost", layout = MainLayout.class)
 public class ClickedPostView extends VerticalLayout implements HasUrlParameter<String>, BeforeEnterObserver {
-
 
     private H1 title;
     private H1 title2;
@@ -47,7 +47,6 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
     SearchController SC;
     @Autowired
     CurrentUserDAOInterface account;
-
     public ClickedPostView() {
 
         title = new H1();

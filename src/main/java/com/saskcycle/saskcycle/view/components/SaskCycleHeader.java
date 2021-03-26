@@ -1,6 +1,7 @@
 package com.saskcycle.saskcycle.view.components;
 
 import com.saskcycle.saskcycle.security.SecurityUtils;
+import com.saskcycle.saskcycle.view.uiViews.EventCreateView;
 import com.saskcycle.saskcycle.view.uiViews.MainView;
 import com.saskcycle.saskcycle.view.uiViews.PostView;
 import com.saskcycle.saskcycle.view.uiViews.SettingsView;
@@ -39,16 +40,6 @@ public class SaskCycleHeader extends HorizontalLayout {
 
     addClassName("header");
     add(drawerToggle, logo, searchButton, createSignInButtons());
-  }
-
-  /** Constructs the drawer feature, denoted by the hamburger menu */
-  private VerticalLayout createDrawer() {
-    RouterLink accountLink = new RouterLink("Main", MainView.class);
-    RouterLink postLink = new RouterLink("Posts", PostView.class);
-    RouterLink settingsLink = new RouterLink("Settings", SettingsView.class);
-    accountLink.setHighlightCondition(HighlightConditions.sameLocation());
-
-    return new VerticalLayout(accountLink, postLink, settingsLink);
   }
 
   /**

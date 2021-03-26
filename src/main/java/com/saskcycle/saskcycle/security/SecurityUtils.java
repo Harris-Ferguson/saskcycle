@@ -34,7 +34,7 @@ public final class SecurityUtils {
     // check if the user has one of the user roles defined on the view's security
     List<String> allowedRoles = Arrays.asList(secured.value());
     Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
-    return userAuthentication.getAuthorities().stream() //
+    return userAuthentication.getAuthorities().stream()
         .map(GrantedAuthority::getAuthority)
         .anyMatch(allowedRoles::contains);
   }
@@ -51,5 +51,17 @@ public final class SecurityUtils {
     return authentication != null
         && !(authentication instanceof AnonymousAuthenticationToken)
         && authentication.isAuthenticated();
+  }
+
+  /**
+   * Checks if the current user in an Organizational user
+   * @return true if the user is an org user, false otherwise
+   */
+  public static boolean isOrgUser(){
+    List<String> allowedRoles = Arrays.asList("ROLE_ORG");
+    Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
+    return userAuthentication.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .anyMatch(allowedRoles::contains);
   }
 }

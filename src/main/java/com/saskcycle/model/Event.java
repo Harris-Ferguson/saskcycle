@@ -1,35 +1,44 @@
 package com.saskcycle.model;
 
-import com.vaadin.flow.component.polymertemplate.Id;
+
+
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.vaadin.stefan.fullcalendar.Timezone;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 
 @Document(collection = "Events")
-public class Event {
-
+public class Event extends Post {
     /* --------- Attributes ------------ */
+    public String etitle;
 
-    @Id
-    public String id;
-    public String title;
+
     public int[] startTime;
     public int[] endTime;
     public String organizer;
-    public String[] tags;
+    public ArrayList<String> etags;
     public String desc;
-    public String location;
+    public ArrayList<String> elocation;
+    String calendarEntryID;
+    //private Timezone timezone;
 
-    public Event(String id, int[] startTime, int[] endTime, String title, String organizer, String[] tags, String desc, String location) {
-        this.id = id;
-        this.title = title;
+    public Event(int[] startTime, int[] endTime, String etitle, Account organizer, ArrayList<String> etags, String desc, ArrayList<String> elocation) {
+        super();
+        super.setTitle(etitle);
+        super.setTags(etags);
+        super.setDescription(desc);
+        super.setOwner(organizer);
+//        this.title = etitle;
+        this.elocation = elocation;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.organizer = organizer;
-        this.tags = tags;
-        this.desc = desc;
-        this.location = location;
     }
+
+    public void setCalendarEntryID(String id) {
+        this.calendarEntryID = id;
+    }
+
+
 }

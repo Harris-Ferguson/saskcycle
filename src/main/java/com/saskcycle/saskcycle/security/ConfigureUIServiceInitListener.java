@@ -1,6 +1,7 @@
 package com.saskcycle.saskcycle.security;
 
 import com.saskcycle.saskcycle.view.auth.LoginView;
+import com.saskcycle.saskcycle.view.error.BadPermissionsError;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.NotFoundException;
@@ -31,7 +32,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
     if (!SecurityUtils.isAllowedAccess(event.getNavigationTarget())) {
       if (SecurityUtils.isUserLoggedIn()) {
         // user doesn't have the right permissions
-        event.rerouteToError(NotFoundException.class);
+        event.rerouteTo(BadPermissionsError.class);
       } else {
         // user isn't logged in
         event.rerouteTo(LoginView.class);

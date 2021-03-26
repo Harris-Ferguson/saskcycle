@@ -7,8 +7,6 @@ https://medium.com/@ahmodadeola/creating-restful-apis-with-spring-boot-2-and-mon
  */
 
 import com.saskcycle.model.Account;
-import com.saskcycle.model.Feed;
-import com.saskcycle.model.Notification;
 import com.saskcycle.model.Post;
 import com.saskcycle.repo.UserAccountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +15,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
 
 @Service
 public class AccountDAO implements UserDAOInterface {
 
-  private static final String ROLE = "USER";
+  private static final String USER_ROLE = "USER";
+  private static final String ORG_ROLE = "ORG";
 
   /* --------- Attributes ------------ */
 
@@ -77,7 +76,7 @@ public class AccountDAO implements UserDAOInterface {
   }
 
   @Override
-  public Feed getPosts(Account account) {
+  public ArrayList<Post> getPosts(Account account) {
     return account.getPosts();
   }
 
@@ -106,13 +105,37 @@ public class AccountDAO implements UserDAOInterface {
   @Override
   public Account register(String username, String email, String password) {
     String encodedPass = encoder.encode(password);
-    UserDetails newUser = User.withUsername(username).password(encodedPass).roles(ROLE).build();
+    UserDetails newUser = User.withUsername(username).password(encodedPass).authorities(USER_ROLE).build();
+    return register(newUser, email);
+  }
 
-    Account account = Account.makeAccountFromUser(newUser, email);
+  @Override
+  public Account registerOrg(String username, String email, String password) {
+    String encodedPass = encoder.encode(password);
+    UserDetails newUser = User.withUsername(username).password(encodedPass).roles(USER_ROLE, ORG_ROLE).build();
+    return register(newUser, email);
+  }
 
-    if (accountExists(account)) {
+    @Override
+    public void addToUserPosts(Post post, Account account) {
+      account.getPosts().add(post);
+      UAR.save(account);
+    }
+
+  @Override
+  public void removeFromUserPosts(Post post, Account account) {
+    account.getPosts().remove(post);
+    UAR.save(account);
+
+  }
+
+  private Account register(UserDetails user, String email){
+    Account account = Account.makeAccountFromUser(user, email);
+
+    if(accountExists(account)){
       throw new IllegalArgumentException("Account already exists");
     }
     return addAccount(account);
   }
+
 }

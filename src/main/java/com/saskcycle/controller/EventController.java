@@ -29,4 +29,28 @@ public class EventController {
         }
         return null;
     }
+
+    public void addEvent(Event newEvent) {
+        Eaccess.addEvent(newEvent);
+    }
+
+    public void deleteEvent(Event saskcycleEvent) {
+        Eaccess.deleteEvent(saskcycleEvent);
+    }
+
+    public Event getEventByID(String id) {
+
+        List<Event> events = getAllEvents();
+
+        for (Event e : events) {
+            if (e.id.equals(id)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    public void updateCalendarEntryId(Event e, String id) {
+        Eaccess.updateEvent(e, id);
+    }
 }

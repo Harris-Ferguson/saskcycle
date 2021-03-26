@@ -3,19 +3,14 @@ package com.saskcycle.saskcycle.view.uiViews;
 import com.saskcycle.controller.EventController;
 import com.saskcycle.model.Event;
 import com.saskcycle.saskcycle.view.components.EventInfoComponent;
-import com.saskcycle.saskcycle.view.layouts.EventLayout;
+import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.H5;
-import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import elemental.json.JsonString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +22,10 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
-import java.util.TimeZone;
 
 // @Route("events")
-@Route(value = "events", layout = EventLayout.class)
+@Route(value = "events", layout = MainLayout.class)
 public class EventView extends VerticalLayout {
 
   private FullCalendar calendar;
@@ -71,7 +64,7 @@ public class EventView extends VerticalLayout {
     calendar.addEntryClickedListener(event -> {
       System.out.println(event.getEntry().getId());
       Event e = EC.getEventByTitle(event.getEntry().getTitle());
-      Dialog eventInfo = new EventInfoComponent(event, calendar.getTimezone(), e);
+      Dialog eventInfo = new EventInfoComponent(e);
       eventInfo.open();
     });
 
@@ -142,6 +135,10 @@ public class EventView extends VerticalLayout {
     for (Event e : events) {
 
       Entry entry = new Entry();
+      e.setCalendarEntryID(entry.getId());
+      //EC.updateCalendarEntryId(e, entry.getId());
+
+
       entry.setTitle(e.title);
       // start info array format [month, day, start hour, start minute]
       entry.setStart(LocalDate.now().withMonth(e.startTime[0]).withDayOfMonth(e.startTime[1]).atTime(e.startTime[2], e.startTime[3]), calendar.getTimezone());

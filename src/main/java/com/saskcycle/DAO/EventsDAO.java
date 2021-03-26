@@ -22,4 +22,25 @@ public class EventsDAO implements EventDAOInterface {
     public List<Event> allEvents() {
         return ER.findAll();
     }
+
+    @Override
+    public void addEvent(Event event) {
+        ER.insert(event);
+
+    }
+
+    @Override
+    public void deleteEvent(Event saskcycleEvent) {
+
+        ER.delete(saskcycleEvent);
+
+    }
+
+    @Override
+    public void updateEvent(Event e, String id) {
+
+
+    }
+
+
 }

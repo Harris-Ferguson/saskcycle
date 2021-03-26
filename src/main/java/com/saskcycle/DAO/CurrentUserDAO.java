@@ -1,6 +1,8 @@
 package com.saskcycle.DAO;
 
 import com.saskcycle.model.Account;
+import com.saskcycle.model.Event;
+import com.saskcycle.model.Post;
 import com.saskcycle.model.UserNotificationSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,5 +62,20 @@ public class CurrentUserDAO implements CurrentUserDAOInterface {
     Account account = this.getCurrentAccount();
     account.getWishlist().add(id);
     userDAO.updateAccount(account);
+  }
+
+  public void updatePosts(Post p) {
+      Account account = this.getCurrentAccount();
+      account.getPosts().add(p);
+      userDAO.updateAccount(account);
+
+  }
+
+  @Override
+  public void deleteEvent(Event saskcycleEvent) {
+    Account account = this.getCurrentAccount();
+    account.getPosts().remove(saskcycleEvent);
+    userDAO.updateAccount(account);
+
   }
 }

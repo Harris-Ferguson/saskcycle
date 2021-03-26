@@ -1,6 +1,8 @@
 package com.saskcycle.DAO;
 
 import com.saskcycle.model.Account;
+import com.saskcycle.model.Event;
+import com.saskcycle.model.Post;
 
 /** An interface for operations on the currently logged in user */
 public interface CurrentUserDAOInterface {
@@ -37,4 +39,8 @@ public interface CurrentUserDAOInterface {
   boolean getTextSetting();
 
   public void updateWishlist(String id);
+
+  public void updatePosts(Post post);
+
+  void deleteEvent(Event saskcycleEvent);
 }

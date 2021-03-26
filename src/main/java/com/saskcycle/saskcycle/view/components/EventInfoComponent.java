@@ -12,6 +12,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.vaadin.stefan.fullcalendar.EntryClickedEvent;
 import org.vaadin.stefan.fullcalendar.Timezone;
 
@@ -57,6 +58,7 @@ public class EventInfoComponent extends Dialog {
         Icon map = VaadinIcon.MAP_MARKER.create();
         HorizontalLayout loc = new HorizontalLayout(map, location);
         loc.setAlignItems(FlexComponent.Alignment.CENTER);
+
 
         Icon user = VaadinIcon.USER.create();
         HorizontalLayout org = new HorizontalLayout(user, organizer);

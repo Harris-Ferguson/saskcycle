@@ -69,6 +69,7 @@ public class EventView extends VerticalLayout {
     calLayout.setFlexGrow(1, calendar);
 
     calendar.addEntryClickedListener(event -> {
+      System.out.println(event.getEntry().getId());
       Event e = EC.getEventByTitle(event.getEntry().getTitle());
       Dialog eventInfo = new EventInfoComponent(event, calendar.getTimezone(), e);
       eventInfo.open();
@@ -150,6 +151,7 @@ public class EventView extends VerticalLayout {
       entry.setDescription(e.desc);
 
       entry.setColor("#04584a");
+
 
       calendar.addEntry(entry);
     }

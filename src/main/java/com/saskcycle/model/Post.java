@@ -18,16 +18,11 @@ public class Post {
 
   @Id public String id;
 
-  public int IDnum;
-
-  // ToDo
-  // public Arraylist<pictures> photos;
-
   public Date datePosted;
 
   public Account owner;
 
-  public String location;
+  public String postalCode;
 
   public ArrayList<String> tags;
 
@@ -35,7 +30,13 @@ public class Post {
 
   public String contactEmail;
 
+  // Latitude of post location
+  public double latitude;
+  // longitude of post location
+  public double longitude;
+
   /* ----------- Methods ------------- */
+
   public Post(){
   }
 
@@ -71,14 +72,6 @@ public class Post {
     this.id = id;
   }
 
-  public int getIDnum() {
-    return IDnum;
-  }
-
-  public void setIDnum(int IDnum) {
-    this.IDnum = IDnum;
-  }
-
   public Date getDatePosted() {
     return datePosted;
   }
@@ -93,14 +86,6 @@ public class Post {
 
   public void setOwner(Account owner) {
     this.owner = owner;
-  }
-
-  public String getLocation() {
-    return location;
-  }
-
-  public void setLocation(String location) {
-    this.location = location;
   }
 
   public ArrayList<String> getTags() {
@@ -125,6 +110,30 @@ public class Post {
 
   public void setContactEmail(String contactEmail) {
     this.contactEmail = contactEmail;
+  }
+
+  public double getLatitude() {
+    return latitude;
+  }
+
+  public void setLatitude(double latitude) {
+    this.latitude = latitude;
+  }
+
+  public double getLongitude() {
+    return longitude;
+  }
+
+  public void setLongitude(double longitude) {
+    this.longitude = longitude;
+  }
+
+  public String getPostalCode() {
+    return postalCode;
+  }
+
+  public void setPostalCode(String postalCode) {
+    this.postalCode = postalCode;
   }
 
   @Override

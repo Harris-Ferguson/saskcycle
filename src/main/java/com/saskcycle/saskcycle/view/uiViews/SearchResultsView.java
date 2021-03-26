@@ -4,18 +4,24 @@ import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
 import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.components.PostComponent;
+import com.saskcycle.saskcycle.view.components.PostalCodeComponent;
 import com.saskcycle.saskcycle.view.layouts.SearchResultsLayout;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Inline;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.NumberField;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteConfiguration;
@@ -35,14 +41,14 @@ public class SearchResultsView extends VerticalLayout {
   private Grid<Post> grid;
 
   private H1 heading;
-
+  private String location;
   private Select<String> sortSelect;
   private Select<String> useSelect;
   private Select<String> postChoice;
   private NumberField   numberField;
   private CheckboxGroup<String> includeGroup;
   private CheckboxGroup<String> excludeGroup;
-
+  private PostalCodeComponent postalCodeBox;
 
     /** Constructs the view that displays the listings */
   @PostConstruct
@@ -63,8 +69,8 @@ public class SearchResultsView extends VerticalLayout {
     // Constructing a post view based on what's clicked is still under construction
       grid.addItemClickListener(event -> {
           //System.out.println(event.getItem().title);
-        getUI().ifPresent(ui -> ui.navigate(ClickedPostView.class,event.getItem().id));
-
+          getUI().ifPresent(ui -> ui.navigate(ClickedPostView.class,event.getItem().id));
+          UI.getCurrent().getPage().reload();
       });
 
     HorizontalLayout resultsGroup = new HorizontalLayout();
@@ -98,7 +104,6 @@ public class SearchResultsView extends VerticalLayout {
 
     filterGroup.setWidth("200px");
 
-//    /* Use case has not been fully implemented
      useSelect = new Select<>();
      useSelect.setItems("Select", "Get", "Give");
      useSelect.setLabel("What do you want to do?");
@@ -111,7 +116,7 @@ public class SearchResultsView extends VerticalLayout {
                  grid.setItems(SC.getPageOfPosts(numberField.getValue()));
              });
 
-
+    postalCodeBox = new PostalCodeComponent();
 
     // Dropdown menu user to select sorting
     sortSelect = new Select<>();
@@ -121,8 +126,26 @@ public class SearchResultsView extends VerticalLayout {
 
     sortSelect.addValueChangeListener(
         event -> {
-            this.updatePosts();
-          grid.setItems(SC.getPageOfPosts(numberField.getValue()));
+            if (sortSelect.getValue().equals("Closest to me")){
+                Dialog dialog = new Dialog();
+                Button submit = new Button("Submit", e -> {
+                    if(postalCodeBox.postalCodeIsValid()) {
+                        dialog.close();
+                        location = postalCodeBox.getPostalCode();
+                        this.updatePosts();
+                        grid.setItems(SC.getPageOfPosts(numberField.getValue()));
+                    }
+                    else{
+                        Notification errorNotif = new  Notification("Enter a valid postal code",
+                                                            500,
+                                                                    Notification.Position.MIDDLE);
+                        errorNotif.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                        errorNotif.open();
+                    }
+                });
+                dialog.add(postalCodeBox, submit);
+                dialog.open();
+            }
         });
 
     // Checkbox to select tags that user wants to include
@@ -211,10 +234,7 @@ public class SearchResultsView extends VerticalLayout {
                   grid.setItems(SC.getPageOfPosts(numberField.getValue()));
               });
 
-      add(numberField);
-    filterGroup.add(sortSelect, postChoice, useSelect, includeGroup, excludeGroup, resetButton,numberField);
-
-
+    filterGroup.add(useSelect, sortSelect, includeGroup, excludeGroup, postChoice, numberField);
     return filterGroup;
   }
 
@@ -244,7 +264,8 @@ public class SearchResultsView extends VerticalLayout {
                 excludeGroup.getValue(),
                 postChoice.getValue(),
                 useSelect.getValue(),
-                sortSelect.getValue());
+                sortSelect.getValue(),
+                location);
 
 
     numberField.setMax(SC.amountOfPages());

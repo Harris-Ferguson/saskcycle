@@ -1,9 +1,8 @@
 package com.saskcycle.controller;
 
-import com.saskcycle.DAO.PostsDAO;
 import com.saskcycle.DAO.PostsDAOInterface;
 import com.saskcycle.model.Post;
-import com.saskcycle.repo.PostsRepo;
+import com.saskcycle.services.GeocodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -20,6 +19,8 @@ public class PostController {
 
     @Autowired private PostsDAOInterface postDAD;
 
+    @Autowired private GeocodeService geocodeService;
+
     /* ---------  Methods  --------- */
 
     public PostController(){
@@ -27,12 +28,7 @@ public class PostController {
     }
 
     public void setPostType(String type){
-        if(type.equals("giving away")){
-            currentPost.setPostType(true);
-        }
-        else {
-            currentPost.setPostType(false);
-        }
+        currentPost.setPostType(type.equals("giving away"));
     }
 
     public String getPostType(){
@@ -61,12 +57,7 @@ public class PostController {
     }
 
     public void setPostPrivacy(String privacy){
-        if(privacy.equals("Public")){
-            currentPost.setPublic(true);
-        }
-        else {
-            currentPost.setPublic(false);
-        }
+        currentPost.setPublic(privacy.equals("Public"));
     }
 
     public String getPostPrivacy(){
@@ -78,21 +69,15 @@ public class PostController {
         }
     }
 
-    public void setPostDistance(Double dist){
-        currentPost.setLocation(dist.toString()+"KM");
-    }
-
-    public Double getPostDistance(){
-        // converts string distance from post to double and removes KM from end
-        return Double.parseDouble(currentPost.getLocation().substring(0,currentPost.getLocation().length() - 2));
+    public String getPostalCode(){
+        return currentPost.getPostalCode();
     }
 
     public void setPostPostalCode(String postal){
-        currentPost.setLocation(postal);
-    }
-
-    public String getPostalCode(){
-        return currentPost.getLocation();
+        geocodeService.geolocationFromPostalCode(postal);
+        currentPost.setLatitude(geocodeService.getLat());
+        currentPost.setLongitude(geocodeService.getLon());
+        currentPost.setPostalCode(postal);
     }
 
     public void setPostTags(ArrayList<String> tagList){
@@ -112,8 +97,7 @@ public class PostController {
     }
 
     public void setPostID(){
-        Integer postDataBaseSize = currentPost.hashCode();
-        currentPost.setId(postDataBaseSize.toString());
+        currentPost.setId(Integer.toString(currentPost.hashCode()));
     }
 
     public Integer getPostID(){
@@ -124,6 +108,7 @@ public class PostController {
         if(currentPost.isComplete()){
             currentPost.setDatePosted(new Date());
             postDAD.addPost(currentPost);
+            currentPost = new Post();
             return true;
         }
         else{
@@ -131,5 +116,4 @@ public class PostController {
             return false;
         }
     }
-
 }

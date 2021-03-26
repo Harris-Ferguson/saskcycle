@@ -28,13 +28,13 @@ public class PostComponent extends Div {
 
     H3 title = new H3(post.title);
 
-    H5 dist = new H5(post.location + " away"); // | " + posts.get(i).datePosted);
     Paragraph desc = new Paragraph(post.description);
+    H5 postal = new H5(post.getPostalCode());
 
     title.addClassName("posts");
     desc.addClassName("posts");
 
-    add(title, dist, desc, formatTags(post));
+    add(title, desc, postal, formatTags(post));
   }
 
   /**

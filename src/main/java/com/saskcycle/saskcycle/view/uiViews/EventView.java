@@ -63,7 +63,7 @@ public class EventView extends VerticalLayout {
 
     calendar.addEntryClickedListener(event -> {
       System.out.println(event.getEntry().getId());
-      Event e = EC.getEventByTitle(event.getEntry().getTitle());
+      Event e = EC.getEventByCalendarID(event.getEntry().getId());
       Dialog eventInfo = new EventInfoComponent(e);
       eventInfo.open();
     });
@@ -135,8 +135,9 @@ public class EventView extends VerticalLayout {
     for (Event e : events) {
 
       Entry entry = new Entry();
+
       e.setCalendarEntryID(entry.getId());
-      //EC.updateCalendarEntryId(e, entry.getId());
+      EC.updateCalendarEntryId(e);
 
 
       entry.setTitle(e.title);

@@ -1,14 +1,10 @@
 package com.saskcycle.saskcycle.view.uiViews;
 
-import com.saskcycle.DAO.CurrentUserDAO;
 import com.saskcycle.DAO.CurrentUserDAOInterface;
-import com.saskcycle.DAO.UserDAOInterface;
 import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.security.SecurityUtils;
-import com.saskcycle.saskcycle.view.layouts.ClickedPostLayout;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
@@ -17,7 +13,6 @@ import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;

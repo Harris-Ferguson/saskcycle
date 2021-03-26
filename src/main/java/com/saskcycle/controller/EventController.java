@@ -18,12 +18,12 @@ public class EventController {
         return Eaccess.allEvents();
     }
 
-    public Event getEventByTitle(String title) {
+    public Event getEventByCalendarID(String calID) {
 
         List<Event> events = getAllEvents();
 
         for (Event e : events) {
-            if (e.title.equals(title)) {
+            if (e.calendarEntryID.equals(calID)) {
                 return e;
             }
         }
@@ -50,7 +50,8 @@ public class EventController {
         return null;
     }
 
-    public void updateCalendarEntryId(Event e, String id) {
-        Eaccess.updateEvent(e, id);
+    public void updateCalendarEntryId(Event e) {
+        Eaccess.updateEvent(e);
     }
+
 }

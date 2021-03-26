@@ -46,7 +46,7 @@ public class EventDeleteView extends VerticalLayout {
         createButton.addClickListener(
                 e -> createButton.getUI().ifPresent(ui -> ui.navigate("create-event")));
 
-        Grid<Post> newGrid = initGrid();
+        Grid<Event> newGrid = initGrid();
     newGrid.addItemClickListener(
         event -> {
           System.out.println(event.getItem().getTitle());
@@ -58,10 +58,10 @@ public class EventDeleteView extends VerticalLayout {
         add(new H1("Your events"), createButton, newGrid);
     }
 
-    private Grid<Post> initGrid() {
+    private Grid<Event> initGrid() {
 
-        Grid<Post> newGrid = new Grid<>();
-        List<Post> posts = new ArrayList<>();
+        Grid<Event> newGrid = new Grid<>();
+        List<Event> posts = new ArrayList<>();
         for (String postIds : currentAccount.getCurrentAccount().getPostIds())
         {
             posts.add(EC.getEventByID(postIds));

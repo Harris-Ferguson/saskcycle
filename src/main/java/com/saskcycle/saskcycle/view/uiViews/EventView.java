@@ -136,7 +136,7 @@ public class EventView extends VerticalLayout {
 
       Entry entry = new Entry();
       e.setCalendarEntryID(entry.getId());
-      //EC.updateCalendarEntryId(e, entry.getId());
+      EC.updateCalendarEntryId(e, entry.getId());
 
 
       entry.setTitle(e.title);

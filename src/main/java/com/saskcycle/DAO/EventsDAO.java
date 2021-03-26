@@ -44,8 +44,8 @@ public class EventsDAO implements EventDAOInterface {
     }
 
     @Override
-    public void updateEvent(Event e, String id) {
-
+    public void updateEvent(Event e) {
+        ER.save(e);
 
     }
 

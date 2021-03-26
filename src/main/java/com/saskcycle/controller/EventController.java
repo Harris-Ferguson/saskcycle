@@ -51,6 +51,7 @@ public class EventController {
     }
 
     public void updateCalendarEntryId(Event e, String id) {
-        Eaccess.updateEvent(e, id);
+        e.setCalendarEntryID(id);
+        Eaccess.updateEvent(e);
     }
 }

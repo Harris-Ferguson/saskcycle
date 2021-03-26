@@ -72,7 +72,7 @@ public class CurrentUserDAO implements CurrentUserDAOInterface {
   @Override
   public void deleteEvent(Event saskcycleEvent) {
     Account account = this.getCurrentAccount();
-    account.getPostIds().remove(saskcycleEvent);
+    account.getPostIds().remove(saskcycleEvent.getId());
     userDAO.updateAccount(account);
 
   }

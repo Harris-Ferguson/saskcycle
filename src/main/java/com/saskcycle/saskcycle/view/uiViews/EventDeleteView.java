@@ -8,6 +8,7 @@ import com.saskcycle.saskcycle.view.components.DeleteEventPreviewComponent;
 import com.saskcycle.saskcycle.view.components.EventComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.charts.model.Dial;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
@@ -41,8 +42,11 @@ public class EventDeleteView extends VerticalLayout {
 
         Grid<Post> newGrid = initGrid();
         newGrid.addItemClickListener(event -> {
+            System.out.println(event.getItem().title);
             Event e = EC.getEventByTitle(event.getItem().title);
-            Dialog dialog = new DeleteEventPreviewComponent(e);
+            System.out.println(e.title);
+
+            Dialog dialog = showEventPreview(e);
             dialog.open();
         });
 
@@ -58,5 +62,19 @@ public class EventDeleteView extends VerticalLayout {
 
         return newGrid;
 
+    }
+
+    private Dialog showEventPreview(Event saskcycleEvent) {
+        Dialog d = new Dialog();
+
+        Button deleteEventButton = new Button("Delete this event");
+        deleteEventButton.addClickListener(event -> {
+            EC.deleteEvent(saskcycleEvent);
+            currentAccount.deleteEvent(saskcycleEvent);
+        });
+        d.add(deleteEventButton);
+
+
+        return d;
     }
 }

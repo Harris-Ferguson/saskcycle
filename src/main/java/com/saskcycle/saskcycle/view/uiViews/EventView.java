@@ -62,7 +62,6 @@ public class EventView extends VerticalLayout {
     calLayout.setFlexGrow(1, calendar);
 
     calendar.addEntryClickedListener(event -> {
-      System.out.println(event.getEntry().getId());
       Event e = EC.getEventByCalendarID(event.getEntry().getId());
       Dialog eventInfo = new EventInfoComponent(e);
       eventInfo.open();

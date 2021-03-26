@@ -1,8 +1,13 @@
 package com.saskcycle.model;
 
 public class PostDistancePair implements Comparable<PostDistancePair> {
+
+    /* --------- Attributes ------------ */
+
     public Post post;
     public Double distance;
+
+    /* ----------- Methods ------------- */
 
     public PostDistancePair(Post post, Double distance)
     {

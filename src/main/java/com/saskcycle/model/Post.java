@@ -18,9 +18,6 @@ public class Post {
 
   @Id public String id;
 
-  // ToDo
-  // public Arraylist<pictures> photos;
-
   public Date datePosted;
 
   public Account owner;
@@ -39,6 +36,7 @@ public class Post {
   public double longitude;
 
   /* ----------- Methods ------------- */
+
   public Post(){
   }
 

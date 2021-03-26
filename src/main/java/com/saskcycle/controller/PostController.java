@@ -1,11 +1,8 @@
 package com.saskcycle.controller;
 
-import com.saskcycle.DAO.PostsDAO;
 import com.saskcycle.DAO.PostsDAOInterface;
 import com.saskcycle.model.Post;
-import com.saskcycle.repo.PostsRepo;
 import com.saskcycle.services.GeocodeService;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -31,12 +28,7 @@ public class PostController {
     }
 
     public void setPostType(String type){
-        if(type.equals("giving away")){
-            currentPost.setPostType(true);
-        }
-        else {
-            currentPost.setPostType(false);
-        }
+        currentPost.setPostType(type.equals("giving away"));
     }
 
     public String getPostType(){
@@ -65,12 +57,7 @@ public class PostController {
     }
 
     public void setPostPrivacy(String privacy){
-        if(privacy.equals("Public")){
-            currentPost.setPublic(true);
-        }
-        else {
-            currentPost.setPublic(false);
-        }
+        currentPost.setPublic(privacy.equals("Public"));
     }
 
     public String getPostPrivacy(){

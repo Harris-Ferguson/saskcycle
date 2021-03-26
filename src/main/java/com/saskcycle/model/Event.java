@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 @Document(collection = "Events")
 public class Event {
 
+    /* --------- Attributes ------------ */
+
     @Id
     public String id;
     public String title;
@@ -19,7 +21,6 @@ public class Event {
     public String[] tags;
     public String desc;
     public String location;
-    //private Timezone timezone;
 
     public Event(String id, int[] startTime, int[] endTime, String title, String organizer, String[] tags, String desc, String location) {
         this.id = id;
@@ -30,9 +31,5 @@ public class Event {
         this.tags = tags;
         this.desc = desc;
         this.location = location;
-
-//        this.timezone = tz;
     }
-
-
 }

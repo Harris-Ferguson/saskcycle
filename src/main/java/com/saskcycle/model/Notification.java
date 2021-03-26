@@ -13,7 +13,4 @@ public class Notification {
   // The link to the webpage containing the post related to the notification
   public String link;
   private ArrayList<Account> subscribers;
-
-  /* ----------- Methods ------------- */
-
 }

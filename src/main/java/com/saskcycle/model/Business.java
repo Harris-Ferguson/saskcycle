@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 @Document(collection = "Businesses")
 public class Business extends Post {
-  // Methods
+
+  /* --------- Attributes ------------ */
 
   public Business(
       String title,
@@ -18,6 +19,8 @@ public class Business extends Post {
       double longitude,
       double latitude) {
   }
+
+  /* ----------- Methods ------------- */
 
   public ArrayList<String> getTags() {
     return this.tags;

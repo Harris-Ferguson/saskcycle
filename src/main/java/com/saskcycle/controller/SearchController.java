@@ -404,19 +404,6 @@ public class SearchController implements Serializable {
   }
 
 
-//  /**
-//   * Sorts posts by the given specification
-//   *
-//   * @param value the characteristic by which the code is sorted
-//   * @return list of sorted posts
-//   */
-//  public List<Post> sortPosts(String value) {
-//
-//    this.getSortedPosts(value, currentPosts);
-//
-//    return currentPosts;
-//  }
-
   /**
    * Hides the posts that are tagged with the specified tag(s)
    *
@@ -484,22 +471,4 @@ public class SearchController implements Serializable {
     }
     return wishListPosts;
   }
-
-//  /**
-//   * Gets the current systemwide tags currenlty implemented by the application
-//   * @return an Arrary of Strings representing the usaeable tags in the system
-//   */
-//  public String[] getTags()
-//  {
-//    String[] tags = new String[Tags.values().length];
-//    int index = 0;
-//    for (Tags value : Tags.values()) {
-//      tags[index] =  value.name();
-//      index += 1;
-//
-//    }
-//    return tags;
-//  }
-
-
 }

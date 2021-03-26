@@ -3,6 +3,7 @@ package com.saskcycle.saskcycle.view.uiViews;
 import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.controller.EventController;
 import com.saskcycle.model.Event;
+import com.saskcycle.saskcycle.view.components.PostalCodeComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
@@ -40,7 +41,9 @@ public class EventCreateView extends VerticalLayout {
     @Autowired
     private CurrentUserDAOInterface currentAccount;
 
-    private TextField line1, line2, city, province, postalCode;
+    private TextField line1, line2, city, province;
+
+    PostalCodeComponent postalCodeField;
 
     public EventCreateView() {
 
@@ -124,9 +127,13 @@ public class EventCreateView extends VerticalLayout {
             ArrayList<String> addressInfo,
             ArrayList<String> tags){
 
-        checkAddressFields();
-
-        if (title.trim().isEmpty()) {
+        if (line1.getValue().trim().isEmpty()) {
+            Notification.show("Enter Address Line 1");
+        }
+        else if (!postalCodeField.postalCodeIsValid()) {
+            Notification.show("Enter a valid postal code");
+        }
+        else if (title.trim().isEmpty()) {
             Notification.show("Enter a Title");
         } else if (description.trim().isEmpty()) {
             Notification.show("Enter a Description"); }
@@ -177,10 +184,11 @@ public class EventCreateView extends VerticalLayout {
         province.setValue("Saskatchewan");
         province.setReadOnly(true);
 
-       postalCode = new TextField();
-       postalCode.setLabel("Postal Code");
+//       postalCode = new TextField();
+//       postalCode.setLabel("Postal Code");
+        postalCodeField = new PostalCodeComponent();
 
-       VerticalLayout address = new VerticalLayout(line1, line2, new HorizontalLayout(city, province), postalCode);
+       VerticalLayout address = new VerticalLayout(line1, line2, new HorizontalLayout(city, province), postalCodeField);
        address.getStyle().set("border", "1px solid #eeeeee");
        return new VerticalLayout(new H5("Location"), address);
     }
@@ -189,8 +197,8 @@ public class EventCreateView extends VerticalLayout {
         if (line1.getValue().trim().isEmpty()) {
             Notification.show("Enter Address Line 1");
         }
-        else if (postalCode.getValue().trim().isEmpty()) {
-            Notification.show("Enter a postal code");
+        else if (!postalCodeField.postalCodeIsValid()) {
+            Notification.show("Enter a valid postal code");
         }
     }
 
@@ -199,7 +207,7 @@ public class EventCreateView extends VerticalLayout {
         addressInfo.add(line1.getValue());
         addressInfo.add(line2.getValue());
         addressInfo.add(city.getValue()+ ", " + province.getValue());
-        addressInfo.add(postalCode.getValue());
+        addressInfo.add(postalCodeField.getTextField().getValue());
 
         return addressInfo;
     }

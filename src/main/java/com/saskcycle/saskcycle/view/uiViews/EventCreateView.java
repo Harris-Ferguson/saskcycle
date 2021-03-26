@@ -8,6 +8,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.listbox.MultiSelectListBox;
@@ -21,8 +22,12 @@ import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Route(value = "create-event", layout = MainLayout.class)
 @PageTitle("SaskCycle | Event Create")
@@ -35,6 +40,8 @@ public class EventCreateView extends VerticalLayout {
     @Autowired
     private CurrentUserDAOInterface currentAccount;
 
+    private TextField line1, line2, city, province, postalCode;
+
     public EventCreateView() {
 
         // cancel button
@@ -43,10 +50,12 @@ public class EventCreateView extends VerticalLayout {
 
         // Title Field
         TextField title = new TextField();
-        title.setLabel("Post Title");
+        title.setLabel("Event Title");
         title.setPlaceholder("Type here ...");
         title.setMinWidth("600px");
         title.setRequiredIndicatorVisible(true);
+
+        VerticalLayout address = addressFields();
 
         // Description Field
         TextArea description = new TextArea();
@@ -56,12 +65,12 @@ public class EventCreateView extends VerticalLayout {
         description.setMinHeight("200px");
         description.setRequiredIndicatorVisible(true);
 
-        // Location Field
-        TextField location = new TextField();
-        location.setLabel("Location");
-        location.setPlaceholder("Type your location ...");
-        location.setMinWidth("600px");
-        location.setRequiredIndicatorVisible(true);
+//        // Location Field
+//        TextField location = new TextField();
+//        location.setLabel("Location");
+//        location.setPlaceholder("Type your location ...");
+//        location.setMinWidth("600px");
+//        location.setRequiredIndicatorVisible(true);
 
         DateTimePicker startTime = new DateTimePicker();
         startTime.setLabel("Start time");
@@ -81,28 +90,30 @@ public class EventCreateView extends VerticalLayout {
                 });
 
         // Left side of post creation
-        VerticalLayout LeftInfoPanel = new VerticalLayout(title, description, location, startTime, endTime);
+        VerticalLayout LeftInfoPanel = new VerticalLayout(title, description, address, startTime, endTime);
 
         // Right side of post creation
-        VerticalLayout RightInfoPanel = new VerticalLayout(new H1("Tags:"), tags);
+        VerticalLayout RightInfoPanel = new VerticalLayout(new H1("Tags"), tags);
 
         // Body of post creation
         HorizontalLayout InfoPanel = new HorizontalLayout(LeftInfoPanel, RightInfoPanel);
 
         // Header of post creation
-        HorizontalLayout Header = new HorizontalLayout(returnButton, new H1("Create Event Post"));
+        HorizontalLayout Header = new HorizontalLayout(returnButton, new H1("Create Event"));
         Header.setAlignItems(Alignment.CENTER);
 
         // create post button (calls publish post when clicked)
         Button createPostButton = new Button("Create Post!", new Icon(VaadinIcon.THUMBS_UP));
         createPostButton.addClickListener(
-                e -> publishEvent(
+                e -> {
+                    publishEvent(
                         startTime.getValue(),
                         endTime.getValue(),
                         title.getValue(),
                         description.getValue(),
-                        location.getValue(),
-                        tagList));
+                        formatAddressInfo(),
+                        tagList);
+                });
 
         add(Header, InfoPanel, createPostButton);
     }
@@ -117,16 +128,19 @@ public class EventCreateView extends VerticalLayout {
             LocalDateTime eventEnd,
             String title,
             String description,
-            String location,
+            ArrayList<String> addressInfo,
             ArrayList<String> tags){
+
+        checkAddressFields();
 
         if (title.trim().isEmpty()) {
             Notification.show("Enter a Title");
         } else if (description.trim().isEmpty()) {
-            Notification.show("Enter a Description");
-        } else if (location.trim().isEmpty()) {
-            Notification.show("Enter a Location");
-        } else if (tags.isEmpty()) {
+            Notification.show("Enter a Description"); }
+        //else if (location.trim().isEmpty()) {
+//            Notification.show("Enter a Location");
+//        }
+        else if (tags.isEmpty()) {
             Notification.show("Please add some tags");
         }
         else if (eventEnd.isBefore(eventStart)) {
@@ -136,7 +150,7 @@ public class EventCreateView extends VerticalLayout {
             int[] startTimeDetails = new int[]{eventStart.getMonth().getValue(), eventStart.getDayOfMonth(), eventStart.getHour(), eventStart.getMinute(), eventStart.getYear()};
             int[] endTimeDetails = new int[]{eventEnd.getMonth().getValue(), eventEnd.getDayOfMonth(), eventEnd.getHour(), eventEnd.getMinute(), eventEnd.getYear()};
             Event newEvent = new Event(startTimeDetails, endTimeDetails, title, currentAccount.getCurrentAccount(),
-                    tags, description, location);
+                    tags, description, addressInfo);
 
             //postRepo.addPost(newPost);
             EC.addEvent(newEvent);
@@ -145,14 +159,78 @@ public class EventCreateView extends VerticalLayout {
             // Confirmation Dialog Box
             Dialog confirmPosted = new Dialog();
             confirmPosted.setModal(false);
-            Button returnButton = new Button("Return Home", new Icon(VaadinIcon.HOME));
+            Button returnButton = new Button("Go to your events", new Icon(VaadinIcon.HOME));
             returnButton.addClickListener(
                     e -> {
-                        returnButton.getUI().ifPresent(ui -> ui.navigate(""));
+                        returnButton.getUI().ifPresent(ui -> ui.navigate("delete-event"));
                         confirmPosted.close();
                     });
-            confirmPosted.add(new H1("Successful Post!"), returnButton);
+            confirmPosted.add(new H1("Successfully created your event!"), returnButton);
             confirmPosted.setOpened(true);
         }
+    }
+
+    private VerticalLayout addressFields() {
+
+        line1 = new TextField();
+        line1.setLabel("Address Line 1");
+        line1.setRequiredIndicatorVisible(true);
+
+        line2 = new TextField();
+        line2.setLabel("Address Line 2");
+
+        city = new TextField("City");
+        city.setValue("Saskatoon");
+        city.setReadOnly(true);
+
+        province =  new TextField("Province");
+        province.setValue("Saskatchewan");
+        province.setReadOnly(true);
+
+       postalCode = new TextField();
+       postalCode.setLabel("Postal Code");
+
+       VerticalLayout address = new VerticalLayout(line1, line2, new HorizontalLayout(city, province), postalCode);
+       address.getStyle().set("border", "1px solid #eeeeee");
+       return new VerticalLayout(new H5("Location"), address);
+    }
+
+    private void checkAddressFields(){
+        if (line1.getValue().trim().isEmpty()) {
+            Notification.show("Enter Address Line 1");
+        }
+        else if (postalCode.getValue().trim().isEmpty()) {
+            Notification.show("Enter a postal code");
+        }
+    }
+
+    private ArrayList<String> formatAddressInfo() {
+        ArrayList<String> addressInfo = new ArrayList<>();
+        addressInfo.add(line1.getValue());
+        addressInfo.add(line2.getValue());
+        addressInfo.add(city.getValue()+ ", " + province.getValue());
+        addressInfo.add(postalCode.getValue());
+
+        return addressInfo;
+    }
+
+    private void verifyPostalCode() {
+
+        // Postal Field
+        Pattern postalRegex = Pattern.compile("[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]");
+        postalCode.setLabel("Postal Code");
+        postalCode.setPlaceholder("form: K1A0B1");
+        postalCode.setMinWidth("150px");
+        // Postal layout check
+        Matcher postalMatcher = postalRegex.matcher(postalCode.getValue());
+        postalCode.setPreventInvalidInput(true);
+        postalCode.setMaxLength(6);
+        postalCode.setRequiredIndicatorVisible(true);
+        AtomicBoolean postalMatch = new AtomicBoolean(postalMatcher.find());
+        postalCode.addValueChangeListener(e -> {
+            postalMatcher.reset(e.getValue());
+            postalMatch.set(postalMatcher.find());
+        });
+
     }
 }

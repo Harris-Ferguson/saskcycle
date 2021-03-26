@@ -16,17 +16,17 @@ public class Event extends Post {
     public String organizer;
     public ArrayList<String> etags;
     public String desc;
-    public String elocation;
+    public ArrayList<String> elocation;
     //private Timezone timezone;
 
-    public Event(int[] startTime, int[] endTime, String etitle, Account organizer, ArrayList<String> etags, String desc, String elocation) {
+    public Event(int[] startTime, int[] endTime, String etitle, Account organizer, ArrayList<String> etags, String desc, ArrayList<String> elocation) {
         super();
         super.setTitle(etitle);
         super.setTags(etags);
-        super.setLocation(elocation);
         super.setDescription(desc);
         super.setOwner(organizer);
 //        this.title = etitle;
+        this.elocation = elocation;
         this.startTime = startTime;
         this.endTime = endTime;
 

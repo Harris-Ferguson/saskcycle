@@ -9,17 +9,20 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.vaadin.stefan.fullcalendar.Timezone;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public abstract class ClickedInfo extends Dialog {
 
@@ -101,8 +104,8 @@ public abstract class ClickedInfo extends Dialog {
         scroller.setWidth("600px");
         scroller.getStyle().set("border", "1px solid #eeeeee");
 
-        Details org = new Details("Organizer", new Text(saskcycleEvent.owner.getEmail()));
-        Details loc = new Details("Location", new Text(saskcycleEvent.location));
+        Details org = new Details("Organizer", new Text(saskcycleEvent.owner.getUsername() + " (" + saskcycleEvent.owner.getEmail() + ")"));
+        Details loc = new Details("Location", displayAddress(saskcycleEvent.elocation));
         Details time = new Details("Time", new Text(eventTime));
 
         String[] tags = saskcycleEvent.tags.toArray(new String[0]);
@@ -116,5 +119,17 @@ public abstract class ClickedInfo extends Dialog {
 
         add(exit, eventTitle, scroller, formatTags(tags), loc, time, org);
 
+    }
+
+    private VerticalLayout displayAddress(ArrayList<String> elocation) {
+
+        VerticalLayout info =  new VerticalLayout();
+
+        for (String line : elocation) {
+            Span s = new Span(new Text(line));
+            info.add(s);
+        }
+
+        return info;
     }
 }

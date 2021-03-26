@@ -3,7 +3,6 @@ package com.saskcycle.saskcycle.view.uiViews;
 import com.saskcycle.saskcycle.view.components.MapComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
 
-import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.html.Label;
@@ -12,21 +11,22 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.router.*;
 
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
+
 
 @Route(value = "map", layout = MainLayout.class)
 public class MapView extends VerticalLayout implements HasUrlParameter<String>, BeforeEnterObserver {
 
-    String postalCode;
+    /* --------- Attributes ------------ */
 
+    // Constant postal code from previous view
+    String postalCode;
+    // Textfield containing postal code
     TextField pCode;
 
-//    TextField departureTime;
+    /* ----------- Methods ------------- */
 
     public MapView() {
         this.setHeight("100%");
@@ -38,8 +38,6 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
         Label startLabel = new Label("Starting Address: ");
 
         TextField text = new TextField();
-//        getParameterMap().get("param1");
-
 
         text.setPlaceholder("Input your starting address (EG 123 4th street East)");
         text.setWidth("500px");
@@ -55,15 +53,12 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
         HorizontalLayout transSelectLayout = new HorizontalLayout();
         Label transLabel = new Label("Method of Transportation: ");
 
-
         Select<String> transSelect = new Select<>("Walking", "Cycling", "Transit", "Driving");
         transSelect.setValue("Walking");
         transSelect.setLabel("Method of Transportation:");
         transSelect.setId("trans");
 
-
-//        todo: Implement departure time
-
+        // Time selection widget
         HorizontalLayout timeLayout = new HorizontalLayout();
 
         RadioButtonGroup<String> timeButtons = new RadioButtonGroup<>();
@@ -79,6 +74,7 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
         dtp.setStep(Duration.ofMinutes(15));
         dtp.setReadOnly(true);
 
+        // Radio button selection for time Picker clears and disallows custom departure entry when set to "Now"
         timeButtons.addValueChangeListener(event -> {
             if (timeButtons.getValue().equals("Now")) {
                 dtp.setReadOnly(true);
@@ -86,20 +82,16 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
             } else dtp.setReadOnly(false);
         });
 
-
         timeLayout.add(timeButtons);
-
 
         transSelectLayout.add(transSelect, timeButtons, dtp);
         transSelectLayout.setAlignItems(Alignment.CENTER);
 
-
         // Map view
         MapComponent map = new MapComponent();
 
-        // Information for bottom target address Hbox
+        // Information for bottom target postal cod
         HorizontalLayout targetAddress = new HorizontalLayout();
-
 
         Label dataLabel = new Label("Approximate post address: ");
 
@@ -109,12 +101,7 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
 
         targetAddress.add(dataLabel, pCode);
 
-
-
-
         add(startingAddress, transSelectLayout, map, targetAddress);
-
-
     }
 
     @Override
@@ -126,6 +113,5 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
         pCode.setValue(postalCode);
-
     }
 }

@@ -64,28 +64,17 @@ public class PostCreateView extends VerticalLayout {
 
     // Post type select (give away, looking for)
     Div postType = new Div();
-    Select<String> postTypeSelect = new Select<>();
-    postTypeSelect.setItems("giving away", "looking for");
-    postTypeSelect.setPlaceholder("giving or looking");
-    postTypeSelect.setLabel("Why are you posting?");
-    postTypeSelect.setRequiredIndicatorVisible(true);
+    Select<String> postTypeSelect = selectPostType();
     postTypeSelect.addValueChangeListener( e ->
             postType.setText(postTypeSelect.getValue()));
 
+
+
     // Title Field
-    TextField title = new TextField();
-    title.setLabel("Post Title");
-    title.setPlaceholder("Type here ...");
-    title.setMinWidth("600px");
-    title.setRequiredIndicatorVisible(true);
+    TextField title = postTitle();
 
     // Description Field
-    TextArea description = new TextArea();
-    description.setLabel("Description");
-    description.setPlaceholder("Type here ...");
-    description.setMinWidth("600px");
-    description.setMinHeight("200px");
-    description.setRequiredIndicatorVisible(true);
+    TextArea description = postDescription();
 
     // Postal Field
     Pattern postalRegex = Pattern.compile("[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]");
@@ -274,6 +263,49 @@ public class PostCreateView extends VerticalLayout {
           failedPosted.setOpened(true);
       }
 
+  }
+
+
+
+
+    /**
+     * Build select for the type of post
+     * @return select widget
+     */
+  private Select<String> selectPostType(){
+    Select<String> postTypeSelect = new Select<>();
+    postTypeSelect.setItems("giving away", "looking for");
+    postTypeSelect.setPlaceholder("giving or looking");
+    postTypeSelect.setLabel("Why are you posting?");
+    postTypeSelect.setRequiredIndicatorVisible(true);
+    return postTypeSelect;
+  }
+
+    /**
+     * Build title are for post create
+     * @return textfield title widget
+     */
+  private TextField postTitle(){
+      TextField title = new TextField();
+      title.setLabel("Post Title");
+      title.setPlaceholder("Type here ...");
+      title.setMinWidth("600px");
+      title.setRequiredIndicatorVisible(true);
+      return title;
+  }
+
+    /**
+     * Build Description for post create
+     * @return TextArea description widget
+     */
+  private TextArea postDescription(){
+    TextArea description = new TextArea();
+    description.setLabel("Description");
+    description.setPlaceholder("Type here ...");
+    description.setMinWidth("600px");
+    description.setMinHeight("200px");
+    description.setRequiredIndicatorVisible(true);
+    return description;
   }
 
   // Placeholder phone widget method

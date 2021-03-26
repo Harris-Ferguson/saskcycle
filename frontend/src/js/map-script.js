@@ -17,9 +17,7 @@ var map;
 // A list of every marker to be placed on the Google Map
 window.markers = [];
 
-
 /* --------- Initialization Script ---------- */
-
 
 /* Uses callback function to set up event handling for route planning, Attach to winder*/
 window.initMap = function(){

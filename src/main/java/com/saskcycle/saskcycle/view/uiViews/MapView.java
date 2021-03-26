@@ -3,6 +3,7 @@ package com.saskcycle.saskcycle.view.uiViews;
 import com.saskcycle.saskcycle.view.components.MapComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
 
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.html.Label;
@@ -93,13 +94,16 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
         // Information for bottom target postal cod
         HorizontalLayout targetAddress = new HorizontalLayout();
 
-        Label dataLabel = new Label("Approximate post address: ");
+        Label dataLabel = new Label("Approximate Post Address*");
 
         pCode = new TextField();
         pCode.setId("sCoords");
         pCode.setReadOnly(true);
 
-        targetAddress.add(dataLabel, pCode);
+        Text warning = new Text("  *Destination addresses are approximate to protect user confidentiality." +
+                "\nFor full destination address, contact the user.");
+
+        targetAddress.add(dataLabel, pCode, warning);
 
         add(startingAddress, transSelectLayout, map, targetAddress);
     }

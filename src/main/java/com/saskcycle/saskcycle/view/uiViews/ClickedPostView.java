@@ -91,32 +91,25 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         sidePanel.setAlignItems(Alignment.CENTER);
 
         sidePanel.setWidth("400px");
-        //location = new H4();
         postTime = new H4();
-        //sidePanel.getStyle().set("border", "1px solid #eeeeee");
-//        Button mapButton = new Button("Show the map", new Icon(VaadinIcon.MAP_MARKER));
-//        mapButton.addClickListener(e -> {
-//            UI.getCurrent().getPage().reload();
-//        });
-//        mapButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-//        mapButton.addClassName("map-button");
-//        HorizontalLayout heading2 = new HorizontalLayout(title2, mapButton);
+        sidePanel.getStyle().set("border", "1px solid #eeeeee");
         heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
 
-        Button goToRouteButton = new Button("Get Route Plan");
+        Button goToRouteButton = new Button("Get Route Plan", new Icon(VaadinIcon.MAP_MARKER));
+        goToRouteButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
         // Constructing a post view based on what's clicked is still under construction
         goToRouteButton.addClickListener(event -> {
             getUI().ifPresent(ui -> ui.navigate(MapView.class, post.getPostalCode()));
             UI.getCurrent().getPage().reload();
         });
-        // TODO: Matthew's story
         H4 contact = new H4("For more information, contact test_email@email.com");
 
         VerticalLayout desc = new VerticalLayout();
         desc.add(paragraph);
         desc.setWidth("600px");
 
-        sidePanel.add(wishlistButton,/*mapButton,*/showMap(), goToRouteButton, postTime, contact);
+        sidePanel.add(wishlistButton, showMap(), goToRouteButton, postTime, contact);
 
         add(new HorizontalLayout(new VerticalLayout(title, desc), sidePanel));
     }
@@ -128,39 +121,10 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         mapContainer.setHeight("400px");
         mapContainer.setWidth("400px");
         map = new MapComponent();
-
-//        latitude = post.latitude;
-//        longitude = post.longitude;
-//        map.addMarker(latitude, longitude, text);
         mapContainer.add(map);
         return mapContainer;
 
     }
-
-    /**
-     * Resets the UI depending on what post was clicked
-     * @param afterNavigationEvent
-     */
-//    @Override
-//    public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
-//
-//        post = SC.getPostByID(id);
-//        title.setText(post.title);
-//        paragraph.setText(post.description);
-//        latitude = post.latitude;
-//        longitude = post.longitude;
-//
-//        //location.setText(post.location);
-//        title.setText(post.getTitle());
-//        paragraph.setText(post.getDescription());
-////        location.setText(post.getPostalCode());
-//        postTime.setText("Posted at " + new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a").format(post.datePosted));
-//
-//        System.out.println(latitude + " " + longitude);
-////        map.addMarker(latitude, longitude, text);
-//        map = new MapComponent(latitude, longitude, "Label");
-//        add(map);
-//    }
 
     /**
      * Sets the ID of the post that was clicked
@@ -174,20 +138,16 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
+        // Assign all attributes from posts to view
         post = SC.getPostByID(id);
         title.setText(post.title);
         paragraph.setText(post.description);
         latitude = post.latitude;
         longitude = post.longitude;
-
-        //location.setText(post.location);
         title.setText(post.getTitle());
         paragraph.setText(post.getDescription());
-//        location.setText(post.getPostalCode());
-        postTime.setText("Posted at " + new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a").format(post.datePosted));
-
-//        System.out.println(latitude + " " + longitude);
-//        map.addMarker(latitude, longitude, text);
+        postTime.setText("Posted at "
+                + new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a").format(post.datePosted));
         map = new MapComponent(latitude, longitude, "Label");
         add(map);
     }

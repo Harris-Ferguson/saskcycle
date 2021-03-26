@@ -116,12 +116,11 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         if(post.isContactEmailPresent()) {
             if(post.isPublic()){
                 email.setText("For more information, contact:" + post.getContactEmail());
-                System.out.println(account.getCurrentAccount().getRole());
             }
             // TODO: Check current user role to make sure only accounts can see email if post is marked as such
-            /*else if() {
+            if(SecurityUtils.isUserLoggedIn()) {
                     emailPrivate(post);
-            }*/
+            }
         }
 
     }

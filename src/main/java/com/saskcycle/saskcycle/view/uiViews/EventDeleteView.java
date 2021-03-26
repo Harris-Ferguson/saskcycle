@@ -7,13 +7,15 @@ import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.view.components.DeleteEventPreviewComponent;
 import com.saskcycle.saskcycle.view.components.EventComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.charts.model.Dial;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -42,11 +44,10 @@ public class EventDeleteView extends VerticalLayout {
 
         Grid<Post> newGrid = initGrid();
         newGrid.addItemClickListener(event -> {
-            System.out.println(event.getItem().title);
             Event e = EC.getEventByTitle(event.getItem().title);
-            System.out.println(e.title);
 
-            Dialog dialog = showEventPreview(e);
+            //Dialog dialog = showEventPreview(e);
+            Dialog dialog = new DeleteEventPreviewComponent(e);
             dialog.open();
         });
 
@@ -58,7 +59,7 @@ public class EventDeleteView extends VerticalLayout {
 
         Grid<Post> newGrid = new Grid<>();
         newGrid.setItems(currentAccount.getCurrentAccount().getPosts());
-        newGrid.addComponentColumn(EventComponent::new);
+        newGrid.addComponentColumn(this::displayEvent);
 
         return newGrid;
 
@@ -71,10 +72,59 @@ public class EventDeleteView extends VerticalLayout {
         deleteEventButton.addClickListener(event -> {
             EC.deleteEvent(saskcycleEvent);
             currentAccount.deleteEvent(saskcycleEvent);
+            UI.getCurrent().getPage().reload();
         });
         d.add(deleteEventButton);
 
 
         return d;
+    }
+
+    private Div displayEvent(Post event) {
+
+        Div d = new Div();
+        H3 title = new H3(event.title);
+
+        Paragraph desc = new Paragraph(event.description);
+
+        title.addClassName("posts");
+        desc.addClassName("posts");
+
+        Button deleteEventButton = new Button("Delete this event");
+        deleteEventButton.addClickListener(e -> {
+            Dialog confirmDialog = confirmationDialog(event);
+            confirmDialog.open();
+//            EC.deleteEvent((Event) event);
+//            currentAccount.deleteEvent((Event) event);
+//            UI.getCurrent().getPage().reload();
+//            System.out.println(event.title);
+        });
+        d.add(deleteEventButton);
+
+        d. add(title, desc);
+
+        return d;
+    }
+
+    private Dialog confirmationDialog(Post event) {
+        Dialog confirmationDialog = new Dialog();
+
+        H2 question = new H2("Are you sure you want to delete this event?");
+        Button delButton = new Button("Delete");
+        Button cancelButton = new Button("Cancel");
+
+        delButton.addClickListener(e -> {
+            EC.deleteEvent((Event) event);
+            currentAccount.deleteEvent((Event) event);
+            UI.getCurrent().getPage().reload();
+        });
+
+        cancelButton.addClickListener(e -> {
+            confirmationDialog.close();
+        });
+
+        confirmationDialog.add(question, new HorizontalLayout(cancelButton, delButton));
+
+        return confirmationDialog;
     }
 }

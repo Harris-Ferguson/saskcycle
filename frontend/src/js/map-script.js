@@ -14,6 +14,7 @@ var map;
 
 window.markers = [];
 
+
 /* Uses callback function to set up event handling for route planning, Attach to winder*/
 window.initMap = function(){
 
@@ -41,7 +42,9 @@ window.initMap = function(){
     const eventHandler = function(){
         calculateAndDisplayRoute(dService, dRenderer);
     }
-    submitButton.addEventListener("click", eventHandler);
+    if (submitButton != null) submitButton.addEventListener("click", eventHandler);
+
+
 
 }
 

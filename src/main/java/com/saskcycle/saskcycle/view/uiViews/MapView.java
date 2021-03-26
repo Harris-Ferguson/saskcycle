@@ -2,6 +2,7 @@ package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.saskcycle.view.components.MapComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -10,12 +11,19 @@ import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.data.provider.DataProvider;
+import com.vaadin.flow.router.*;
 
 import java.time.Duration;
 
 @Route(value = "map", layout = MainLayout.class)
-public class MapView extends VerticalLayout /*implements HasUrlParameter<String>, AfterNavigationObserver*/{
+public class MapView extends VerticalLayout implements HasUrlParameter<String>, BeforeEnterObserver {
+
+    String postalCode;
+
+    boolean refresh = true;
+
+    TextField data;
 
     public MapView() {
         this.setHeight("100%");
@@ -27,6 +35,10 @@ public class MapView extends VerticalLayout /*implements HasUrlParameter<String>
         Label startLabel = new Label("Starting Address: ");
 
         TextField text = new TextField();
+//        getParameterMap().get("param1");
+
+
+
         text.setPlaceholder("Input your starting address (EG 123 4th street East)");
         text.setWidth("500px");
         text.setId("text");
@@ -85,21 +97,40 @@ public class MapView extends VerticalLayout /*implements HasUrlParameter<String>
         // Information for bottom target address Hbox
         HorizontalLayout targetAddress = new HorizontalLayout();
 
+
         Label dataLabel = new Label("Approximate post address: ");
 
-        TextField data = new TextField();
+        data = new TextField();
         data.setId("sCoords");
-        data.setValue("918 11th street east saskatoon");
         data.setReadOnly(true);
+
 
         targetAddress.add(dataLabel, data);
 
+//        System.out.println(map.getId());
         // Add components to view
         add(startingAddress, transSelectLayout, map, targetAddress);
 
+
+    }
+
+    @Override
+    public void setParameter(BeforeEvent beforeEvent, String pCode) {
+        postalCode = pCode;
     }
 
 
+    @Override
+    public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
+        data.setValue(postalCode/*"918 11th street east saskatoon"*/);
+
+    }
+
+//    @Override
+//    public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
+////        DataProvider.
+//    }
+}
 
 
     // Reimplement tomorrow
@@ -116,4 +147,4 @@ public class MapView extends VerticalLayout /*implements HasUrlParameter<String>
 //        lat = post.getLatitude();
 //    }
 //}
-}
+//}

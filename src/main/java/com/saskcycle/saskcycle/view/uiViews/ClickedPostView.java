@@ -27,7 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.text.SimpleDateFormat;
 
 @Route(value = "clickedPost", layout = ClickedPostLayout.class)
-public class ClickedPostView extends VerticalLayout implements HasUrlParameter<String>, AfterNavigationObserver {
+public class ClickedPostView extends VerticalLayout implements HasUrlParameter<String>, BeforeEnterObserver {
+
 
     private H1 title;
     private H1 title2;
@@ -93,15 +94,21 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         //location = new H4();
         postTime = new H4();
         //sidePanel.getStyle().set("border", "1px solid #eeeeee");
-        Button mapButton = new Button("Show the map", new Icon(VaadinIcon.MAP_MARKER));
-        mapButton.addClickListener(e -> {
-//            sidePanel.add(showMap());
+//        Button mapButton = new Button("Show the map", new Icon(VaadinIcon.MAP_MARKER));
+//        mapButton.addClickListener(e -> {
+//            UI.getCurrent().getPage().reload();
+//        });
+//        mapButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+//        mapButton.addClassName("map-button");
+//        HorizontalLayout heading2 = new HorizontalLayout(title2, mapButton);
+        heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
+
+        Button goToRouteButton = new Button("Get Route Plan");
+        // Constructing a post view based on what's clicked is still under construction
+        goToRouteButton.addClickListener(event -> {
+            getUI().ifPresent(ui -> ui.navigate(MapView.class, post.getPostalCode()));
             UI.getCurrent().getPage().reload();
         });
-        mapButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        mapButton.addClassName("map-button");
-        HorizontalLayout heading2 = new HorizontalLayout(title2, mapButton);
-        heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
         // TODO: Matthew's story
         H4 contact = new H4("For more information, contact test_email@email.com");
 
@@ -109,7 +116,7 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         desc.add(paragraph);
         desc.setWidth("600px");
 
-        sidePanel.add(wishlistButton,mapButton,showMap(), postTime, contact);
+        sidePanel.add(wishlistButton,/*mapButton,*/showMap(), goToRouteButton, postTime, contact);
 
         add(new HorizontalLayout(new VerticalLayout(title, desc), sidePanel));
     }
@@ -134,9 +141,39 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
      * Resets the UI depending on what post was clicked
      * @param afterNavigationEvent
      */
-    @Override
-    public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
+//    @Override
+//    public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
+//
+//        post = SC.getPostByID(id);
+//        title.setText(post.title);
+//        paragraph.setText(post.description);
+//        latitude = post.latitude;
+//        longitude = post.longitude;
+//
+//        //location.setText(post.location);
+//        title.setText(post.getTitle());
+//        paragraph.setText(post.getDescription());
+////        location.setText(post.getPostalCode());
+//        postTime.setText("Posted at " + new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a").format(post.datePosted));
+//
+//        System.out.println(latitude + " " + longitude);
+////        map.addMarker(latitude, longitude, text);
+//        map = new MapComponent(latitude, longitude, "Label");
+//        add(map);
+//    }
 
+    /**
+     * Sets the ID of the post that was clicked
+     * @param beforeEvent the event preceding afterNavition time (Vaadin Construct)
+     * @param postId clicked post's id number
+     */
+    @Override
+    public void setParameter(BeforeEvent beforeEvent, String postId) {
+        id = postId;
+    }
+
+    @Override
+    public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
         post = SC.getPostByID(id);
         title.setText(post.title);
         paragraph.setText(post.description);
@@ -149,19 +186,9 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
 //        location.setText(post.getPostalCode());
         postTime.setText("Posted at " + new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a").format(post.datePosted));
 
-        System.out.println(latitude + " " + longitude);
+//        System.out.println(latitude + " " + longitude);
 //        map.addMarker(latitude, longitude, text);
         map = new MapComponent(latitude, longitude, "Label");
         add(map);
-    }
-
-    /**
-     * Sets the ID of the post that was clicked
-     * @param beforeEvent
-     * @param postId clicked post's id number
-     */
-    @Override
-    public void setParameter(BeforeEvent beforeEvent, String postId) {
-        id = postId;
     }
 }

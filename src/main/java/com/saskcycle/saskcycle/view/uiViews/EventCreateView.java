@@ -48,6 +48,8 @@ public class EventCreateView extends VerticalLayout {
 
     PostalCodeComponent postalCodeField;
 
+    private TextArea description;
+
     public EventCreateView() {
 
         // cancel button
@@ -64,7 +66,7 @@ public class EventCreateView extends VerticalLayout {
         VerticalLayout address = addressFields();
 
         // Description Field
-        TextArea description = new TextArea();
+        description = new TextArea();
         description.setLabel("Description");
         description.setPlaceholder("Type here ...");
         description.setMinWidth("600px");

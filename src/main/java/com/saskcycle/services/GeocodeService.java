@@ -40,21 +40,10 @@ public class GeocodeService implements Serializable {
     }
 
     private void makeRequest(String requestUrlString) throws JSONException {
-        URL request;
         JSONArray array;
         try {
             // Connects to geocoder service
-            request = new URL(baseUrl + requestUrlString);
-            HttpURLConnection connection = (HttpURLConnection) request.openConnection();
-            connection.setRequestMethod("GET");
-            connection.connect();
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-            in.close();
+            StringBuffer content = getHttpRequest(requestUrlString);
             array = new JSONArray(content.toString());
             JSONArray coords = array.getJSONObject(0).getJSONObject("geometry").getJSONArray("coordinates");
             setLat(Double.parseDouble(coords.get(0).toString()));
@@ -66,6 +55,22 @@ public class GeocodeService implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private StringBuffer getHttpRequest(String requestUrlString) throws IOException {
+        URL request;
+        request = new URL(baseUrl + requestUrlString);
+        HttpURLConnection connection = (HttpURLConnection) request.openConnection();
+        connection.setRequestMethod("GET");
+        connection.connect();
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuffer content = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+        in.close();
+        return content;
     }
 
     /**

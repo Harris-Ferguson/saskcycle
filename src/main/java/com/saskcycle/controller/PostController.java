@@ -4,6 +4,7 @@ import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.DAO.PostsDAOInterface;
 import com.saskcycle.model.Post;
 import com.saskcycle.services.GeocodeService;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -82,7 +83,11 @@ public class PostController implements Serializable {
     }
 
     public void setPostPostalCode(String postal) {
-        geocodeService.geolocationFromPostalCode(postal);
+        try {
+            geocodeService.geolocationFromPostalCode(postal);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         currentPost.setLatitude(geocodeService.getLat());
         currentPost.setLongitude(geocodeService.getLon());
         currentPost.setPostalCode(postal);

@@ -17,7 +17,6 @@ public class GeocodeService implements Serializable {
     /* --------- Attributes ------------ */
     // JSON object containing latitude/longitude
     String baseUrl = "http://geogratis.gc.ca/services/geolocation/en/locate?q=";
-    private JSONObject response;
     private double lat;
     private double lon;
 
@@ -30,17 +29,17 @@ public class GeocodeService implements Serializable {
      * Sets the lat and lon fields in this object
      * @param postalCode valid canadian postal code
      */
-    public void geolocationFromPostalCode(String postalCode) {
+    public void geolocationFromPostalCode(String postalCode) throws JSONException {
         postalCode = URLEncoder.encode(postalCode.trim().toLowerCase(Locale.ROOT), StandardCharsets.UTF_8);
         makeRequest(postalCode);
     }
 
-    public void geolocationFromStreetAddress(String address){
+    public void geolocationFromStreetAddress(String address) throws JSONException {
         String encodedAddress = URLEncoder.encode(address + " Saskatoon Saskatchewan", StandardCharsets.UTF_8);
         makeRequest(encodedAddress);
     }
 
-    private void makeRequest(String requestUrlString) {
+    private void makeRequest(String requestUrlString) throws JSONException {
         URL request;
         JSONArray array;
         try {
@@ -65,8 +64,6 @@ public class GeocodeService implements Serializable {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
@@ -98,17 +95,5 @@ public class GeocodeService implements Serializable {
 
     private void setLon(double lon) {
         this.lon = lon;
-    }
-
-    /**
-     * Test
-     * @param args not used
-     */
-    public static void main(String[] args) {
-        GeocodeService ser = new GeocodeService();
-        ser.geolocationFromPostalCode("S7H2T2");
-        System.out.println(ser.lat + " " + ser.lon);
-        ser.geolocationFromStreetAddress("1613 grosvenor ave");
-        System.out.println(ser.lat + " " + ser.lon);
     }
 }

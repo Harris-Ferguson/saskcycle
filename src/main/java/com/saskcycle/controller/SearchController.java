@@ -7,6 +7,7 @@ import com.saskcycle.model.Business;
 import com.saskcycle.model.Post;
 import com.saskcycle.model.PostDistancePair;
 import com.saskcycle.services.GeocodeService;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -207,7 +208,11 @@ public class SearchController implements Serializable {
     private List<PostDistancePair> getPostDistancePairs(List<Post> posts, String userLocation) {
         List<PostDistancePair> sorted = new ArrayList<>();
         GeocodeService geocodeService = new GeocodeService();
-        geocodeService.geolocationFromPostalCode(userLocation);
+        try {
+            geocodeService.geolocationFromPostalCode(userLocation);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         for (Post post : posts) {
             double distance = geocodeService.distance(post.getLatitude(), post.getLongitude());
             sorted.add(new PostDistancePair(post, distance));

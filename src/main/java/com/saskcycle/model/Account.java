@@ -19,17 +19,11 @@ public class Account extends User {
 
   private String email;
 
-  private String role;
-
   private ArrayList<String> wishlist;
 
   private ArrayList<String> postIds;
 
   private ArrayList<String> eventIds;
-
-  private double userRating;
-
-  private ArrayList<Notification> notifications;
 
   private UserNotificationSettings notificationSettings =
       new UserNotificationSettings(false, false);
@@ -42,21 +36,15 @@ public class Account extends User {
       Collection<? extends GrantedAuthority> authorities,
       String id,
       String email,
-      String role,
       ArrayList<String> wishlist,
       ArrayList<String> postIds,
-      ArrayList<String> eventIds,
-      double userRating,
-      ArrayList<Notification> notifications) {
+      ArrayList<String> eventIds) {
     super(username, password, authorities);
     this.id = id;
     this.email = email;
-    this.role = role;
     this.wishlist = wishlist;
     this.postIds = postIds;
     this.eventIds = eventIds;
-    this.userRating = userRating;
-    this.notifications = notifications;
   }
 
   @PersistenceConstructor
@@ -67,7 +55,6 @@ public class Account extends User {
   public Account(
       String username,
       String password,
-      String role,
       boolean enabled,
       boolean accountNonExpired,
       boolean credentialsNonExpired,
@@ -86,10 +73,7 @@ public class Account extends User {
         accountNonLocked,
         authorities);
     this.id = id;
-    this.role = role;
     this.email = email;
-    this.userRating = 0;
-    this.notifications = new ArrayList<>();
     this.wishlist = new ArrayList<>();
     this.postIds = new ArrayList<>();
     this.eventIds = new ArrayList<>();
@@ -102,12 +86,9 @@ public class Account extends User {
                 user.getAuthorities(),
                 Integer.toString(user.hashCode()),
                 email,
-                "USER",
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>(),
-                0.0,
-                new ArrayList<Notification>()
+                new ArrayList<String>(),
+                new ArrayList<String>(),
+                new ArrayList<String>()
         );
     }
 
@@ -120,18 +101,6 @@ public class Account extends User {
   public ArrayList<String> getEventIds()
   {
     return eventIds;
-  }
-
-  public double getUserRating() {
-    return userRating;
-  }
-
-  public void setUserRating(double userRating) {
-    this.userRating = userRating;
-  }
-
-  public String getRole() {
-    return role;
   }
 
   public String getEmail() {
@@ -148,10 +117,6 @@ public class Account extends User {
 
   public void setId(String id) {
     this.id = id;
-  }
-
-  public ArrayList<Notification> getNotifications() {
-    return notifications;
   }
 
   public ArrayList<String> getWishlist() {

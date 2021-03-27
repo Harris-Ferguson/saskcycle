@@ -8,7 +8,6 @@ import com.vaadin.flow.router.*;
 
 @Route(value = "login")
 @PageTitle("SaskCycle | Login")
-@CssImport(value = "./styles/LoginViewStyles.css", themeFor = "vaadin-login-form-wrapper")
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
   private final LoginForm form = new LoginForm();

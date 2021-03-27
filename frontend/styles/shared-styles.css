@@ -114,3 +114,7 @@ a[highlight] {
 .sub {
 text-align: center;
 }
+
+.nav-link {
+    color: black;
+}

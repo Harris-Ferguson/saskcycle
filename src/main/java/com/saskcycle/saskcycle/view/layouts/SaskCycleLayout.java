@@ -22,8 +22,15 @@ public abstract class SaskCycleLayout extends AppLayout {
     if(SecurityUtils.isOrgUser()){
       eventCreateLink = new RouterLink("Events", EventDeleteView.class);
     }
-    RouterLink wishListLink = new RouterLink("savedPosts", WishlistView.class);
+    RouterLink wishListLink = new RouterLink("Wishlist", WishlistView.class);
     //accountLink.setHighlightCondition(HighlightConditions.sameLocation());
+
+    postLink.addClassName("nav-link");
+    settingsLink.addClassName("nav-link");
+    eventCreateLink.addClassName("nav-link");
+    wishListLink.addClassName("nav-link");
+
+
 
     addToDrawer(new VerticalLayout(postLink, settingsLink,wishListLink,eventCreateLink));
     setDrawerOpened(false);

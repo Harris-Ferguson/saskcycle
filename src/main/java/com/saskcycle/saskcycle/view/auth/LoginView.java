@@ -1,11 +1,12 @@
 package com.saskcycle.saskcycle.view.auth;
 
+import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 
-@Route(value = "login")
+@Route(value = "login", layout = MainLayout.class)
 @PageTitle("SaskCycle | Login")
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
@@ -21,9 +22,11 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     setAlignItems(Alignment.CENTER);
     setJustifyContentMode(JustifyContentMode.CENTER);
 
+
     form.setAction("login");
 
-    add(new H1("Sask Cycle Login"), form, new RouterLink("Register", RegisterView.class));
+    add(new H1("SaskCycle Login"), form, new RouterLink("Register", RegisterView.class));
+
   }
 
   @Override

@@ -203,6 +203,7 @@ public class SearchResultsView extends VerticalLayout {
         });
     // Reset listings
     Button resetButton = new Button("Reset filters");
+    resetButton.setWidth("190px");
     resetButton.addClassName("reset-button");
     resetButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     resetButton.addClickListener(
@@ -222,6 +223,7 @@ public class SearchResultsView extends VerticalLayout {
 
       numberField = new NumberField();
       numberField.setLabel("Go to page:");
+      numberField.setWidth("190px");
       numberField.setValue(1d);
       numberField.setHasControls(true);
       numberField.setMin(1);
@@ -231,7 +233,7 @@ public class SearchResultsView extends VerticalLayout {
                   grid.setItems(SC.getPageOfPosts(numberField.getValue()));
               });
 
-    filterGroup.add(useSelect, sortSelect, includeGroup, excludeGroup, postChoice, numberField);
+    filterGroup.add(useSelect, sortSelect, postChoice, includeGroup, excludeGroup, resetButton, numberField);
     return filterGroup;
   }
 

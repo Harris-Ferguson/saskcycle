@@ -13,41 +13,40 @@ public class PostsDAO implements PostsDAOInterface {
     /* --------- Attributes --------- */
 
     @Autowired
-    private final PostsRepo PR;
+    private final PostsRepo postsRepository;
 
 
     /* ---------   Methods  ---------- */
     public PostsDAO(PostsRepo repo) {
-        this.PR = repo;
+        this.postsRepository = repo;
     }
 
     @Override
     public List<Post> AllPosts() {
-        return PR.findAll();
+        return postsRepository.findAll();
     }
 
     @Override
     public Post searchByID(String id) {
-        return PR.searchById(id);
+        return postsRepository.searchById(id);
     }
 
     @Override
     public void addPost(Post post) {
-        PR.insert(post);
+        postsRepository.insert(post);
     }
 
     public void updatePost(Post post) {
-        deletePost(searchByID(post.id));
-        addPost(post);
+        postsRepository.save(post);
     }
 
     @Override
     public void deletePost(Post post) {
-        PR.delete(post);
+        postsRepository.delete(post);
     }
 
     @Override
     public List<Post> findByIds(List<String> ids) {
-        return PR.findByIdIn(ids);
+        return postsRepository.findByIdIn(ids);
     }
 }

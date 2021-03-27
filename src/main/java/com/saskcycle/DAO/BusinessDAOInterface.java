@@ -9,23 +9,14 @@ import java.util.List;
 
 public interface BusinessDAOInterface {
 
+  /**
+   * Add a business to the database
+   * @param business business to add
+   * @return the added business
+   */
+  Business addBusiness(Business business);
+
   List<Business> AllPosts();
-
-  Business searchByID(String id);
-
-  ArrayList<Business> searchByKeywordFiltered(String keyword, String tag);
-
-  ArrayList<Business> searchByLocation(String location);
-
-  ArrayList<Business> searchByLocationFiltered(String location);
-
-  ArrayList<Business> searchByRecentFiltered(Date date, String Tag);
-
-  ArrayList<Business> searchByRecent(Date date);
-
-  Post addBusiness(Business business);
-
-  void deleteBusiness(Business business);
 
   /**
    * Find all business that take in items based on inputted tag

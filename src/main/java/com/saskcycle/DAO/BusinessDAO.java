@@ -30,40 +30,6 @@ public class BusinessDAO implements BusinessDAOInterface {
     return BR.findAll();
   }
 
-  // ToDo
-  public Business searchByID(String id) {
-    return null;
-  }
-  // ToDo
-  @Override
-  public ArrayList<Business> searchByKeywordFiltered(String keyword, String tag) {
-    return null;
-  }
-
-  // ToDo
-  @Override
-  public ArrayList<Business> searchByLocation(String location) {
-    return null;
-  }
-
-  // ToDo
-  @Override
-  public ArrayList<Business> searchByLocationFiltered(String location) {
-    return null;
-  }
-
-  // ToDo
-  @Override
-  public ArrayList<Business> searchByRecentFiltered(Date date, String Tag) {
-    return null;
-  }
-
-  // ToDo
-  @Override
-  public ArrayList<Business> searchByRecent(Date date) {
-    return null;
-  }
-
   /**
    * Adds a business object into the Database
    *

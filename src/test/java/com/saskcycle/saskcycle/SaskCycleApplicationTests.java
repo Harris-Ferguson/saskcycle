@@ -97,6 +97,39 @@ class SaskCycleApplicationTests {
 //    Assertions.assertEquals(2, bL.size());
 //  }
 
+//  void searchByTagTests() {
+//
+//    List<Business> bL = SC.getAllBusinessesByTag("Clothing");
+//    for (Business b : bL) {
+//      System.out.println(b.toString());
+//    }
+//    // three stores with clothing tags in DB
+//    Assertions.assertEquals(3, bL.size());
+//    bL.clear();
+//
+//    bL = SC.getAllBusinessesByTag("Metal");
+//    for (Business b : bL) {
+//      System.out.println(b.toString());
+//    }
+//    // One business with metal tags in DB
+//    Assertions.assertEquals(1, bL.size());
+//    bL.clear();
+//
+//    // serach for tag that does not exist
+//    bL = SC.getAllBusinessesByTag("clothes");
+//    Assertions.assertEquals(0, bL.size());
+//  }
+//
+//  @Test
+//  @DisplayName("Search for All businesses in DB")
+//  void getAllBusinesses() {
+//    List<Post> bL = SC.getAllBusinesses();
+//    for (Post b : bL) {
+//      System.out.println(b.toString());
+//    }
+//    Assertions.assertEquals(5, bL.size());
+//  }
+
   //todo
   // Write tests for model objects
   // Write tests for adding and removing businesses/posts from database (as opposed to hardcoding results, checkmembership?

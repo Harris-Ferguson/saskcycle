@@ -10,17 +10,17 @@ import com.vaadin.flow.router.*;
 @PageTitle("SaskCycle | Login")
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
-  private final LoginForm form = new LoginForm();
+    private final LoginForm form = new LoginForm();
 
-  public LoginView() {
-    createLoginForm();
-  }
+    public LoginView() {
+        createLoginForm();
+    }
 
-  private void createLoginForm() {
-    addClassName("login-view");
-    setSizeFull();
-    setAlignItems(Alignment.CENTER);
-    setJustifyContentMode(JustifyContentMode.CENTER);
+    private void createLoginForm() {
+        addClassName("login-view");
+        setSizeFull();
+        setAlignItems(Alignment.CENTER);
+        setJustifyContentMode(JustifyContentMode.CENTER);
 
 
     form.setAction("login");
@@ -29,10 +29,10 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
   }
 
-  @Override
-  public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-    if (beforeEnterEvent.getLocation().getQueryParameters().getParameters().containsKey("error")) {
-      form.setError(true);
+    @Override
+    public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
+        if (beforeEnterEvent.getLocation().getQueryParameters().getParameters().containsKey("error")) {
+            form.setError(true);
+        }
     }
-  }
 }

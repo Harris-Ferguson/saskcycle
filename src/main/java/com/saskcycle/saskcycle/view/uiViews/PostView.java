@@ -61,7 +61,6 @@ public class PostView extends VerticalLayout {
     newGrid.addComponentColumn( item -> createEditButton(grid,item)).setWidth("100px");
     newGrid.addComponentColumn( item -> createDeleteButton(grid,item)).setWidth("100px");
 
-
     return newGrid;
   }
 
@@ -75,7 +74,7 @@ public class PostView extends VerticalLayout {
     });
     return button;
 
-  }
+    }
 
   private Button createDeleteButton(Grid<Post> grid, Post post){
     postController.setCurrentInspectedPost(post);

@@ -2,7 +2,6 @@ package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.saskcycle.view.components.MapComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
-
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -36,60 +35,34 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
 
         // Search bar, transportation selection, and corresponding submit button
         HorizontalLayout startingAddress = new HorizontalLayout();
-
         Label startLabel = new Label("Starting Address: ");
-
-        TextField text = new TextField();
-
-        text.setPlaceholder("Input your starting address (EG 123 4th street East)");
-        text.setWidth("500px");
-        text.setId("text");
-
-        Button submitStart = new Button("Get Route");
-        submitStart.setId("submitStart");
-        submitStart.setWidth("150px");
-        startingAddress.add(startLabel, text);
-        startingAddress.setAlignItems(Alignment.CENTER);
-        submitStart.addClassName("reset-button");
-        submitStart.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        TextField text = createStartingPlaceholderText();
+        Button submitStart = createSubmitStart(startingAddress, startLabel, text);
 
         // Selection for method of transportation (default walking)
         HorizontalLayout transSelectLayout = new HorizontalLayout();
         Label transLabel = new Label("Method of Transportation: ");
 
-        Select<String> transSelect = new Select<>("Walking", "Cycling", "Transit", "Driving");
-        transSelect.setValue("Walking");
-        transSelect.setLabel("Method of Transportation:");
-        transSelect.setId("trans");
+        Select<String> transSelect = createTransportationSelector();
 
         // Time selection widget
         HorizontalLayout timeLayout = new HorizontalLayout();
 
-        RadioButtonGroup<String> timeButtons = new RadioButtonGroup<>();
-        timeButtons.setId("timeButton");
-        timeButtons.setItems("Now", "Custom Time");
-        timeButtons.setValue("Now");
-        timeButtons.setLabel("Departure Time:");
+        RadioButtonGroup<String> timeButtons = createTimeSelectorButton();
 
-        DateTimePicker dtp = new DateTimePicker();
-        dtp.setId("timePick");
-        dtp.setDatePlaceholder("Date");
-        dtp.setTimePlaceholder("Time");
-        dtp.setStep(Duration.ofMinutes(15));
-        dtp.setReadOnly(true);
-
+        DateTimePicker dateTimePicker = createDateTimePicker();
         // Radio button selection for time Picker clears and disallows custom departure entry when set to "Now"
         timeButtons.addValueChangeListener(event -> {
             if (timeButtons.getValue().equals("Now")) {
-                dtp.setReadOnly(true);
-                dtp.clear();
-            } else dtp.setReadOnly(false);
+                dateTimePicker.setReadOnly(true);
+                dateTimePicker.clear();
+            } else dateTimePicker.setReadOnly(false);
         });
 
         timeLayout.add(timeButtons);
 
 
-        transSelectLayout.add(transSelect, timeButtons, dtp, submitStart);
+        transSelectLayout.add(transSelect, timeButtons, dateTimePicker, submitStart);
         transSelectLayout.setAlignItems(Alignment.BASELINE);
 
         // Map view
@@ -111,6 +84,53 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
         targetAddress.setAlignItems(Alignment.BASELINE);
 
         add(startingAddress, transSelectLayout, map, targetAddress, warning);
+    }
+
+    private DateTimePicker createDateTimePicker() {
+        DateTimePicker dtp = new DateTimePicker();
+        dtp.setId("timePick");
+        dtp.setDatePlaceholder("Date");
+        dtp.setTimePlaceholder("Time");
+        dtp.setStep(Duration.ofMinutes(15));
+        dtp.setReadOnly(true);
+        return dtp;
+    }
+
+    private RadioButtonGroup<String> createTimeSelectorButton() {
+        RadioButtonGroup<String> timeButtons = new RadioButtonGroup<>();
+        timeButtons.setId("timeButton");
+        timeButtons.setItems("Now", "Custom Time");
+        timeButtons.setValue("Now");
+        timeButtons.setLabel("Departure Time:");
+        return timeButtons;
+    }
+
+    private Select<String> createTransportationSelector() {
+        Select<String> transSelect = new Select<>("Walking", "Cycling", "Transit", "Driving");
+        transSelect.setValue("Walking");
+        transSelect.setLabel("Method of Transportation:");
+        transSelect.setId("trans");
+        return transSelect;
+    }
+
+    private TextField createStartingPlaceholderText() {
+        TextField text = new TextField();
+
+        text.setPlaceholder("Input your starting address (EG 123 4th street East)");
+        text.setWidth("500px");
+        text.setId("text");
+        return text;
+    }
+
+    private Button createSubmitStart(HorizontalLayout startingAddress, Label startLabel, TextField text) {
+        Button submitStart = new Button("Get Route");
+        submitStart.setId("submitStart");
+        submitStart.setWidth("150px");
+        startingAddress.add(startLabel, text);
+        startingAddress.setAlignItems(Alignment.CENTER);
+        submitStart.addClassName("reset-button");
+        submitStart.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        return submitStart;
     }
 
     @Override

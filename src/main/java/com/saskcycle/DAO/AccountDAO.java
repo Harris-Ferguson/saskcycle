@@ -69,15 +69,15 @@ public class AccountDAO implements UserDAOInterface {
         UAR.delete(account);
     }
 
-  @Override
-  public ArrayList<String> getPosts(Account account) {
-    return account.getPostIds();
-  }
+    @Override
+    public ArrayList<String> getPosts(Account account) {
+        return account.getPostIds();
+    }
 
-  @Override
-  public ArrayList<String> getWishlist(Account account) {
-    return account.getWishlist();
-  }
+    @Override
+    public ArrayList<String> getWishlist(Account account) {
+        return account.getWishlist();
+    }
 
     @Override
     public void removePost(Post post, Account account) {
@@ -85,11 +85,11 @@ public class AccountDAO implements UserDAOInterface {
         UAR.save(account);
     }
 
-  @Override
-  public void addPost(Post post, Account account) {
-    account.getWishlist().add(post.id);
-    UAR.save(account);
-  }
+    @Override
+    public void addPost(Post post, Account account) {
+        account.getWishlist().add(post.id);
+        UAR.save(account);
+    }
 
     @Override
     public boolean accountExists(Account account) {

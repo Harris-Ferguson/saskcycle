@@ -1,5 +1,6 @@
 package com.saskcycle.controller;
 
+import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.DAO.UserDAOInterface;
 import com.saskcycle.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class AccountController {
 
     @Autowired
     private UserDAOInterface userDataAccess;
+
+    @Autowired
+    private CurrentUserDAOInterface currentUserDataAccess;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -50,12 +54,23 @@ public class AccountController {
         return User.withUsername(username).password(encodedPass).roles(roles).build();
     }
 
-
     private void register(UserDetails user, String email) {
         Account account = Account.makeAccountFromUser(user, email);
         if (userDataAccess.accountExists(account)) {
             throw new IllegalArgumentException("Account already exists");
         }
         userDataAccess.addAccount(account);
+    }
+
+    public Account getCurrentAccount() {
+        return currentUserDataAccess.getCurrentAccount();
+    }
+
+    public void updateWishlist(String id) {
+        currentUserDataAccess.updateWishlist(id);
+    }
+
+    public void updateEvents(String id) {
+        currentUserDataAccess.updateEvents(id);
     }
 }

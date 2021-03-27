@@ -73,6 +73,9 @@ public class EditPostView extends AbstractPostForm implements HasUrlParameter<St
     }
 
     @Override
+    protected void setPageTitle(){ pageTitle = "Edit Post";}
+
+    @Override
     protected void updateUserPostList() {
 
     }

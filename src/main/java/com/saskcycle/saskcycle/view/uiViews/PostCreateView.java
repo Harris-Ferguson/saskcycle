@@ -61,6 +61,9 @@ public class PostCreateView extends AbstractPostForm {
     }
 
     @Override
+    protected void setPageTitle(){ pageTitle = "Create Post";}
+
+    @Override
     protected void updateUserPostList() {
         currentAccount.updateCreatedPostList(postController.getPostID());
     }

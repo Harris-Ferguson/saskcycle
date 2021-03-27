@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
 public abstract class AbstractPostForm extends VerticalLayout {
     protected String successMessage;
     protected String failureMessage;
+    protected String pageTitle;
     protected final TextField title = new TextField();
     protected final TextArea description = new TextArea();
     protected final MultiSelectListBox<String> tags = new MultiSelectListBox<>();
@@ -57,6 +58,7 @@ public abstract class AbstractPostForm extends VerticalLayout {
     public void AbstractPostForm() {
         setSuccessMessage();
         setFailureMessage();
+        setPageTitle();
         setInspectedPost();
 
         Button returnButton = createReturnButton();
@@ -121,7 +123,7 @@ public abstract class AbstractPostForm extends VerticalLayout {
         HorizontalLayout InfoPanel = new HorizontalLayout(LeftInfoPanel, RightInfoPanel);
 
         // Header of post creation
-        HorizontalLayout Header = new HorizontalLayout(returnButton, new H1("Create Post"), postTypeSelect);
+        HorizontalLayout Header = new HorizontalLayout(returnButton, new H1(pageTitle), postTypeSelect);
         Header.setAlignItems(Alignment.CENTER);
 
         /**
@@ -217,6 +219,8 @@ public abstract class AbstractPostForm extends VerticalLayout {
     protected abstract void setSuccessMessage();
 
     protected abstract void setFailureMessage();
+
+    protected abstract void setPageTitle();
 
     protected abstract void updateUserPostList();
 

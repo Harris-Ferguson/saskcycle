@@ -13,13 +13,6 @@ public interface BusinessDAOInterface {
 
   Business searchByID(String id);
 
-  /***
-   * Gets all Business posts containing a keyword in the description or title
-   * @param keyword: A string the user wishes to search by
-   * @return a list of posts containing the keyphrase specified by the searcher
-   */
-  List<Business> getAllBusinessesByKeyword(String keyword);
-
   ArrayList<Business> searchByKeywordFiltered(String keyword, String tag);
 
   ArrayList<Business> searchByLocation(String location);

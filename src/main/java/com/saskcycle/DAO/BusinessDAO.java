@@ -105,21 +105,6 @@ public class BusinessDAO implements BusinessDAOInterface {
     return BR.findByTitle(title);
   }
 
-  /***
-   * Gets all Business posts containing a keyword in the description or title
-   * @param keyword: A string the user wishes to search by
-   * @return a list of posts containing the keyphrase specified by the searcher
-   */
-  public List<Business> getAllBusinessesByKeyword(String keyword) {
-    List<Business> filteredBusinesses = new ArrayList<>();
-    for (Business b : BR.findAll()) {
-      // Checks if case insensitive keyword is in title or description
-      if (b.title.toLowerCase().contains(keyword.toLowerCase())
-          || b.description.toLowerCase().contains(keyword.toLowerCase())) filteredBusinesses.add(b);
-    }
-    return filteredBusinesses;
-  }
-
   /**
    * Method to get all business posts from the database
    *

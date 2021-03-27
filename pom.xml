@@ -14,7 +14,6 @@
 	<name>saskcycle</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>14.0.1</java.version>
 		<vaadin.version>14.4.8</vaadin.version>
 	</properties>
 
@@ -190,7 +189,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
+				<version>3.7.0</version>
 				<configuration>
 					<source>14</source>
 					<target>14</target>

@@ -218,7 +218,6 @@ public class SearchController implements Serializable {
    * @return a list of every post in the database containing that tag
    */
   public List<Business> getAllBusinessesByTag(String tag) {
-
     return businessDataAccess.getAllBusinessesByTags(tag);
   }
 
@@ -228,7 +227,6 @@ public class SearchController implements Serializable {
    * @return a list of posts containing the keyphrase specified by the searcher
    */
   public List<Business> getAllBusinessesByKeyword(String keyword) {
-
     return businessDataAccess.getAllBusinessesByKeyword(keyword);
   }
 
@@ -284,7 +282,6 @@ public class SearchController implements Serializable {
    * @return a list of all User or Organizational posts
    */
   public List<Post> showByPoster(String value) {
-
     this.currentPosts.clear();
     if (value.equals("Users")) {
       this.currentPosts = this.getAllPosts();
@@ -311,15 +308,7 @@ public class SearchController implements Serializable {
         newPosts.addAll(this.getAllPostsByTag(t));
       }
 
-      // Remove duplicates
-      List<Post> anotherPosts = new ArrayList<>();
-      for (Post p : newPosts) {
-        if (!anotherPosts.contains(p)) {
-          anotherPosts.add(p);
-        }
-      }
-
-      return anotherPosts;
+      return removeDuplicates(newPosts);
     }
     // Only apply filters to organization posts
     else if (poster.equals("Organizations")) {
@@ -330,15 +319,7 @@ public class SearchController implements Serializable {
         newPosts.addAll(this.getAllBusinessesByTag(t));
       }
 
-      // Remove duplicates
-      List<Post> anotherPosts = new ArrayList<>();
-      for (Post p : newPosts) {
-        if (!anotherPosts.contains(p)) {
-          anotherPosts.add(p);
-        }
-      }
-
-      return anotherPosts;
+      return removeDuplicates(newPosts);
     }
     // Otherwise no user/organization was chosen
     else {
@@ -349,16 +330,19 @@ public class SearchController implements Serializable {
         newPosts.addAll(this.getAllListingsByTag(t));
       }
 
-      // Remove duplicates
-      List<Post> anotherPosts = new ArrayList<>();
-      for (Post p : newPosts) {
-        if (!anotherPosts.contains(p)) {
-          anotherPosts.add(p);
-        }
-      }
-
-      return anotherPosts;
+      return removeDuplicates(newPosts);
     }
+  }
+
+  private List<Post> removeDuplicates(List<Post> newPosts) {
+    List<Post> anotherPosts = new ArrayList<>();
+    for (Post p : newPosts) {
+      if (!anotherPosts.contains(p)) {
+        anotherPosts.add(p);
+      }
+    }
+
+    return anotherPosts;
   }
 
 

@@ -53,4 +53,6 @@ public interface CurrentUserDAOInterface {
   public void removePost(String id);
 
   ArrayList<String> getEventIds();
+
+  void updateEvents(String id);
 }

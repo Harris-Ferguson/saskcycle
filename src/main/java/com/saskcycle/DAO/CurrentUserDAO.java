@@ -9,6 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class CurrentUserDAO implements CurrentUserDAOInterface {
 
@@ -95,5 +97,11 @@ public class CurrentUserDAO implements CurrentUserDAOInterface {
     Account account = this.getCurrentAccount();
     account.getPostIds().add(id);
     userDAO.updateAccount(account);
+  }
+
+  public ArrayList<String> getEventIds()
+  {
+    Account account = this.getCurrentAccount();
+    return account.getEventIds();
   }
 }

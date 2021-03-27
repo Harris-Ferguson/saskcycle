@@ -25,6 +25,8 @@ public class Account extends User {
 
   private ArrayList<String> postIds;
 
+  private ArrayList<String> eventIds;
+
   private double userRating;
 
   private ArrayList<Notification> notifications;
@@ -43,6 +45,7 @@ public class Account extends User {
       String role,
       ArrayList<String> wishlist,
       ArrayList<String> postIds,
+      ArrayList<String> eventIds,
       double userRating,
       ArrayList<Notification> notifications) {
     super(username, password, authorities);
@@ -51,6 +54,7 @@ public class Account extends User {
     this.role = role;
     this.wishlist = wishlist;
     this.postIds = postIds;
+    this.eventIds = eventIds;
     this.userRating = userRating;
     this.notifications = notifications;
   }
@@ -88,6 +92,7 @@ public class Account extends User {
     this.notifications = new ArrayList<>();
     this.wishlist = new ArrayList<>();
     this.postIds = new ArrayList<>();
+    this.eventIds = new ArrayList<>();
   }
 
     public static Account makeAccountFromUser(UserDetails user, String email) {
@@ -100,6 +105,7 @@ public class Account extends User {
                 "USER",
                 new ArrayList<>(),
                 new ArrayList<>(),
+                new ArrayList<>(),
                 0.0,
                 new ArrayList<Notification>()
         );
@@ -109,6 +115,11 @@ public class Account extends User {
 
   public ArrayList<String> getPostIds() {
     return postIds;
+  }
+
+  public ArrayList<String> getEventIds()
+  {
+    return eventIds;
   }
 
   public double getUserRating() {

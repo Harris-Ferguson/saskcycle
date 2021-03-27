@@ -23,7 +23,7 @@ public class EventController {
         List<Event> events = getAllEvents();
 
         for (Event e : events) {
-            if (e.calendarEntryID.equals(calID)) {
+            if (e.title.equals(calID)) {
                 return e;
             }
         }

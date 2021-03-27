@@ -6,7 +6,7 @@ import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
 import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.security.SecurityUtils;
-import com.saskcycle.saskcycle.view.layouts.ClickedPostLayout;
+import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -39,7 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-@Route(value = "editPost", layout = ClickedPostLayout.class)
+@Route(value = "editPost", layout = MainLayout.class)
 public class EditPostView extends VerticalLayout implements HasUrlParameter<String>, AfterNavigationObserver {
 
     @Autowired

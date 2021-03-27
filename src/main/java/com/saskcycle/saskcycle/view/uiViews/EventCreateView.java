@@ -3,6 +3,7 @@ package com.saskcycle.saskcycle.view.uiViews;
 import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.controller.EventController;
 import com.saskcycle.model.Event;
+import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.components.PostalCodeComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.Button;

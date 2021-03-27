@@ -18,12 +18,12 @@ public class EventController {
         return Eaccess.allEvents();
     }
 
-    public Event getEventByCalendarID(String calID) {
+    public Event getEventByTitle(String title) {
 
         List<Event> events = getAllEvents();
 
         for (Event e : events) {
-            if (e.title.equals(calID)) {
+            if (e.title.equals(title)) {
                 return e;
             }
         }

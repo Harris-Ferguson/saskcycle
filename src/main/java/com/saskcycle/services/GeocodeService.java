@@ -34,6 +34,7 @@ public class GeocodeService implements Serializable {
         getJsonArray(postalCode);
     }
 
+    // NOTE: this method is not currently called, but will be wired up to the event forms to validate input
     public void geolocationFromStreetAddress(String address) throws JSONException {
         String encodedAddress = URLEncoder.encode(address + " Saskatoon Saskatchewan", StandardCharsets.UTF_8);
         getJsonArray(encodedAddress);

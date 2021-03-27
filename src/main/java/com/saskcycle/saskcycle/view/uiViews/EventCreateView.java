@@ -1,6 +1,7 @@
 package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.DAO.CurrentUserDAOInterface;
+import com.saskcycle.controller.AccountController;
 import com.saskcycle.controller.EventController;
 import com.saskcycle.model.Event;
 import com.saskcycle.model.Tags;
@@ -40,14 +41,13 @@ public class EventCreateView extends VerticalLayout {
     private EventController EC;
 
     @Autowired
-    private CurrentUserDAOInterface currentAccount;
+    private AccountController currentAccount;
 
     private TextField line1, line2, city, province;
 
     PostalCodeComponent postalCodeField;
 
     public EventCreateView() {
-
         // cancel button
         Button returnButton = new Button("Return", new Icon(VaadinIcon.ARROW_BACKWARD));
         returnButton.addClickListener(e -> returnButton.getUI().ifPresent(ui -> ui.navigate("delete-event")));
@@ -74,7 +74,6 @@ public class EventCreateView extends VerticalLayout {
 
         DateTimePicker endTime = new DateTimePicker();
         endTime.setLabel("End time");
-
 
         // Tags list
         MultiSelectListBox<String> tags = new MultiSelectListBox<>();
@@ -115,7 +114,6 @@ public class EventCreateView extends VerticalLayout {
         add(Header, InfoPanel, createPostButton);
     }
 
-
     /* publish post
      * method verifies all the required fields are filled out
      * if so, then a new post is made using all the provided info from user
@@ -150,7 +148,6 @@ public class EventCreateView extends VerticalLayout {
             Event newEvent = new Event(startTimeDetails, endTimeDetails, title, currentAccount.getCurrentAccount(),
                     tags, description, addressInfo);
 
-            //postRepo.addPost(newPost);
             EC.addEvent(newEvent);
             currentAccount.updateEvents(newEvent.id);
 
@@ -186,22 +183,11 @@ public class EventCreateView extends VerticalLayout {
         province.setValue("Saskatchewan");
         province.setReadOnly(true);
 
-//       postalCode = new TextField();
-//       postalCode.setLabel("Postal Code");
         postalCodeField = new PostalCodeComponent();
 
        VerticalLayout address = new VerticalLayout(line1, line2, new HorizontalLayout(city, province), postalCodeField);
        address.getStyle().set("border", "1px solid #eeeeee");
        return new VerticalLayout(new H5("Location"), address);
-    }
-
-    private void checkAddressFields(){
-        if (line1.getValue().trim().isEmpty()) {
-            Notification.show("Enter Address Line 1");
-        }
-        else if (!postalCodeField.postalCodeIsValid()) {
-            Notification.show("Enter a valid postal code");
-        }
     }
 
     private ArrayList<String> formatAddressInfo() {

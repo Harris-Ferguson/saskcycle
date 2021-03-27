@@ -41,7 +41,6 @@ public class EventView extends VerticalLayout {
 
   @PostConstruct
   public void EventView() {
-
     events = EC.getAllEvents();
     add(createToolBar(), createCalendar());
   }

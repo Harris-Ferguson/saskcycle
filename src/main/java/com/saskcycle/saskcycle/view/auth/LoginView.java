@@ -1,5 +1,6 @@
 package com.saskcycle.saskcycle.view.auth;
 
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -7,6 +8,7 @@ import com.vaadin.flow.router.*;
 
 @Route(value = "login")
 @PageTitle("SaskCycle | Login")
+@CssImport(value = "./styles/LoginViewStyles.css", themeFor = "vaadin-login-form-wrapper")
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
   private final LoginForm form = new LoginForm();

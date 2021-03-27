@@ -69,4 +69,8 @@ public class AccountController {
     public void updateWishlist(String id){
         currentUserDataAccess.updateWishlist(id);
     }
+
+    public void updateEvents(String id) {
+        currentUserDataAccess.updateEvents(id);
+    }
 }

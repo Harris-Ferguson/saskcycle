@@ -60,9 +60,6 @@ public class SearchResultsView extends VerticalLayout {
 
     grid = initGrid();
 
-    //grid.setSelectionMode(Grid.SelectionMode.NONE);
-
-
     // Constructing a post view based on what's clicked is still under construction
       grid.addItemClickListener(event -> {
           //System.out.println(event.getItem().title);

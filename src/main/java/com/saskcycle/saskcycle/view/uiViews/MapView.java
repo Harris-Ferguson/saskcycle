@@ -75,7 +75,6 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
                 "\nFor full destination address, contact the user.");
 
         targetAddress.add(dataLabel, pCode, warning);
-
         add(startingAddress, transSelectLayout, map, targetAddress);
     }
 

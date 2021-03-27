@@ -9,6 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class CurrentUserDAO implements CurrentUserDAOInterface {
 
@@ -62,6 +64,20 @@ public class CurrentUserDAO implements CurrentUserDAOInterface {
     userDAO.updateAccount(account);
   }
 
+  public void removeFromWishlist(String id)
+  {
+    Account account = this.getCurrentAccount();
+    account.getWishlist().remove(id);
+    userDAO.updateAccount(account);
+  }
+
+  public void removePost(String id)
+  {
+    Account account = this.getCurrentAccount();
+    account.getPostIds().remove(id);
+    userDAO.updateAccount(account);
+  }
+
   public void updatePosts(Post p) {
       Account account = this.getCurrentAccount();
       account.getPostIds().add(p.id);
@@ -72,7 +88,7 @@ public class CurrentUserDAO implements CurrentUserDAOInterface {
   @Override
   public void deleteEvent(Event saskcycleEvent) {
     Account account = this.getCurrentAccount();
-    account.getPostIds().remove(saskcycleEvent.getId());
+    account.getEventIds().remove(saskcycleEvent.getId());
     userDAO.updateAccount(account);
 
   }
@@ -80,6 +96,19 @@ public class CurrentUserDAO implements CurrentUserDAOInterface {
   public void updateCreatedPostList(String id){
     Account account = this.getCurrentAccount();
     account.getPostIds().add(id);
+    userDAO.updateAccount(account);
+  }
+
+  public ArrayList<String> getEventIds()
+  {
+    Account account = this.getCurrentAccount();
+    return account.getEventIds();
+  }
+
+  public void updateEvents(String id)
+  {
+    Account account = this.getCurrentAccount();
+    account.getEventIds().add(id);
     userDAO.updateAccount(account);
   }
 }

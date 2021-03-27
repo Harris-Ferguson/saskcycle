@@ -4,6 +4,8 @@ import com.saskcycle.model.Account;
 import com.saskcycle.model.Event;
 import com.saskcycle.model.Post;
 
+import java.util.ArrayList;
+
 /** An interface for operations on the currently logged in user */
 public interface CurrentUserDAOInterface {
   /**
@@ -45,4 +47,12 @@ public interface CurrentUserDAOInterface {
   void deleteEvent(Event saskcycleEvent);
 
   public void updateCreatedPostList(String id);
+
+  public void removeFromWishlist(String id);
+
+  public void removePost(String id);
+
+  ArrayList<String> getEventIds();
+
+  void updateEvents(String id);
 }

@@ -471,4 +471,8 @@ public class SearchController implements Serializable {
     }
     return wishListPosts;
   }
+  public void removeSavedPost(String id)
+  {
+      currentDAD.removeFromWishlist(id);
+  }
 }

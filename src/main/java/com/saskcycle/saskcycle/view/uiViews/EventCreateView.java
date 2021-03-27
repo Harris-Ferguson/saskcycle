@@ -152,7 +152,8 @@ public class EventCreateView extends VerticalLayout {
 
             //postRepo.addPost(newPost);
             EC.addEvent(newEvent);
-            currentAccount.updatePosts(newEvent);
+            currentAccount.updateEvents(newEvent.id);
+
 
             // Confirmation Dialog Box
             Dialog confirmPosted = new Dialog();

@@ -62,9 +62,9 @@ public class EventDeleteView extends VerticalLayout {
 
         Grid<Event> newGrid = new Grid<>();
         List<Event> posts = new ArrayList<>();
-        for (String postIds : currentAccount.getCurrentAccount().getPostIds())
+        for (String eventId : currentAccount.getCurrentAccount().getEventIds())
         {
-            posts.add(EC.getEventByID(postIds));
+            posts.add(EC.getEventByID(eventId));
         }
         newGrid.setItems(posts);
         newGrid.addComponentColumn(this::displayEvent);

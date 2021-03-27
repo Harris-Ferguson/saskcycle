@@ -150,18 +150,17 @@ public class PostController implements Serializable {
         List<String> postsToRemove = new ArrayList<>();
         for (String s : usersPosts)
         {
-            if (postDAD.searchByID(s) == null)
-            {
-                postsToRemove.add(s);
-            }
-            else
+            if (postDAD.searchByID(s) != null)
             {
                 userCreatedPostsList.add(postDAD.searchByID(s));
             }
-
+            else
+            {
+                postsToRemove.add(s);
+            }
         }
         for (String s : postsToRemove) {
-            currentDAD.getCurrentAccount().getWishlist().remove(s);
+            currentDAD.removePost(s);
         }
         return userCreatedPostsList;
     }

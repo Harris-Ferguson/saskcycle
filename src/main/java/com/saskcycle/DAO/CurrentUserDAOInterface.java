@@ -47,4 +47,6 @@ public interface CurrentUserDAOInterface {
   public void updateCreatedPostList(String id);
 
   public void removeFromWishlist(String id);
+
+  public void removePost(String id);
 }

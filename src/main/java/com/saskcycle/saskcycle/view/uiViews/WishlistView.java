@@ -38,7 +38,7 @@ public class WishlistView extends VerticalLayout {
     @PostConstruct
     public void SearchResultsView() {
 
-        heading = new H1("Your wishlist");
+        heading = new H1("Your Wishlist");
 
         //sets up searchController list to have all listings populated (currently can't do it in constructor or app breaks)
 //        SC.resetPosts();

@@ -50,7 +50,7 @@ public class PostView extends VerticalLayout {
     createButton.addClickListener(
         e -> createButton.getUI().ifPresent(ui -> ui.navigate("Create-Posts")));
 
-    add(new H1("Your posts"), createButton,grid);
+    add(new H1("Your Posts"), createButton,grid);
   }
 
   private Grid<Post> initGrid() {

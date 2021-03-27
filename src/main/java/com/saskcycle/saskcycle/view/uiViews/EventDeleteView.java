@@ -55,7 +55,7 @@ public class EventDeleteView extends VerticalLayout {
           dialog.open();
         });
 
-        add(new H1("Your events"), createButton, newGrid);
+        add(new H1("Your Events"), createButton, newGrid);
     }
 
     private Grid<Event> initGrid() {

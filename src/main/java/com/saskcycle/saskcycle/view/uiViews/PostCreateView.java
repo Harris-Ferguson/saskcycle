@@ -60,7 +60,9 @@ public class PostCreateView extends VerticalLayout {
     postController.setCurrentInspectedPost(postBeingMade);
 
     // cancel button
-    Button returnButton = new Button("Return", new Icon(VaadinIcon.ARROW_BACKWARD));
+    Button returnButton = new Button("Return", new Icon(VaadinIcon.ANGLE_LEFT));
+    returnButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    returnButton.addClassName("reset-button");
     returnButton.addClickListener(e -> returnButton.getUI().ifPresent(ui -> ui.navigate("posts")));
 
     //info label
@@ -128,17 +130,17 @@ public class PostCreateView extends VerticalLayout {
 
     Binder.Binding<PostController, String> typeBinding = binder.forField(postTypeSelect)
             .withNullRepresentation("")
-            .withValidator(typePredicates, "Please specify why your posting")
+            .withValidator(typePredicates, "Please specify why you're posting")
             .bind(PostController::getPostType, PostController::setPostType);
 
     Binder.Binding<PostController, String> titleBinding = binder.forField(title)
             .withNullRepresentation("")
-            .withValidator(titlePredicates, "Please specify your title")
+            .withValidator(titlePredicates, "Please specify you're title")
             .bind(PostController::getPostTitle, PostController::setPostTitle);
 
     Binder.Binding<PostController, String> descriptionBinding = binder.forField(description)
             .withNullRepresentation("")
-            .withValidator(descriptionPredicates, "Please specify your description")
+            .withValidator(descriptionPredicates, "Please specify you're description")
             .bind(PostController::getPostDescription, PostController::setPostDescription);
 
     Binder.Binding<PostController, String> postalBinding = binder.forField(postalCodeField.getTextField())

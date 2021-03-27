@@ -50,7 +50,9 @@ public class EventCreateView extends VerticalLayout {
     public EventCreateView() {
 
         // cancel button
-        Button returnButton = new Button("Return", new Icon(VaadinIcon.ARROW_BACKWARD));
+        Button returnButton = new Button("Return", new Icon(VaadinIcon.ANGLE_LEFT));
+        returnButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        returnButton.addClassName("reset-button");
         returnButton.addClickListener(e -> returnButton.getUI().ifPresent(ui -> ui.navigate("delete-event")));
 
         // Title Field

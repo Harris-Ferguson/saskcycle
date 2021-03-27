@@ -6,53 +6,55 @@ import com.saskcycle.model.Post;
 
 import java.util.ArrayList;
 
-/** An interface for operations on the currently logged in user */
+/**
+ * An interface for operations on the currently logged in user
+ */
 public interface CurrentUserDAOInterface {
-  /**
-   * Update a users Notification Settings
-   *
-   * @param wantsEmail does the user want emails?
-   * @param wantsText does the user want texts?
-   * @return the updated account
-   */
-  Account updateSettings(boolean wantsEmail, boolean wantsText);
+    /**
+     * Update a users Notification Settings
+     *
+     * @param wantsEmail does the user want emails?
+     * @param wantsText  does the user want texts?
+     * @return the updated account
+     */
+    Account updateSettings(boolean wantsEmail, boolean wantsText);
 
-  /**
-   * Get the current users email setting
-   *
-   * @return true / false if the user wants emails
-   */
-  boolean getEmailSetting();
+    /**
+     * Get the current users email setting
+     *
+     * @return true / false if the user wants emails
+     */
+    boolean getEmailSetting();
 
-  /**
-   * Get the current users email
-   *
-   * @return email string
-   */
-  String getEmail();
+    /**
+     * Get the current users email
+     *
+     * @return email string
+     */
+    String getEmail();
 
-  Account getCurrentAccount();
+    Account getCurrentAccount();
 
-  /**
-   * Get the current users text setting
-   *
-   * @return true / false if the user wants texts
-   */
-  boolean getTextSetting();
+    /**
+     * Get the current users text setting
+     *
+     * @return true / false if the user wants texts
+     */
+    boolean getTextSetting();
 
-  public void updateWishlist(String id);
+    public void updateWishlist(String id);
 
-  public void updatePosts(Post post);
+    public void updatePosts(Post post);
 
-  void deleteEvent(Event saskcycleEvent);
+    void deleteEvent(Event saskcycleEvent);
 
-  public void updateCreatedPostList(String id);
+    public void updateCreatedPostList(String id);
 
-  public void removeFromWishlist(String id);
+    public void removeFromWishlist(String id);
 
-  public void removePost(String id);
+    public void removePost(String id);
 
-  ArrayList<String> getEventIds();
+    ArrayList<String> getEventIds();
 
-  void updateEvents(String id);
+    void updateEvents(String id);
 }

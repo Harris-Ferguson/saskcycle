@@ -8,19 +8,23 @@ import com.vaadin.flow.router.PageTitle;
 @PageTitle("SaskCycle")
 public class MainLayout extends SaskCycleLayout {
 
-  SaskCycleHeader saskCycleHeader;
+    SaskCycleHeader saskCycleHeader;
 
-  /** Sets up the layout of the main page */
-  public MainLayout() {
+    /**
+     * Sets up the layout of the main page
+     */
+    public MainLayout() {
 
-    super();
-    createHeader();
-  }
+        super();
+        createHeader();
+    }
 
-  /** Constructs the header at the top of the web page */
-  private void createHeader() {
+    /**
+     * Constructs the header at the top of the web page
+     */
+    private void createHeader() {
 
-    saskCycleHeader = new SaskCycleHeader();
-    addToNavbar(new SaskCycleHeader());
-  }
+        saskCycleHeader = new SaskCycleHeader();
+        addToNavbar(new SaskCycleHeader());
+    }
 }

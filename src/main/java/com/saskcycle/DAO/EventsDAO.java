@@ -2,7 +2,6 @@ package com.saskcycle.DAO;
 
 import com.saskcycle.model.Event;
 import com.saskcycle.repo.EventRepo;
-import com.saskcycle.repo.PostsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,39 +12,41 @@ import java.util.Optional;
 public class EventsDAO implements EventDAOInterface {
 
     @Autowired
-    private final EventRepo ER;
+    private final EventRepo eventRepository;
 
     public EventsDAO(EventRepo er) {
-        ER = er;
+        eventRepository = er;
     }
 
     @Override
     public List<Event> allEvents() {
-        return ER.findAll();
+        return eventRepository.findAll();
     }
 
     @Override
     public Event searchById(String id) {
-        Optional<Event> event = ER.findById(id);
+        Optional<Event> event = eventRepository.findById(id);
         return event.get();
     }
 
     @Override
     public void addEvent(Event event) {
-        ER.insert(event);
-
+        eventRepository.insert(event);
     }
 
     @Override
     public void deleteEvent(Event saskcycleEvent) {
-
-        ER.delete(saskcycleEvent);
-
+        eventRepository.delete(saskcycleEvent);
     }
 
     @Override
     public void updateEvent(Event e) {
-        ER.save(e);
+        eventRepository.save(e);
+    }
+
+    @Override
+    public Event findEventByTitle(String title) {
+        return eventRepository.findEventByTitle(title);
     }
 
 }

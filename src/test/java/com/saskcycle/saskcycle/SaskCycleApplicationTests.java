@@ -55,48 +55,6 @@ class SaskCycleApplicationTests {
     Assertions.assertEquals(5, bL.size());
   }
 
-  @Test
-  @DisplayName("Search for businesses by keyword")
-  void searchBusinessBYKeyword() {
-    // simple test to see if keyword string can be grabbed from every business object
-    List<Business> bL = SC.getAllBusinessesByKeyword(" ");
-    for (Business b : bL) {
-      System.out.println(b.toString());
-    }
-    Assertions.assertEquals(5, bL.size());
-
-    bL.clear();
-    bL = SC.getAllBusinessesByKeyword("Store");
-    for (Business b : bL) {
-      System.out.println(b.toString());
-    }
-    Assertions.assertEquals(2, bL.size());
-
-    bL.clear();
-    // test with nonsense string
-    bL = SC.getAllBusinessesByKeyword("flurg");
-    for (Business b : bL) {
-      System.out.println(b.toString());
-    }
-    Assertions.assertEquals(0, bL.size());
-
-    bL.clear();
-    // test with description keyword
-    bL = SC.getAllBusinessesByKeyword("home");
-    for (Business b : bL) {
-      System.out.println(b.toString());
-    }
-    Assertions.assertEquals(2, bL.size());
-
-    bL.clear();
-    // test with case sensitive string
-    bL = SC.getAllBusinessesByKeyword("HoMe");
-    for (Business b : bL) {
-      System.out.println(b.toString());
-    }
-    Assertions.assertEquals(2, bL.size());
-  }
-
   //todo
   // Write tests for model objects
   // Write tests for adding and removing businesses/posts from database (as opposed to hardcoding results, checkmembership?

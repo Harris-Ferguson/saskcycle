@@ -1,5 +1,9 @@
 package com.saskcycle.services;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.springframework.stereotype.Service;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,54 +12,42 @@ import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
-import org.json.*;
-import org.springframework.stereotype.Service;
-
 @Service
 public class GeocodeService implements Serializable {
 
     /* --------- Attributes ------------ */
     // JSON object containing latitude/longitude
     String baseUrl = "http://geogratis.gc.ca/services/geolocation/en/locate?q=";
-    private JSONObject response;
     private double lat;
     private double lon;
 
-        /* ----------- Methods ------------- */
+    /* ----------- Methods ------------- */
 
-    public GeocodeService(){}
+    public GeocodeService() {
+    }
 
     /**
      * Gets the geolocation for a given postal code
      * Sets the lat and lon fields in this object
+     *
      * @param postalCode valid canadian postal code
      */
-    public void geolocationFromPostalCode(String postalCode) {
+    public void geolocationFromPostalCode(String postalCode) throws JSONException {
         postalCode = URLEncoder.encode(postalCode.trim().toLowerCase(Locale.ROOT), StandardCharsets.UTF_8);
-        makeRequest(postalCode);
+        getJsonArray(postalCode);
     }
 
-    public void geolocationFromStreetAddress(String address){
+    // NOTE: this method is not currently called, but will be wired up to the event forms to validate input
+    public void geolocationFromStreetAddress(String address) throws JSONException {
         String encodedAddress = URLEncoder.encode(address + " Saskatoon Saskatchewan", StandardCharsets.UTF_8);
-        makeRequest(encodedAddress);
+        getJsonArray(encodedAddress);
     }
 
-    private void makeRequest(String requestUrlString) {
-        URL request;
+    private void getJsonArray(String requestUrlString) throws JSONException {
         JSONArray array;
         try {
             // Connects to geocoder service
-            request = new URL(baseUrl + requestUrlString);
-            HttpURLConnection connection = (HttpURLConnection) request.openConnection();
-            connection.setRequestMethod("GET");
-            connection.connect();
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
-            }
-            in.close();
+            StringBuffer content = getHttpRequest(requestUrlString);
             array = new JSONArray(content.toString());
             JSONArray coords = array.getJSONObject(0).getJSONObject("geometry").getJSONArray("coordinates");
             setLat(Double.parseDouble(coords.get(0).toString()));
@@ -66,18 +58,33 @@ public class GeocodeService implements Serializable {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
+    }
+
+    private StringBuffer getHttpRequest(String requestUrlString) throws IOException {
+        URL request;
+        request = new URL(baseUrl + requestUrlString);
+        HttpURLConnection connection = (HttpURLConnection) request.openConnection();
+        connection.setRequestMethod("GET");
+        connection.connect();
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+        StringBuffer content = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+        in.close();
+        return content;
     }
 
     /**
      * Finds the distance from the point defined in the GeocodeService and the given point
+     *
      * @param otherLat other latitude
      * @param otherLon other longitude
      * @return distance value
      */
-    public double distance(double otherLat, double otherLon){
+    public double distance(double otherLat, double otherLon) {
         double latlon = (Math.pow(lat, 2) + Math.pow(lon, 2));
         double otherLatLon = (Math.pow(otherLat, 2) + Math.pow(otherLon, 2));
         double sum = latlon + otherLatLon;
@@ -98,17 +105,5 @@ public class GeocodeService implements Serializable {
 
     private void setLon(double lon) {
         this.lon = lon;
-    }
-
-    /**
-     * Test
-     * @param args not used
-     */
-    public static void main(String[] args) {
-        GeocodeService ser = new GeocodeService();
-        ser.geolocationFromPostalCode("S7H2T2");
-        System.out.println(ser.lat + " " + ser.lon);
-        ser.geolocationFromStreetAddress("1613 grosvenor ave");
-        System.out.println(ser.lat + " " + ser.lon);
     }
 }

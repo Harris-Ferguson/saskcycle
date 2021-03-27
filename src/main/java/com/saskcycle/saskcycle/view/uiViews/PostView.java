@@ -75,7 +75,7 @@ public class PostView extends VerticalLayout {
     });
     return button;
 
-  }
+    }
 
   private Button createDeleteButton(Grid<Post> grid, Post post){
     postController.setCurrentInspectedPost(post);

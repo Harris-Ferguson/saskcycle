@@ -14,54 +14,58 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-/** Static class containing utility methods for Security */
+/**
+ * Static class containing utility methods for Security
+ */
 public final class SecurityUtils {
 
-  private SecurityUtils() {}
-
-  /**
-   * Checks if a user is allowed access to a given page
-   *
-   * @param securedClass the view to find the auth level for
-   * @return true if the request is properly auth, false otherwise
-   */
-  public static boolean isAllowedAccess(Class<?> securedClass) {
-    // allow access if the page has no access restrictions
-    Secured secured = AnnotationUtils.findAnnotation(securedClass, Secured.class);
-    if (secured == null) {
-      return true;
+    private SecurityUtils() {
     }
-    // check if the user has one of the user roles defined on the view's security
-    List<String> allowedRoles = Arrays.asList(secured.value());
-    Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
-    return userAuthentication.getAuthorities().stream()
-        .map(GrantedAuthority::getAuthority)
-        .anyMatch(allowedRoles::contains);
-  }
 
-  public static boolean isFrameworkInternalRequest(HttpServletRequest request) {
-    final String parameterValue = request.getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER);
-    return parameterValue != null
-        && Stream.of(ServletHelper.RequestType.values())
-            .anyMatch(r -> r.getIdentifier().equals(parameterValue));
-  }
+    /**
+     * Checks if a user is allowed access to a given page
+     *
+     * @param securedClass the view to find the auth level for
+     * @return true if the request is properly auth, false otherwise
+     */
+    public static boolean isAllowedAccess(Class<?> securedClass) {
+        // allow access if the page has no access restrictions
+        Secured secured = AnnotationUtils.findAnnotation(securedClass, Secured.class);
+        if (secured == null) {
+            return true;
+        }
+        // check if the user has one of the user roles defined on the view's security
+        List<String> allowedRoles = Arrays.asList(secured.value());
+        Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        return userAuthentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(allowedRoles::contains);
+    }
 
-  public static boolean isUserLoggedIn() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    return authentication != null
-        && !(authentication instanceof AnonymousAuthenticationToken)
-        && authentication.isAuthenticated();
-  }
+    public static boolean isFrameworkInternalRequest(HttpServletRequest request) {
+        final String parameterValue = request.getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER);
+        return parameterValue != null
+                && Stream.of(ServletHelper.RequestType.values())
+                .anyMatch(r -> r.getIdentifier().equals(parameterValue));
+    }
 
-  /**
-   * Checks if the current user in an Organizational user
-   * @return true if the user is an org user, false otherwise
-   */
-  public static boolean isOrgUser(){
-    List<String> allowedRoles = Arrays.asList("ROLE_ORG");
-    Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
-    return userAuthentication.getAuthorities().stream()
-            .map(GrantedAuthority::getAuthority)
-            .anyMatch(allowedRoles::contains);
-  }
+    public static boolean isUserLoggedIn() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null
+                && !(authentication instanceof AnonymousAuthenticationToken)
+                && authentication.isAuthenticated();
+    }
+
+    /**
+     * Checks if the current user in an Organizational user
+     *
+     * @return true if the user is an org user, false otherwise
+     */
+    public static boolean isOrgUser() {
+        List<String> allowedRoles = Arrays.asList("ROLE_ORG");
+        Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
+        return userAuthentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(allowedRoles::contains);
+    }
 }

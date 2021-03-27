@@ -21,7 +21,7 @@ public class Event extends Post {
     public ArrayList<String> etags;
     public String desc;
     public ArrayList<String> elocation;
-    String calendarEntryID;
+    public String calendarEntryID;
     //private Timezone timezone;
 
     public Event(int[] startTime, int[] endTime, String etitle, Account organizer, ArrayList<String> etags, String desc, ArrayList<String> elocation) {

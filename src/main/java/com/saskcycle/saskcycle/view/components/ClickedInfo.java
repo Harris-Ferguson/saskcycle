@@ -28,6 +28,10 @@ public abstract class ClickedInfo extends Dialog {
 
     protected Timezone saskCycleTimezone;
 
+    /**
+     * Show the post info in full when it's clicked
+     * @param event
+     */
     public ClickedInfo(Event event) {
 
         saskCycleTimezone = new Timezone(ZoneId.of("Canada/Saskatchewan"));
@@ -121,6 +125,11 @@ public abstract class ClickedInfo extends Dialog {
 
     }
 
+    /**
+     * Build a component to display the address info of the event
+     * @param elocation location of the event
+     * @return array of event information
+     */
     private VerticalLayout displayAddress(ArrayList<String> elocation) {
 
         VerticalLayout info =  new VerticalLayout();

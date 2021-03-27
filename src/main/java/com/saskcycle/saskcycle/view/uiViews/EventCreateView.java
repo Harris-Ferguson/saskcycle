@@ -7,6 +7,7 @@ import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.components.PostalCodeComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H1;
@@ -100,7 +101,9 @@ public class EventCreateView extends VerticalLayout {
         Header.setAlignItems(Alignment.CENTER);
 
         // create post button (calls publish post when clicked)
-        Button createPostButton = new Button("Create Post!", new Icon(VaadinIcon.THUMBS_UP));
+        Button createPostButton = new Button("Create Event!");
+        createPostButton.addClassName("reset-button");
+        createPostButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         createPostButton.addClickListener(
                 e -> {
                     publishEvent(

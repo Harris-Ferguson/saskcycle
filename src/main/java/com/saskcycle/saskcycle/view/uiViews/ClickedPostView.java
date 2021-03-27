@@ -97,6 +97,7 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
 
         Button goToRouteButton = new Button("Get Route Plan", new Icon(VaadinIcon.MAP_MARKER));
         goToRouteButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        goToRouteButton.addClassName("reset-button");
 
         // Constructing a post view based on what's clicked is still under construction
         goToRouteButton.addClickListener(event -> {
@@ -104,14 +105,14 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
             UI.getCurrent().getPage().reload();
         });
 
-        H4 contact = new H4("For more information, contact:"+email);
+        //H4 contact = new H4("For more information, contact: "+ email);
 
         VerticalLayout desc = new VerticalLayout();
         desc.add(paragraph);
         desc.setWidth("600px");
 
-        sidePanel.add(wishlistButton, postTime, email);
-        sidePanel.add(wishlistButton, showMap(), goToRouteButton, postTime, contact);
+        //sidePanel.add(wishlistButton, postTime, email);
+        sidePanel.add(wishlistButton, showMap(), goToRouteButton, postTime, postTime, email);
 
         add(new HorizontalLayout(new VerticalLayout(title, desc), sidePanel));
     }

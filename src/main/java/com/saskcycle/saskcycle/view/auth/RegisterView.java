@@ -1,6 +1,7 @@
 package com.saskcycle.saskcycle.view.auth;
 
 import com.saskcycle.controller.AccountController;
+import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
@@ -15,7 +16,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route("register")
+@Route(value = "register", layout = MainLayout.class)
 @PageTitle("Sask Cycle | Register")
 public class RegisterView extends Composite {
 
@@ -46,6 +47,7 @@ public class RegisterView extends Composite {
                     email.getValue(),
                     password1.getValue(),
                     password2.getValue())));
+
   }
 
   /**

@@ -5,6 +5,7 @@ import com.saskcycle.saskcycle.view.layouts.MainLayout;
 
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -47,8 +48,10 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
         Button submitStart = new Button("Get Route");
         submitStart.setId("submitStart");
         submitStart.setWidth("150px");
-        startingAddress.add(startLabel, text, submitStart);
+        startingAddress.add(startLabel, text);
         startingAddress.setAlignItems(Alignment.CENTER);
+        submitStart.addClassName("reset-button");
+        submitStart.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         // Selection for method of transportation (default walking)
         HorizontalLayout transSelectLayout = new HorizontalLayout();
@@ -85,8 +88,9 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
 
         timeLayout.add(timeButtons);
 
-        transSelectLayout.add(transSelect, timeButtons, dtp);
-        transSelectLayout.setAlignItems(Alignment.CENTER);
+
+        transSelectLayout.add(transSelect, timeButtons, dtp, submitStart);
+        transSelectLayout.setAlignItems(Alignment.BASELINE);
 
         // Map view
         MapComponent map = new MapComponent();
@@ -94,7 +98,7 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
         // Information for bottom target postal cod
         HorizontalLayout targetAddress = new HorizontalLayout();
 
-        Label dataLabel = new Label("Approximate Post Address*");
+        Label dataLabel = new Label("Post Address*");
 
         pCode = new TextField();
         pCode.setId("sCoords");
@@ -103,9 +107,10 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
         Text warning = new Text("  *Destination addresses are approximate to protect user confidentiality." +
                 "\nFor full destination address, contact the user.");
 
-        targetAddress.add(dataLabel, pCode, warning);
+        targetAddress.add(dataLabel, pCode);
+        targetAddress.setAlignItems(Alignment.BASELINE);
 
-        add(startingAddress, transSelectLayout, map, targetAddress);
+        add(startingAddress, transSelectLayout, map, targetAddress, warning);
     }
 
     @Override

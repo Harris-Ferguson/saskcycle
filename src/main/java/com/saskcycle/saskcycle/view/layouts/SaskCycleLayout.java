@@ -15,16 +15,24 @@ public abstract class SaskCycleLayout extends AppLayout {
 
   /** Constructs the drawer feature, denoted by the hamburger menu */
   private void createDrawer() {
-    RouterLink accountLink = new RouterLink("Main", MainView.class);
+    //RouterLink accountLink = new RouterLink("Main", MainView.class);
     RouterLink postLink = new RouterLink("Posts", PostView.class);
     RouterLink settingsLink = new RouterLink("Settings", SettingsView.class);
     RouterLink eventCreateLink = new RouterLink();
     if(SecurityUtils.isOrgUser()){
       eventCreateLink = new RouterLink("Events", EventDeleteView.class);
     }
-    RouterLink wishListLink = new RouterLink("savedPosts", WishlistView.class);
-    accountLink.setHighlightCondition(HighlightConditions.sameLocation());
+    RouterLink wishListLink = new RouterLink("Wishlist", WishlistView.class);
+    //accountLink.setHighlightCondition(HighlightConditions.sameLocation());
 
-    addToDrawer(new VerticalLayout(accountLink, postLink, settingsLink,wishListLink,eventCreateLink));
+    postLink.addClassName("nav-link");
+    settingsLink.addClassName("nav-link");
+    eventCreateLink.addClassName("nav-link");
+    wishListLink.addClassName("nav-link");
+
+
+
+    addToDrawer(new VerticalLayout(postLink, settingsLink,wishListLink,eventCreateLink));
+    setDrawerOpened(false);
   }
 }

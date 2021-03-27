@@ -85,7 +85,7 @@ public class EventDeleteView extends VerticalLayout {
         title.addClassName("posts");
         desc.addClassName("posts");
 
-        Button deleteEventButton = new Button("Delete this event");
+        Button deleteEventButton = new Button("Delete this event", new Icon(VaadinIcon.TRASH));
         deleteEventButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         deleteEventButton.addClassName("reset-button");
         deleteEventButton.addClickListener(e -> {
@@ -125,9 +125,8 @@ public class EventDeleteView extends VerticalLayout {
         cancelButton.addClickListener(e -> confirmationDialog.close());
 
         HorizontalLayout buttonPanel = new HorizontalLayout(cancelButton, delButton);
-        // TODO alignment currently not working
         buttonPanel.setWidth("100%");
-        buttonPanel.setVerticalComponentAlignment(Alignment.CENTER);
+        buttonPanel.setJustifyContentMode(JustifyContentMode.CENTER);
 
         confirmationDialog.add(question, buttonPanel);
 

@@ -7,7 +7,6 @@ import com.saskcycle.model.Business;
 import com.saskcycle.model.Post;
 import com.saskcycle.model.PostDistancePair;
 import com.saskcycle.services.GeocodeService;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import java.io.Serializable;
@@ -18,15 +17,13 @@ public class SearchController implements Serializable {
 
   /* --------- Attributes --------- */
 
-  @Autowired private PostsDAOInterface Paccess;
+  @Autowired private PostsDAOInterface postDataAccess;
 
-  @Autowired private BusinessDAOInterface Baccess;
+  @Autowired private BusinessDAOInterface businessDataAccess;
 
-  @Autowired private GeocodeService geocodeService;
+  @Autowired private CurrentUserDAOInterface currentUserDataAccess;
 
-  @Autowired private CurrentUserDAOInterface currentDAD;
-
-  List<Post> currentPosts;
+  private List<Post> currentPosts;
 
   private final int ITEMS_PER_PAGE = 5;
 
@@ -43,15 +40,6 @@ public class SearchController implements Serializable {
   public void resetPosts()
   {
     currentPosts = this.getAllListings();
-  }
-
-  /**
-   * getter method for all items in the currentPosts list which can be filtered or unfiltered
-   * @return a list of Post objects that represent what the user has currently selected via filters
-   */
-  public List<Post> getCurrentPosts()
-  {
-    return this.currentPosts;
   }
 
   /**
@@ -75,38 +63,30 @@ public class SearchController implements Serializable {
         postsPage.add(currentPosts.get(i));
       }
     }
-
     return postsPage;
   }
-  /***
+
+  /**
    * Gets every post - giving away, getting, and static business posts - in one query
    * @return A lLst of Post and Business items (which can be displayed the same way).
    */
   public List<Post> getAllListings() {
     List<Post> allPosts = new ArrayList<>();
-    allPosts.addAll(Paccess.AllPosts());
-    allPosts.addAll(Baccess.AllPosts());
+    allPosts.addAll(postDataAccess.AllPosts());
+    allPosts.addAll(businessDataAccess.AllPosts());
 
     return allPosts;
   }
 
-  /***
+  /**
    * Gets all giving away and getting posts.
    * @return a List of Posts
    */
   public List<Post> getAllPosts() {
-    return new ArrayList<>(Paccess.AllPosts());
+    return new ArrayList<>(postDataAccess.AllPosts());
   }
 
-  /***
-   * Adds a post to the SaskCycle system
-   * @param post: A post object
-   */
-  public void addPost(Post post) {
-    if (post != null) Paccess.addPost(post);
-  }
-
-  /***
+  /**
    * Gets all Listings that contain a certain tag
    * @param tag : a tag of a search item type
    * @return a list of every post in the database containing that tag
@@ -120,7 +100,7 @@ public class SearchController implements Serializable {
     return postsByTag;
   }
 
-  /***
+  /**
    * Gets all Posts that contain a certain tag
    * @param tag: the tag of a search item type
    * @return a list of every post in the database containing that tag
@@ -134,37 +114,13 @@ public class SearchController implements Serializable {
     return postsByTag;
   }
 
-  /***
+  /**
    * Returns post that has ID marker ID
    * @param id: a String containing the identification marker of a post
    * @return a post's ID
    */
   public Post getPostByID(String id) {
-    return Paccess.searchByID(id);
-  }
-
-  /***
-   * Returns business that has ID marker ID
-   * @param id: a String containing the identification marker of a business
-   * @return a business's ID
-   */
-  public Business getBusinessByID(String id) {
-    return Baccess.searchByID(id);
-  }
-
-  /***
-   * Gets all posts containing a keyword in the description or title
-   * @param keyword: A string the user wishes to search by
-   * @return a list of posts containing the keyphrase specified by the searcher
-   */
-  public List<Post> getAllPostsByKeyword(String keyword) {
-    List<Post> filteredPosts = new ArrayList<>();
-    for (Post p : getAllPosts()) {
-      // Checks if case insensitive keyword is in title or description
-      if (p.title.toLowerCase().contains(keyword.toLowerCase())
-          || p.description.toLowerCase().contains(keyword.toLowerCase())) filteredPosts.add(p);
-    }
-    return filteredPosts;
+    return postDataAccess.searchByID(id);
   }
 
   /**
@@ -200,7 +156,6 @@ public class SearchController implements Serializable {
     // If incorrect string parameter given, return empty list
     if (!value.equals("Get") && !value.equals("Give")) return specPosts;
 
-    // List<Post> allPosts = getAllPosts();
     for (Post p : currentPosts) {
       if (value.equals("Get") && !p.give) {
         specPosts.add(p);
@@ -214,7 +169,7 @@ public class SearchController implements Serializable {
   }
 
   /**
-   * Either sorts posts alphabetically or from closest to farthest away
+   * Sorts posts by the users selected option
    *
    * @param value the filter value
    * @param posts the posts being filtered
@@ -223,24 +178,38 @@ public class SearchController implements Serializable {
    */
   public List<Post> getSortedPosts(String value, List<Post> posts, String userLocation) {
     if (value.equals("Alphabetically (A-Z)")) {
-      posts.sort(Comparator.comparing(a -> a.title));
-      return posts;
+      return sortAlphabetically(posts);
     }
     else
     {
-        List<PostDistancePair> sorted = new ArrayList<>();
-        geocodeService.geolocationFromPostalCode(userLocation);
-        for(Post post : posts){
-          double distance = geocodeService.distance(post.getLatitude(), post.getLongitude());
-          sorted.add(new PostDistancePair(post,distance));
-        }
-        Collections.sort(sorted);
-        List<Post> sortedPosts = new ArrayList<>();
-        for (PostDistancePair postDistancePair : sorted) {
-          sortedPosts.add(postDistancePair.post);
-        }
-        return sortedPosts;
+      return sortByDistance(posts, userLocation);
     }
+  }
+
+  private List<Post> sortAlphabetically(List<Post> posts) {
+    posts.sort(Comparator.comparing(a -> a.title));
+    return posts;
+  }
+
+  private List<Post> sortByDistance(List<Post> posts, String userLocation) {
+    List<PostDistancePair> postDistancePairs = getPostDistancePairs(posts, userLocation);
+    Collections.sort(postDistancePairs);
+    List<Post> sortedPosts = new ArrayList<>();
+    for (PostDistancePair postDistancePair : postDistancePairs) {
+      sortedPosts.add(postDistancePair.post);
+    }
+    return sortedPosts;
+  }
+
+  private List<PostDistancePair> getPostDistancePairs(List<Post> posts, String userLocation) {
+    List<PostDistancePair> sorted = new ArrayList<>();
+    GeocodeService geocodeService = new GeocodeService();
+    geocodeService.geolocationFromPostalCode(userLocation);
+    for(Post post : posts){
+      double distance = geocodeService.distance(post.getLatitude(), post.getLongitude());
+      sorted.add(new PostDistancePair(post,distance));
+    }
+    return sorted;
   }
 
   /***
@@ -250,7 +219,7 @@ public class SearchController implements Serializable {
    */
   public List<Business> getAllBusinessesByTag(String tag) {
 
-    return Baccess.getAllBusinessesByTags(tag);
+    return businessDataAccess.getAllBusinessesByTags(tag);
   }
 
   /***
@@ -260,18 +229,7 @@ public class SearchController implements Serializable {
    */
   public List<Business> getAllBusinessesByKeyword(String keyword) {
 
-    return Baccess.getAllBusinessesByKeyword(keyword);
-  }
-
-  /**
-   * Find a single business object by its title This method will be primarily used for testing
-   * purposes
-   *
-   * @param title a possible string title of a business object found in the DB
-   * @return the business object with the given title if it exists, null otherwise(?)
-   */
-  public Business findBusinessByTitle(String title) {
-    return Baccess.findBusinessByTitle(title);
+    return businessDataAccess.getAllBusinessesByKeyword(keyword);
   }
 
   /**
@@ -280,7 +238,7 @@ public class SearchController implements Serializable {
    * @return List of type business that cotains all buisness objects currently in DB
    */
   public List<Post> getAllBusinesses() {
-    return new ArrayList<>(Baccess.getAllBusinesses());
+    return new ArrayList<>(businessDataAccess.getAllBusinesses());
   }
 
   /**
@@ -451,28 +409,28 @@ public class SearchController implements Serializable {
   {
     //Get list of strings from User's accound class, intialize a list of posts to return,
     // and a list of strings that represent invalid (deleted) IDs to be removed
-    List<String> wishlist = currentDAD.getCurrentAccount().getWishlist();
+    List<String> wishlist = currentUserDataAccess.getCurrentAccount().getWishlist();
     List<Post> wishListPosts = new ArrayList<>();
     List<String> postsToRemove = new ArrayList<>();
     for (String s : wishlist)
     {
-      if (Paccess.searchByID(s) == null)
+      if (postDataAccess.searchByID(s) == null)
       {
         postsToRemove.add(s);
       }
       else
       {
-        wishListPosts.add(Paccess.searchByID(s));
+        wishListPosts.add(postDataAccess.searchByID(s));
       }
 
     }
     for (String s : postsToRemove) {
-      currentDAD.getCurrentAccount().getWishlist().remove(s);
+      currentUserDataAccess.getCurrentAccount().getWishlist().remove(s);
     }
     return wishListPosts;
   }
   public void removeSavedPost(String id)
   {
-      currentDAD.removeFromWishlist(id);
+      currentUserDataAccess.removeFromWishlist(id);
   }
 }

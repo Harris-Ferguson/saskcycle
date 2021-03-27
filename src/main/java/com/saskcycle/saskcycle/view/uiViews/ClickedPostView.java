@@ -1,13 +1,12 @@
 package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.DAO.CurrentUserDAOInterface;
+import com.saskcycle.controller.AccountController;
 import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.security.SecurityUtils;
 import com.saskcycle.saskcycle.view.components.MapComponent;
-
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -17,12 +16,10 @@ import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 
 import java.text.SimpleDateFormat;
 
@@ -30,7 +27,6 @@ import java.text.SimpleDateFormat;
 public class ClickedPostView extends VerticalLayout implements HasUrlParameter<String>, BeforeEnterObserver {
 
     private H1 title;
-    private H1 title2;
 
     private String id;
     private Post post;
@@ -38,23 +34,19 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
 
     private MapComponent map;
 
-    H4 postTime;
-    H4 email;
+    private H4 postTime;
+    private H4 email;
 
     private Paragraph paragraph;
 
     @Autowired
     SearchController SC;
     @Autowired
-    CurrentUserDAOInterface account;
-
-//    @Autowired
-//    UserDAOInterface userDAD;
+    AccountController account;
 
     public ClickedPostView() {
 
         title = new H1();
-        title2 = new H1();
         paragraph = new Paragraph();
 
         Button wishlistButton = new Button("Add to wishlist", new Icon(VaadinIcon.STAR));

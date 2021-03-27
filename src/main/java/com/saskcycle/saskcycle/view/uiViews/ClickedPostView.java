@@ -107,8 +107,7 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         sidePanel.add(wishlistButton, mapHolder, goToRouteButton, postTime, postTime, email);
         sidePanel.setWidth("400px");
 
-        add(new HorizontalLayout(new VerticalLayout(postType,title, desc), sidePanel));
-        VerticalLayout mainPanel = new VerticalLayout(title, paragraph);
+        VerticalLayout mainPanel = new VerticalLayout(postType,title, paragraph);
         mainPanel.setWidth("75%");
 
         add(new HorizontalLayout(mainPanel, sidePanel));

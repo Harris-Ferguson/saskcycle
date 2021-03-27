@@ -100,7 +100,7 @@ public class SearchResultsView extends VerticalLayout {
         filterGroup.setWidth("200px");
 
         useSelect = new Select<>();
-        useSelect.setItems("Select", "Get", "Give");
+        useSelect.setItems("Select", "Looking for", "Giving away");
         useSelect.setLabel("What do you want to do?");
         useSelect.setValue("Select");
 

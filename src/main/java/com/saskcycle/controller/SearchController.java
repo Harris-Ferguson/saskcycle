@@ -160,13 +160,13 @@ public class SearchController implements Serializable {
         List<Post> specPosts = new ArrayList<>();
 
         // If incorrect string parameter given, return empty list
-        if (!value.equals("Get") && !value.equals("Give")) return specPosts;
+        if (!value.equals("Looking for") && !value.equals("Giving away")) return specPosts;
 
         for (Post p : currentPosts) {
-            if (value.equals("Get") && p.give) {
+            if (value.equals("Looking for") && p.give) {
                 specPosts.add(p);
             }
-            if (value.equals("Give") && !p.give) {
+            if (value.equals("Giving away") && !p.give) {
                 specPosts.add(p);
             }
         }
@@ -265,7 +265,7 @@ public class SearchController implements Serializable {
         if (!excludedTags.isEmpty()) {
             this.currentPosts = excludePosts(excludedTags);
         }
-        if (useChoice.equals("Get") || useChoice.equals("Give")) {
+        if (useChoice.equals("Looking for") || useChoice.equals("Giving away")) {
             currentPosts = getSpecifiedPosts(useChoice);
         }
         // If specified, sort posts

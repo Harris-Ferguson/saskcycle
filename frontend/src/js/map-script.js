@@ -36,6 +36,7 @@ window.initMap = function(){
 
     // Display all markers
     console.log(markers);
+    console.log("Hey");
     for(var i = 0 ; i < window.markers.length ; i++){
         new google.maps.Marker({
             position:  new google.maps.LatLng(window.markers[i].long, window.markers[i].lat),

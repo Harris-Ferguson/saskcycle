@@ -101,21 +101,17 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         desc.setWidth("600px");
 
         //sidePanel.add(wishlistButton, postTime, email);
-        showMap();
+        setMapHolder();
         sidePanel.add(wishlistButton, mapHolder, goToRouteButton, postTime, postTime, email);
 
         add(new HorizontalLayout(new VerticalLayout(postType,title, desc), sidePanel));
     }
 
-    private void showMap() {
+    private void setMapHolder() {
 
         mapHolder = new VerticalLayout();
         mapHolder.setHeight("400px");
         mapHolder.setWidth("400px");
-//        map = new MapComponent();
-//        mapContainer.add(map);
-//        mapHolder.add(mapContainer);
-
     }
 
     public void emailPrivate(Post post) {
@@ -152,7 +148,6 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         postTime.setText("Posted at "
                 + new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a").format(post.datePosted));
         map = new MapComponent(latitude, longitude, "Label");
-        System.out.println(map.getLat() + " " + map.getLon());
         mapHolder.add(map);
         post = SC.getPostByID(id);
         title.setText(post.title);

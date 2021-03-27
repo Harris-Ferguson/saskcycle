@@ -59,8 +59,7 @@ public abstract class AbstractPostForm extends VerticalLayout {
         setFailureMessage();
         setInspectedPost();
 
-        Button returnButton = new Button("Cancel", new Icon(VaadinIcon.ARROW_BACKWARD));
-        returnButton.addClickListener(e -> returnButton.getUI().ifPresent(ui -> ui.navigate("posts")));
+        Button returnButton = createReturnButton();
 
         Label infoLabel = new Label();
 
@@ -110,6 +109,71 @@ public abstract class AbstractPostForm extends VerticalLayout {
                 });
 
         // Set up Binder bindings for certain components that require verification
+        initializeBinder(postType, postPrivacy);
+
+        // Left side of post creation
+        VerticalLayout LeftInfoPanel = new VerticalLayout(title, description, postalCodeField, contactPanel);
+
+        // Right side of post creation
+        VerticalLayout RightInfoPanel = new VerticalLayout(new H1("Tags:"), tags);
+
+        // Body of post creation
+        HorizontalLayout InfoPanel = new HorizontalLayout(LeftInfoPanel, RightInfoPanel);
+
+        // Header of post creation
+        HorizontalLayout Header = new HorizontalLayout(returnButton, new H1("Create Post"), postTypeSelect);
+        Header.setAlignItems(Alignment.CENTER);
+
+        /**
+         * post create button declaration and event handling
+         * button will perform various checks on fields in view to ensure info is filled out
+         * if all is good, then publish post will be called
+         */
+        Button createPostButton = new Button("Create Post!", new Icon(VaadinIcon.THUMBS_UP));
+        createPostButton.addClickListener(event -> {
+            createPostEvent(infoLabel, email, tags, tagList);
+        });
+        add(Header, InfoPanel, createPostButton);
+    }
+
+    private void createPostEvent(Label infoLabel, Checkbox email, MultiSelectListBox<String> tags, ArrayList<String> tagList) {
+        // all fields are filled
+        if (binder.writeBeanIfValid(postController) && !tags.isEmpty()) {
+            infoLabel.setText("Saved bean values: " + postController);
+            // Postal code format check
+            if(!postalCodeField.postalCodeIsValid()){
+                Notification postalNotification = new Notification("Invalid Postal Code",3000, Notification.Position.MIDDLE);
+                postalNotification.open();
+            }
+            else {
+                publish(title.getValue(),description.getValue(),postalCodeField.getTextField().getValue(), tagList,privacySelect.getValue(), email.getValue());
+            }
+
+        }
+        else {
+            // empty tag list check
+            if(tagList.isEmpty()){
+                Notification tagsNotification = new Notification("Please add Some tags",3000, Notification.Position.BOTTOM_CENTER);
+                tagsNotification.open();
+            }
+            //Missing value checks using Binder
+            BinderValidationStatus<PostController> validate = binder.validate();
+            String errorText = validate.getFieldValidationStatuses()
+                    .stream().filter(BindingValidationStatus::isError)
+                    .map(BindingValidationStatus::getMessage)
+                    .map(Optional::get).distinct()
+                    .collect(Collectors.joining(", "));
+            infoLabel.setText("There are errors: " + errorText);
+        }
+    }
+
+    private Button createReturnButton() {
+        Button returnButton = new Button("Cancel", new Icon(VaadinIcon.ARROW_BACKWARD));
+        returnButton.addClickListener(e -> returnButton.getUI().ifPresent(ui -> ui.navigate("posts")));
+        return returnButton;
+    }
+
+    private void initializeBinder(Div postType, Div postPrivacy) {
         SerializablePredicate<String> typePredicates = value -> !postType.getText().trim().isEmpty();
         SerializablePredicate<String> titlePredicates = value -> !title.getValue().trim().isEmpty();
         SerializablePredicate<String> descriptionPredicates = value -> !description.getValue().trim().isEmpty();
@@ -140,58 +204,6 @@ public abstract class AbstractPostForm extends VerticalLayout {
                 .withNullRepresentation("")
                 .withValidator(privacyPredicates, "Please specify your post's privacy")
                 .bind(PostController::getPostPrivacy, PostController::setPostPrivacy);
-
-        // Left side of post creation
-        VerticalLayout LeftInfoPanel = new VerticalLayout(title, description, postalCodeField, contactPanel);
-
-        // Right side of post creation
-        VerticalLayout RightInfoPanel = new VerticalLayout(new H1("Tags:"), tags);
-
-        // Body of post creation
-        HorizontalLayout InfoPanel = new HorizontalLayout(LeftInfoPanel, RightInfoPanel);
-
-        // Header of post creation
-        HorizontalLayout Header = new HorizontalLayout(returnButton, new H1("Create Post"), postTypeSelect);
-        Header.setAlignItems(Alignment.CENTER);
-
-        /**
-         * post create button declaration and event handling
-         * button will perform various checks on fields in view to ensure info is filled out
-         * if all is good, then publish post will be called
-         */
-        Button createPostButton = new Button("Create Post!", new Icon(VaadinIcon.THUMBS_UP));
-        createPostButton.addClickListener(event -> {
-            // all fields are filled
-            if (binder.writeBeanIfValid(postController) && !tags.isEmpty()) {
-                infoLabel.setText("Saved bean values: " + postController);
-                // Postal code format check
-                if(!postalCodeField.postalCodeIsValid()){
-                    Notification postalNotification = new Notification("Invalid Postal Code",3000, Notification.Position.MIDDLE);
-                    postalNotification.open();
-                }
-                else {
-                    publish(title.getValue(),description.getValue(),postalCodeField.getTextField().getValue(),tagList,privacySelect.getValue(),email.getValue());
-                }
-
-            }
-            else {
-                // empty tag list check
-                if(tagList.isEmpty()){
-                    Notification tagsNotification = new Notification("Please add Some tags",3000, Notification.Position.BOTTOM_CENTER);
-                    tagsNotification.open();
-                }
-                //Missing value checks using Binder
-                BinderValidationStatus<PostController> validate = binder.validate();
-                String errorText = validate.getFieldValidationStatuses()
-                        .stream().filter(BindingValidationStatus::isError)
-                        .map(BindingValidationStatus::getMessage)
-                        .map(Optional::get).distinct()
-                        .collect(Collectors.joining(", "));
-                infoLabel.setText("There are errors: " + errorText);
-            }
-        });
-
-        add(Header, InfoPanel, createPostButton);
     }
 
     protected abstract void setInspectedPost();

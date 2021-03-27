@@ -1,6 +1,6 @@
 package com.saskcycle.saskcycle.view.uiViews;
 
-import com.saskcycle.DAO.CurrentUserDAOInterface;
+import com.saskcycle.controller.AccountController;
 import com.saskcycle.controller.EventController;
 import com.saskcycle.model.Event;
 import com.saskcycle.model.Tags;
@@ -26,12 +26,8 @@ import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Route(value = "create-event", layout = MainLayout.class)
 @PageTitle("SaskCycle | Event Create")
@@ -42,7 +38,7 @@ public class EventCreateView extends VerticalLayout {
     private EventController EC;
 
     @Autowired
-    private CurrentUserDAOInterface currentAccount;
+    private AccountController currentAccount;
 
     private TextField line1, line2, city, province;
 
@@ -51,9 +47,10 @@ public class EventCreateView extends VerticalLayout {
     private TextArea description;
 
     public EventCreateView() {
-
         // cancel button
-        Button returnButton = new Button("Return", new Icon(VaadinIcon.ARROW_BACKWARD));
+        Button returnButton = new Button("Return", new Icon(VaadinIcon.ANGLE_LEFT));
+        returnButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        returnButton.addClassName("reset-button");
         returnButton.addClickListener(e -> returnButton.getUI().ifPresent(ui -> ui.navigate("delete-event")));
 
         // Title Field
@@ -78,7 +75,6 @@ public class EventCreateView extends VerticalLayout {
 
         DateTimePicker endTime = new DateTimePicker();
         endTime.setLabel("End time");
-
 
         // Tags list
         MultiSelectListBox<String> tags = new MultiSelectListBox<>();
@@ -110,17 +106,16 @@ public class EventCreateView extends VerticalLayout {
         createPostButton.addClickListener(
                 e -> {
                     publishEvent(
-                        startTime.getValue(),
-                        endTime.getValue(),
-                        title.getValue(),
-                        description.getValue(),
-                        formatAddressInfo(),
-                        tagList);
+                            startTime.getValue(),
+                            endTime.getValue(),
+                            title.getValue(),
+                            description.getValue(),
+                            formatAddressInfo(),
+                            tagList);
                 });
 
         add(Header, InfoPanel, createPostButton);
     }
-
 
     /* publish post
      * method verifies all the required fields are filled out
@@ -132,31 +127,26 @@ public class EventCreateView extends VerticalLayout {
             String title,
             String description,
             ArrayList<String> addressInfo,
-            ArrayList<String> tags){
+            ArrayList<String> tags) {
 
         if (line1.getValue().trim().isEmpty()) {
             Notification.show("Enter Address Line 1");
-        }
-        else if (!postalCodeField.postalCodeIsValid()) {
+        } else if (!postalCodeField.postalCodeIsValid()) {
             Notification.show("Enter a valid postal code");
-        }
-        else if (title.trim().isEmpty()) {
+        } else if (title.trim().isEmpty()) {
             Notification.show("Enter a Title");
         } else if (description.trim().isEmpty()) {
-            Notification.show("Enter a Description"); }
-        else if (tags.isEmpty()) {
+            Notification.show("Enter a Description");
+        } else if (tags.isEmpty()) {
             Notification.show("Please add some tags");
-        }
-        else if (eventEnd.isBefore(eventStart)) {
+        } else if (eventEnd.isBefore(eventStart)) {
             Notification.show("Event's end time is before its start time");
-        }
-        else {
+        } else {
             int[] startTimeDetails = new int[]{eventStart.getMonth().getValue(), eventStart.getDayOfMonth(), eventStart.getHour(), eventStart.getMinute(), eventStart.getYear()};
             int[] endTimeDetails = new int[]{eventEnd.getMonth().getValue(), eventEnd.getDayOfMonth(), eventEnd.getHour(), eventEnd.getMinute(), eventEnd.getYear()};
             Event newEvent = new Event(startTimeDetails, endTimeDetails, title, currentAccount.getCurrentAccount(),
                     tags, description, addressInfo);
 
-            //postRepo.addPost(newPost);
             EC.addEvent(newEvent);
             currentAccount.updateEvents(newEvent.id);
 
@@ -192,33 +182,22 @@ public class EventCreateView extends VerticalLayout {
         city.setValue("Saskatoon");
         city.setReadOnly(true);
 
-        province =  new TextField("Province");
+        province = new TextField("Province");
         province.setValue("Saskatchewan");
         province.setReadOnly(true);
 
-//       postalCode = new TextField();
-//       postalCode.setLabel("Postal Code");
         postalCodeField = new PostalCodeComponent();
 
-       VerticalLayout address = new VerticalLayout(line1, line2, new HorizontalLayout(city, province), postalCodeField);
-       address.getStyle().set("border", "1px solid #eeeeee");
-       return new VerticalLayout(new H5("Location"), address);
-    }
-
-    private void checkAddressFields(){
-        if (line1.getValue().trim().isEmpty()) {
-            Notification.show("Enter Address Line 1");
-        }
-        else if (!postalCodeField.postalCodeIsValid()) {
-            Notification.show("Enter a valid postal code");
-        }
+        VerticalLayout address = new VerticalLayout(line1, line2, new HorizontalLayout(city, province), postalCodeField);
+        address.getStyle().set("border", "1px solid #eeeeee");
+        return new VerticalLayout(new H5("Location"), address);
     }
 
     private ArrayList<String> formatAddressInfo() {
         ArrayList<String> addressInfo = new ArrayList<>();
         addressInfo.add(line1.getValue());
         addressInfo.add(line2.getValue());
-        addressInfo.add(city.getValue()+ ", " + province.getValue());
+        addressInfo.add(city.getValue() + ", " + province.getValue());
         addressInfo.add(postalCodeField.getTextField().getValue());
 
         return addressInfo;

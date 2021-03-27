@@ -38,13 +38,7 @@ public class WishlistView extends VerticalLayout {
     @PostConstruct
     public void SearchResultsView() {
 
-        heading = new H1("Your wishlist");
-
-        //sets up searchController list to have all listings populated (currently can't do it in constructor or app breaks)
-//        SC.resetPosts();
-
-//        VerticalLayout filterGroup = FilterComponent();
-
+        heading = new H1("Your Wishlist");
         grid = initGrid();
 
         //grid.setSelectionMode(Grid.SelectionMode.NONE);
@@ -52,19 +46,10 @@ public class WishlistView extends VerticalLayout {
 
         // Constructing a post view based on what's clicked is still under construction
         grid.addItemClickListener(event -> {
-            //System.out.println(event.getItem().title);
             getUI().ifPresent(ui -> ui.navigate(ClickedPostView.class,event.getItem().id));
             UI.getCurrent().getPage().reload();
-
         });
-
-//        HorizontalLayout resultsGroup = new HorizontalLayout();
-//        resultsGroup.setAlignItems(Alignment.START);
-//        resultsGroup.setWidth("100%");
-//        resultsGroup.add(filterGroup, grid);
-        add(heading,grid
-//                resultsGroup
-        );
+        add(heading,grid);
     }
 
     private Grid<Post> initGrid() {

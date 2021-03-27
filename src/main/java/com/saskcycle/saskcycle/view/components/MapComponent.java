@@ -20,8 +20,9 @@ public class MapComponent extends Div {
 
     /**
      * Instance a map with a marker at a given position
-     * @param lat Double Latitude
-     * @param lon Double Longitude
+     *
+     * @param lat  Double Latitude
+     * @param lon  Double Longitude
      * @param name Label
      */
     public MapComponent(double lat, double lon, String name) {
@@ -31,7 +32,7 @@ public class MapComponent extends Div {
         this.name = name;
     }
 
-    private void initializeMap(){
+    private void initializeMap() {
         this.setHeight("100%");
         this.setWidth("100%");
         this.setId("map");
@@ -39,11 +40,12 @@ public class MapComponent extends Div {
 
     /**
      * Add a marker to a map
-     * @param lati latitude
-     * @param longi longitude
+     *
+     * @param lati       latitude
+     * @param longi      longitude
      * @param markerName name for the marker
      */
-    public void addMarker(double lati, double longi, String markerName){
+    public void addMarker(double lati, double longi, String markerName) {
         this.lat = lati;
         this.lon = longi;
         this.name = markerName;
@@ -52,5 +54,13 @@ public class MapComponent extends Div {
     @Override
     protected void onAttach(AttachEvent attachEvent) {
         getElement().executeJs("window.addMarker($0, $1, $2)", lat, lon, name);
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public double getLon() {
+        return lon;
     }
 }

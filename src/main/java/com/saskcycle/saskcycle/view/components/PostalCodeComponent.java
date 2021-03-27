@@ -1,6 +1,5 @@
 package com.saskcycle.saskcycle.view.components;
 
-import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.textfield.TextField;
 
@@ -18,7 +17,7 @@ public class PostalCodeComponent extends Div {
         buildPostalCodeField();
     }
 
-    private void buildPostalCodeField(){
+    private void buildPostalCodeField() {
         postalCodeField = new TextField();
         postalCodeField.setLabel("Postal Code");
         postalCodeField.setPlaceholder("form: K1A0B1");
@@ -30,7 +29,7 @@ public class PostalCodeComponent extends Div {
         add(postalCodeField);
     }
 
-    private void addRegexListener(){
+    private void addRegexListener() {
         postalMatcher = postalCodePattern.matcher(postalCodeField.getValue());
         postalMatch = new AtomicBoolean(postalMatcher.find());
         postalCodeField.addValueChangeListener(e -> {
@@ -48,11 +47,15 @@ public class PostalCodeComponent extends Div {
         return postalCodeField;
     }
 
-    public boolean postalCodeIsValid(){
+    public boolean postalCodeIsValid() {
         return postalMatch.get();
     }
 
-    public String getPostalCode(){
+    public String getPostalCode() {
         return postalCodeField.getValue();
+    }
+
+    public void setPostalCode(String postalCode) {
+        postalCodeField.setValue(postalCode);
     }
 }

@@ -9,9 +9,9 @@ import com.vaadin.flow.router.RouterLink;
 
 public abstract class SaskCycleLayout extends AppLayout {
 
-  public SaskCycleLayout() {
-    createDrawer();
-  }
+    public SaskCycleLayout() {
+        createDrawer();
+    }
 
   /** Constructs the drawer feature, denoted by the hamburger menu */
   private void createDrawer() {

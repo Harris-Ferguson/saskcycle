@@ -7,6 +7,7 @@ import java.util.List;
 public interface EventDAOInterface {
 
     List<Event> allEvents();
+
     Event searchById(String id);
 
     void addEvent(Event event);
@@ -14,4 +15,6 @@ public interface EventDAOInterface {
     void deleteEvent(Event saskcycleEvent);
 
     void updateEvent(Event e);
+
+    public Event findEventByTitle(String title);
 }

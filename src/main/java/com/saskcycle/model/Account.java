@@ -13,87 +13,72 @@ import java.util.Collection;
 @Document(collection = "User Accounts")
 public class Account extends User {
 
-  /* --------- Attributes -------------*/
+    /* --------- Attributes -------------*/
 
-  @Id private String id;
+    @Id
+    private String id;
 
-  private String email;
+    private String email;
 
-  private String role;
+    private ArrayList<String> wishlist;
 
-  private ArrayList<String> wishlist;
+    private ArrayList<String> postIds;
 
-  private ArrayList<String> postIds;
+    private ArrayList<String> eventIds;
 
-  private ArrayList<String> eventIds;
+    private UserNotificationSettings notificationSettings =
+            new UserNotificationSettings(false, false);
 
-  private double userRating;
+    /* --------- Methods -------------*/
 
-  private ArrayList<Notification> notifications;
+    public Account(
+            String username,
+            String password,
+            Collection<? extends GrantedAuthority> authorities,
+            String id,
+            String email,
+            ArrayList<String> wishlist,
+            ArrayList<String> postIds,
+            ArrayList<String> eventIds) {
+        super(username, password, authorities);
+        this.id = id;
+        this.email = email;
+        this.wishlist = wishlist;
+        this.postIds = postIds;
+        this.eventIds = eventIds;
+    }
 
-  private UserNotificationSettings notificationSettings =
-      new UserNotificationSettings(false, false);
+    @PersistenceConstructor
+    /**
+     * Constructor for Account which is Used by the UserAccountRepo interface to instance objects when
+     * it is adding and removing from the Data Repository
+     */
+    public Account(
+            String username,
+            String password,
+            boolean enabled,
+            boolean accountNonExpired,
+            boolean credentialsNonExpired,
+            boolean accountNonLocked,
+            Collection<? extends GrantedAuthority> authorities,
+            String id,
+            String email) {
 
-  /* --------- Methods -------------*/
-
-  public Account(
-      String username,
-      String password,
-      Collection<? extends GrantedAuthority> authorities,
-      String id,
-      String email,
-      String role,
-      ArrayList<String> wishlist,
-      ArrayList<String> postIds,
-      ArrayList<String> eventIds,
-      double userRating,
-      ArrayList<Notification> notifications) {
-    super(username, password, authorities);
-    this.id = id;
-    this.email = email;
-    this.role = role;
-    this.wishlist = wishlist;
-    this.postIds = postIds;
-    this.eventIds = eventIds;
-    this.userRating = userRating;
-    this.notifications = notifications;
-  }
-
-  @PersistenceConstructor
-  /**
-   * Constructor for Account which is Used by the UserAccountRepo interface to instance objects when
-   * it is adding and removing from the Data Repository
-   */
-  public Account(
-      String username,
-      String password,
-      String role,
-      boolean enabled,
-      boolean accountNonExpired,
-      boolean credentialsNonExpired,
-      boolean accountNonLocked,
-      Collection<? extends GrantedAuthority> authorities,
-      String id,
-      String email) {
-
-    // Calls super to initialize other values
-    super(
-        username,
-        password,
-        enabled,
-        accountNonExpired,
-        credentialsNonExpired,
-        accountNonLocked,
-        authorities);
-    this.id = id;
-    this.role = role;
-    this.email = email;
-    this.userRating = 0;
-    this.notifications = new ArrayList<>();
-    this.wishlist = new ArrayList<>();
-    this.postIds = new ArrayList<>();
-    this.eventIds = new ArrayList<>();
-  }
+        // Calls super to initialize other values
+        super(
+                username,
+                password,
+                enabled,
+                accountNonExpired,
+                credentialsNonExpired,
+                accountNonLocked,
+                authorities);
+        this.id = id;
+        this.email = email;
+        this.wishlist = new ArrayList<>();
+        this.postIds = new ArrayList<>();
+        this.eventIds = new ArrayList<>();
+    }
 
     public static Account makeAccountFromUser(UserDetails user, String email) {
         return new Account(
@@ -102,68 +87,48 @@ public class Account extends User {
                 user.getAuthorities(),
                 Integer.toString(user.hashCode()),
                 email,
-                "USER",
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>(),
-                0.0,
-                new ArrayList<Notification>()
+                new ArrayList<String>(),
+                new ArrayList<String>(),
+                new ArrayList<String>()
         );
     }
 
-  /* --------- Getters and Setters -------------*/
+    /* --------- Getters and Setters -------------*/
 
-  public ArrayList<String> getPostIds() {
-    return postIds;
-  }
+    public ArrayList<String> getPostIds() {
+        return postIds;
+    }
 
-  public ArrayList<String> getEventIds()
-  {
-    return eventIds;
-  }
+    public ArrayList<String> getEventIds() {
+        return eventIds;
+    }
 
-  public double getUserRating() {
-    return userRating;
-  }
+    public String getEmail() {
+        return email;
+    }
 
-  public void setUserRating(double userRating) {
-    this.userRating = userRating;
-  }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-  public String getRole() {
-    return role;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public String getEmail() {
-    return email;
-  }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+    public ArrayList<String> getWishlist() {
+        return wishlist;
+    }
 
-  public String getId() {
-    return id;
-  }
+    public UserNotificationSettings getNotificationSettings() {
+        return notificationSettings;
+    }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public ArrayList<Notification> getNotifications() {
-    return notifications;
-  }
-
-  public ArrayList<String> getWishlist() {
-    return wishlist;
-  }
-
-  public UserNotificationSettings getNotificationSettings() {
-    return notificationSettings;
-  }
-
-  public void setNotificationSettings(UserNotificationSettings notificationSettings) {
-    this.notificationSettings = notificationSettings;
-  }
+    public void setNotificationSettings(UserNotificationSettings notificationSettings) {
+        this.notificationSettings = notificationSettings;
+    }
 
 }

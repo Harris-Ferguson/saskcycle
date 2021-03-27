@@ -21,24 +21,25 @@ import org.springframework.security.access.annotation.Secured;
 @Secured("ROLE_USER")
 public class SettingsView extends Composite {
 
-  private static final String emailString = "Email me";
-  private static final String textString = "Text me";
+    private static final String emailString = "Email me";
+    private static final String textString = "Text me";
 
-  @Autowired private CurrentUserDAOInterface currentAuthDAO;
+    @Autowired
+    private CurrentUserDAOInterface currentAuthDAO;
 
-  @Override
-  protected Component initContent() {
-    CheckboxGroup<String> postCheckbox = new CheckboxGroup<>();
-    postCheckbox.setItems(emailString, textString);
-    postCheckbox.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
+    @Override
+    protected Component initContent() {
+        CheckboxGroup<String> postCheckbox = new CheckboxGroup<>();
+        postCheckbox.setItems(emailString, textString);
+        postCheckbox.addThemeVariants(CheckboxGroupVariant.LUMO_VERTICAL);
 
-    // set the boxes based on user settings
-    if (currentAuthDAO.getEmailSetting()) {
-      postCheckbox.select(emailString);
-    }
-    if (currentAuthDAO.getTextSetting()) {
-      postCheckbox.select(textString);
-    }
+        // set the boxes based on user settings
+        if (currentAuthDAO.getEmailSetting()) {
+            postCheckbox.select(emailString);
+        }
+        if (currentAuthDAO.getTextSetting()) {
+            postCheckbox.select(textString);
+        }
 
     Button saveButton = new Button("Save");
     saveButton.addClassName("reset-button");
@@ -50,10 +51,10 @@ public class SettingsView extends Composite {
         saveButton);
   }
 
-  private void changeSettings(CheckboxGroup<String> settings) {
-    boolean wantsEmail = settings.isSelected(emailString);
-    boolean wantsText = settings.isSelected(textString);
-    currentAuthDAO.updateSettings(wantsEmail, wantsText);
-    Notification.show("Saved!");
-  }
+    private void changeSettings(CheckboxGroup<String> settings) {
+        boolean wantsEmail = settings.isSelected(emailString);
+        boolean wantsText = settings.isSelected(textString);
+        currentAuthDAO.updateSettings(wantsEmail, wantsText);
+        Notification.show("Saved!");
+    }
 }

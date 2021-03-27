@@ -19,130 +19,125 @@ public class PostController implements Serializable {
 
     private Post currentPost;
 
-    @Autowired private PostsDAOInterface postsDataAccess;
+    @Autowired
+    private PostsDAOInterface postsDataAccess;
 
-    @Autowired private GeocodeService geocodeService;
+    @Autowired
+    private GeocodeService geocodeService;
 
-    @Autowired private CurrentUserDAOInterface currentUserDataAccess;
+    @Autowired
+    private CurrentUserDAOInterface currentUserDataAccess;
 
     /* ---------  Methods  --------- */
 
-    public PostController(){
+    public PostController() {
     }
 
-    public void setCurrentInspectedPost(Post post){
+    public void setCurrentInspectedPost(Post post) {
         this.currentPost = post;
     }
 
-    public void setPostType(String type){
+    public void setPostType(String type) {
         currentPost.setPostType(type.equals("giving away"));
     }
 
-    public String getPostType(){
-        if(currentPost.getPostType()){
+    public String getPostType() {
+        if (currentPost.getPostType()) {
             return "give";
-        }
-        else {
+        } else {
             return "take";
         }
     }
 
-    public void setPostTitle(String title){
+    public void setPostTitle(String title) {
         currentPost.setTitle(title);
     }
 
-    public String getPostTitle(){
+    public String getPostTitle() {
         return currentPost.getTitle();
     }
 
-    public void setPostDescription(String description){
+    public void setPostDescription(String description) {
         currentPost.setDescription(description);
     }
 
-    public String getPostDescription(){
+    public String getPostDescription() {
         return currentPost.getDescription();
     }
 
-    public void setPostPrivacy(String privacy){
+    public void setPostPrivacy(String privacy) {
         currentPost.setPublic(privacy.equals("Public"));
     }
 
-    public String getPostPrivacy(){
-        if(currentPost.isPublic()){
+    public String getPostPrivacy() {
+        if (currentPost.isPublic()) {
             return "Public";
-        }
-        else {
+        } else {
             return "Accounts";
         }
     }
 
-    public String getPostalCode(){
+    public String getPostalCode() {
         return currentPost.getPostalCode();
     }
 
-    public void setPostPostalCode(String postal){
+    public void setPostPostalCode(String postal) {
         geocodeService.geolocationFromPostalCode(postal);
         currentPost.setLatitude(geocodeService.getLat());
         currentPost.setLongitude(geocodeService.getLon());
         currentPost.setPostalCode(postal);
     }
 
-    public void setPostTags(ArrayList<String> tagList){
+    public void setPostTags(ArrayList<String> tagList) {
         currentPost.setTags(tagList);
     }
 
-    public ArrayList<String> getPostTags(){
+    public ArrayList<String> getPostTags() {
         return currentPost.getTags();
     }
 
-    public void setPostContactEmail(String contactEmail){
+    public void setPostContactEmail(String contactEmail) {
         currentPost.setContactEmail(contactEmail);
     }
 
-    public String getPostContactEmail(){
-        return currentPost.getContactEmail();
-    }
-
-    public void setPostID(){
+    public void setPostID() {
         currentPost.setId(Integer.toString(currentPost.hashCode()));
     }
 
-    public String getPostID(){
+    public String getPostID() {
         return currentPost.getId();
     }
 
-    public void removePost(){
+    public void removePost() {
         postsDataAccess.deletePost(currentPost);
     }
 
-    public Boolean verifyAndPublish(){
-        if(currentPost.isComplete()){
+    public Boolean verifyAndPublish() {
+        if (currentPost.isComplete()) {
             currentPost.setDatePosted(new Date());
             postsDataAccess.addPost(currentPost);
             return true;
-        }
-        else{
+        } else {
             System.err.println("Error Verifying post creation");
             return false;
         }
     }
 
-    public Boolean verifyAndUpdatePost(){
-        if(currentPost.isComplete()){
+    public Boolean verifyAndUpdatePost() {
+        if (currentPost.isComplete()) {
             postsDataAccess.updatePost(currentPost);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
     /**
      * Obtain the users created posts
+     *
      * @return lists of users created posts
      */
-    public List<Post> getUserCreatedPosts()
-    {
+    public List<Post> getUserCreatedPosts() {
         List<String> usersPosts = currentUserDataAccess.getCurrentAccount().getPostIds();
         return postsDataAccess.findByIds(usersPosts);
     }

@@ -22,8 +22,12 @@ public class SaskCycleHeader extends HorizontalLayout {
   public SaskCycleHeader() {
 
     // Sets up the SaskCycle logo on the header and calls it 'logo' so it can be styled by CSS
-    H1 logo = new H1("SaskCycle");
+    Button logo = new Button("SaskCycle");
     logo.addClassName("logo");
+    logo.addClickListener(e -> logo.getUI().ifPresent(ui -> ui.navigate("")));
+    logo.addClassName("logo-button");
+    logo.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    logo.setHeight("60px");
 
     // Creates a hamburger menu that can store the account options
     DrawerToggle drawerToggle = new DrawerToggle();

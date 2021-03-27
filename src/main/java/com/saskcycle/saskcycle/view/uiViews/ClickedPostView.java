@@ -1,6 +1,5 @@
 package com.saskcycle.saskcycle.view.uiViews;
 
-import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.controller.AccountController;
 import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;

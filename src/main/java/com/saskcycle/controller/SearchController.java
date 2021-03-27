@@ -76,7 +76,6 @@ public class SearchController implements Serializable {
         List<Post> allPosts = new ArrayList<>();
         allPosts.addAll(postDataAccess.AllPosts());
         allPosts.addAll(businessDataAccess.AllPosts());
-
         return allPosts;
     }
 

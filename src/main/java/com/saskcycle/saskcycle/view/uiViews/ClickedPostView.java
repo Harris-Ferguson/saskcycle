@@ -5,6 +5,7 @@ import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.security.SecurityUtils;
 import com.saskcycle.saskcycle.view.components.MapComponent;
+
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -29,6 +30,7 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
     private H5 postType;
 
     private H1 title;
+    private H1 title2;
 
     private String id;
     private Post post;
@@ -72,19 +74,19 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         });
         wishlistButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         wishlistButton.addClassName("wishlist-button");
-        HorizontalLayout heading = new HorizontalLayout(title, wishlistButton);
-        heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
+        //HorizontalLayout heading = new HorizontalLayout(title, wishlistButton);
+        //heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
 
         // Contains additional info about the post
         VerticalLayout sidePanel = new VerticalLayout();
         sidePanel.setAlignItems(Alignment.CENTER);
 
-        sidePanel.setWidth("400px");
+        //sidePanel.setWidth("400px");
         postTime = new H4();
         email = new H4();
         //sidePanel.getStyle().set("border", "1px solid #eeeeee");
         sidePanel.getStyle().set("border", "1px solid #eeeeee");
-        heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
+        //heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
 
         Button goToRouteButton = new Button("Get Route Plan", new Icon(VaadinIcon.MAP_MARKER));
         goToRouteButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -96,15 +98,20 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
             UI.getCurrent().getPage().reload();
         });
 
+
         VerticalLayout desc = new VerticalLayout();
         desc.add(paragraph);
         desc.setWidth("600px");
 
-        //sidePanel.add(wishlistButton, postTime, email);
         setMapHolder();
         sidePanel.add(wishlistButton, mapHolder, goToRouteButton, postTime, postTime, email);
+        sidePanel.setWidth("400px");
 
         add(new HorizontalLayout(new VerticalLayout(postType,title, desc), sidePanel));
+        VerticalLayout mainPanel = new VerticalLayout(title, paragraph);
+        mainPanel.setWidth("75%");
+
+        add(new HorizontalLayout(mainPanel, sidePanel));
     }
 
     private void setMapHolder() {

@@ -11,6 +11,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -24,6 +25,8 @@ import java.text.SimpleDateFormat;
 
 @Route(value = "clickedPost", layout = MainLayout.class)
 public class ClickedPostView extends VerticalLayout implements HasUrlParameter<String>, BeforeEnterObserver {
+
+    private H5 postType;
 
     private H1 title;
 
@@ -45,6 +48,7 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
 
     public ClickedPostView() {
 
+        postType = new H5();
         title = new H1();
         paragraph = new Paragraph();
 
@@ -97,7 +101,7 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         //sidePanel.add(wishlistButton, postTime, email);
         sidePanel.add(wishlistButton, showMap(), goToRouteButton, postTime, postTime, email);
 
-        add(new HorizontalLayout(new VerticalLayout(title, desc), sidePanel));
+        add(new HorizontalLayout(new VerticalLayout(postType,title, desc), sidePanel));
     }
 
     private VerticalLayout showMap() {
@@ -129,6 +133,13 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
         // Assign all attributes from posts to view
         post = SC.getPostByID(id);
+        if(post.getPostType()){
+            postType.setText("Giving away");
+        }
+        else {
+            postType.setText("Looking for");
+        }
+
         title.setText(post.title);
         paragraph.setText(post.description);
         latitude = post.latitude;

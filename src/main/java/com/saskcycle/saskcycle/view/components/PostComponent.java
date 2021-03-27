@@ -29,6 +29,16 @@ public class PostComponent extends Div {
    */
   private void setPost(Post post) {
 
+    H5 postType;
+    if (post.getPostType()){
+      postType = new H5("Giving away");
+    }
+    else {
+      postType = new H5("Looking for");
+    }
+
+
+
     H3 title = new H3(post.title);
 
     Paragraph desc = new Paragraph(post.description);
@@ -39,7 +49,7 @@ public class PostComponent extends Div {
     desc.addClassName("posts");
     postal.addClassName("postal");
 
-    add(title, postal, desc, formatTags(post));
+    add(postType,title, postal, desc, formatTags(post));
   }
 
   /**

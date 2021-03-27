@@ -7,34 +7,34 @@ import java.util.ArrayList;
 @Document(collection = "Businesses")
 public class Business extends Post {
 
-  /* --------- Attributes ------------ */
+    /* --------- Attributes ------------ */
 
-  public Business(
-      String title,
-      String description,
-      String id,
-      String location,
-      ArrayList<String> tags,
-      boolean give,
-      double longitude,
-      double latitude) {
-  }
+    public Business(
+            String title,
+            String description,
+            String id,
+            String location,
+            ArrayList<String> tags,
+            boolean give,
+            double longitude,
+            double latitude) {
+    }
 
-  /* ----------- Methods ------------- */
+    /* ----------- Methods ------------- */
 
-  public ArrayList<String> getTags() {
-    return this.tags;
-  }
+    public ArrayList<String> getTags() {
+        return this.tags;
+    }
 
-  public String getName() {
-    return this.title;
-  }
+    public String getName() {
+        return this.title;
+    }
 
-  public String getDescription() {
-    return this.description;
-  }
+    public String getDescription() {
+        return this.description;
+    }
 
-  public String toString() {
-    return this.title + "\n" + this.description + "\n";
-  }
+    public String toString() {
+        return this.title + "\n" + this.description + "\n";
+    }
 }

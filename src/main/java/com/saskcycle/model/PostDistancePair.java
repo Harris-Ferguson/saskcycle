@@ -9,14 +9,14 @@ public class PostDistancePair implements Comparable<PostDistancePair> {
 
     /* ----------- Methods ------------- */
 
-    public PostDistancePair(Post post, Double distance)
-    {
+    public PostDistancePair(Post post, Double distance) {
         this.post = post;
         this.distance = distance;
     }
 
     /**
      * CompareTo for the comparable interface
+     *
      * @param o other post distance pair
      * @return compare to normal values
      */

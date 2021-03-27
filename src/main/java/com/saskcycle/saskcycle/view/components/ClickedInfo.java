@@ -7,10 +7,8 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -30,6 +28,7 @@ public abstract class ClickedInfo extends Dialog {
 
     /**
      * Show the post info in full when it's clicked
+     *
      * @param event
      */
     public ClickedInfo(Event event) {
@@ -45,8 +44,9 @@ public abstract class ClickedInfo extends Dialog {
 
     /**
      * Styles the time string depending on if the event is on the same day
+     *
      * @param start start time
-     * @param end end time
+     * @param end   end time
      * @return string representation of the LocalDateTime duration of the event
      */
     protected String formatTime(LocalDateTime start, LocalDateTime end) {
@@ -72,6 +72,7 @@ public abstract class ClickedInfo extends Dialog {
 
     /**
      * Formats the post's tags into a visual representation
+     *
      * @param tags array containing the tags that are associated with the event
      * @return a horizontal layout of the tags which are displayed in boxes
      */
@@ -90,6 +91,7 @@ public abstract class ClickedInfo extends Dialog {
 
     /**
      * Displays the information for the event
+     *
      * @param saskcycleEvent the event whose info needs to be displayed
      */
     protected void displayEventInfo(Event saskcycleEvent) {
@@ -127,12 +129,13 @@ public abstract class ClickedInfo extends Dialog {
 
     /**
      * Build a component to display the address info of the event
+     *
      * @param elocation location of the event
      * @return array of event information
      */
     private VerticalLayout displayAddress(ArrayList<String> elocation) {
 
-        VerticalLayout info =  new VerticalLayout();
+        VerticalLayout info = new VerticalLayout();
 
         for (String line : elocation) {
             Span s = new Span(new Text(line));

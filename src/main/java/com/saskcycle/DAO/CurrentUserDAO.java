@@ -97,16 +97,14 @@ public class CurrentUserDAO implements CurrentUserDAOInterface {
         userDataAccess.updateAccount(account);
     }
 
-  public ArrayList<String> getEventIds()
-  {
-    Account account = this.getCurrentAccount();
-    return account.getEventIds();
-  }
+    public ArrayList<String> getEventIds() {
+        Account account = this.getCurrentAccount();
+        return account.getEventIds();
+    }
 
-  public void updateEvents(String id)
-  {
-    Account account = this.getCurrentAccount();
-    account.getEventIds().add(id);
-    userDataAccess.updateAccount(account);
-  }
+    public void updateEvents(String id) {
+        Account account = this.getCurrentAccount();
+        account.getEventIds().add(id);
+        userDataAccess.updateAccount(account);
+    }
 }

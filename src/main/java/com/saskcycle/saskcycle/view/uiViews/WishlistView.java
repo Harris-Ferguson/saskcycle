@@ -40,11 +40,11 @@ public class WishlistView extends VerticalLayout {
         // Constructing a post view based on what's clicked is still under construction
         grid.addItemClickListener(event -> {
             //System.out.println(event.getItem().title);
-            getUI().ifPresent(ui -> ui.navigate(ClickedPostView.class,event.getItem().id));
+            getUI().ifPresent(ui -> ui.navigate(ClickedPostView.class, event.getItem().id));
             UI.getCurrent().getPage().reload();
 
         });
-        add(heading,grid);
+        add(heading, grid);
     }
 
     private Grid<Post> initGrid() {
@@ -52,13 +52,13 @@ public class WishlistView extends VerticalLayout {
         newGrid.setItems(SC.getSavedPosts());
         newGrid.setHeight("1000px");
         newGrid.addComponentColumn(PostComponent::new);
-        newGrid.addComponentColumn( item -> createDeleteButton(grid,item)).setWidth("100px");
+        newGrid.addComponentColumn(item -> createDeleteButton(grid, item)).setWidth("100px");
         return newGrid;
     }
 
-    private Button createDeleteButton(Grid<Post> grid, Post post){
+    private Button createDeleteButton(Grid<Post> grid, Post post) {
         Post savedPost = post;
-        Button deleteButton = new Button("Remove from savedPosts",new Icon(VaadinIcon.TRASH));
+        Button deleteButton = new Button("Remove from savedPosts", new Icon(VaadinIcon.TRASH));
         deleteButton.addClickListener(event -> {
             //Delete confirmation box
             Dialog confirmDelete = new Dialog();
@@ -80,7 +80,7 @@ public class WishlistView extends VerticalLayout {
                         confirmDelete.close();
                     });
             VerticalLayout vbox = new VerticalLayout();
-            vbox.add(new H1("Are you sure you want to remove this post?"), deleteButtonConfirm,deleteButtonCancel);
+            vbox.add(new H1("Are you sure you want to remove this post?"), deleteButtonConfirm, deleteButtonCancel);
             vbox.setAlignItems(Alignment.CENTER);
             confirmDelete.add(vbox);
             confirmDelete.setOpened(true);

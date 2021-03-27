@@ -1,10 +1,9 @@
 package com.saskcycle.saskcycle.view.components;
 
-import com.saskcycle.model.Event;
 import com.saskcycle.model.Post;
-import com.vaadin.flow.component.html.*;
-
-import java.text.SimpleDateFormat;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.Paragraph;
 
 public class EventComponent extends Div {
 
@@ -14,7 +13,6 @@ public class EventComponent extends Div {
 
     /**
      * Formats the post's components into a readable and uniform display
-     *
      */
     private void setEvent(Post event) {
 

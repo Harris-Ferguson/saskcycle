@@ -2,7 +2,6 @@ package com.saskcycle.saskcycle.view.uiViews;
 
 import com.saskcycle.saskcycle.view.components.MapComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
-
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;

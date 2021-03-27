@@ -62,11 +62,11 @@ public class AccountController {
         userDataAccess.addAccount(account);
     }
 
-    public Account getCurrentAccount(){
+    public Account getCurrentAccount() {
         return currentUserDataAccess.getCurrentAccount();
     }
 
-    public void updateWishlist(String id){
+    public void updateWishlist(String id) {
         currentUserDataAccess.updateWishlist(id);
     }
 

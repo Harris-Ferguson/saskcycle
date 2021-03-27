@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
 public class SaskCycleApplication extends SpringBootServletInitializer {
 
-  public static void main(String[] args) {
-    SpringApplication.run(SaskCycleApplication.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(SaskCycleApplication.class, args);
+    }
 }

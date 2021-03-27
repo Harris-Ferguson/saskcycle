@@ -1,5 +1,9 @@
 package com.saskcycle.services;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.springframework.stereotype.Service;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,9 +11,6 @@ import java.io.Serializable;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
-
-import org.json.*;
-import org.springframework.stereotype.Service;
 
 @Service
 public class GeocodeService implements Serializable {
@@ -20,13 +21,15 @@ public class GeocodeService implements Serializable {
     private double lat;
     private double lon;
 
-        /* ----------- Methods ------------- */
+    /* ----------- Methods ------------- */
 
-    public GeocodeService(){}
+    public GeocodeService() {
+    }
 
     /**
      * Gets the geolocation for a given postal code
      * Sets the lat and lon fields in this object
+     *
      * @param postalCode valid canadian postal code
      */
     public void geolocationFromPostalCode(String postalCode) throws JSONException {
@@ -76,11 +79,12 @@ public class GeocodeService implements Serializable {
 
     /**
      * Finds the distance from the point defined in the GeocodeService and the given point
+     *
      * @param otherLat other latitude
      * @param otherLon other longitude
      * @return distance value
      */
-    public double distance(double otherLat, double otherLon){
+    public double distance(double otherLat, double otherLon) {
         double latlon = (Math.pow(lat, 2) + Math.pow(lon, 2));
         double otherLatLon = (Math.pow(otherLat, 2) + Math.pow(otherLon, 2));
         double sum = latlon + otherLatLon;

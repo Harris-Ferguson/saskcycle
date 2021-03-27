@@ -3,10 +3,8 @@ package com.saskcycle.saskcycle.view.abstractviews;
 import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.controller.PostController;
 import com.saskcycle.controller.SearchController;
-import com.saskcycle.model.Post;
 import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.components.PostalCodeComponent;
-import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -26,7 +24,6 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.BinderValidationStatus;
 import com.vaadin.flow.data.binder.BindingValidationStatus;
 import com.vaadin.flow.function.SerializablePredicate;
-import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -77,7 +74,7 @@ public abstract class AbstractPostForm extends VerticalLayout {
         // Privacy and email/phone check boxes
         Div postPrivacy = new Div();
         postPrivacy();
-        privacySelect.addValueChangeListener( e ->
+        privacySelect.addValueChangeListener(e ->
                 postPrivacy.setText(privacySelect.getValue()));
 
         // email check box
@@ -143,19 +140,17 @@ public abstract class AbstractPostForm extends VerticalLayout {
         if (binder.writeBeanIfValid(postController) && !tags.isEmpty()) {
             infoLabel.setText("Saved bean values: " + postController);
             // Postal code format check
-            if(!postalCodeField.postalCodeIsValid()){
-                Notification postalNotification = new Notification("Invalid Postal Code",3000, Notification.Position.MIDDLE);
+            if (!postalCodeField.postalCodeIsValid()) {
+                Notification postalNotification = new Notification("Invalid Postal Code", 3000, Notification.Position.MIDDLE);
                 postalNotification.open();
-            }
-            else {
-                publish(title.getValue(),description.getValue(),postalCodeField.getTextField().getValue(), tagList,privacySelect.getValue(), email.getValue());
+            } else {
+                publish(title.getValue(), description.getValue(), postalCodeField.getTextField().getValue(), tagList, privacySelect.getValue(), email.getValue());
             }
 
-        }
-        else {
+        } else {
             // empty tag list check
-            if(tagList.isEmpty()){
-                Notification tagsNotification = new Notification("Please add Some tags",3000, Notification.Position.BOTTOM_CENTER);
+            if (tagList.isEmpty()) {
+                Notification tagsNotification = new Notification("Please add Some tags", 3000, Notification.Position.BOTTOM_CENTER);
                 tagsNotification.open();
             }
             //Missing value checks using Binder
@@ -180,7 +175,7 @@ public abstract class AbstractPostForm extends VerticalLayout {
         SerializablePredicate<String> titlePredicates = value -> !title.getValue().trim().isEmpty();
         SerializablePredicate<String> descriptionPredicates = value -> !description.getValue().trim().isEmpty();
         SerializablePredicate<String> postalPredicates = value -> !postalCodeField.getTextField().getValue().trim().isEmpty();
-        SerializablePredicate<String> privacyPredicates = value ->!postPrivacy.getText().trim().isEmpty();
+        SerializablePredicate<String> privacyPredicates = value -> !postPrivacy.getText().trim().isEmpty();
 
         Binder.Binding<PostController, String> typeBinding = binder.forField(postTypeSelect)
                 .withNullRepresentation("")
@@ -257,7 +252,7 @@ public abstract class AbstractPostForm extends VerticalLayout {
             postController.setPostContactEmail(null);
         }
         Boolean postSuccess = publish();
-        if(postSuccess) {
+        if (postSuccess) {
             updateUserPostList();
         }
         Dialog confirmPosted = postDialogBox(postSuccess);
@@ -266,9 +261,10 @@ public abstract class AbstractPostForm extends VerticalLayout {
 
     /**
      * Build select for the type of post
+     *
      * @return select widget
      */
-    protected void selectPostType(){
+    protected void selectPostType() {
         postTypeSelect = new Select<>();
         postTypeSelect.setItems("giving away", "looking for");
         postTypeSelect.setPlaceholder("giving or looking");
@@ -276,7 +272,7 @@ public abstract class AbstractPostForm extends VerticalLayout {
         postTypeSelect.setRequiredIndicatorVisible(true);
     }
 
-    protected void postPrivacy(){
+    protected void postPrivacy() {
         privacySelect.setItems("Public", "Accounts");
         privacySelect.setPlaceholder("privacy");
         privacySelect.setLabel("Post Privacy");

@@ -54,8 +54,9 @@ public class EditPostView extends AbstractPostForm implements HasUrlParameter<St
 
     /**
      * Sets the ID of the post that was clicked
+     *
      * @param beforeEvent
-     * @param postId clicked post's id number
+     * @param postId      clicked post's id number
      */
     @Override
     public void setParameter(BeforeEvent beforeEvent, String postId) {
@@ -73,7 +74,9 @@ public class EditPostView extends AbstractPostForm implements HasUrlParameter<St
     }
 
     @Override
-    protected void setPageTitle(){ pageTitle = "Edit Post";}
+    protected void setPageTitle() {
+        pageTitle = "Edit Post";
+    }
 
     @Override
     protected void updateUserPostList() {

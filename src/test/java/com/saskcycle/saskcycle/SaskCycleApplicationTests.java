@@ -2,15 +2,10 @@ package com.saskcycle.saskcycle;
 
 import com.saskcycle.DAO.BusinessDAOInterface;
 import com.saskcycle.controller.SearchController;
-import com.saskcycle.model.Business;
-import com.saskcycle.model.Post;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 @SpringBootTest
 class SaskCycleApplicationTests {
@@ -20,10 +15,27 @@ class SaskCycleApplicationTests {
 
   @Autowired private SearchController SC;
 
-  @Test
-  @DisplayName("Searching by tag tests")
-  void searchByTagTests() {};
+//  @Test
+//  @DisplayName("Searching by tag tests")
+//  void testTests(){
+//    ModelTests.
+////  }
 //
+//  void searchByTagTests() {
+//
+//
+//  }
+////
+  @Test
+  void businessTests(){
+  }
+
+  void models(){
+
+  }
+
+
+//  test
 //    List<Business> bL = SC.getAllBusinessesByTag("Clothing");
 //    for (Business b : bL) {
 //      System.out.println(b.toString());

@@ -101,7 +101,7 @@ public class EventCreateView extends VerticalLayout {
         Header.setAlignItems(Alignment.CENTER);
 
         // create post button (calls publish post when clicked)
-        Button createPostButton = new Button("Create Post!");
+        Button createPostButton = new Button("Create Event!");
         createPostButton.addClassName("reset-button");
         createPostButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         createPostButton.addClickListener(

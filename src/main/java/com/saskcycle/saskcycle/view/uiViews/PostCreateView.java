@@ -155,7 +155,7 @@ public class PostCreateView extends VerticalLayout {
     VerticalLayout LeftInfoPanel = new VerticalLayout(title, description, postalCodeField, contactPanel);
 
     // Right side of post creation
-    VerticalLayout RightInfoPanel = new VerticalLayout(new H1("Tags:"), tags);
+    VerticalLayout RightInfoPanel = new VerticalLayout(new H1("Tags"), tags);
 
     // Body of post creation
     HorizontalLayout InfoPanel = new HorizontalLayout(LeftInfoPanel, RightInfoPanel);

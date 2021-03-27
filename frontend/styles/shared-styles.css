@@ -51,7 +51,7 @@ a[highlight] {
 }
 
 .posts {
-    width: 800px;
+    width: 700px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

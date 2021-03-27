@@ -29,40 +29,23 @@ public class MainView extends VerticalLayout {
     VerticalLayout subheader = new VerticalLayout(sub);
     subheader.addClassName("sub");
 
-    Text eventDetail = new Text("Browse local reuse and repair events in Saskatoon");
-    Icon eIcon = new Icon(VaadinIcon.CALENDAR);
     Button eventButton = new Button("Browse events");
     eventButton.addClassName("reset-button");
     eventButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     eventButton.addClickListener(e -> eventButton.getUI().ifPresent(ui -> ui.navigate("events")));
-    VerticalLayout events = new VerticalLayout(eIcon, eventDetail, eventButton);
-   // events.setWidth("30%");
-    events.setAlignItems(Alignment.CENTER);
-    events.addClassName("display-box");
 
-    Text postDetail = new Text("Let people know if you need something or have something to give away");
-    Icon pIcon = new Icon(VaadinIcon.PENCIL);
     Button postButton = new Button("Create a post");
     postButton.addClassName("reset-button");
     postButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     postButton.addClickListener(e -> eventButton.getUI().ifPresent(ui -> ui.navigate("Create-Posts")));
-    VerticalLayout posts = new VerticalLayout(pIcon, postDetail, postButton);
-    //posts.setWidth("30%");
-    posts.setAlignItems(Alignment.CENTER);
-    posts.addClassName("display-box");
 
-    Text routeDetail = new Text("Plan the easiest route to get what you need or give your resuables a second life");
-    Icon rIcon = new Icon(VaadinIcon.MAP_MARKER);
-    Button routeButton = new Button("Search all listings");
-    routeButton.addClassName("reset-button");
-    routeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-    routeButton.addClickListener(e -> routeButton.getUI().ifPresent(ui -> ui.navigate("results")));
-    VerticalLayout route = new VerticalLayout(rIcon, routeDetail, routeButton);
-    //route.setWidth("30%");
-    route.setAlignItems(Alignment.CENTER);
-    route.addClassName("display-box");
 
-    HorizontalLayout buttonPanel = new HorizontalLayout(eventButton, postButton, routeButton);
+    Button listingsButton = new Button("Search all listings");
+    listingsButton.addClassName("reset-button");
+    listingsButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    listingsButton.addClickListener(e -> listingsButton.getUI().ifPresent(ui -> ui.navigate("results")));
+
+    HorizontalLayout buttonPanel = new HorizontalLayout(eventButton, postButton, listingsButton);
     //buttonPanel.setAlignItems(Alignment.CENTER);
 
     add(heading, subheader, buttonPanel, showTags());

@@ -3,6 +3,7 @@ package com.saskcycle.DAO;
 import com.saskcycle.model.Post;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -82,6 +83,7 @@ public interface PostsDAOInterface {
    */
   void deletePost(Post post);
 
+  List<Post> findByIds(List<String> ids);
 }
 
 

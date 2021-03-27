@@ -11,25 +11,25 @@ import java.util.List;
 public class EventController {
 
     @Autowired
-    private EventDAOInterface Eaccess;
+    private EventDAOInterface eventDataAccess;
 
     public List<Event> getAllEvents() {
-        return Eaccess.allEvents();
+        return eventDataAccess.allEvents();
     }
 
     public Event getEventByTitle(String title) {
-        return Eaccess.findEventByTitle(title);
+        return eventDataAccess.findEventByTitle(title);
     }
 
     public void addEvent(Event newEvent) {
-        Eaccess.addEvent(newEvent);
+        eventDataAccess.addEvent(newEvent);
     }
 
     public void deleteEvent(Event saskcycleEvent) {
-        Eaccess.deleteEvent(saskcycleEvent);
+        eventDataAccess.deleteEvent(saskcycleEvent);
     }
 
     public Event getEventByID(String id) {
-        return Eaccess.searchById(id);
+        return eventDataAccess.searchById(id);
     }
 }

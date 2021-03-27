@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -81,7 +82,11 @@ public class PostsDAO implements PostsDAOInterface {
   }
 
   public ArrayList<Post> getFilteredPosts() {
-
     return null;
+  }
+
+  @Override
+  public List<Post> findByIds(List<String> ids) {
+    return PR.findByIdIn(ids);
   }
 }

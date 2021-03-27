@@ -7,7 +7,6 @@ import com.saskcycle.services.GeocodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,11 +19,11 @@ public class PostController implements Serializable {
 
     private Post currentPost;
 
-    @Autowired private PostsDAOInterface postDAD;
+    @Autowired private PostsDAOInterface postsDataAccess;
 
     @Autowired private GeocodeService geocodeService;
 
-    @Autowired private CurrentUserDAOInterface currentDAD;
+    @Autowired private CurrentUserDAOInterface currentUserDataAccess;
 
     /* ---------  Methods  --------- */
 
@@ -113,14 +112,13 @@ public class PostController implements Serializable {
     }
 
     public void removePost(){
-        postDAD.deletePost(currentPost);
+        postsDataAccess.deletePost(currentPost);
     }
 
     public Boolean verifyAndPublish(){
         if(currentPost.isComplete()){
             currentPost.setDatePosted(new Date());
-            postDAD.addPost(currentPost);
-//            currentPost = new Post();
+            postsDataAccess.addPost(currentPost);
             return true;
         }
         else{
@@ -131,7 +129,7 @@ public class PostController implements Serializable {
 
     public Boolean verifyAndUpdatePost(){
         if(currentPost.isComplete()){
-            postDAD.updatePost(currentPost);
+            postsDataAccess.updatePost(currentPost);
             return true;
         }
         else {
@@ -145,24 +143,7 @@ public class PostController implements Serializable {
      */
     public List<Post> getUserCreatedPosts()
     {
-        List<String> usersPosts = currentDAD.getCurrentAccount().getPostIds();
-        List<Post> userCreatedPostsList = new ArrayList<>();
-        List<String> postsToRemove = new ArrayList<>();
-        for (String s : usersPosts)
-        {
-            if (postDAD.searchByID(s) != null)
-            {
-                userCreatedPostsList.add(postDAD.searchByID(s));
-            }
-            else
-            {
-                postsToRemove.add(s);
-            }
-        }
-        for (String s : postsToRemove) {
-            currentDAD.removePost(s);
-        }
-        return userCreatedPostsList;
+        List<String> usersPosts = currentUserDataAccess.getCurrentAccount().getPostIds();
+        return postsDataAccess.findByIds(usersPosts);
     }
-
 }

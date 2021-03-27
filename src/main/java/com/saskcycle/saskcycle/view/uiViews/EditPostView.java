@@ -6,6 +6,7 @@ import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
 import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.security.SecurityUtils;
+import com.saskcycle.saskcycle.view.components.PostalCodeComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -57,7 +58,7 @@ public class EditPostView extends VerticalLayout implements HasUrlParameter<Stri
     private TextField title = new TextField();
     private TextArea description = new TextArea();
     private MultiSelectListBox<String> tags = new MultiSelectListBox<>();
-    private TextField postalCodeField = new TextField();
+    private PostalCodeComponent postalCodeField = new PostalCodeComponent();
 
     Binder<PostController> binder = new Binder<>(PostController.class);
 
@@ -84,20 +85,6 @@ public class EditPostView extends VerticalLayout implements HasUrlParameter<Stri
         description.setMinWidth("600px");
         description.setMinHeight("200px");
         description.setRequiredIndicatorVisible(true);
-
-        // Postal Field
-        Pattern postalRegex = Pattern.compile("[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]");
-        postalCodeField.setLabel("Postal Code");
-        postalCodeField.setMinWidth("150px");
-        // Postal layout check
-        Matcher postalMatcher = postalRegex.matcher(postalCodeField.getValue());
-        postalCodeField.setPreventInvalidInput(true);
-        postalCodeField.setMaxLength(6);
-        postalCodeField.setRequiredIndicatorVisible(true);
-        AtomicBoolean postalMatch = new AtomicBoolean(postalMatcher.find());
-        postalCodeField.addValueChangeListener(e -> {
-            postalMatcher.reset(e.getValue());
-            postalMatch.set(postalMatcher.find()); });
 
         // Privacy and email/phone check boxes
         Div postPrivacy = new Div();
@@ -143,7 +130,7 @@ public class EditPostView extends VerticalLayout implements HasUrlParameter<Stri
 
         SerializablePredicate<String> titlePredicates = value -> !title.getValue().trim().isEmpty();
         SerializablePredicate<String> descriptionPredicates = value -> !description.getValue().trim().isEmpty();
-        SerializablePredicate<String> postalPredicates = value -> !postalCodeField.getValue().trim().isEmpty();
+        SerializablePredicate<String> postalPredicates = value -> !postalCodeField.getPostalCode().trim().isEmpty();
         SerializablePredicate<String> privacyPredicates = value ->!postPrivacy.getText().trim().isEmpty();
 
         Binder.Binding<PostController, String> titleBinding = binder.forField(title)
@@ -156,7 +143,7 @@ public class EditPostView extends VerticalLayout implements HasUrlParameter<Stri
                 .withValidator(descriptionPredicates, "Please specify your description")
                 .bind(PostController::getPostDescription, PostController::setPostDescription);
 
-        Binder.Binding<PostController, String> postalBinding = binder.forField(postalCodeField)
+        Binder.Binding<PostController, String> postalBinding = binder.forField(postalCodeField.getTextField())
                 .withNullRepresentation("")
                 .withValidator(postalPredicates, "Please specify a postal code")
                 .bind(PostController::getPostalCode, PostController::setPostPostalCode);
@@ -190,14 +177,13 @@ public class EditPostView extends VerticalLayout implements HasUrlParameter<Stri
             if (binder.writeBeanIfValid(postController) && !tags.isEmpty()) {
                 infoLabel.setText("Saved bean values: " + postController);
                 // Postal code format check
-                if(!postalMatch.get()){
+                if(!postalCodeField.postalCodeIsValid()){
                     Notification postalNotification = new Notification("Invalid Postal Code",3000, Notification.Position.MIDDLE);
                     postalNotification.open();
                 }
                 else {
-                    updatePost(title.getValue(),description.getValue(),postalCodeField.getValue(),tagList,privacySelect.getValue(),email.getValue());
+                    updatePost(title.getValue(),description.getValue(),postalCodeField.getTextField().getValue(),tagList,privacySelect.getValue(),email.getValue());
                 }
-
             }
             else {
                 // empty tag list check
@@ -223,7 +209,6 @@ public class EditPostView extends VerticalLayout implements HasUrlParameter<Stri
      * fills in fields with edited post fields fields
      */
     public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
-
         post = searchController.getPostByID(id);
         postController.setCurrentInspectedPost(post);
 
@@ -233,10 +218,7 @@ public class EditPostView extends VerticalLayout implements HasUrlParameter<Stri
         description.setPlaceholder(postController.getPostDescription());
         description.setValue(postController.getPostDescription());
 
-        postalCodeField.setPlaceholder(postController.getPostalCode());
-        postalCodeField.setValue(postController.getPostalCode());
-
-        //tags.setValue((Set<String>) postController.getPostTags());
+        postalCodeField.setPostalCode(postController.getPostalCode());
     }
 
 
@@ -250,7 +232,8 @@ public class EditPostView extends VerticalLayout implements HasUrlParameter<Stri
         id = postId;
     }
 
-    /** publishPost method
+    /**
+     * publishPost method
      * method uses controller to set all post fields
      * if so, then a new post is made using all the provided info from user
      */
@@ -268,8 +251,6 @@ public class EditPostView extends VerticalLayout implements HasUrlParameter<Stri
         }
         Boolean editSuccess = postController.verifyAndUpdatePost();
         if(editSuccess){
-            //currentAccount.updateCreatedPostList(postController.getPostID().toString());
-
             // Confirmation Dialog Box
             Dialog confirmPosted = new Dialog();
             confirmPosted.setModal(false);
@@ -295,7 +276,5 @@ public class EditPostView extends VerticalLayout implements HasUrlParameter<Stri
             failedPosted.add(new H1("Something went wrong while updating post"), returnButton);
             failedPosted.setOpened(true);
         }
-
     }
-
 }

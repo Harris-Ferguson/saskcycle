@@ -55,4 +55,8 @@ public class PostalCodeComponent extends Div {
     public String getPostalCode(){
         return postalCodeField.getValue();
     }
+
+    public void setPostalCode(String postalCode){
+        postalCodeField.setValue(postalCode);
+    }
 }

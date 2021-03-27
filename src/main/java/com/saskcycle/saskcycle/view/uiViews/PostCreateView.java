@@ -164,7 +164,7 @@ public class PostCreateView extends VerticalLayout {
     Header.setAlignItems(Alignment.CENTER);
 
     /**
-    * post create button declaration and event handeling
+    * post create button declaration and event handling
     * button will perform various checks on fields in view to ensure info is filled out
     * if all is good, then publish post will be called
     */

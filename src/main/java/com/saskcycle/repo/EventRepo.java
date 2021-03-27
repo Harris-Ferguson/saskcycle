@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface EventRepo extends MongoRepository<Event, String> {
-
+    Event findEventByTitle(String title);
 }

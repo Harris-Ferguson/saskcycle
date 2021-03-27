@@ -1,7 +1,6 @@
 package com.saskcycle.controller;
 
 import com.saskcycle.DAO.EventDAOInterface;
-import com.saskcycle.DAO.PostsDAOInterface;
 import com.saskcycle.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,15 +18,7 @@ public class EventController {
     }
 
     public Event getEventByTitle(String title) {
-
-        List<Event> events = getAllEvents();
-
-        for (Event e : events) {
-            if (e.title.equals(title)) {
-                return e;
-            }
-        }
-        return null;
+        return Eaccess.findEventByTitle(title);
     }
 
     public void addEvent(Event newEvent) {
@@ -40,19 +31,5 @@ public class EventController {
 
     public Event getEventByID(String id) {
         return Eaccess.searchById(id);
-//        List<Event> events = getAllEvents();
-//
-//        for (Event e : events) {
-//            if (e.id.equals(id)) {
-//                return e;
-//            }
-//        }
-//        return null;
     }
-
-    public void updateCalendarEntryId(Event e, String id) {
-        e.setCalendarEntryID(id);
-        Eaccess.updateEvent(e);
-    }
-
 }

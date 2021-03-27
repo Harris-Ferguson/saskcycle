@@ -33,19 +33,21 @@ public class EventsDAO implements EventDAOInterface {
     @Override
     public void addEvent(Event event) {
         ER.insert(event);
-
     }
 
     @Override
     public void deleteEvent(Event saskcycleEvent) {
-
         ER.delete(saskcycleEvent);
-
     }
 
     @Override
     public void updateEvent(Event e) {
         ER.save(e);
+    }
+
+    @Override
+    public Event findEventByTitle(String title){
+        return ER.findEventByTitle(title);
     }
 
 }

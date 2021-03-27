@@ -27,8 +27,8 @@ window.initMap = function(){
     const dRenderer = new google.maps.DirectionsRenderer();
 
     // Set up map from view to focus on Saskatoon coordinates
-    var saskatoon = new google.maps.LatLng(52.118, -106.643)
-    map = new google.maps.Map(document.getElementById("map"), {
+    var saskatoon = new google.maps.LatLng(52.118, -106.643);
+    const map = new google.maps.Map(document.getElementById("map"), {
         center: saskatoon,
         zoom: 11,
     })
@@ -37,9 +37,11 @@ window.initMap = function(){
     // Display all markers
     console.log(markers);
     for(var i = 0 ; i < window.markers.length ; i++){
-        window.renderMarker(window.markers[i].lat, window.markers[i].long, window.markers[i].name);
-    }
-
+        new google.maps.Marker({
+            position:  new google.maps.LatLng(window.markers[i].long, window.markers[i].lat),
+            title: "destination",
+            map: map});
+        }
 
     // Hook javascript to GUI button - render directions upon submission
     var submitButton = document.getElementById("submitStart");
@@ -51,18 +53,6 @@ window.initMap = function(){
 
 
 /* --------- Marker Scripts ---------- */
-
-/*
-* Creates a new Google Maps marker
-*/
-window.renderMarker = function(lat, long, name) {
-    let pos = new google.maps.LatLng(lat, long);
-    new google.maps.Marker({
-        position: pos,
-        title: name,
-        map: map
-    });
-};
 
 /*
 * Adds a marker to the list of markers to render

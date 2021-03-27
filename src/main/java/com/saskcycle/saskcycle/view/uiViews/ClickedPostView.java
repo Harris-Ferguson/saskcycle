@@ -35,6 +35,7 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
     private String id;
     private Post post;
     private Double latitude, longitude;
+    private VerticalLayout mapHolder;
 
     private MapComponent map;
 
@@ -56,6 +57,7 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         title = new H1();
         title2 = new H1();
         paragraph = new Paragraph();
+
 
         Button wishlistButton = new Button("Add to wishlist", new Icon(VaadinIcon.STAR));
         wishlistButton.addClickListener(e -> {
@@ -112,19 +114,20 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         desc.setWidth("600px");
 
         //sidePanel.add(wishlistButton, postTime, email);
-        sidePanel.add(wishlistButton, showMap(), goToRouteButton, postTime, postTime, email);
+        showMap();
+        sidePanel.add(wishlistButton, mapHolder, goToRouteButton, postTime, postTime, email);
 
         add(new HorizontalLayout(new VerticalLayout(title, desc), sidePanel));
     }
 
-    private VerticalLayout showMap() {
+    private void showMap() {
 
-        VerticalLayout mapContainer = new VerticalLayout();
-        mapContainer.setHeight("400px");
-        mapContainer.setWidth("400px");
-        map = new MapComponent();
-        mapContainer.add(map);
-        return mapContainer;
+        mapHolder = new VerticalLayout();
+        mapHolder.setHeight("400px");
+        mapHolder.setWidth("400px");
+//        map = new MapComponent();
+//        mapContainer.add(map);
+//        mapHolder.add(mapContainer);
 
     }
 
@@ -157,7 +160,8 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         postTime.setText("Posted at "
                 + new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a").format(post.datePosted));
         map = new MapComponent(latitude, longitude, "Label");
-        add(map);
+        System.out.println(map.getLat() + " " + map.getLon());
+        mapHolder.add(map);
         post = SC.getPostByID(id);
         title.setText(post.title);
         paragraph.setText(post.description);

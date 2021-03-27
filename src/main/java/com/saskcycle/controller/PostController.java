@@ -160,7 +160,7 @@ public class PostController implements Serializable {
             }
         }
         for (String s : postsToRemove) {
-            currentDAD.getCurrentAccount().getPostIds().remove(s);
+            currentDAD.removePost(s);
         }
         return userCreatedPostsList;
     }

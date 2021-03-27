@@ -8,6 +8,7 @@ import com.saskcycle.saskcycle.view.components.PostalCodeComponent;
 import com.saskcycle.services.GeocodeService;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
@@ -168,7 +169,9 @@ public class PostCreateView extends VerticalLayout {
     * button will perform various checks on fields in view to ensure info is filled out
     * if all is good, then publish post will be called
     */
-    Button createPostButton = new Button("Create Post!", new Icon(VaadinIcon.THUMBS_UP));
+    Button createPostButton = new Button("Create Post!");
+    createPostButton.addClassName("reset-button");
+    createPostButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     createPostButton.addClickListener(event -> {
       // all fields are filled
       if (binder.writeBeanIfValid(postController) && !tags.isEmpty()) {

@@ -104,8 +104,9 @@ public abstract class ClickedInfo extends Dialog {
         Paragraph desc = new Paragraph(saskcycleEvent.description);
         Scroller scroller = new Scroller();
         scroller.setContent(desc);
+        scroller.getStyle().set("backgroundColor", "#eeeeee").set("padding", "5px 10px");
         scroller.setHeight("100px");
-        scroller.setWidth("600px");
+        scroller.setWidth("580px");
         scroller.getStyle().set("border", "1px solid #eeeeee");
 
         Details org = new Details("Organizer", new Text(saskcycleEvent.owner.getUsername() + " (" + saskcycleEvent.owner.getEmail() + ")"));
@@ -115,7 +116,11 @@ public abstract class ClickedInfo extends Dialog {
         String[] tags = saskcycleEvent.tags.toArray(new String[0]);
 
         // Exit button which allows user to close the event info window
-        HorizontalLayout exit = new HorizontalLayout(VaadinIcon.CLOSE.create());
+        Icon ex = new Icon(VaadinIcon.CLOSE);
+        ex.setColor("lightgrey");
+        HorizontalLayout exit = new HorizontalLayout(ex);
+
+
         exit.addClassName("exit");
         exit.setAlignItems(FlexComponent.Alignment.END);
         exit.getStyle().set("cursor", "pointer");
@@ -138,6 +143,9 @@ public abstract class ClickedInfo extends Dialog {
             Span s = new Span(new Text(line));
             info.add(s);
         }
+
+        info.setSpacing(false);
+        info.setPadding(false);
 
         return info;
     }

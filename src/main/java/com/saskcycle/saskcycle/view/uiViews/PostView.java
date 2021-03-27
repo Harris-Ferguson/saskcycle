@@ -5,6 +5,7 @@ import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.view.components.PostComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.charts.model.Dial;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
@@ -12,6 +13,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.router.PageTitle;
@@ -43,10 +45,12 @@ public class PostView extends VerticalLayout {
 
     // addClassName("filter-view");
     Button createButton = new Button("Create New Post", new Icon(VaadinIcon.PLUS));
+    createButton.addClassName("reset-button");
+    createButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     createButton.addClickListener(
         e -> createButton.getUI().ifPresent(ui -> ui.navigate("Create-Posts")));
 
-    add(new H1("Posts"), createButton,new H2("Your current posts:"),grid);
+    add(new H1("Your posts"), createButton,grid);
   }
 
   private Grid<Post> initGrid() {
@@ -64,6 +68,8 @@ public class PostView extends VerticalLayout {
   private Button createEditButton(Grid<Post> grid, Post post){
     postController.setCurrentInspectedPost(post);
     Button button = new Button("Edit Post",new Icon(VaadinIcon.PENCIL));
+    button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    button.addClassName("reset-button");
     button.addClickListener(event -> {
       getUI().ifPresent(ui -> ui.navigate(EditPostView.class,post.id));
     });
@@ -74,12 +80,16 @@ public class PostView extends VerticalLayout {
   private Button createDeleteButton(Grid<Post> grid, Post post){
     postController.setCurrentInspectedPost(post);
     Button deleteButton = new Button("Delete Post",new Icon(VaadinIcon.TRASH));
+    deleteButton.addClassName("reset-button");
+    deleteButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
     deleteButton.addClickListener(event -> {
       //Delete confirmation box
       Dialog confirmDelete = new Dialog();
       confirmDelete.setModal(false);
       //confirm delete button
-      Button deleteButtonConfirm = new Button("Yes, delete post", new Icon(VaadinIcon.CHECK));
+      Button deleteButtonConfirm = new Button("Delete");
+      deleteButtonConfirm.addClassName("reset-button");
+      deleteButtonConfirm.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
       deleteButtonConfirm.addClickListener(
               e -> {
                 ListDataProvider<Post> dataProvider = (ListDataProvider<Post>) grid.getDataProvider();
@@ -89,13 +99,17 @@ public class PostView extends VerticalLayout {
                 confirmDelete.close();
               });
       //cancel delete
-      Button deleteButtonCancel = new Button("No, don't delete", new Icon(VaadinIcon.CLOSE));
+      Button deleteButtonCancel = new Button("Cancel");
+      deleteButtonCancel.setClassName("cancel-button");
+      deleteButtonCancel.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
       deleteButtonCancel.addClickListener(
               e -> {
                 confirmDelete.close();
               });
       VerticalLayout vbox = new VerticalLayout();
-      vbox.add(new H1("Are you sure you want to delete this post?"), deleteButtonConfirm,deleteButtonCancel);
+      HorizontalLayout buttonPanel = new HorizontalLayout(deleteButtonCancel, deleteButtonConfirm);
+      buttonPanel.setJustifyContentMode(JustifyContentMode.CENTER);
+      vbox.add(new H2("Are you sure you want to delete this post?"), buttonPanel);
       vbox.setAlignItems(Alignment.CENTER);
       confirmDelete.add(vbox);
       confirmDelete.setOpened(true);

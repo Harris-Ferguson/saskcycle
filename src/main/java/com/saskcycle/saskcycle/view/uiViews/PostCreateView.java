@@ -13,6 +13,7 @@ import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -181,6 +182,10 @@ public class PostCreateView extends VerticalLayout {
             Notification postalNotification = new Notification("Invalid Postal Code",3000, Notification.Position.MIDDLE);
             postalNotification.open();
         }
+        if (description.getValue().length() <= 50) {
+            Notification descNotification = new Notification("Description must be at least 50 characters long", 3000, Notification.Position.MIDDLE);
+            descNotification.open();
+        }
         else {
             publishPost(postTypeSelect.getValue(),title.getValue(),description.getValue(),postalCodeField.getTextField().getValue(),tagList,privacySelect.getValue(),email.getValue());
         }
@@ -248,16 +253,23 @@ public class PostCreateView extends VerticalLayout {
       Dialog dialog = new Dialog();
       dialog.setModal(false);
       Button returnButton = new Button("Return Home", new Icon(VaadinIcon.HOME));
+      returnButton.addClassName("reset-button");
+      returnButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
       returnButton.addClickListener(
               e -> {
                   returnButton.getUI().ifPresent(ui -> ui.navigate(""));
                   dialog.close();
               });
       if(success){
-          dialog.add(new H1("Successful Post!"), returnButton);
+          VerticalLayout vbox = new VerticalLayout(new H2("Successful Post!"), returnButton);
+          vbox.setAlignItems(Alignment.CENTER);
+          dialog.add(vbox);
+
       }
       else {
-          dialog.add(new H1("Something went wrong while posting"), returnButton);
+          VerticalLayout vbox = new VerticalLayout(new H2("Something went wrong while posting"), returnButton);
+          vbox.setAlignItems(Alignment.CENTER);
+          dialog.add(vbox);
       }
       return dialog;
   }

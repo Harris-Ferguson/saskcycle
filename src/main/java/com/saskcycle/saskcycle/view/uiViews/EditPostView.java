@@ -274,12 +274,16 @@ public class EditPostView extends VerticalLayout implements HasUrlParameter<Stri
             Dialog confirmPosted = new Dialog();
             confirmPosted.setModal(false);
             Button returnButton = new Button("Return Home", new Icon(VaadinIcon.HOME));
+            returnButton.addClassName("reset-button");
+            returnButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
             returnButton.addClickListener(
                     e -> {
                         returnButton.getUI().ifPresent(ui -> ui.navigate(""));
                         confirmPosted.close();
                     });
-            confirmPosted.add(new H1("Post Was Updated!"), returnButton);
+            VerticalLayout vbox = new VerticalLayout(new H2("Successful Post!"), returnButton);
+            vbox.setAlignItems(Alignment.CENTER);
+            confirmPosted.add(vbox);
             confirmPosted.setOpened(true);
         }
         else {
@@ -287,12 +291,16 @@ public class EditPostView extends VerticalLayout implements HasUrlParameter<Stri
             Dialog failedPosted = new Dialog();
             failedPosted.setModal(false);
             Button returnButton = new Button("Return Home", new Icon(VaadinIcon.HOME));
+            returnButton.addClassName("reset-button");
+            returnButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
             returnButton.addClickListener(
                     e -> {
                         returnButton.getUI().ifPresent(ui -> ui.navigate(""));
                         failedPosted.close();
                     });
-            failedPosted.add(new H1("Something went wrong while updating post"), returnButton);
+            VerticalLayout vbox = new VerticalLayout(new H2("Successful Post!"), returnButton);
+            vbox.setAlignItems(Alignment.CENTER);
+            failedPosted.add(vbox);
             failedPosted.setOpened(true);
         }
 

@@ -81,19 +81,19 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
                 });
         wishlistButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         wishlistButton.addClassName("wishlist-button");
-        HorizontalLayout heading = new HorizontalLayout(title, wishlistButton);
-        heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
+        //HorizontalLayout heading = new HorizontalLayout(title, wishlistButton);
+        //heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
 
         // Contains additional info about the post
         VerticalLayout sidePanel = new VerticalLayout();
         sidePanel.setAlignItems(Alignment.CENTER);
 
-        sidePanel.setWidth("400px");
+        //sidePanel.setWidth("400px");
         postTime = new H4();
         email = new H4();
         //sidePanel.getStyle().set("border", "1px solid #eeeeee");
         sidePanel.getStyle().set("border", "1px solid #eeeeee");
-        heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
+        //heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
 
         Button goToRouteButton = new Button("Get Route Plan", new Icon(VaadinIcon.MAP_MARKER));
         goToRouteButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -107,14 +107,18 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
 
         //H4 contact = new H4("For more information, contact: "+ email);
 
-        VerticalLayout desc = new VerticalLayout();
-        desc.add(paragraph);
-        desc.setWidth("600px");
+//        VerticalLayout desc = new VerticalLayout();
+//        desc.add(paragraph);
+//        desc.setWidth("600px");
 
         //sidePanel.add(wishlistButton, postTime, email);
         sidePanel.add(wishlistButton, showMap(), goToRouteButton, postTime, postTime, email);
+        sidePanel.setWidth("400px");
 
-        add(new HorizontalLayout(new VerticalLayout(title, desc), sidePanel));
+        VerticalLayout mainPanel = new VerticalLayout(title, paragraph);
+        mainPanel.setWidth("700px");
+
+        add(new HorizontalLayout(mainPanel, sidePanel));
     }
 
     private VerticalLayout showMap() {

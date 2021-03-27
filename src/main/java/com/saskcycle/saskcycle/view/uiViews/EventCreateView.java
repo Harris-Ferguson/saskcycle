@@ -11,6 +11,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -162,12 +163,16 @@ public class EventCreateView extends VerticalLayout {
             Dialog confirmPosted = new Dialog();
             confirmPosted.setModal(false);
             Button returnButton = new Button("Go to your events", new Icon(VaadinIcon.HOME));
+            returnButton.addClassName("reset-button");
+            returnButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
             returnButton.addClickListener(
                     e -> {
                         returnButton.getUI().ifPresent(ui -> ui.navigate("delete-event"));
                         confirmPosted.close();
                     });
-            confirmPosted.add(new H1("Successfully created your event!"), returnButton);
+            VerticalLayout vbox = new VerticalLayout(new H2("Successful Post!"), returnButton);
+            vbox.setAlignItems(Alignment.CENTER);
+            confirmPosted.add(vbox);
             confirmPosted.setOpened(true);
         }
     }

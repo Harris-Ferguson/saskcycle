@@ -5,6 +5,7 @@ import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.html.H1;
@@ -39,10 +40,14 @@ public class SettingsView extends Composite {
       postCheckbox.select(textString);
     }
 
+    Button saveButton = new Button("Save");
+    saveButton.addClassName("reset-button");
+    saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    saveButton.addClickListener(event -> changeSettings(postCheckbox));
     return new VerticalLayout(
         new H1("Settings"),
         postCheckbox,
-        new Button("Save", event -> changeSettings(postCheckbox)));
+        saveButton);
   }
 
   private void changeSettings(CheckboxGroup<String> settings) {

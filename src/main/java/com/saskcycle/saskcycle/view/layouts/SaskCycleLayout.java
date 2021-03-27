@@ -34,5 +34,6 @@ public abstract class SaskCycleLayout extends AppLayout {
 
     addToDrawer(new VerticalLayout(postLink, settingsLink,wishListLink,eventCreateLink));
     setDrawerOpened(false);
+
   }
 }

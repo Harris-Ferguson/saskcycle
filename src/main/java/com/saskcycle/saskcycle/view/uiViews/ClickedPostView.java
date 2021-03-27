@@ -98,24 +98,18 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
             UI.getCurrent().getPage().reload();
         });
 
-        //H4 contact = new H4("For more information, contact: "+ email);
 
-//        VerticalLayout desc = new VerticalLayout();
-//        desc.add(paragraph);
-//        desc.setWidth("600px");
         VerticalLayout desc = new VerticalLayout();
         desc.add(paragraph);
         desc.setWidth("600px");
 
-        //sidePanel.add(wishlistButton, postTime, email);
         setMapHolder();
         sidePanel.add(wishlistButton, mapHolder, goToRouteButton, postTime, postTime, email);
-        sidePanel.add(wishlistButton, showMap(), goToRouteButton, postTime, postTime, email);
         sidePanel.setWidth("400px");
 
         add(new HorizontalLayout(new VerticalLayout(postType,title, desc), sidePanel));
         VerticalLayout mainPanel = new VerticalLayout(title, paragraph);
-        mainPanel.setWidth("700px");
+        mainPanel.setWidth("75%");
 
         add(new HorizontalLayout(mainPanel, sidePanel));
     }

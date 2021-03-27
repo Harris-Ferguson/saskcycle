@@ -31,15 +31,15 @@ public class GeocodeService implements Serializable {
      */
     public void geolocationFromPostalCode(String postalCode) throws JSONException {
         postalCode = URLEncoder.encode(postalCode.trim().toLowerCase(Locale.ROOT), StandardCharsets.UTF_8);
-        makeRequest(postalCode);
+        getJsonArray(postalCode);
     }
 
     public void geolocationFromStreetAddress(String address) throws JSONException {
         String encodedAddress = URLEncoder.encode(address + " Saskatoon Saskatchewan", StandardCharsets.UTF_8);
-        makeRequest(encodedAddress);
+        getJsonArray(encodedAddress);
     }
 
-    private void makeRequest(String requestUrlString) throws JSONException {
+    private void getJsonArray(String requestUrlString) throws JSONException {
         JSONArray array;
         try {
             // Connects to geocoder service

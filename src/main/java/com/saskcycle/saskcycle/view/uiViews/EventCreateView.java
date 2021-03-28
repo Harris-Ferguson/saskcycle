@@ -21,6 +21,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,7 @@ public class EventCreateView extends VerticalLayout {
     private TextArea description;
     private Button returnButton;
     private ArrayList<String> tagList;
+    DateTimePicker startTime;
     MultiSelectListBox<String> tags;
 
     /**
@@ -58,10 +60,14 @@ public class EventCreateView extends VerticalLayout {
         descriptionField();
         VerticalLayout address = addressFields();
 
-        DateTimePicker startTime = new DateTimePicker();
+        startTime = new DateTimePicker();
         startTime.setLabel("Start time");
+        startTime.setValue(LocalDateTime.now());
+
+
         DateTimePicker endTime = new DateTimePicker();
         endTime.setLabel("End time");
+        endTime.setValue(LocalDateTime.now());
 
         createTags();
 
@@ -113,6 +119,7 @@ public class EventCreateView extends VerticalLayout {
             ArrayList<String> addressInfo,
             ArrayList<String> tags) {
 
+
         if (line1.getValue().trim().isEmpty()) {
             Notification.show("Enter Address Line 1");
         } else if (!postalCodeField.postalCodeIsValid()) {
@@ -123,9 +130,11 @@ public class EventCreateView extends VerticalLayout {
             Notification.show("Enter a Description");
         } else if (tags.isEmpty()) {
             Notification.show("Please add some tags");
-        } else if (eventEnd.isBefore(eventStart)) {
+        }
+        else if (eventEnd.isBefore(eventStart)) {
             Notification.show("Event's end time is before its start time");
-        } else {
+        }
+        else {
             int[] startTimeDetails = new int[]{eventStart.getMonth().getValue(), eventStart.getDayOfMonth(), eventStart.getHour(), eventStart.getMinute(), eventStart.getYear()};
             int[] endTimeDetails = new int[]{eventEnd.getMonth().getValue(), eventEnd.getDayOfMonth(), eventEnd.getHour(), eventEnd.getMinute(), eventEnd.getYear()};
             Event newEvent = new Event(startTimeDetails, endTimeDetails, title, currentAccount.getCurrentAccount(),

@@ -37,4 +37,12 @@ public class EventController {
     public Event getEventByDetails(String title, int[] start, int[] end) {
         return eventDataAccess.findEventByDetails(title, start, end);
     }
+
+//    public LocalDateTime getStartTime(EventController eventController) {
+////
+////    }
+////
+////    public void setStartTime(EventController eventController, LocalDateTime localDateTime) {
+////
+////    }
 }

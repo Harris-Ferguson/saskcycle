@@ -49,6 +49,7 @@ public class EventControllerTests {
 
     @Test
     public void testEventPostingCreation(){
+        createEvent();
         eventController.addEvent(testEvent);
         Assertions.assertTrue(eventsRepo.existsById(testEvent.id));
         eventController.deleteEvent(testEvent);
@@ -56,6 +57,7 @@ public class EventControllerTests {
 
     @Test
     public void testEventDeletion(){
+        createEvent();
         eventController.addEvent(testEvent);
         Assertions.assertTrue(eventsRepo.existsById(testEvent.id));
         eventController.deleteEvent(testEvent);
@@ -64,6 +66,7 @@ public class EventControllerTests {
 
     @Test
     public void testGetEventByTitle(){
+        createEvent();
         eventController.addEvent(testEvent);
         Event get = eventController.getEventByTitle("Test Title");
         Assertions.assertNotNull(get);

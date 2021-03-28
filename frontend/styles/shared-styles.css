@@ -122,3 +122,7 @@ text-align: center;
 .postal {
     color: grey;
 }
+
+.main-panel {
+    width: 75%;
+}

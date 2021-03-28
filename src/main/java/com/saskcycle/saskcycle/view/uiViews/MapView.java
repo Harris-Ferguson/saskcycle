@@ -61,7 +61,6 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
 
         timeLayout.add(timeButtons);
 
-
         transSelectLayout.add(transSelect, timeButtons, dateTimePicker, submitStart);
         transSelectLayout.setAlignItems(Alignment.BASELINE);
 
@@ -86,6 +85,10 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
         add(startingAddress, transSelectLayout, map, targetAddress, warning);
     }
 
+    /**
+     * Allows
+     * @return
+     */
     private DateTimePicker createDateTimePicker() {
         DateTimePicker dtp = new DateTimePicker();
         dtp.setId("timePick");

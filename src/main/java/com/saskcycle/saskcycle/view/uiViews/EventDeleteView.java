@@ -37,7 +37,9 @@ public class EventDeleteView extends VerticalLayout {
     @Autowired
     private EventController EC;
 
-
+    /**
+     * Allows user (organizational account) to view and delete events they have created
+     */
     @PostConstruct
     public void EventDeleteView() {
         Button createButton = new Button("Create Event", new Icon(VaadinIcon.PLUS));
@@ -58,6 +60,10 @@ public class EventDeleteView extends VerticalLayout {
         add(new H1("Your Events"), createButton, newGrid);
     }
 
+    /**
+     * Constructs the grid to display the events in a scrollable format
+     * @return single-column grid containing the events created by that accoun
+     */
     private Grid<Event> initGrid() {
 
         Grid<Event> newGrid = new Grid<>();

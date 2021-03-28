@@ -22,6 +22,7 @@ import org.vaadin.stefan.fullcalendar.Timezone;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -41,6 +42,9 @@ public class EventView extends VerticalLayout {
     @Autowired
     private EventController EC;
 
+    /**
+     * Shows the calendar which displays all reuse events
+     */
     @PostConstruct
     public void EventView() {
         events = EC.getAllEvents();
@@ -49,7 +53,6 @@ public class EventView extends VerticalLayout {
 
     /**
      * Creates and styles calendar component and adds the events
-     *
      * @return vertical layour containing a full calendar component
      */
     private VerticalLayout createCalendar() {
@@ -64,8 +67,9 @@ public class EventView extends VerticalLayout {
         calLayout.setFlexGrow(1, calendar);
 
         calendar.addEntryClickedListener(event -> {
-            //Event e = EC.getEventByCalendarID(event.getEntry().getId());
-            Event e = EC.getEventByTitle(event.getEntry().getTitle());
+            Event e = EC.getEventByDetails(event.getEntry().getTitle(),
+                    makeStartTimeArray(event.getEntry().getStart()),
+                    makeEndTimeArray(event.getEntry().getEnd()));
             Dialog eventInfo = new EventInfoComponent(e);
             eventInfo.open();
         });
@@ -76,7 +80,6 @@ public class EventView extends VerticalLayout {
 
     /**
      * Sets up the tool bar which allows the user to toggle between months and return to their current day
-     *
      * @return vertical layout containing current month, toggle and home buttons
      */
     private VerticalLayout createToolBar() {
@@ -153,7 +156,6 @@ public class EventView extends VerticalLayout {
 
             entry.setColor("#04584a");
 
-
             calendar.addEntry(entry);
         }
     }
@@ -166,6 +168,24 @@ public class EventView extends VerticalLayout {
 
         calendar.getElement().executeJs("return this.getCalendar().view.title")
                 .then(x -> month.setText(x instanceof JsonString ? x.asString() : "--"));
+    }
+
+    /**
+     * Formats the start time into an array
+     * @param start event start time
+     * @return LocalDateTime as an array
+     */
+    private int[] makeStartTimeArray(LocalDateTime start) {
+        return new int[]{start.getMonthValue(), start.getDayOfMonth(), start.getHour(), start.getMinute(), start.getYear()};
+    }
+
+    /**
+     * Format the end time into an array
+     * @param end event end time
+     * @return LocalDateTime as an array
+     */
+    private int[] makeEndTimeArray(LocalDateTime end) {
+        return new int[]{end.getMonthValue(),end.getDayOfMonth(), end.getHour(), end.getMinute(), end.getYear()};
     }
 
 }

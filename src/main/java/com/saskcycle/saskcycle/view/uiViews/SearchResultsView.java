@@ -83,7 +83,7 @@ public class SearchResultsView extends VerticalLayout {
     private Grid<Post> initGrid() {
         Grid<Post> newGrid = new Grid<>();
         newGrid.setItems(SC.getPageOfPosts(numberField.getValue()));
-        newGrid.setHeight("1000px");
+        newGrid.setHeight("1200px");
         newGrid.addComponentColumn(PostComponent::new);
 
         return newGrid;

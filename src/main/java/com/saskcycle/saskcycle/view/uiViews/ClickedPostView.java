@@ -30,7 +30,6 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
     private H5 postType;
 
     private H1 title;
-    private H1 title2;
 
     private String id;
     private Post post;
@@ -49,12 +48,14 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
     @Autowired
     AccountController account;
 
+    /**
+     * Shows the full information for a post that was clicked in the results feed
+     */
     public ClickedPostView() {
 
         postType = new H5();
         title = new H1();
         paragraph = new Paragraph();
-
 
         Button wishlistButton = new Button("Add to wishlist", new Icon(VaadinIcon.STAR));
         wishlistButton.addClickListener(e -> {
@@ -74,20 +75,16 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         });
         wishlistButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         wishlistButton.addClassName("wishlist-button");
-        //HorizontalLayout heading = new HorizontalLayout(title, wishlistButton);
-        //heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
 
         // Contains additional info about the post
         VerticalLayout sidePanel = new VerticalLayout();
         sidePanel.setAlignItems(Alignment.CENTER);
 
-        //sidePanel.setWidth("400px");
         postTime = new H4();
         email = new H4();
-        //sidePanel.getStyle().set("border", "1px solid #eeeeee");
         sidePanel.getStyle().set("border", "1px solid #eeeeee");
-        //heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
 
+        // Takes user to the page where they can plan their route to the post's location
         Button goToRouteButton = new Button("Get Route Plan", new Icon(VaadinIcon.MAP_MARKER));
         goToRouteButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         goToRouteButton.addClassName("reset-button");
@@ -98,21 +95,19 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
             UI.getCurrent().getPage().reload();
         });
 
-
-        VerticalLayout desc = new VerticalLayout();
-        desc.add(paragraph);
-        desc.setWidth("600px");
-
         setMapHolder();
         sidePanel.add(wishlistButton, mapHolder, goToRouteButton, postTime, postTime, email);
         sidePanel.setWidth("400px");
 
-        VerticalLayout mainPanel = new VerticalLayout(postType,title, paragraph);
+        VerticalLayout mainPanel = new VerticalLayout(postType, title, paragraph);
         mainPanel.setWidth("75%");
 
         add(new HorizontalLayout(mainPanel, sidePanel));
     }
 
+    /**
+     * Creates a component for the map display
+     */
     private void setMapHolder() {
 
         mapHolder = new VerticalLayout();
@@ -120,6 +115,10 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         mapHolder.setWidth("400px");
     }
 
+    /**
+     * Sets the email information
+     * @param post the post for which the email will be displayed
+     */
     public void emailPrivate(Post post) {
         email.setText("For more information, contact:" + post.getContactEmail());
     }
@@ -134,6 +133,10 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         id = postId;
     }
 
+    /**
+     * Updates the UI based on what post was selected by the user
+     * @param beforeEnterEvent the event preceding afterNavition time (Vaadin Construct)
+     */
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
         // Assign all attributes from posts to view

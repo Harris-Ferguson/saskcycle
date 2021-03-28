@@ -41,50 +41,29 @@ public class EventCreateView extends VerticalLayout {
     private AccountController currentAccount;
 
     private TextField line1, line2, city, province;
-
-    PostalCodeComponent postalCodeField;
-
+    private PostalCodeComponent postalCodeField;
+    private TextField title;
     private TextArea description;
+    private Button returnButton;
+    private ArrayList<String> tagList;
+    MultiSelectListBox<String> tags;
 
+    /**
+     * Allows organizational account to create an event
+     */
     public EventCreateView() {
-        // cancel button
-        Button returnButton = new Button("Return", new Icon(VaadinIcon.ANGLE_LEFT));
-        returnButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        returnButton.addClassName("reset-button");
-        returnButton.addClickListener(e -> returnButton.getUI().ifPresent(ui -> ui.navigate("delete-event")));
 
-        // Title Field
-        TextField title = new TextField();
-        title.setLabel("Event Title");
-        title.setPlaceholder("Type here ...");
-        title.setMinWidth("600px");
-        title.setRequiredIndicatorVisible(true);
-
+        createReturnButton();
+        titleField();
+        descriptionField();
         VerticalLayout address = addressFields();
-
-        // Description Field
-        description = new TextArea();
-        description.setLabel("Description");
-        description.setPlaceholder("Type here ...");
-        description.setMinWidth("600px");
-        description.setMinHeight("200px");
-        description.setRequiredIndicatorVisible(true);
 
         DateTimePicker startTime = new DateTimePicker();
         startTime.setLabel("Start time");
-
         DateTimePicker endTime = new DateTimePicker();
         endTime.setLabel("End time");
 
-        // Tags list
-        MultiSelectListBox<String> tags = new MultiSelectListBox<>();
-        tags.setItems(Tags.getTagNames());
-        ArrayList<String> tagList = new ArrayList<>();
-        tags.addValueChangeListener(
-                e -> {
-                    tagList.clear();
-                    tagList.addAll(e.getValue());
-                });
+        createTags();
 
         // Left side of post creation
         VerticalLayout LeftInfoPanel = new VerticalLayout(title, description, address, startTime, endTime);
@@ -117,9 +96,14 @@ public class EventCreateView extends VerticalLayout {
         add(Header, InfoPanel, createPostButton);
     }
 
-    /* publish post
-     * method verifies all the required fields are filled out
-     * if so, then a new post is made using all the provided info from user
+    /**
+     * Publishes the post to the database
+     * @param eventStart start time of event
+     * @param eventEnd end time of event
+     * @param title title of event
+     * @param description description of event
+     * @param addressInfo location of event
+     * @param tags tags of event
      */
     private void publishEvent(
             LocalDateTime eventStart,
@@ -150,7 +134,6 @@ public class EventCreateView extends VerticalLayout {
             EC.addEvent(newEvent);
             currentAccount.updateEvents(newEvent.id);
 
-
             // Confirmation Dialog Box
             Dialog confirmPosted = new Dialog();
             confirmPosted.setModal(false);
@@ -169,6 +152,58 @@ public class EventCreateView extends VerticalLayout {
         }
     }
 
+    /**
+     * Constructs the button that allows the user to navigate back to the events page
+     */
+    private void createReturnButton(){
+        returnButton = new Button("Return", new Icon(VaadinIcon.ANGLE_LEFT));
+        returnButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        returnButton.addClassName("reset-button");
+        returnButton.addClickListener(e -> returnButton.getUI().ifPresent(ui -> ui.navigate("delete-event")));
+    }
+
+    /**
+     * Constructs the description field for the user to enter event details
+     */
+    private void descriptionField() {
+        description = new TextArea();
+        description.setLabel("Description");
+        description.setPlaceholder("Type here ...");
+        description.setMinWidth("600px");
+        description.setMinHeight("200px");
+        description.setRequiredIndicatorVisible(true);
+    }
+
+    /**
+     * Constructs text field to take in the title of the event
+     */
+    private void titleField() {
+        title = new TextField();
+        title.setLabel("Event Title");
+        title.setPlaceholder("Type here ...");
+        title.setMinWidth("600px");
+        title.setRequiredIndicatorVisible(true);
+    }
+
+    /**
+     * Collects the tags selected by the user
+     */
+    private void createTags() {
+        // Tags list
+        tags = new MultiSelectListBox<>();
+        tags.setItems(Tags.getTagNames());
+        tagList = new ArrayList<>();
+        tags.addValueChangeListener(
+                e -> {
+                    tagList.clear();
+                    tagList.addAll(e.getValue());
+                });
+    }
+
+    /**
+     * Construct the address form needed to get the location information about the event
+     * @return formatted address form
+     */
     private VerticalLayout addressFields() {
 
         line1 = new TextField();
@@ -193,6 +228,10 @@ public class EventCreateView extends VerticalLayout {
         return new VerticalLayout(new H5("Location"), address);
     }
 
+    /**
+     * Retrieves the address info from the location section in the event create form
+     * @return
+     */
     private ArrayList<String> formatAddressInfo() {
         ArrayList<String> addressInfo = new ArrayList<>();
         addressInfo.add(line1.getValue());

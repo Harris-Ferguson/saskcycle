@@ -21,8 +21,8 @@ public class MainView extends VerticalLayout {
   /** Construct a view to show the landing page for the app */
   public MainView() {
 
-    H1 heading = new H1("SaskCycle makes it easy to do the right thing");
-    Text sub = new Text("Reduce. Reuse. Recycle. We learned this concept in elementary school, but following the three Rs is hard when we factor in transportation and education. SaskCycle aims to help people reuse and recycle, so that green options are available to everyone.");
+    H1 heading = new H1("SaskCycle makes it easy to do the right thing.");
+    Text sub = new Text("Reduce. Reuse. Recycle. We learned this concept in elementary school, but following the three Rs is hard when we factor in transportation and education. SaskCycle aims to help people reuse and recycle so green options are available to everyone.");
     VerticalLayout subheader = new VerticalLayout(sub);
     subheader.addClassName("sub");
 

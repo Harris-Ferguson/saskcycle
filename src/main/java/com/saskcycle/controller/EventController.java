@@ -5,6 +5,7 @@ import com.saskcycle.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -17,7 +18,7 @@ public class EventController {
         return eventDataAccess.allEvents();
     }
 
-    public Event getEventByTitle(String title) {
+    public Event getEventByDetails(String title) {
         return eventDataAccess.findEventByTitle(title);
     }
 
@@ -31,5 +32,9 @@ public class EventController {
 
     public Event getEventByID(String id) {
         return eventDataAccess.searchById(id);
+    }
+
+    public Event getEventByDetails(String title, int[] start, int[] end) {
+        return eventDataAccess.findEventByDetails(title, start, end);
     }
 }

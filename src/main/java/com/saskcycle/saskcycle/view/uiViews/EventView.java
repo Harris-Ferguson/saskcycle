@@ -22,6 +22,7 @@ import org.vaadin.stefan.fullcalendar.Timezone;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -67,8 +68,9 @@ public class EventView extends VerticalLayout {
         calLayout.setFlexGrow(1, calendar);
 
         calendar.addEntryClickedListener(event -> {
-            //Event e = EC.getEventByCalendarID(event.getEntry().getId());
-            Event e = EC.getEventByTitle(event.getEntry().getTitle());
+            Event e = EC.getEventByDetails(event.getEntry().getTitle(),
+                    makeStartTimeArray(event.getEntry().getStart()),
+                    makeEndTimeArray(event.getEntry().getEnd()));
             Dialog eventInfo = new EventInfoComponent(e);
             eventInfo.open();
         });
@@ -79,7 +81,6 @@ public class EventView extends VerticalLayout {
 
     /**
      * Sets up the tool bar which allows the user to toggle between months and return to their current day
-     *
      * @return vertical layout containing current month, toggle and home buttons
      */
     private VerticalLayout createToolBar() {
@@ -168,6 +169,19 @@ public class EventView extends VerticalLayout {
 
         calendar.getElement().executeJs("return this.getCalendar().view.title")
                 .then(x -> month.setText(x instanceof JsonString ? x.asString() : "--"));
+    }
+
+    /**
+     * Formats the start time into an array
+     * @param start event start
+     * @return
+     */
+    private int[] makeStartTimeArray(LocalDateTime start) {
+        return new int[]{start.getMonthValue(), start.getDayOfMonth(), start.getHour(), start.getMinute(), start.getYear()};
+    }
+
+    private int[] makeEndTimeArray(LocalDateTime end) {
+        return new int[]{end.getMonthValue(),end.getDayOfMonth(), end.getHour(), end.getMinute(), end.getYear()};
     }
 
 }

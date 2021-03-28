@@ -41,6 +41,9 @@ public class EventView extends VerticalLayout {
     @Autowired
     private EventController EC;
 
+    /**
+     * Shows the calendar which displays all reuse events
+     */
     @PostConstruct
     public void EventView() {
         events = EC.getAllEvents();
@@ -152,7 +155,6 @@ public class EventView extends VerticalLayout {
             entry.setDescription(e.desc);
 
             entry.setColor("#04584a");
-
 
             calendar.addEntry(entry);
         }

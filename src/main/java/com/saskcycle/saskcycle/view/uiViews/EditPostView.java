@@ -27,6 +27,9 @@ public class EditPostView extends AbstractPostForm implements HasUrlParameter<St
         postalCodeField.setPostalCode(postController.getPostalCode());
     }
 
+    /**
+     * Sets the post that is currently being edited
+     */
     protected void setInspectedPost() {
         postController.setCurrentInspectedPost(post);
     }

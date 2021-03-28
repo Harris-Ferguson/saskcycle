@@ -2,6 +2,7 @@ package com.saskcycle.model;
 
 import com.vaadin.flow.component.polymertemplate.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.thymeleaf.postprocessor.IPostProcessor;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,7 +39,33 @@ public class Post {
 
     /* ----------- Methods ------------- */
 
-    public Post() {
+    public Post() {}
+
+
+    public Post(boolean give,
+                String title,
+                String description,
+                String id,
+                Date datePosted,
+                Account owner,
+                String postalCode,
+                ArrayList<String> tags,
+                boolean privacy,
+                String contactEmail,
+                double latitude,
+                double longitude) {
+        this.give = give;
+        this.title = title;
+        this.description = description;
+        this.id = id;
+        this.datePosted = datePosted;
+        this.owner = owner;
+        this.postalCode = postalCode;
+        this.tags = tags;
+        this.privacy = privacy;
+        this.contactEmail = contactEmail;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Boolean getPostType() {

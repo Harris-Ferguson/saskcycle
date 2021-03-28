@@ -35,8 +35,8 @@ public class AccountControllerTests {
 
     @Test
     public void testAccountRegisterExistingAccountFails(){
-        accountController.registerOrg("RobinTheEpicOrgUser", "testorgemail@gmail.com", "password");
-        Assertions.assertThrows(IllegalStateException.class, () -> accountController.registerOrg("RobinTheEpicOrgUser", "testorgemail@gmail.com", "password"));
+        accountController.registerOrg("RobinTheEpicOrgUserExists!", "testorgemailexists@gmail.com", "password");
+        Assertions.assertThrows(IllegalStateException.class, () -> accountController.registerOrg("RobinTheEpicOrgUserExists!", "testorgemailexists@gmail.com", "password"));
         userAccountRepo.deleteAccountByUsername("RobinTheEpicOrgUser");
     }
 

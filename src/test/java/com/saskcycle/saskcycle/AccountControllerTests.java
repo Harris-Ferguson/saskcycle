@@ -22,22 +22,22 @@ public class AccountControllerTests {
     @Test
     public void testRegister(){
         accountController.register("RobinTheEpicUser", "testemail@gmail.com", "password");
-        Assertions.assertTrue(userAccountRepo.existsByEmail("test@gmail.com"));
+        Assertions.assertTrue(userAccountRepo.existsByEmail("testemail@gmail.com"));
         userAccountRepo.deleteAccountByUsername("RobinTheEpicUser");
     }
 
     @Test
     public void testRegisterOrg(){
         accountController.registerOrg("RobinTheEpicOrgUser", "testorgemail@gmail.com", "password");
-        Assertions.assertTrue(userAccountRepo.existsByEmail("test@gmail.com"));
+        Assertions.assertTrue(userAccountRepo.existsByEmail("testorgemail@gmail.com"));
         userAccountRepo.deleteAccountByUsername("RobinTheEpicOrgUser");
     }
 
     @Test
     public void testAccountRegisterExistingAccountFails(){
         accountController.registerOrg("RobinTheEpicOrgUserExists!", "testorgemailexists@gmail.com", "password");
-        Assertions.assertThrows(IllegalStateException.class, () -> accountController.registerOrg("RobinTheEpicOrgUserExists!", "testorgemailexists@gmail.com", "password"));
-        userAccountRepo.deleteAccountByUsername("RobinTheEpicOrgUser");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> accountController.registerOrg("RobinTheEpicOrgUserExists!", "testorgemailexists@gmail.com", "password"));
+        userAccountRepo.deleteAccountByUsername("RobinTheEpicOrgUserExists!");
     }
 
 }

@@ -53,6 +53,7 @@ public class EventControllerTests {
         eventController.addEvent(testEvent);
         Assertions.assertTrue(eventsRepo.existsById(testEvent.id));
         eventController.deleteEvent(testEvent);
+        deleteUsedAccount();
     }
 
     @Test
@@ -62,6 +63,7 @@ public class EventControllerTests {
         Assertions.assertTrue(eventsRepo.existsById(testEvent.id));
         eventController.deleteEvent(testEvent);
         Assertions.assertFalse(eventsRepo.existsById(testEvent.id));
+        deleteUsedAccount();
     }
 
     @Test
@@ -71,5 +73,6 @@ public class EventControllerTests {
         Event get = eventController.getEventByTitle("Test Title");
         Assertions.assertNotNull(get);
         eventController.deleteEvent(testEvent);
+        deleteUsedAccount();
     }
 }

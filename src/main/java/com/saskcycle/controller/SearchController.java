@@ -163,10 +163,10 @@ public class SearchController implements Serializable {
         if (!value.equals("Get") && !value.equals("Give")) return specPosts;
 
         for (Post p : currentPosts) {
-            if (value.equals("Get") && !p.give) {
+            if (value.equals("Get") && p.give) {
                 specPosts.add(p);
             }
-            if (value.equals("Give") && p.give) {
+            if (value.equals("Give") && !p.give) {
                 specPosts.add(p);
             }
         }

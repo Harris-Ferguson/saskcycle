@@ -5,12 +5,14 @@ import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.security.SecurityUtils;
 import com.saskcycle.saskcycle.view.components.MapComponent;
+
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -25,11 +27,15 @@ import java.text.SimpleDateFormat;
 @Route(value = "clickedPost", layout = MainLayout.class)
 public class ClickedPostView extends VerticalLayout implements HasUrlParameter<String>, BeforeEnterObserver {
 
+    private H5 postType;
+
     private H1 title;
+    private H1 title2;
 
     private String id;
     private Post post;
     private Double latitude, longitude;
+    private VerticalLayout mapHolder;
 
     private MapComponent map;
 
@@ -45,8 +51,10 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
 
     public ClickedPostView() {
 
+        postType = new H5();
         title = new H1();
         paragraph = new Paragraph();
+
 
         Button wishlistButton = new Button("Add to wishlist", new Icon(VaadinIcon.STAR));
         wishlistButton.addClickListener(e -> {
@@ -66,19 +74,19 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         });
         wishlistButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         wishlistButton.addClassName("wishlist-button");
-        HorizontalLayout heading = new HorizontalLayout(title, wishlistButton);
-        heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
+        //HorizontalLayout heading = new HorizontalLayout(title, wishlistButton);
+        //heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
 
         // Contains additional info about the post
         VerticalLayout sidePanel = new VerticalLayout();
         sidePanel.setAlignItems(Alignment.CENTER);
 
-        sidePanel.setWidth("400px");
+        //sidePanel.setWidth("400px");
         postTime = new H4();
         email = new H4();
         //sidePanel.getStyle().set("border", "1px solid #eeeeee");
         sidePanel.getStyle().set("border", "1px solid #eeeeee");
-        heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
+        //heading.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
 
         Button goToRouteButton = new Button("Get Route Plan", new Icon(VaadinIcon.MAP_MARKER));
         goToRouteButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -90,25 +98,27 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
             UI.getCurrent().getPage().reload();
         });
 
+
         VerticalLayout desc = new VerticalLayout();
         desc.add(paragraph);
         desc.setWidth("600px");
 
-        //sidePanel.add(wishlistButton, postTime, email);
-        sidePanel.add(wishlistButton, showMap(), goToRouteButton, postTime, postTime, email);
+        setMapHolder();
+        sidePanel.add(wishlistButton, mapHolder, goToRouteButton, postTime, postTime, email);
+        sidePanel.setWidth("400px");
 
-        add(new HorizontalLayout(new VerticalLayout(title, desc), sidePanel));
+        add(new HorizontalLayout(new VerticalLayout(postType,title, desc), sidePanel));
+        VerticalLayout mainPanel = new VerticalLayout(title, paragraph);
+        mainPanel.setWidth("75%");
+
+        add(new HorizontalLayout(mainPanel, sidePanel));
     }
 
-    private VerticalLayout showMap() {
+    private void setMapHolder() {
 
-        VerticalLayout mapContainer = new VerticalLayout();
-        mapContainer.setHeight("400px");
-        mapContainer.setWidth("400px");
-        map = new MapComponent();
-        mapContainer.add(map);
-        return mapContainer;
-
+        mapHolder = new VerticalLayout();
+        mapHolder.setHeight("400px");
+        mapHolder.setWidth("400px");
     }
 
     public void emailPrivate(Post post) {
@@ -129,6 +139,13 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
         // Assign all attributes from posts to view
         post = SC.getPostByID(id);
+        if(post.getPostType()){
+            postType.setText("Giving away");
+        }
+        else {
+            postType.setText("Looking for");
+        }
+
         title.setText(post.title);
         paragraph.setText(post.description);
         latitude = post.latitude;
@@ -138,7 +155,7 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
         postTime.setText("Posted at "
                 + new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a").format(post.datePosted));
         map = new MapComponent(latitude, longitude, "Label");
-        add(map);
+        mapHolder.add(map);
         post = SC.getPostByID(id);
         title.setText(post.title);
         paragraph.setText(post.description);

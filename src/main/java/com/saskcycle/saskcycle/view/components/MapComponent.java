@@ -55,4 +55,12 @@ public class MapComponent extends Div {
     protected void onAttach(AttachEvent attachEvent) {
         getElement().executeJs("window.addMarker($0, $1, $2)", lat, lon, name);
     }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
 }

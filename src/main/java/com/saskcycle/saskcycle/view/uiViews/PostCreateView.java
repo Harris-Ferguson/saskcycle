@@ -18,8 +18,6 @@ public class PostCreateView extends AbstractPostForm {
 
     /**
      * Build title are for post create
-     *
-     * @return textfield title widget
      */
     protected void postTitle() {
         title.setLabel("Post Title");
@@ -30,8 +28,6 @@ public class PostCreateView extends AbstractPostForm {
 
     /**
      * Build Description for post create
-     *
-     * @return TextArea description widget
      */
     protected void postDescription() {
         description.setLabel("Description");
@@ -46,6 +42,7 @@ public class PostCreateView extends AbstractPostForm {
         postController.setPostType(postTypeSelect.getValue());
         return postController.verifyAndPublish();
     }
+
 
     @Override
     protected void setSuccessMessage() {

@@ -4,6 +4,7 @@ import com.saskcycle.controller.PostController;
 import com.saskcycle.model.Post;
 import com.saskcycle.saskcycle.view.components.PostComponent;
 import com.saskcycle.saskcycle.view.layouts.MainLayout;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.charts.model.Dial;
@@ -41,6 +42,7 @@ public class PostView extends VerticalLayout {
 
     grid.addItemClickListener(event ->{
       getUI().ifPresent(ui -> ui.navigate(ClickedPostView.class,event.getItem().id));
+      UI.getCurrent().getPage().reload();
     });
 
     // addClassName("filter-view");
@@ -60,7 +62,6 @@ public class PostView extends VerticalLayout {
     newGrid.addComponentColumn(PostComponent::new).setWidth("500px");
     newGrid.addComponentColumn( item -> createEditButton(grid,item)).setWidth("100px");
     newGrid.addComponentColumn( item -> createDeleteButton(grid,item)).setWidth("100px");
-
 
     return newGrid;
   }

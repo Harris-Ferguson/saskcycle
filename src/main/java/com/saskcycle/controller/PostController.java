@@ -50,6 +50,10 @@ public class PostController implements Serializable {
         }
     }
 
+    public Post getCurrentPost() {
+        return currentPost;
+    }
+
     public void setPostTitle(String title) {
         currentPost.setTitle(title);
     }

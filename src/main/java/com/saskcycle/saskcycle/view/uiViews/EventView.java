@@ -53,7 +53,6 @@ public class EventView extends VerticalLayout {
 
     /**
      * Creates and styles calendar component and adds the events
-     *
      * @return vertical layour containing a full calendar component
      */
     private VerticalLayout createCalendar() {
@@ -173,13 +172,18 @@ public class EventView extends VerticalLayout {
 
     /**
      * Formats the start time into an array
-     * @param start event start
-     * @return
+     * @param start event start time
+     * @return LocalDateTime as an array
      */
     private int[] makeStartTimeArray(LocalDateTime start) {
         return new int[]{start.getMonthValue(), start.getDayOfMonth(), start.getHour(), start.getMinute(), start.getYear()};
     }
 
+    /**
+     * Format the end time into an array
+     * @param end event end time
+     * @return LocalDateTime as an array
+     */
     private int[] makeEndTimeArray(LocalDateTime end) {
         return new int[]{end.getMonthValue(),end.getDayOfMonth(), end.getHour(), end.getMinute(), end.getYear()};
     }

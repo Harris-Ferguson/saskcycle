@@ -18,6 +18,8 @@ Enter the clone URL and press Clone
 
 Once the project is cloned, make sure to press "load maven build scripts" on the "maven project detected" popup 
 
+Navigate to `src/main/java/resources/application.properties` and comment out / delete / set to false `vaadin.ProductionMode=true`
+
 Once intellij finishes managing the maven dependencies, navigate to 
 `src/main/java/com/saskcycle/saskcycle/SaskCycleApplication.java` and run the `SaskCycleApplication.java` class.
 

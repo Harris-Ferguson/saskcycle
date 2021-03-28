@@ -51,7 +51,6 @@ public class EventDeleteView extends VerticalLayout {
         Grid<Event> newGrid = initGrid();
         newGrid.addItemClickListener(
                 event -> {
-                    System.out.println(event.getItem().getTitle());
                     Event e = EC.getEventByID(event.getItem().id);
                     Dialog dialog = new DeleteEventPreviewComponent(e);
                     dialog.open();

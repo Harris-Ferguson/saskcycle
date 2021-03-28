@@ -10,7 +10,7 @@ build-job:
     - ./mvnw clean package
   artifacts:
     paths:
-      - target/saskcycle-Alpha.jar
+      - target/saskcycle-alpha.jar
 
 test-job1:
   stage: test

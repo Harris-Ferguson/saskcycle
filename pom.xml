@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.saskcycle</groupId>
 	<artifactId>saskcycle</artifactId>
-	<version>Alpha</version>
+	<version>final</version>
 	<name>saskcycle</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>

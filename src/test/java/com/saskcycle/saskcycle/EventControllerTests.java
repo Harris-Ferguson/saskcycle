@@ -70,7 +70,7 @@ public class EventControllerTests {
     public void testGetEventByTitle(){
         createEvent();
         eventController.addEvent(testEvent);
-        Event get = eventController.getEventByTitle("Test Title");
+        Event get = eventController.getEventByDetails("Test Title");
         Assertions.assertNotNull(get);
         eventController.deleteEvent(testEvent);
         deleteUsedAccount();

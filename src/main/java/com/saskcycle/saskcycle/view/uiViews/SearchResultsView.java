@@ -137,7 +137,13 @@ public class SearchResultsView extends VerticalLayout {
                                 errorNotif.open();
                             }
                         });
-                        dialog.add(postalCodeBox, submit);
+
+                        // Style the dialog box that collects the user's postal code
+                        submit.addClassName("reset-button");
+                        submit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+                        VerticalLayout layout = new VerticalLayout(postalCodeBox, submit);
+                        layout.setAlignItems(Alignment.CENTER);
+                        dialog.add(layout);
                         dialog.open();
                     }
                 });

@@ -12,6 +12,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import elemental.json.JsonString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import java.util.List;
 
 // @Route("events")
 @Route(value = "events", layout = MainLayout.class)
+@PageTitle("SaskCycle | Events")
 public class EventView extends VerticalLayout {
 
     private FullCalendar calendar;
@@ -80,6 +82,8 @@ public class EventView extends VerticalLayout {
 
     /**
      * Sets up the tool bar which allows the user to toggle between months and return to their current day
+     * Toolbar code based on this demo:
+     * https://github.com/stefanuebe/vaadin_fullcalendar/blob/master/demo/src/main/java/org/vaadin/stefan/Demo.java
      * @return vertical layout containing current month, toggle and home buttons
      */
     private VerticalLayout createToolBar() {
@@ -88,6 +92,7 @@ public class EventView extends VerticalLayout {
 
         month = new H1(LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM yyyy")));
 
+        // Allows user to return to current calendar month + date
         Button buttonToday = new Button("Today", VaadinIcon.HOME.create(), e -> {
             calendar.today();
             updateMonth();
@@ -95,6 +100,7 @@ public class EventView extends VerticalLayout {
         buttonToday.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonToday.addClassName("reset-button");
 
+        // Allows user to visit previous months in the calendar
         Button buttonPrevious = new Button("Previous", VaadinIcon.ANGLE_LEFT.create(), e -> {
             calendar.previous();
             updateMonth();
@@ -102,6 +108,7 @@ public class EventView extends VerticalLayout {
         buttonPrevious.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonPrevious.addClassName("reset-button");
 
+        // Allows user to visit future months in the calendar
         Button buttonNext = new Button("Next", VaadinIcon.ANGLE_RIGHT.create(), e -> {
             calendar.next();
             updateMonth();
@@ -110,6 +117,7 @@ public class EventView extends VerticalLayout {
         buttonNext.addClassName("reset-button");
         buttonNext.setIconAfterText(true);
 
+        // Allows user to pick a month/day/year to immediately visit in the calendar
         DatePicker gotoDate = new DatePicker();
         gotoDate.addValueChangeListener(event1 -> {
             calendar.gotoDate(event1.getValue());

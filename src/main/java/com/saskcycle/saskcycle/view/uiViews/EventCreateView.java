@@ -134,6 +134,12 @@ public class EventCreateView extends VerticalLayout {
         else if (eventEnd.isBefore(eventStart)) {
             Notification.show("Event's end time is before its start time");
         }
+        else if (eventStart.equals(eventEnd)) {
+            Notification.show("Event's start time is the same as its end time");
+        }
+        else if (eventStart.isBefore(LocalDateTime.now())) {
+            Notification.show("Event's start time is before the current date");
+        }
         else {
             int[] startTimeDetails = new int[]{eventStart.getMonth().getValue(), eventStart.getDayOfMonth(), eventStart.getHour(), eventStart.getMinute(), eventStart.getYear()};
             int[] endTimeDetails = new int[]{eventEnd.getMonth().getValue(), eventEnd.getDayOfMonth(), eventEnd.getHour(), eventEnd.getMinute(), eventEnd.getYear()};

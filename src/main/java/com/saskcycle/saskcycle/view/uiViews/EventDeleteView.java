@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Route(value = "delete-event", layout = MainLayout.class)
-@PageTitle("SaskCycle | Event Create")
+@PageTitle("SaskCycle | Your events")
 @Secured("ROLE_ORG")
 public class EventDeleteView extends VerticalLayout {
 

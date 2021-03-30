@@ -65,14 +65,4 @@ public class EventControllerTests {
         Assertions.assertFalse(eventsRepo.existsById(testEvent.id));
         deleteUsedAccount();
     }
-
-    @Test
-    public void testGetEventByTitle(){
-        createEvent();
-        eventController.addEvent(testEvent);
-        Event get = eventController.getEventByDetails("Test Title");
-        Assertions.assertNotNull(get);
-        eventController.deleteEvent(testEvent);
-        deleteUsedAccount();
-    }
 }

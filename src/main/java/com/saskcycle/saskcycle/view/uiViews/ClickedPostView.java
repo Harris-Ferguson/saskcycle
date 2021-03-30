@@ -10,10 +10,7 @@ import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H4;
-import com.vaadin.flow.component.html.H5;
-import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -101,8 +98,10 @@ public class ClickedPostView extends VerticalLayout implements HasUrlParameter<S
 
         VerticalLayout mainPanel = new VerticalLayout(postType, title, paragraph);
         mainPanel.setWidth("75%");
+        HorizontalLayout fullLayout = new HorizontalLayout(mainPanel, sidePanel);
+        fullLayout.setWidth("100%");
+        add(fullLayout);
 
-        add(new HorizontalLayout(mainPanel, sidePanel));
     }
 
     /**

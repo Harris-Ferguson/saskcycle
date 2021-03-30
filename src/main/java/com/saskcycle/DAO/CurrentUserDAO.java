@@ -43,22 +43,12 @@ public class CurrentUserDAO implements CurrentUserDAOInterface {
         return account.getNotificationSettings().wantsText();
     }
 
-    /**
-     * Gets the current user, I.E the user who is currently making a given request
-     *
-     * @return the current user as an Account object
-     */
     public Account getCurrentAccount() {
         UserDetails user =
                 (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userDataAccess.searchByName(user.getUsername());
     }
 
-    /**
-     * Adds an ID to a logged in user's wishlist
-     *
-     * @param id a string representation the ID of a post in the database
-     */
     public void updateWishlist(String id) {
         Account account = this.getCurrentAccount();
         account.getWishlist().add(id);

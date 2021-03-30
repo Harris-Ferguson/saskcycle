@@ -41,9 +41,6 @@ public class WishlistView extends VerticalLayout {
         heading = new H1("Your Wishlist");
         grid = initGrid();
 
-        //grid.setSelectionMode(Grid.SelectionMode.NONE);
-
-
         // Constructing a post view based on what's clicked is still under construction
         grid.addItemClickListener(event -> {
             getUI().ifPresent(ui -> ui.navigate(ClickedPostView.class,event.getItem().id));

@@ -33,14 +33,11 @@ public class GeocodeService implements Serializable {
      * @param postalCode valid canadian postal code
      */
     public void geolocationFromPostalCode(String postalCode) throws JSONException {
+        // NOTE: if the postal code we are checking is a valid postal code by format, but not a valid
+        // Canadian postal code, this will throw an exception. Ideally, we would handle this better, but due to
+        // time constraints and scope just throw the exception and let the caller handle the result however they desire
         postalCode = URLEncoder.encode(postalCode.trim().toLowerCase(Locale.ROOT), StandardCharsets.UTF_8);
         getJsonArray(postalCode);
-    }
-
-    // NOTE: this method is not currently called, but will be wired up to the event forms to validate input
-    public void geolocationFromStreetAddress(String address) throws JSONException {
-        String encodedAddress = URLEncoder.encode(address + " Saskatoon Saskatchewan", StandardCharsets.UTF_8);
-        getJsonArray(encodedAddress);
     }
 
     private void getJsonArray(String requestUrlString) throws JSONException {

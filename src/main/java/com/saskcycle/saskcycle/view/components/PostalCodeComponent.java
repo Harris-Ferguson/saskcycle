@@ -11,7 +11,7 @@ public class PostalCodeComponent extends Div {
     private TextField postalCodeField;
     private final Pattern postalCodePattern = Pattern.compile("[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]");
     private Matcher postalMatcher;
-    AtomicBoolean postalMatch;
+    private AtomicBoolean postalMatch;
 
     public PostalCodeComponent() {
         buildPostalCodeField();

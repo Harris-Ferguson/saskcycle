@@ -58,6 +58,15 @@ public class SearchResultsView extends VerticalLayout {
         SC.resetPosts();
 
         VerticalLayout filterGroup = FilterComponent();
+
+//        grid = initGrid();
+//
+//        // Constructing a post view based on what's clicked is still under construction
+//        grid.addItemClickListener(event -> {
+//            getUI().ifPresent(ui -> ui.navigate(ClickedPostView.class, event.getItem().id));
+//            UI.getCurrent().getPage().reload();
+//        });
+
         HorizontalLayout resultsGroup = new HorizontalLayout();
         resultsGroup.setAlignItems(Alignment.START);
         resultsGroup.setWidth("100%");

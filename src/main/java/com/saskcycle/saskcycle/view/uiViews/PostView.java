@@ -45,7 +45,6 @@ public class PostView extends VerticalLayout {
       UI.getCurrent().getPage().reload();
     });
 
-    // addClassName("filter-view");
     Button createButton = new Button("Create New Post", new Icon(VaadinIcon.PLUS));
     createButton.addClassName("reset-button");
     createButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -60,13 +59,13 @@ public class PostView extends VerticalLayout {
     newGrid.setItems(postController.getUserCreatedPosts());
     newGrid.setHeight("1000px");
     newGrid.addComponentColumn(PostComponent::new).setWidth("500px");
-    newGrid.addComponentColumn( item -> createEditButton(grid,item)).setWidth("100px");
+    newGrid.addComponentColumn(this::createEditButton).setWidth("100px");
     newGrid.addComponentColumn( item -> createDeleteButton(grid,item)).setWidth("100px");
 
     return newGrid;
   }
 
-  private Button createEditButton(Grid<Post> grid, Post post){
+  private Button createEditButton(Post post){
     postController.setCurrentInspectedPost(post);
     Button button = new Button("Edit Post",new Icon(VaadinIcon.PENCIL));
     button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

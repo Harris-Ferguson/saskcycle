@@ -57,6 +57,11 @@ a[highlight] {
     text-overflow: ellipsis;
 }
 
+.tag-group {
+    overflow: auto;
+    background: white;
+}
+
 .logo-button {
     margin-top: 1px;
     colour: white;

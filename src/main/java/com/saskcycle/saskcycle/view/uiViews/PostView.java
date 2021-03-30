@@ -39,11 +39,12 @@ public class PostView extends VerticalLayout {
 
     grid = initGrid();
 
-
-    grid.addItemClickListener(event ->{
-      getUI().ifPresent(ui -> ui.navigate(ClickedPostView.class,event.getItem().id));
-      UI.getCurrent().getPage().reload();
-    });
+    grid.addItemClickListener(
+        event -> {
+          postController.setCurrentInspectedPost(event.getItem());
+          getUI().ifPresent(ui -> ui.navigate(ClickedPostView.class, event.getItem().id));
+          UI.getCurrent().getPage().reload();
+        });
 
     Button createButton = new Button("Create New Post", new Icon(VaadinIcon.PLUS));
     createButton.addClassName("reset-button");
@@ -78,7 +79,6 @@ public class PostView extends VerticalLayout {
     }
 
   private Button createDeleteButton(Grid<Post> grid, Post post){
-    postController.setCurrentInspectedPost(post);
     Button deleteButton = new Button("Delete Post",new Icon(VaadinIcon.TRASH));
     deleteButton.addClassName("reset-button");
     deleteButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -94,9 +94,10 @@ public class PostView extends VerticalLayout {
               e -> {
                 ListDataProvider<Post> dataProvider = (ListDataProvider<Post>) grid.getDataProvider();
                 dataProvider.getItems().remove(post);
+                postController.removePost(post);
                 dataProvider.refreshAll();
-                postController.removePost();
                 confirmDelete.close();
+
               });
       //cancel delete
       Button deleteButtonCancel = new Button("Cancel");

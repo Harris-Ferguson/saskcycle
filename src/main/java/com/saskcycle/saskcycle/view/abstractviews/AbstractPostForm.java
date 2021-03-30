@@ -91,9 +91,11 @@ public abstract class AbstractPostForm extends VerticalLayout {
                 });
 
         // adding privacy, email and phone checks to component
-        VerticalLayout contactBox = new VerticalLayout(new HorizontalLayout(email, curEmail), phone());
-        HorizontalLayout contactPanel = new HorizontalLayout(privacySelect, contactBox);
-
+        HorizontalLayout emailBox = new HorizontalLayout(email, curEmail);
+        emailBox.setAlignItems(Alignment.BASELINE);
+        HorizontalLayout contactPanel = new HorizontalLayout(privacySelect, emailBox);
+        contactPanel.setAlignItems(Alignment.CENTER);
+        contactPanel.setHeight("75px");
         // Tags list
         MultiSelectListBox<String> tags = new MultiSelectListBox<>();
         tags.setItems(Tags.getTagNames());
@@ -280,19 +282,4 @@ public abstract class AbstractPostForm extends VerticalLayout {
         privacySelect.setRequiredIndicatorVisible(true);
     }
 
-    // Placeholder phone widget method
-    protected HorizontalLayout phone() {
-        Checkbox phone = new Checkbox();
-        Div value = new Div();
-        value.setText("phone: ");
-        phone.addValueChangeListener(
-                event -> {
-                    if (event.getValue()) {
-                        value.setText("phone: ");
-                    } else {
-                        value.setText("phone: ");
-                    }
-                });
-        return new HorizontalLayout(phone, value);
-    }
 }

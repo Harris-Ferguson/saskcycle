@@ -1,22 +1,32 @@
 package com.saskcycle.model;
 
+import java.util.Arrays;
+
 public enum Tags {
 
     /* --------- Tag Titles ------------ */
-    Appliances,
-    Art,
-    Cans,
-    Clothing,
-    Cookware,
-    Decorations,
-    Electronics,
-    Furniture,
-    Metal,
-    Paper,
-    Toys,
-    Wood;
+    SmallAppliances("Small Aplliances"),
+    HomeIndoor("Home - Indoor"),
+    HomeOutdoor("Home - Outdoor"),
+    Clothing("Clothing/Wearables"),
+    Cookware("Cookware"),
+    Recyclables("Recycleables"),
+    Electronics("Electronics"),
+    Furniture("Furniture"),
+    LargeAppliances("Large Appliances"),
+    Paper("Paper"),
+    Toys("Toys"),
+    BuildingSupplies("Building Supplies"),
+    SportingGoods("Sporting Goods"),
+    Transportation("Transportation");
 
     /* ----------- Methods ------------- */
+
+    public final String label;
+
+    private Tags(String s) {
+        this.label = s;
+    }
 
     /**
      * Gets the current systemwide tags currenlty implemented by the application
@@ -27,10 +37,11 @@ public enum Tags {
         String[] tags = new String[Tags.values().length];
         int index = 0;
         for (Tags value : Tags.values()) {
-            tags[index] = value.name();
+            tags[index] = value.label;
             index += 1;
 
         }
+        Arrays.sort(tags);
         return tags;
     }
 }

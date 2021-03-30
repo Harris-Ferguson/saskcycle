@@ -59,19 +59,18 @@ public class SearchResultsView extends VerticalLayout {
 
         VerticalLayout filterGroup = FilterComponent();
 
-        grid = initGrid();
-
-        // Constructing a post view based on what's clicked is still under construction
-        grid.addItemClickListener(event -> {
-            //System.out.println(event.getItem().title);
-            getUI().ifPresent(ui -> ui.navigate(ClickedPostView.class, event.getItem().id));
-            UI.getCurrent().getPage().reload();
-        });
+//        grid = initGrid();
+//
+//        // Constructing a post view based on what's clicked is still under construction
+//        grid.addItemClickListener(event -> {
+//            getUI().ifPresent(ui -> ui.navigate(ClickedPostView.class, event.getItem().id));
+//            UI.getCurrent().getPage().reload();
+//        });
 
         HorizontalLayout resultsGroup = new HorizontalLayout();
         resultsGroup.setAlignItems(Alignment.START);
         resultsGroup.setWidth("100%");
-        resultsGroup.add(filterGroup, grid);
+        resultsGroup.add(filterGroup, GridComponent());
         add(heading, resultsGroup);
     }
 
@@ -89,6 +88,21 @@ public class SearchResultsView extends VerticalLayout {
         return newGrid;
     }
 
+
+    private VerticalLayout GridComponent()
+    {
+        VerticalLayout GridComponent = new VerticalLayout();
+        grid = initGrid();
+
+        // Constructing a post view based on what's clicked is still under construction
+        grid.addItemClickListener(event -> {
+            getUI().ifPresent(ui -> ui.navigate(ClickedPostView.class, event.getItem().id));
+            UI.getCurrent().getPage().reload();
+        });
+        GridComponent.setAlignItems(Alignment.CENTER);
+        GridComponent.add(grid,numberField);
+        return GridComponent;
+    }
     /**
      * Constructs the panel which contains all visual options for filtering posts
      *
@@ -230,7 +244,7 @@ public class SearchResultsView extends VerticalLayout {
                   grid.setItems(SC.getPageOfPosts(numberField.getValue()));
               });
 
-    filterGroup.add(useSelect, sortSelect, postChoice, includeGroup, excludeGroup, resetButton, numberField);
+    filterGroup.add(useSelect, sortSelect, postChoice,includeGroup, excludeGroup, resetButton);
     return filterGroup;
   }
     /**

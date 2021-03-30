@@ -2,6 +2,8 @@ package com.saskcycle.controller;
 
 import com.saskcycle.DAO.CurrentUserDAOInterface;
 import com.saskcycle.DAO.PostsDAOInterface;
+import com.saskcycle.DAO.UserDAOInterface;
+import com.saskcycle.model.Account;
 import com.saskcycle.model.Post;
 import com.saskcycle.services.GeocodeService;
 import org.json.JSONException;
@@ -28,6 +30,9 @@ public class PostController implements Serializable {
 
     @Autowired
     private CurrentUserDAOInterface currentUserDataAccess;
+
+    @Autowired
+    private UserDAOInterface userDataAccess;
 
     /* ---------  Methods  --------- */
 
@@ -119,6 +124,16 @@ public class PostController implements Serializable {
 
     public void removePost() {
         postsDataAccess.deletePost(currentPost);
+        currentUserDataAccess.removePost(currentPost.id);
+    }
+    //overloaded method that deletes a specific given post
+    public void removePost(Post post)
+    {
+        postsDataAccess.deletePost(post);
+        Account account = currentUserDataAccess.getCurrentAccount();
+        account.getPostIds().remove(post.id);
+        userDataAccess.updateAccount(account);
+
     }
 
     public Boolean verifyAndPublish() {

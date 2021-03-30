@@ -5,7 +5,7 @@ import java.util.Arrays;
 public enum Tags {
 
     /* --------- Tag Titles ------------ */
-    SmallAppliances("Small Aplliances"),
+    SmallAppliances("Small Appliances"),
     HomeIndoor("Home - Indoor"),
     HomeOutdoor("Home - Outdoor"),
     Clothing("Clothing/Wearables"),

@@ -1,23 +1,28 @@
 package com.saskcycle.model;
 
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 @Document(collection = "Businesses")
 public class Business extends Post {
 
     /* --------- Attributes ------------ */
 
+    @PersistenceConstructor
     public Business(
             String title,
             String description,
             String id,
-            String location,
+            String postalCode,
             ArrayList<String> tags,
             boolean give,
             double longitude,
-            double latitude) {
+            double latitude)
+    {
+        super(give,title,description,id,new Date(),null,postalCode,tags,true,"Check our Website out",longitude,latitude);
     }
 
     /* ----------- Methods ------------- */

@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
 @Route(value = "settings", layout = MainLayout.class)
-@PageTitle("SaskCycle | Settings")
+@PageTitle("SaskCycle | Your Settings")
 @Secured("ROLE_USER")
 public class SettingsView extends Composite {
 

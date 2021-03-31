@@ -65,6 +65,7 @@ public class PostComponent extends Div {
 
     for (int i = 0; i < post.tags.size(); i++) {
       Button component = new Button(post.tags.get(i));
+      component.setMinWidth("120px");
       component.addClassName("reset-button");
       component.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
       tagGroup.add(component);

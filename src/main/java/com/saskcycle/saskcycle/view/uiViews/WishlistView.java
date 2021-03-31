@@ -24,7 +24,7 @@ import org.springframework.security.access.annotation.Secured;
 import javax.annotation.PostConstruct;
 
 @Route(value = "savedPosts", layout = MainLayout.class)
-@PageTitle("SaskCycle | Saved Posts")
+@PageTitle("SaskCycle | Your Wishlist")
 @Secured("ROLE_USER")
 public class WishlistView extends VerticalLayout {
 

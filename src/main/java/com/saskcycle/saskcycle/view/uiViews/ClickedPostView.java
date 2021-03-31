@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.text.SimpleDateFormat;
 
 @Route(value = "clickedPost", layout = MainLayout.class)
+@PageTitle("SaskCycle | Clicked Post")
 public class ClickedPostView extends VerticalLayout implements HasUrlParameter<String>, BeforeEnterObserver {
 
     private H5 postType;

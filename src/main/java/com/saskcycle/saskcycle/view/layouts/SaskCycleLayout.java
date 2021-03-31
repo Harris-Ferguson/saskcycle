@@ -16,13 +16,13 @@ public abstract class SaskCycleLayout extends AppLayout {
   /** Constructs the drawer feature, denoted by the hamburger menu */
   private void createDrawer() {
     //RouterLink accountLink = new RouterLink("Main", MainView.class);
-    RouterLink postLink = new RouterLink("Posts", PostView.class);
-    RouterLink settingsLink = new RouterLink("Settings", SettingsView.class);
+    RouterLink postLink = new RouterLink("Your Posts", PostView.class);
+    RouterLink settingsLink = new RouterLink("Your Settings", SettingsView.class);
     RouterLink eventCreateLink = new RouterLink();
     if(SecurityUtils.isOrgUser()){
-      eventCreateLink = new RouterLink("Events", EventDeleteView.class);
+      eventCreateLink = new RouterLink("Your Events", EventDeleteView.class);
     }
-    RouterLink wishListLink = new RouterLink("Wishlist", WishlistView.class);
+    RouterLink wishListLink = new RouterLink("Your Wishlist", WishlistView.class);
     //accountLink.setHighlightCondition(HighlightConditions.sameLocation());
 
     postLink.addClassName("nav-link");

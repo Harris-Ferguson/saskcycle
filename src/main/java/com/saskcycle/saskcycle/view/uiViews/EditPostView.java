@@ -6,6 +6,7 @@ import com.saskcycle.saskcycle.view.layouts.MainLayout;
 import com.vaadin.flow.router.*;
 
 @Route(value = "editPost", layout = MainLayout.class)
+@PageTitle("Edit Your Post")
 public class EditPostView extends AbstractPostForm implements HasUrlParameter<String>, AfterNavigationObserver {
     // Post identifiers
     private String id;

@@ -25,7 +25,7 @@ import org.springframework.security.access.annotation.Secured;
 import javax.annotation.PostConstruct;
 
 @Route(value = "posts", layout = MainLayout.class)
-@PageTitle("SaskCycle | Post")
+@PageTitle("SaskCycle | Your Posts")
 @Secured("ROLE_USER")
 public class PostView extends VerticalLayout {
 
@@ -59,7 +59,7 @@ public class PostView extends VerticalLayout {
     Grid<Post> newGrid = new Grid<>();
     newGrid.setItems(postController.getUserCreatedPosts());
     newGrid.setHeight("1000px");
-    newGrid.addComponentColumn(PostComponent::new).setWidth("75%");
+    newGrid.addComponentColumn(PostComponent::new).setWidth("50%");
     newGrid.addComponentColumn( item -> createEditButton(grid,item));
     newGrid.addComponentColumn( item -> createDeleteButton(grid,item));
 

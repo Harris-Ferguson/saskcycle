@@ -33,7 +33,7 @@ Clone the repo, then run
 in the root of the cloned directory. 
 
 ### Running the Release Jar 
-Go to the [Release](https://git.cs.usask.ca/lkp821/saskcycle/-/releases/v1.0.0) for this Milestone. Download the .jar file and run it using `java -jar`.
+Go to the [https://git.cs.usask.ca/lkp821/saskcycle/-/releases](https://git.cs.usask.ca/lkp821/saskcycle/-/releases/v1.0.0) for this Milestone. Download the latest jar file and run it using `java -jar`.
 
 Navigate to `localhost:8080` on a web browser to use the application 
 

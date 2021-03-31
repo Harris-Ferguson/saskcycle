@@ -126,7 +126,16 @@ public class SearchController implements Serializable {
      * @return a post's ID
      */
     public Post getPostByID(String id) {
-        return postDataAccess.searchByID(id);
+        Post toReturn = postDataAccess.searchByID(id);
+        if (toReturn==null)
+        {
+            return businessDataAccess.findByid(id);
+        }
+        else
+        {
+            return toReturn;
+        }
+
     }
 
     /**

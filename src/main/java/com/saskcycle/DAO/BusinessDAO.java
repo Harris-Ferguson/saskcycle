@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BusinessDAO implements BusinessDAOInterface {
@@ -77,5 +78,9 @@ public class BusinessDAO implements BusinessDAOInterface {
      */
     public List<Business> getAllBusinesses() {
         return BR.findAll();
+    }
+
+    public Business findByid(String id){
+        return BR.findByid(id);
     }
 }

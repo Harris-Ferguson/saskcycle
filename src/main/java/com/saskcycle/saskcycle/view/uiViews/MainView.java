@@ -40,7 +40,7 @@ public class MainView extends VerticalLayout {
 
     HorizontalLayout layout = new HorizontalLayout();
 
-    for (String tag : Tags.getTagNames()) {
+    for (String tag : Tags.getFrontPageTags()) {
      Span t = new Span(tag);
       layout.add(t);
     }

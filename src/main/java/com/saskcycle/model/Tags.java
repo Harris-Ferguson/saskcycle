@@ -1,6 +1,8 @@
 package com.saskcycle.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public enum Tags {
 
@@ -42,6 +44,20 @@ public enum Tags {
 
         }
         Arrays.sort(tags);
+        return tags;
+    }
+    public static ArrayList<String> getFrontPageTags() {
+        ArrayList<String> tags = new ArrayList<>();
+        tags.add("Home");
+        tags.add("Appliances");
+        tags.add(Clothing.name());
+        tags.add(Cookware.name());
+        tags.add(Recyclables.name());
+        tags.add(Furniture.name());
+        tags.add(Toys.name());
+        tags.add(BuildingSupplies.name());
+        tags.add(Electronics.name());
+        Collections.sort(tags);
         return tags;
     }
 }

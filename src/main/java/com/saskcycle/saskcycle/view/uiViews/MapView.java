@@ -18,6 +18,7 @@ import java.time.Duration;
 
 
 @Route(value = "map", layout = MainLayout.class)
+@PageTitle("SaskCycle | Plan a route")
 public class MapView extends VerticalLayout implements HasUrlParameter<String>, BeforeEnterObserver {
 
     /* --------- Attributes ------------ */
@@ -29,6 +30,9 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
 
     /* ----------- Methods ------------- */
 
+    /**
+     * Constructs the "plan your route" view which allows users to visualize their travel plan
+     */
     public MapView() {
         this.setHeight("100%");
         this.setWidth("100%");
@@ -86,8 +90,8 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
     }
 
     /**
-     * Allows
-     * @return
+     * Allows user to select departure time
+     * @return a date time picker component to collect user's departure time
      */
     private DateTimePicker createDateTimePicker() {
         DateTimePicker dtp = new DateTimePicker();
@@ -99,6 +103,10 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
         return dtp;
     }
 
+    /**
+     * Allows user to decide if they want to plan their route using the current time or a time in the future
+     * @return checkbox component
+     */
     private RadioButtonGroup<String> createTimeSelectorButton() {
         RadioButtonGroup<String> timeButtons = new RadioButtonGroup<>();
         timeButtons.setId("timeButton");
@@ -108,6 +116,10 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
         return timeButtons;
     }
 
+    /**
+     * Allows user to select method of transportation
+     * @return drop down menu component that gets the user's transportation choice
+     */
     private Select<String> createTransportationSelector() {
         Select<String> transSelect = new Select<>("Walking", "Cycling", "Transit", "Driving");
         transSelect.setValue("Walking");
@@ -116,6 +128,10 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
         return transSelect;
     }
 
+    /**
+     * Instructs the user in the proper formatting of their starting location and gets their starting location
+     * @return textfield component to get the user's staring location
+     */
     private TextField createStartingPlaceholderText() {
         TextField text = new TextField();
 
@@ -125,6 +141,13 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
         return text;
     }
 
+    /**
+     * Constructs button for user to to submit their location information
+     * @param startingAddress hbox to contain + format the location info
+     * @param startLabel user's starting time
+     * @param text user's starting address
+     * @return
+     */
     private Button createSubmitStart(HorizontalLayout startingAddress, Label startLabel, TextField text) {
         Button submitStart = new Button("Get Route");
         submitStart.setId("submitStart");
@@ -136,12 +159,21 @@ public class MapView extends VerticalLayout implements HasUrlParameter<String>, 
         return submitStart;
     }
 
+    /**
+     * Sets the user's postal code
+     * @param beforeEvent info needed before the event occurs
+     * @param pCode user's postal code
+     */
     @Override
     public void setParameter(BeforeEvent beforeEvent, String pCode) {
         postalCode = pCode;
     }
 
 
+    /**
+     * Sets the postal code
+     * @param beforeEnterEvent
+     */
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
         pCode.setValue(postalCode);

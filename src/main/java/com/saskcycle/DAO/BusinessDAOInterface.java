@@ -3,6 +3,7 @@ package com.saskcycle.DAO;
 import com.saskcycle.model.Business;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BusinessDAOInterface {
 
@@ -39,4 +40,6 @@ public interface BusinessDAOInterface {
      * @return List of type business that cotains all buisness objects currently in DB
      */
     List<Business> getAllBusinesses();
+
+    Business findByid(String id);
 }

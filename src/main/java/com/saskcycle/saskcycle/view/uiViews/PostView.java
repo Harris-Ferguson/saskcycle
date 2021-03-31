@@ -59,14 +59,14 @@ public class PostView extends VerticalLayout {
     Grid<Post> newGrid = new Grid<>();
     newGrid.setItems(postController.getUserCreatedPosts());
     newGrid.setHeight("1000px");
-    newGrid.addComponentColumn(PostComponent::new).setWidth("500px");
-    newGrid.addComponentColumn(this::createEditButton).setWidth("100px");
-    newGrid.addComponentColumn( item -> createDeleteButton(grid,item)).setWidth("100px");
+    newGrid.addComponentColumn(PostComponent::new).setWidth("75%");
+    newGrid.addComponentColumn( item -> createEditButton(grid,item));
+    newGrid.addComponentColumn( item -> createDeleteButton(grid,item));
 
     return newGrid;
   }
 
-  private Button createEditButton(Post post){
+  private Button createEditButton(Grid<Post> grid, Post post){
     postController.setCurrentInspectedPost(post);
     Button button = new Button("Edit Post",new Icon(VaadinIcon.PENCIL));
     button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

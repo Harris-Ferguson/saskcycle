@@ -6,6 +6,7 @@ import com.saskcycle.controller.SearchController;
 import com.saskcycle.model.Tags;
 import com.saskcycle.saskcycle.view.components.PostalCodeComponent;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
@@ -130,7 +131,9 @@ public abstract class AbstractPostForm extends VerticalLayout {
          * button will perform various checks on fields in view to ensure info is filled out
          * if all is good, then publish post will be called
          */
-        Button createPostButton = new Button("Create Post!", new Icon(VaadinIcon.THUMBS_UP));
+        Button createPostButton = new Button("Create Post!");
+        createPostButton.addClassName("reset-button");
+        createPostButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         createPostButton.addClickListener(event -> {
             createPostEvent(infoLabel, email, tags, tagList);
         });
@@ -167,7 +170,9 @@ public abstract class AbstractPostForm extends VerticalLayout {
     }
 
     private Button createReturnButton() {
-        Button returnButton = new Button("Cancel", new Icon(VaadinIcon.ARROW_BACKWARD));
+        Button returnButton = new Button("Cancel", new Icon(VaadinIcon.ANGLE_LEFT));
+        returnButton.addClassName("reset-button");
+        returnButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         returnButton.addClickListener(e -> returnButton.getUI().ifPresent(ui -> ui.navigate("posts")));
         return returnButton;
     }
@@ -225,15 +230,21 @@ public abstract class AbstractPostForm extends VerticalLayout {
         Dialog dialog = new Dialog();
         dialog.setModal(false);
         Button returnButton = new Button("Return Home", new Icon(VaadinIcon.HOME));
+        returnButton.addClassName("reset-button");
+        returnButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         returnButton.addClickListener(
                 e -> {
                     returnButton.getUI().ifPresent(ui -> ui.navigate(""));
                     dialog.close();
                 });
         if (success) {
-            dialog.add(new H1(successMessage), returnButton);
+            VerticalLayout vbox = new VerticalLayout(new H1(successMessage), returnButton);
+            vbox.setAlignItems(Alignment.CENTER);
+            dialog.add(vbox);
         } else {
-            dialog.add(new H1(failureMessage), returnButton);
+            VerticalLayout vbox = new VerticalLayout(new H1(failureMessage), returnButton);
+            vbox.setAlignItems(Alignment.CENTER);
+            dialog.add(vbox);
         }
         return dialog;
     }

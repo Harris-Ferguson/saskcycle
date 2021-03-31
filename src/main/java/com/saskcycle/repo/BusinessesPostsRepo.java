@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BusinessesPostsRepo extends MongoRepository<Business, String> {
@@ -25,4 +26,6 @@ public interface BusinessesPostsRepo extends MongoRepository<Business, String> {
      * @return the business object with the given title if it exists, null otherwise(?)
      */
     Business findByTitle(String title);
+
+    Business findByid(String id);
 }

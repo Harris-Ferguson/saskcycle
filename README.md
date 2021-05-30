@@ -2,6 +2,10 @@
 An app to connect people in Saskatoon to reuse options.   
 **[See the Live App Here!](https://saskcycle.herokuapp.com/)**
 
+This web app was created as part of CMPT370 at the University of Saskatchewan. The City of Saskatoon sustainability division acted as our product mananger for the project. 
+
+Made using Vaadin 14, Java Spring, MongoDB, and vanilla JavaScript.
+
 ## Installation Guides
 **The easiest way to use the app is to visit the live site above!**
 Due to some quirks in our frameworks, dependencies, and java versioning, sometimes getting the artifact to run locally can run into issues. 
